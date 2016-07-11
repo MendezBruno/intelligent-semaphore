@@ -1,0 +1,10 @@
+.gradle
+.idea/libraries/
+build/
+lib/
+classes/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+
