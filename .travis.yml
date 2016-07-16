@@ -2,7 +2,7 @@ language: java
 jdk:
 - oraclejdk7
 install: true
-script: ./buildViaTravis.sh
+script: ./buildTravis.sh
 after_success:
 - ./gradlew jacoco coveralls
 env:
