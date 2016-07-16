@@ -1,14 +1,19 @@
-language: groovy
-jdk:
-- oraclejdk7
-install: true
-script: ./buildTravis.sh
+language: java
+sudo: false
 after_success:
-#- bash <(curl -s https://codecov.io/bash)
-- bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -t 0fd4bb3c-9610-496b-b43f-fc1de2c0b07f
-#- ./gradlew jacoco coveralls
-env:
-  matrix:
-    secure: ZeJNvDbfyp6STW4MPZxXAyY1NOiKRBt2Yc9M9iYCz+Jkdwg1mkKwHTA3aWqJsHKUW8hcE8ljsn9eDWH/4q/fyim/ffSFpuRFRV5URXbwxIJJuem+OQCKB4raEacP98BHAUbiVMH/mdicmotr+U00Z/jEYI7vVpO7zBC3XOomw2U+nObDXRzcVeWu4/Nh5w9ku+mnFXo7tGQ3FxCOxW4j4PWfj2ncrepopafEMulxdvKTy3kmDXC0eDq9+zgPD5CNHBUzDQYVrqbRBR5eVgarklWEjGD08+2euJ1oV2bKXU7V5XMoigcU2EPgznjp41M2BN7yI9R6W3km7Fm+ZUdM4vL1rsFMTO+29MI4GYTsUGnrzNNaresapQUzReTUQoNVwdy9KnZEqz7PmeK5j4GgKcV8/bbIM9aC2su05qrJ4BU16EWK5sparY78N1WwunZETdT5OLR1rGhz/CBg84qTbpIjdvjrmgdKPpuUmw8MmLdmmt7S8bLCmzn71ZoO3id+41s2Hqd5ntouqjAuMzgm3riPqerB1I1TVASrITHh5CSPrh3lQy6IW/txmcjswXRa8NzTnWvACNyS46vFIC3SSp6S31dRo5zo0Oej8+lVoJ8xFLXmWpkepXh4wwJkFhIu386/rzPG73GCZzXJtq1pyuifxsmXujq2gjV3zgCVBB4=
-notifications:
-  slack: gridinsights:VQ5rvPtoVxRoDKGDaJVGmOOW
+  - bash <(curl -s https://codecov.io/bash)
+  
+#language: groovy
+#jdk:
+#- oraclejdk7
+#install: true
+#script: ./buildTravis.sh
+#after_success:
+##- bash <(curl -s https://codecov.io/bash)
+#- bash <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov) -t 0fd4bb3c-9610-496b-b43f-fc1de2c0b07f
+##- ./gradlew jacoco coveralls
+#env:
+#  matrix:
+#    secure: ZeJNvDbfyp6STW4MPZxXAyY1NOiKRBt2Yc9M9iYCz+Jkdwg1mkKwHTA3aWqJsHKUW8hcE8ljsn9eDWH/4q/fyim/ffSFpuRFRV5URXbwxIJJuem+OQCKB4raEacP98BHAUbiVMH/mdicmotr+U00Z/jEYI7vVpO7zBC3XOomw2U+nObDXRzcVeWu4/Nh5w9ku+mnFXo7tGQ3FxCOxW4j4PWfj2ncrepopafEMulxdvKTy3kmDXC0eDq9+zgPD5CNHBUzDQYVrqbRBR5eVgarklWEjGD08+2euJ1oV2bKXU7V5XMoigcU2EPgznjp41M2BN7yI9R6W3km7Fm+ZUdM4vL1rsFMTO+29MI4GYTsUGnrzNNaresapQUzReTUQoNVwdy9KnZEqz7PmeK5j4GgKcV8/bbIM9aC2su05qrJ4BU16EWK5sparY78N1WwunZETdT5OLR1rGhz/CBg84qTbpIjdvjrmgdKPpuUmw8MmLdmmt7S8bLCmzn71ZoO3id+41s2Hqd5ntouqjAuMzgm3riPqerB1I1TVASrITHh5CSPrh3lQy6IW/txmcjswXRa8NzTnWvACNyS46vFIC3SSp6S31dRo5zo0Oej8+lVoJ8xFLXmWpkepXh4wwJkFhIu386/rzPG73GCZzXJtq1pyuifxsmXujq2gjV3zgCVBB4=
+#notifications:
+#  slack: gridinsights:VQ5rvPtoVxRoDKGDaJVGmOOW
