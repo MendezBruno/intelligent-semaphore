@@ -4,6 +4,7 @@ jdk:
 install: true
 script: ./buildTravis.sh
 after_success:
+- bash <(curl -s https://codecov.io/bash)
 - ./gradlew jacoco coveralls
 env:
   matrix:
