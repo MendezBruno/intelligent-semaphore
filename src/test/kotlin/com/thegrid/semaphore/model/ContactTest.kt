@@ -14,7 +14,7 @@ class ContactTest {
                 telephones = mutableListOf(Telephone(number = "45678910", name = "Home")))
         val testContact = Contact(name = "Pepe", age = 12)
         val transformator = Transformator(testContact)
-        Assert.assertTrue( transformator.transform() != resultContact)
+        Assert.assertTrue( transformator.transform() == resultContact)
     }
 
 }
