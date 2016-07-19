@@ -8,6 +8,7 @@ A tesis project based on regulate the time of the semaphores to reduce congestio
 *Step 1: Download Java SDK*
 ------
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
 Optional - Make sure to have the JRE installed
 
 *Step 2: Configure JAVA_HOME*
