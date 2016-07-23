@@ -1,0 +1,38 @@
+body{
+    padding-top: 70px;
+    background-color: whitesmoke;
+}
+.partidoDiv{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #C8E6C9;
+    padding: 15px 15px 15px 15px;
+    text-align: center;
+    border-radius: 5px;
+}
+.gridRow{
+    margin-bottom: 20px;
+}
+.genericTable{
+    border-radius:5px;
+    border-color: #8c8c8c;
+}
+.logo-user{
+    margin-top: -12px;
+    margin-bottom:-10px;
+}
+.mapa{
+    background-color: #C8E6C9;
+    padding: 10px 10px 10px 10px;
+    border-radius: 3px;
+}
+
+.listado-horizontal {
+    margin-left:-40px;
+}
+
+.listado-horizontal li {
+    float: left;
+    margin-right:50px;
+    list-style-type: none;
+}

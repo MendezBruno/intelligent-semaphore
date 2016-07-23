@@ -1,36 +1,85 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <base href="/">
-    <title>Intelligent Semaphore</title>
+    <title></title>
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <script src="assets/js/canvas/constructors/Boton.js"></script>
+    <script src="assets/js/canvas/constructors/Cuadra.js"></script>
+    <script src="assets/libs/easeljs-NEXT.combined.js"></script>
 
-    <!--Stylesheets-->
-    <link type="text/css" rel="stylesheet" href="stylesheets/bootstrap/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="stylesheets/bootstrap/bootstrap-theme.min.css"/>
+
+
+    <script>
+        var stage;
+        var circle;
+        var btn1;
+        var holder;
+
+        function init() {
+            stage = new createjs.Stage("demoCanvas");
+            stage.enableMouseOver();
+
+
+
+//            btn1 = stage.addChild(new Boton("Hello!", "#F00",60));
+//            btn1.y = 20;
+
+            btn1 = stage.addChild(new Cuadra("cuadra1",0,0,200, "#F00",true));
+
+
+            circle = new createjs.Shape();
+            circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
+            circle.x = 150;
+            circle.y = 100;
+//
+            stage.addChild(circle);
+//            stage.update();
+//
+            createjs.Ticker.on("tick", stage);
+            circle.addEventListener("click",presion);
+
+        }
+
+        function presion(event) {
+            circle.x=200;
+            stage.update(event);
+        };
+
+    </script>
+
+
 
 </head>
-<body ng-controller="mainController">
-<nav class="navbar navbar-default navbar-fixed-top">
-</nav>
+
+
+<body ng-controller="mainController" onload="init();">
+
+<p>Hola salgo o no?</p>
+
+
+<canvas id="demoCanvas" width="800" height="800"></canvas>
+no está funcionando!
+
+
+<nav class="navbar navbar-default navbar-fixed-top"></nav>
+<p>Hola</p>
 <div class="container">
     <div ng-view>
     </div>
 </div>
 
+
+
 <!--Libs-->
-<script src="lib/jquery-1.11.3.min.js"></script>
-<script src="lib/bootstrap.min.js"></script>
+<script src="assets/libs/jquery-1.11.3.min.js"></script>
+<script src="assets/libs/bootstrap.min.js"></script>
 
 <!--Angular-->
-<script src="lib/angular.min.js"></script>
-<script src="lib/angular-resource.min.js"></script>
-<script src="lib/angular-route.min.js"></script>
-<!--<script src="lib/ng-map.min.js"></script>-->
+<script src="assets/libs/angular.min.js"></script>
+<script src="assets/libs/angular-resource.min.js"></script>
+<script src="assets/libs/angular-route.min.js"></script>
 
-<!--Scripts-->
-<script src="javascripts/app.js"></script>
-<script src="javascripts/controllers/mainController.js"></script>
 
 </body>
 </html>
