@@ -37,7 +37,7 @@ repositories {
 //    }
 //
 //}
-//webAppDirName = file('src/main/webapp')
+webAppDirName = file('src/main/webapp/assets/js')
 
 
 sourceCompatibility = JavaVersion.VERSION_1_7
