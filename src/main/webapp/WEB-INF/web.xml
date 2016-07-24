@@ -9,10 +9,7 @@
 		<init-param>
 			<param-name>services</param-name>
 			<param-value>
-				com.thegrid.controllers.PartidosController,
-				com.thegrid.controllers.RecomendacionesController,
-				com.thegrid.controllers.InscripcionesController,
-				com.thegrid.controllers.AdminController
+				//aca van los controlers
 			</param-value>
 		</init-param>
 	</servlet>
@@ -22,7 +19,7 @@
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
-		<welcome-file>admin/index.html</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	<filter>
 		<filter-name>ObjectifyFilter</filter-name>
