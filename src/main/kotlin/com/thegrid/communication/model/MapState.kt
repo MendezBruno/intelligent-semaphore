@@ -1,8 +1,12 @@
 package com.thegrid.communication.model
 
-import com.google.appengine.repackaged.com.google.api.client.json.Json
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.array
+import com.beust.klaxon.obj
 import com.thegrid.communication.extension.MatrixId
 import com.thegrid.communication.extension.RGB
+import com.thegrid.communication.service.MapParser
 import java.util.*
 import kotlin.*
 
@@ -22,15 +26,38 @@ class MapState private constructor() {
     var blockStatus = hashMapOf<MatrixId, RGB>()
     var semaphoreStatus = hashMapOf<MatrixId, Boolean>()
 
-
     fun setMap(map: MapStructure) {
         blockStatus = extractBlocks(map)
         semaphoreStatus = extractSemaphores(map)
     }
 
-    private fun extractBlocks(map: MapStructure): HashMap<MatrixId, RGB> = hashMapOf()
+    private fun extractBlocks(map: MapStructure): HashMap<MatrixId, RGB>{
 
-    private fun extractSemaphores(map: MapStructure): HashMap<MatrixId, Boolean> = hashMapOf()
+        val obj = MapParser.createMapParser(map.toString()) as JsonObject
+        val blocks = obj.array<JsonObject>("blockStatus") as JsonArray<JsonObject>
+
+        val blockStatus = hashMapOf<MatrixId, RGB>()
+
+        for (block in blocks) {
+            blockStatus.put(MatrixId.create(block.keys.first()), block[block.keys.first()] as RGB)
+        }
+
+        return  blockStatus
+    }
+
+    private fun extractSemaphores(map: MapStructure): HashMap<MatrixId, Boolean>{
+
+        val obj = MapParser.createMapParser(map.toString()) as JsonObject
+        val semaphores = obj.array<JsonObject>("semaphoreStatus") as JsonArray<JsonObject>
+
+        val semaphoreStatus = hashMapOf<MatrixId, Boolean>()
+
+        for (semaphore in semaphores) {
+            semaphoreStatus.put(MatrixId.create(semaphore.keys.first()), semaphore[semaphore.keys.first()] as Boolean)
+        }
+
+        return  semaphoreStatus
+    }
 
 }
 
