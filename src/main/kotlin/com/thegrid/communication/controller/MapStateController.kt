@@ -2,7 +2,6 @@ package com.thegrid.communication.controller
 
 import com.thegrid.communication.model.MapState
 import com.thegrid.communication.service.MapParser
-import java.util.*
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -15,14 +14,13 @@ import javax.servlet.http.HttpServletResponse
 class MapStateController : HttpServlet() {
 
     public override fun doGet(req: HttpServletRequest, res: HttpServletResponse) {
-        val mapState = MapState.SharedInstance
+        val mapState = MapState.SharedInstance //obtengo el mapa
 
-        val parser = MapParser(mapState.blockStatus, mapState.semaphoreStatus)
+        val parser = MapParser(mapState) //creo el parser enviando el mapa
 
 
-
-        res.contentType = "text/plain" //ver tipo para json
-        res.writer. .sendJson(parser.parseToJson()) //TODO buscar forma de enviar un json
+        res.contentType = "application/json" // tipo para json
+        res.writer.print(parser.parseToJson()) //envio el json (string)
     }
 
 
