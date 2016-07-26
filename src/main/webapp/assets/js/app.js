@@ -1,11 +1,11 @@
 
-var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMap']);
+var app = angular.module('app', ['ngRoute']);
 
-app.run(['$rootScope', '$window', '$location', 'fbAuth',
-    function($rootScope, $window, $location, fbAuth) {
+app.run(['$rootScope',
+    function($rootScope) {
 
         $rootScope.cargandoHttp=true;
-        $rootScope.splashes = splashes;
+        //$rootScope.splashes = splashes;
 
 
 
