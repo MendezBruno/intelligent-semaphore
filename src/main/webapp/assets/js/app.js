@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute','ngResource']);
 
 app.run(['$rootScope',
     function($rootScope) {
@@ -17,7 +17,7 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
 
         .when('/', {
             templateUrl: 'views/home.html',
-            controller: 'emptyController'
+            controller: 'mainController'
         })
         .when('/app', {
             templateUrl: 'views/home.html',
@@ -27,3 +27,10 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
 
 });
 
+
+app.factory("Favorito", ['$resource', function($resource) {
+    return  $resource("/api_v1.0/favorites/:id", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
