@@ -19,10 +19,19 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             templateUrl: 'views/home.html',
             controller: 'mainController'
         })
-        .when('/app', {
-            templateUrl: 'views/home.html',
-            controller: 'mainController'
+
+        .when('views/login', {
+        templateUrl: 'views/home.html',
+        controller: 'loginController'
+        })
+
+        .when('views/passrecovery', {
+        templateUrl: 'views/home.html',
+        controller: 'loginController'
         });
+
+
+
 
 
 });
