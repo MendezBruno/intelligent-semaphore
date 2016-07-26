@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="app">
 <head>
+    <base href="/">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Semaforo Inteligente</title>
+
     <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
     <script src="assets/js/canvas/constructors/Boton.js"></script>
     <script src="assets/js/canvas/constructors/Cuadra.js"></script>
     <script src="assets/libs/easeljs-NEXT.combined.js"></script>
-
+   
 
 
     <script>
@@ -52,18 +54,20 @@
 
 </head>
 
+<!--onload="init();"-->
 
-<body ng-controller="mainController" onload="init();">
+<body ng-controller="mainController" >
 
 <p>Hola salgo o no?</p>
 
 
-<canvas id="demoCanvas" width="800" height="800"></canvas>
-no está funcionando!
+<!--<canvas id="demoCanvas" width="800" height="800"></canvas>-->
+<!--no está funcionando!-->
 
 
-<nav class="navbar navbar-default navbar-fixed-top"></nav>
+
 <p>Hola</p>
+
 <div class="container">
     <div ng-view>
     </div>
@@ -80,6 +84,10 @@ no está funcionando!
 <script src="assets/libs/angular-resource.js"></script>
 <script src="assets/libs/angular-route.js"></script>
 
+<!--Scripts-->
+<script src="assets/js/app.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/controllers/mainController.js"></script>
 
 </body>
 </html>
