@@ -19,12 +19,31 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             templateUrl: 'views/home.html',
             controller: 'mainController'
         })
-        .when('/app', {
+
+        .when('/login', {
             templateUrl: 'views/home.html',
-            controller: 'mainController'
+            controller: 'loginController'
+        })
+
+        .when('/passrecovery', {
+            templateUrl: 'views/home.html',
+            controller: 'loginController'
+        })
+
+        .when('/editor', {
+            templateUrl: 'views/editor.html',
+            controller: 'editorController'
+        })
+
+        .when('/galeria', {
+            templateUrl: 'views/galeria.html',
+            controller: 'galeriaController'
+        })
+
+        .when('/reproductor', {
+            templateUrl: 'views/reproductor.html',
+            controller: 'reproductorController'
         });
-
-
 });
 
 
