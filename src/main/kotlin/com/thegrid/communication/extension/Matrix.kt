@@ -1,10 +1,8 @@
 package com.thegrid.communication.extension
 
-
 /**
  * Created by Surakituaka on 21/07/2016.
  */
-
 
 data class MatrixId(val row: Int, val column: Int){
 
@@ -18,7 +16,5 @@ data class MatrixId(val row: Int, val column: Int){
             val ids = id.split('-') as Array<Int>
             return MatrixId(ids[0],ids[1])
         }
-
     }
-
 }

@@ -5,11 +5,9 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import com.thegrid.communication.model.MapState
 
-
 /**
  * Created by Surakituaka on 21/07/2016.
  */
-
 
 class MapParser(val map: MapState) {
 
@@ -17,10 +15,8 @@ class MapParser(val map: MapState) {
 
         var blockStatus = JsonArray<JsonObject>()
         var semaphoreStatus = JsonArray<JsonObject>()
-
-
-
         val blockKeys = map.blockStatus.keys
+
         for (key in blockKeys){
             val block = JsonObject()
             block.put(key.toString(),map.blockStatus[key])
@@ -34,20 +30,17 @@ class MapParser(val map: MapState) {
             semaphoreStatus.add(semaphore)
         }
 
-        var map = JsonObject()
+        var parsedMap = JsonObject()
 
-        map.map.put("blockStatus",blockStatus)
-        map.map.put("semaphoreStatus",semaphoreStatus)
+        parsedMap.map.put("blockStatus",blockStatus)
+        parsedMap.map.put("semaphoreStatus",semaphoreStatus)
 
-
-        return map.toJsonString()
+        return parsedMap.toJsonString()
     }
 
     companion object {
-        fun createMapParser(jsonMap: String) : Any {
+        fun createParsedMap(jsonMap: String) : Any {
             return Parser().parse(jsonMap)!!
         }
     }
-
-
 }
