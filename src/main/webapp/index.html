@@ -1,48 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
+
 <head>
-    <title>Hello, App Engine!</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>Semaforo Inteligente</title>
+
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+
 </head>
-<body role="document" style="padding-top: 70px;">
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Hello, App Engine!</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="https://developers.google.com/appengine/docs/java/">Google App Engine documentation</a></li>
-                <li><a href="https://console.developers.google.com">Google Developers Console</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="container theme-showcase" role="main">
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Hello, App Engine!</h1>
-                <p>Enter your name and press the button below to call <code>Favorites</code>.</p>
-
-                <form action="/api_v1.0/favorites" method="POST">
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Name" name="name" />
-                          <span class="input-group-btn">
-                             <button class="btn btn-default btn-primary btn-group btn-lg" type="submit" id="helloButton">Say "Hello!";</button>
-                          </span>
-                    </div>
-                </form>
-                <br/>
-                <p>Hello world!!! <a href="https://developers.google.com/appengine/docs/java/">App Engine documentation</a>.</p>
-                <p>To see more information of this backend module, see <a href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloWorld">"App Engine Java Servlet Module" template documentation</a>.</p>
+<body ng-controller="mainController" >
+    <p>Hola salgo o no?</p>
+    <p>Hola</p>
+        <div class="container">
+            <div ng-view>
             </div>
         </div>
-    </div>
-</div>
 
+
+    <!--Libs-->
+<script src="assets/libs/jquery-1.11.3.min.js"></script>
+<script src="assets/libs/bootstrap.min.js"></script>
+<!--Angular-->
+<script src="assets/libs/angular.js"></script>
+<script src="assets/libs/angular-resource.js"></script>
+<script src="assets/libs/angular-route.js"></script>
+<!--Scripts-->
+<script src="assets/js/app.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/controllers/mainController.js"></script>
+<script src="assets/js/controllers/editorController.js"></script>
+<script src="assets/js/controllers/galeriaController.js"></script>
+<script src="assets/js/controllers/reproductorController.js"></script>
+<script src="assets/js/controllers/loginController.js"></script>
+
+<!--Canvas-->
+<script src="assets/js/canvas/constructors/Boton.js"></script>
+<script src="assets/js/canvas/constructors/Cuadra.js"></script>
+<script src="assets/libs/easeljs-NEXT.combined.js"></script>
 </body>
 </html>
