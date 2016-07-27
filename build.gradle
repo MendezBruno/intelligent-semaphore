@@ -9,9 +9,6 @@ buildscript {
 
     repositories {
         mavenCentral()
-        flatDir {
-            dirs 'src/libs'
-        }
     }
 
     dependencies {
@@ -128,6 +125,3 @@ task customReload {
 }
 
 check.dependsOn jacocoTestReport
-apply plugin: 'java'
-apply plugin: 'java'
-apply plugin: 'idea'
