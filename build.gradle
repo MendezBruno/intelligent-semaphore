@@ -27,6 +27,9 @@ apply plugin: 'appengine'
 repositories {
     mavenCentral()
     jcenter()
+    flatDir {
+        dirs 'src/libs'
+    }
 }
 
 //sourceSets {
@@ -58,6 +61,7 @@ dependencies {
     compile "com.google.appengine:appengine-jsr107cache:$gae_sdk_version"
     compile 'com.beust:klaxon:0.24'
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5"
+    compile name: "spek-1.0.25"
 
     testCompile "com.google.appengine:appengine-api-stubs:$gae_sdk_version"
     testCompile "com.google.appengine:appengine-testing:$gae_sdk_version"
