@@ -32,10 +32,8 @@ class MapState private constructor() {
     }
 
     private fun extractBlocks(map: MapStructure): HashMap<MatrixId, RGB>{
-
-        val obj = MapParser.createMapParser(map.toString()) as JsonObject
+        val obj = MapParser.createParsedMap(map.toString()) as JsonObject
         val blocks = obj.array<JsonObject>("blockStatus") as JsonArray<JsonObject>
-
         val blockStatus = hashMapOf<MatrixId, RGB>()
 
         for (block in blocks) {
@@ -46,10 +44,8 @@ class MapState private constructor() {
     }
 
     private fun extractSemaphores(map: MapStructure): HashMap<MatrixId, Boolean>{
-
-        val obj = MapParser.createMapParser(map.toString()) as JsonObject
-        val semaphores = obj.array<JsonObject>("semaphoreStatus") as JsonArray<JsonObject>
-
+        val parsedMap = MapParser.createParsedMap(map.toString()) as JsonObject
+        val semaphores = parsedMap.array<JsonObject>("semaphoreStatus") as JsonArray<JsonObject>
         val semaphoreStatus = hashMapOf<MatrixId, Boolean>()
 
         for (semaphore in semaphores) {
@@ -58,7 +54,6 @@ class MapState private constructor() {
 
         return  semaphoreStatus
     }
-
 }
 
 
