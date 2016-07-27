@@ -9,12 +9,6 @@ buildscript {
 
     repositories {
         mavenCentral()
-//        maven {
-//            url "http://repository.jetbrains.com/all"
-//        }
-//        maven {
-//            url "https://jetbrains.jfrog.io/jetbrains/spek-snapshots"
-//        }
         flatDir {
             dirs 'src/libs'
         }
@@ -23,7 +17,6 @@ buildscript {
     dependencies {
         classpath "com.google.appengine:gradle-appengine-plugin:$gae_sdk_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-//        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-M1'
     }
 
 }
@@ -37,12 +30,6 @@ apply plugin: 'appengine'
 repositories {
     mavenCentral()
     jcenter()
-//    maven {
-//        url "http://repository.jetbrains.com/all"
-//    }
-//    maven {
-//        url "https://jetbrains.jfrog.io/jetbrains/spek-snapshots"
-//    }
     flatDir {
         dirs 'src/libs'
     }
@@ -78,11 +65,6 @@ dependencies {
     compile 'com.beust:klaxon:0.24'
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5"
     compile name: "spek-1.0.25"
-
-//    testCompile 'org.jetbrains.spek:spek:1.0.25'
-//    testCompile 'org.jetbrains.spek:spek-api:1.0.0-SNAPSHOT'
-//    testRuntime 'org.jetbrains.spek:spek-junit-engine:1.0.0-SNAPSHOT'
-//    testCompile "com.winterbe:expekt:0.4.0"
 
     testCompile "com.google.appengine:appengine-api-stubs:$gae_sdk_version"
     testCompile "com.google.appengine:appengine-testing:$gae_sdk_version"
