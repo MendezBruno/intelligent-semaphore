@@ -1,7 +1,7 @@
 package com.thegrid.semaphore.model
 
 import org.jetbrains.spek.api.Spek
-import kotlin.*
+
 //import com.winterbe.expekt.expect
 //import com.winterbe.expekt.should
 //import org.jetbrains.spek.api.Spek
@@ -23,17 +23,19 @@ data class Telephone(val number: String, val name: String)
 
 
 //ejemplo
-class SimpleTest : Spek({
-    describe("a contact") {
+class SimpleTest: Spek({
+    given("a contact") {
         var tels: MutableList<Telephone> = mutableListOf()
         val tel = Telephone("12345","tel de juan")
         val contact = Contact("juan",23,tels)
 
-        it("should return the tel number") {
+        on("adding a tel number") {
             contact.addTelephone(tel)
             println(contact.telephones.first().number)
-            assert(contact.telephones.first().number == "12345")
-        }
 
+            it("should return the tel number") {
+                assert(contact.telephones.first().number == "12445")
+            }
+        }
     }
 })
