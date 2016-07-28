@@ -40,7 +40,7 @@ class TestMapState: Spek({
                         "\"semaphoreStatus\":[{\"row\":1,\"column\":1,\"state\":\"HORIZONTAL\"},{\"row\":2,\"column" +
                         "\":2,\"state\":\"VERTICAL\"}]}"
 
-                assert(jsonMap == parsedMap)
+                assert(jsonMap.equals(parsedMap))
             }
         }
 
