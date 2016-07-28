@@ -1,0 +1,6 @@
+<urlrewrite>
+    <rule>
+        <from>/app/(.*)</from>
+        <to>/index.html</to>
+    </rule>
+</urlrewrite>
