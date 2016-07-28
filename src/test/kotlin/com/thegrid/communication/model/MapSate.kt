@@ -10,7 +10,7 @@ import org.jetbrains.spek.api.Spek
  */
 
 class TestMapState: Spek({
-    given("a maptatet") {
+    given("a mapStatet") {
         var blockStatus = hashMapOf<MatrixId, RGBA>()
         var semaphoreStatus = hashMapOf<MatrixId, String>()
         val mapState: MapState = MapState.SharedInstance
