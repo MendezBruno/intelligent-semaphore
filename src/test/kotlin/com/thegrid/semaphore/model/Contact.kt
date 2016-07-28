@@ -14,7 +14,6 @@ class TestContact: Spek({
 
         on("adding a tel number") {
             contact.addTelephone(tel)
-            println(contact.telephones.first().number)
 
             it("should return the tel number") {
                 assert(contact.telephones.first().number == "12345")
