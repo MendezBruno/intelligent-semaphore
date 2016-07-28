@@ -2,7 +2,7 @@ package com.thegrid.communication.model
 
 import com.beust.klaxon.*
 import com.thegrid.communication.extension.MatrixId
-import com.thegrid.communication.extension.RGB
+import com.thegrid.communication.extension.RGBA
 import com.thegrid.communication.service.MapParser
 import java.util.*
 
@@ -19,7 +19,7 @@ class MapState private constructor() {
         val SharedInstance: MapState by lazy { Holder.INSTANCE }
     }
 
-    var blockStatus = hashMapOf<MatrixId, RGB>()
+    var blockStatus = hashMapOf<MatrixId, RGBA>()
     var semaphoreStatus = hashMapOf<MatrixId, String>()
 
     fun setMap(map: MapStructure) {
@@ -27,14 +27,14 @@ class MapState private constructor() {
         semaphoreStatus = extractSemaphores(map)
     }
 
-    private fun extractBlocks(mapStruct: MapStructure): HashMap<MatrixId, RGB> {
+    private fun extractBlocks(mapStruct: MapStructure): HashMap<MatrixId, RGBA> {
         val jsonObjectMap = MapParser.createParsedMap(mapStruct.map) as JsonObject
         val blocks = jsonObjectMap.array<JsonObject>("blockStatus") as JsonArray<JsonObject>
-        val blockStatus = hashMapOf<MatrixId, RGB>()
+        val blockStatus = hashMapOf<MatrixId, RGBA>()
 
         for (block in blocks) {
             val color: JsonObject = block.obj("color")!!
-            blockStatus.put(MatrixId(block.int("row")!!,block.int("column")!!), RGB(color.int("R")!!, color.int("G")!!,
+            blockStatus.put(MatrixId(block.int("row")!!,block.int("column")!!), RGBA(color.int("R")!!, color.int("G")!!,
                     color.int("B")!!, color.int("A")!!))
         }
 

@@ -6,4 +6,4 @@ package com.thegrid.communication.extension
  */
 
 
-data class RGB(val r: Int, val g: Int, val b: Int, val a: Int)
+data class RGBA(val r: Int, val g: Int, val b: Int, val a: Int)

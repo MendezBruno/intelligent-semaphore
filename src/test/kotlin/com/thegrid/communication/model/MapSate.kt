@@ -1,7 +1,7 @@
 package com.thegrid.communication.model
 
 import com.thegrid.communication.extension.MatrixId
-import com.thegrid.communication.extension.RGB
+import com.thegrid.communication.extension.RGBA
 import com.thegrid.communication.service.MapParser
 import org.jetbrains.spek.api.Spek
 
@@ -11,12 +11,12 @@ import org.jetbrains.spek.api.Spek
 
 class TestMapState: Spek({
     given("a maptatet") {
-        var blockStatus = hashMapOf<MatrixId, RGB>()
+        var blockStatus = hashMapOf<MatrixId, RGBA>()
         var semaphoreStatus = hashMapOf<MatrixId, String>()
         val mapState: MapState = MapState.SharedInstance
 
-        blockStatus.put(MatrixId(1,1), RGB(255,255,255,0))
-        blockStatus.put(MatrixId(2,2), RGB(100,100,100,0))
+        blockStatus.put(MatrixId(1,1), RGBA(255,255,255,0))
+        blockStatus.put(MatrixId(2,2), RGBA(100,100,100,0))
 
         semaphoreStatus.put(MatrixId(1,1),"HORIZONTAL")
         semaphoreStatus.put(MatrixId(2,2),"VERTICAL")
