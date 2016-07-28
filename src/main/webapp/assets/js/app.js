@@ -20,27 +20,27 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             controller: 'mainController'
         })
 
-        .when('/login', {
+        .when('/app/login', {
             templateUrl: 'views/home.html',
             controller: 'loginController'
         })
 
-        .when('/passrecovery', {
+        .when('/app/passrecovery', {
             templateUrl: 'views/home.html',
             controller: 'loginController'
         })
 
-        .when('/editor', {
+        .when('/app/editor', {
             templateUrl: 'views/editor.html',
             controller: 'editorController'
         })
 
-        .when('/galeria', {
+        .when('/app/galeria', {
             templateUrl: 'views/galeria.html',
             controller: 'galeriaController'
         })
 
-        .when('/reproductor', {
+        .when('/app/reproductor', {
             templateUrl: 'views/reproductor.html',
             controller: 'reproductorController'
         });
