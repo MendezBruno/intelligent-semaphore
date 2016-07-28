@@ -3,79 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
-    <script src="constructors/Boton.js"></script>
-    <script src="constructors/Cuadra.js"></script>
-    <script src="/assets/libs/easeljs-NEXT.combined.js"></script>
-
-
-
-    <script>
-        var stage;
-        var circle;
-        var btn1;
-        var holder;
-        var image;
-
-        function init() {
-            stage = new createjs.Stage("demoCanvas");
-            stage.enableMouseOver();
-
-            image = new createjs.Bitmap("webapp/calle1.jpg");
-            stage.addChild(image);
-            image.x = 10;
-
-//           btn1 = stage.addChild(new Boton("Hello!", "#F00",60));
-//            btn1.y = 20;
-
-            btn1 = stage.addChild(new Cuadra("cuadra1",0,0,200, "#F00",true));
-
-
-            circle = new createjs.Shape();
-            circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-            circle.graphics.clear().beginFill("red").drawCircle(0, 0, 24);
-            circle.x = 150;
-            circle.y = 100;
-//
-            stage.addChild(circle);
-//            stage.update();
-//
-            createjs.Ticker.on("tick", stage);
-            circle.addEventListener("click",presion);
-
-        }
-
-        function presion(event) {
-            circle.x=200;
-            stage.update(event);
-        };
-
-    </script>
-
-
-
 </head>
-
-
-<body onload="init();">
-
-<p>Hola salgo o no?</p>
-
-
-<canvas id="demoCanvas" width="800" height="800"></canvas>
-no está funcionando!
-
-
-
-<!--Libs-->
-<script src="/assets/libs/jquery-1.11.3.min.js"></script>
-<script src="/assets/libs/bootstrap.min.js"></script>
-
-<!--Angular-->
-<script src="/assets/libs/angular.js"></script>
-<script src="/assets/libs/angular-resource.js"></script>
-<script src="/assets/libs/angular-route.js"></script>
-
+<body>
 
 </body>
 </html>
