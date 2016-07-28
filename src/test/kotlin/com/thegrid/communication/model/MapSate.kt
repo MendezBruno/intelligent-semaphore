@@ -43,7 +43,7 @@ class TestMapState: Spek({
                 assert(jsonMap == parsedMap)
             }
         }
-/**
+
         on("creating a mapState from json"){
             val parser: MapParser = MapParser(mapState)
             val mapStructure: MapStructure = MapStructure(parser.parseToJson())
@@ -51,11 +51,11 @@ class TestMapState: Spek({
             var newMapState: MapState = MapState.SharedInstance
             newMapState.setMap(mapStructure)
 
-            newMapState.blockStatus.forEach { matrixId, rgb -> println(matrixId.toString() +" "+ rgb.toString())  }
+            newMapState.blockStatus.forEach { matrixId, rgb -> println(matrixId.toString() +" ||| "+ rgb.toString())  }
 
             it("should return the map as object"){
                 assert(newMapState.blockStatus.contains(MatrixId(1,1)))
             }
-        }*/
+        }
     }
 })
