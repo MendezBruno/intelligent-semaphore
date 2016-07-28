@@ -32,7 +32,7 @@ class TestMapState: Spek({
             val reader = inputStreamMap.reader()
             var jsonMap = reader.readText()
 
-            println(jsonMap)
+           // println(jsonMap)
 
             it("should return the parsed map") {
                 val parsedMap: String ="{\"blockStatus\":[{\"row\":1,\"column\":1,\"color\":{\"R\":255,\"G\":255,\"B\":255," +
@@ -51,7 +51,7 @@ class TestMapState: Spek({
             var newMapState: MapState = MapState.SharedInstance
             newMapState.setMap(mapStructure)
 
-            newMapState.blockStatus.forEach { matrixId, rgb -> println(matrixId.toString() +" ||| "+ rgb.toString())  }
+            //newMapState.blockStatus.forEach { matrixId, rgb -> println(matrixId.toString() +" ||| "+ rgb.toString())  }
 
             it("should return the map as object"){
                 assert(newMapState.blockStatus.contains(MatrixId(1,1)))
