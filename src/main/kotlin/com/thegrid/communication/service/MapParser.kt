@@ -50,8 +50,10 @@ class MapParser(val map: MapState) {
     }
 
     companion object {
-        fun createParsedMap(jsonMap: InputStream) : Any {
-            return Parser().parse(jsonMap)!!
+        fun createParsedMap(jsonMap: String) : Any {
+            val streamMap: InputStream = jsonMap.byteInputStream()
+
+            return Parser().parse(streamMap)!!
         }
     }
 }
