@@ -2,69 +2,6 @@
  * Created by bruno on 28/07/16.
  */
 (function()  {
-
-    var stage;
-    var circle;
-    var btn1;
-    var holder;
-    var image;
-    var container;
-    var grilla;
-    var nodo;
-    var nodoEntrada;
-    var nodoControl;
-
-    function init() {
-        stage = new createjs.Stage("demoCanvas");
-        stage.enableMouseOver();
-
-
-        btn1 = stage.addChild(new Boton("Hello!", "#F00", 60));
-        btn1.y = 20;
-
-        btn1 = stage.addChild(new Cuadra("cuadra1", 0, 0, 200, "#F00", true));
-
-//
-//            circle = new createjs.Shape();
-//            circle.graphics.beginFill("red").drawCircle(0, 0, 50);
-//            circle.x = 150;
-//            circle.y = 100;
-//            var fillCommand = circle.graphics.beginFill("blue").command;
-//            // ... later, update the fill style/color:
-//            fillCommand.color = "blue";
-//            circle.append(fillCommand);
-
-        stage.addChild(circle);
-
-
-//
-        createjs.Ticker.on("tick", stage);
-//            circle.addEventListener("click",presion);
-
-
-//
-//            container = new createjs.Container();
-//            container.addChild(circle, btn1);
-//            container.x = 100;
-//
-//            stage.addChild(container);
-
-//            grilla = new Grilla(3,3,40);
-//            stage.addChild(grilla);
-
-        crearGrilla(3, 4, 50, stage);
-
-//            btn1 = stage.addChild(new NodoEntrada(100,100,40,"#66ff66"));
-
-
-    }
-
-    function presion(event) {
-        circle.x = 200;
-        stage.update(event);
-    };
-
-
     function crearGrilla(fila, columna, largo, stage) {
         var i;
         var j;
@@ -99,6 +36,13 @@
             posy = posy + largo + separador;
             posx = largo + posIniialX;
         };
+
+
+        function modificarGrilla(fila,columna,ancho,stage){
+            stage.clear();
+            crearGrilla(fila,columna,ancho,stage);
+        }
+
 
     }
 }());
