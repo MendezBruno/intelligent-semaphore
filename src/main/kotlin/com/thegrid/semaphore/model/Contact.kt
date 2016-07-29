@@ -3,7 +3,6 @@ package com.thegrid.semaphore.model
 /**
  * Created by crist on 6/7/2016.
  */
-
 data class Contact(val name: String, val age: Int, var telephones: MutableList<Telephone>) {
 
     fun addTelephone(telephone: Telephone) = telephones.add(telephone)
