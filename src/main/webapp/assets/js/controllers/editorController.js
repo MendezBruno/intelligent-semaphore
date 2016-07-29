@@ -3,4 +3,8 @@
  */
 
 app.controller('editorController', function($scope) {
+    $scope.ver = function() {
+        console.log($scope.valor);
+        $scope.valor = "nada";
+    };
 });

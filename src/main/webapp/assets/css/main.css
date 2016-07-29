@@ -3,3 +3,16 @@ body{
     background-color: whitesmoke;
 }
 /*aca van los estilos de las vistas*/
+
+.tg-panel .row {
+    margin: 5px 0 5px 0;
+    /*background-color: lightsalmon;*/
+}
+
+.tg-panel .row:first-child {
+    margin: 0 0 5px 0;
+}
+
+.tg-panel .col-sm-8 {
+    padding-top: 6px;
+}
