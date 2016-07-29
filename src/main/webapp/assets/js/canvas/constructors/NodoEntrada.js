@@ -1,8 +1,9 @@
 (function() {
 
-    function NodoEntrada(posx, posy,radio,color) {
+    function NodoEntrada(idNum, posx, posy,radio,color) {
         this.Container_constructor();
 
+        this.idNum = idNum;
         this.color = color;
         this.posx = posx;
         this.posy = posy;
@@ -42,7 +43,7 @@
         else {
             if (this.color == VERDE) { this.cambiarColor(ROJO)}
         }
-
+        console.log(event);
     } ;
     p.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
