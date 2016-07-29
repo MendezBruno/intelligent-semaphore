@@ -65,9 +65,10 @@
 //            grilla = new Grilla(3,3,40);
 //            stage.addChild(grilla);
 
-            crearGrilla(3, 3, 50, stage);
-
-            modificarGrilla(4,5,50,stage);
+            crearGrilla(4, 5, 50, stage);
+            stage.graphics.clear();
+            stage.update();
+            modificarGrilla(3,3,50,stage);
 
 //            btn1 = stage.addChild(new NodoEntrada(100,100,40,"#66ff66"));
 
@@ -117,7 +118,13 @@
         }
 
         function modificarGrilla(fila,columna,ancho,stage){
-            stage.clear();
+                var l = stage.numChildren;
+                for (var i=0; i<l; i++) {
+                    var child =stage.getChildAt(i);
+                            child.graphics.clear();
+
+
+                }
             crearGrilla(fila,columna,ancho,stage);
         }
 

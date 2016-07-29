@@ -12,19 +12,16 @@
         this.setup();
     }
     var p = createjs.extend(NodoEntrada, createjs.Container);
+
+    //VARIABLES GLOBALES DEL CONSTRUCTOR
     var background;
     var ROJO="#ff3333";
     var VERDE="#66ff66";
 
+    //METODOS DEL CONSTRUCTOR
     p.setup = function() {
-
-        var g = new createjs.Graphics();
-
-
         background = new createjs.Shape();
         background.graphics.beginFill(this.color).drawCircle(this.posx,this.posy,this.radio);
-
-
 
         this.addChild(background);
         this.on("click", this.handleClick);
@@ -39,19 +36,22 @@
     } ;
 
     p.handleClick = function (event) {
-        if (this.color == ROJO) { this.cambiarColor(VERDE)}
+        //var child = holder.getChildAt(event.id);
+        if (this.color == ROJO) { this.cambiarColor(event.currentTarget.children[0],VERDE)}
         else {
-            if (this.color == VERDE) { this.cambiarColor(ROJO)}
+            if (this.color == VERDE) { this.cambiarColor(event.currentTarget.children[0],ROJO)}
         }
-        console.log(event);
+        console.log(event.currentTarget.children[0]);
+
     } ;
     p.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
     };
 
-    p.cambiarColor = function(color){
-        background.graphics.clear().beginFill(color).drawCircle(this.posx,this.posy,this.radio);
+    p.cambiarColor = function(child,color){
+        child.graphics.clear().beginFill(color).drawCircle(this.posx,this.posy,this.radio);
         this.color= color;
+
     }
     window.NodoEntrada = createjs.promote(NodoEntrada, "Container");
 }());/**
