@@ -2,13 +2,12 @@
  * Created by Ezequiel on 26/07/2016.
  */
 
-app.controller('editorController', function($scope) {
+app.controller('editorController', function($scope,logica) {
 
     var stage;
 
     stage = new createjs.Stage("mapa");
-
-    stage.addChild(new Cuadra("cuadra1",0,0,200, "#F00",true));
+    logica.crearGrilla(5,5,50,stage);
 
     stage.update();
 
