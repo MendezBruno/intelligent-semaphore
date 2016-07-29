@@ -1,9 +1,9 @@
 (function() {
 
-    function Cuadra(label,posX, posY,largo,color,horizontal) {
+    function Cuadra(id,posX, posY,largo,color,horizontal) {
         this.Container_constructor();
 
-        this.label= label;
+        this.id= id;
         this.posX = posX;
         this.posY = posY;
         this.largo = largo;
@@ -16,22 +16,21 @@
 
 
     p.setup = function() {
-        var text = new createjs.Text(this.label, "20px Arial", "#000");
-        text.textBaseline = "top";
-        text.textAlign = "center";
-
-        var width = text.getMeasuredWidth()+this.largo;
-        var height = text.getMeasuredHeight()+20;
-
-        text.x = width/2;
-        text.y = 10;
+        var width = 20;     //viene predefinido
+        //var height =10;
+        container = new createjs.Container();
+        //container.addChild(circle, btn1);
+        //container.x = 100;
 
         var background = new createjs.Shape();
         if (this.horizontal){
-        background.graphics.beginFill(this.color).drawRoundRect(this.posX,this.posY,this.largo,height,10);}
-        else {background.graphics.beginFill(this.color).drawRoundRect(this.posX,this.posY,width,this.largo,10);}
+        background.graphics.beginFill(this.color).drawRect(this.posX,this.posY,this.largo,width,10);
+        }
+        else {
+        background.graphics.beginFill(this.color).drawRect(this.posX,this.posY,width,this.largo,10);
+        }
 
-        this.addChild(background, text);
+        this.addChild(background);
         this.on("click", this.handleClick);
         this.on("rollover", this.handleRollOver);
         this.on("rollout", this.handleRollOver);
@@ -44,7 +43,7 @@
     } ;
 
     p.handleClick = function (event) {
-        alert("You clicked on a button: "+this.label);
+        alert("You clicked on a button:"+this.id);
     } ;
     p.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;

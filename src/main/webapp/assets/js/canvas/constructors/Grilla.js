@@ -16,13 +16,20 @@
 
         var i;
         var pos=0;
+        console.log("entre aca");
         for (i = 0; i < this.fila; i++) {
-            this.addChild(new Cuadra(i,pos,0,this.largo,true))
-            pos = pos+10;
+            this.addChild(new Cuadra(i,0,pos,this.largo,"#F00",true));
+            pos = pos+20;
+
+        };
+        pos = 0;
+        for (i = 0; i < this.columna; i++) {
+            this.addChild(new Cuadra(i,pos,0,this.largo,"#F00",false));
+            pos = pos+40;
 
         };
 
-        this.addChild(background);
+        //this.addChild(background);
         this.on("click", this.handleClick);
         this.on("rollover", this.handleRollOver);
         this.on("rollout", this.handleRollOver);
@@ -35,7 +42,7 @@
     } ;
 
     p.handleClick = function (event) {
-        alert("You clicked on a button: "+this.label);
+        alert("You clicked on a button: "+this.id);
     } ;
     p.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
