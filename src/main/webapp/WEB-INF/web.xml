@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+		<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+<welcome-file-list>
+	<welcome-file>index.html</welcome-file>
+</welcome-file-list>
 
-    <servlet>
-        <servlet-name>Favorites</servlet-name>
-        <servlet-class>com.thegrid.semaphore.controller.Favorites</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Favorites</servlet-name>
-        <url-pattern>/api_v1.0/favorites</url-pattern>
-    </servlet-mapping>
+<servlet>
+	<servlet-name>Favorites</servlet-name>
+	<servlet-class>com.thegrid.semaphore.controller.Favorites</servlet-class>
+</servlet>
+<servlet-mapping>
+	<servlet-name>Favorites</servlet-name>
+	<url-pattern>/api_v1.0/favorites</url-pattern>
+</servlet-mapping>
 
-    <servlet>
-        <servlet-name>Contacts</servlet-name>
-        <servlet-class>com.thegrid.semaphore.controller.Contacts</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Contacts</servlet-name>
-        <url-pattern>/api_v1.0/contacts</url-pattern>
-    </servlet-mapping>
+<servlet>
+	<servlet-name>Contacts</servlet-name>
+	<servlet-class>com.thegrid.semaphore.controller.Contacts</servlet-class>
+</servlet>
+<servlet-mapping>
+	<servlet-name>Contacts</servlet-name>
+	<url-pattern>/api_v1.0/contacts</url-pattern>
+</servlet-mapping>
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
 </web-app>

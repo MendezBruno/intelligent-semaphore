@@ -27,6 +27,9 @@ apply plugin: 'appengine'
 repositories {
     mavenCentral()
     jcenter()
+    flatDir {
+        dirs 'src/libs'
+    }
 }
 
 //sourceSets {
@@ -56,11 +59,16 @@ dependencies {
     compile "com.google.appengine:appengine-api-labs:$gae_sdk_version"
 //    compile 'net.sf.jsr107cache:jsr107cache:1.1'
     compile "com.google.appengine:appengine-jsr107cache:$gae_sdk_version"
+    compile 'com.beust:klaxon:0.24'
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.5"
+    compile name: "spek-1.0.25"
 
     testCompile "com.google.appengine:appengine-api-stubs:$gae_sdk_version"
     testCompile "com.google.appengine:appengine-testing:$gae_sdk_version"
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
+    // https://mvnrepository.com/artifact/org.tuckey/urlrewritefilter
+    compile group: 'org.tuckey', name: 'urlrewritefilter', version: '3.2.0'
 }
 
 jacocoTestReport {
