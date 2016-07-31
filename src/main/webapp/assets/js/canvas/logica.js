@@ -41,7 +41,7 @@ app.factory('logica', function () {
 
 
              modificarGrilla: function(fila, columna, ancho, stage) {
-                stage.clear();
+                stage.removeAllChildren();
                 this.crearGrilla(fila, columna, ancho, stage);
             },
 

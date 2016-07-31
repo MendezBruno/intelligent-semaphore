@@ -66,8 +66,6 @@
 //            stage.addChild(grilla);
 
             crearGrilla(4, 5, 50, stage);
-            stage.graphics.clear();
-            stage.update();
             modificarGrilla(3,3,50,stage);
 
 //            btn1 = stage.addChild(new NodoEntrada(100,100,40,"#66ff66"));
@@ -118,13 +116,12 @@
         }
 
         function modificarGrilla(fila,columna,ancho,stage){
-                var l = stage.numChildren;
-                for (var i=0; i<l; i++) {
-                    var child =stage.getChildAt(i);
-                            child.graphics.clear();
-
-
-                }
+//                var l = stage.numChildren;
+//                for (var i=0; i<l; i++) {
+//                    var child =stage.getChildAt(i);
+//                            child.graphics.clear();
+//                }
+            stage.removeAllChildren();
             crearGrilla(fila,columna,ancho,stage);
         }
 
