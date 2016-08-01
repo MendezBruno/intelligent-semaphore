@@ -2,6 +2,7 @@ package com.thegrid.communication.model
 
 import com.beust.klaxon.*
 import com.thegrid.communication.extension.MatrixId
+import com.thegrid.communication.model.Street
 import com.thegrid.communication.extension.RGBA
 import com.thegrid.communication.service.MapStateParser
 import java.util.*
@@ -19,14 +20,14 @@ class Map private constructor() {
     }
 
     var mapState: MapState = MapState.SharedInstance
-
+    var streets = hashMapOf<MatrixId,Street>()
 
     fun setMap(map: MapStructure) {
-        mapState = extractMap(map)
+        mapState = extractMapState(map)
 
     }
 
-    private fun extractMap(mapStruct: MapStructure): MapState {/**
+    private fun extractMapState(mapState: MapStructure): MapState {/**
         val jsonObjectMap = MapStateParser.createParsedMap(mapStruct.map) as JsonObject
         val blocks = jsonObjectMap.array<JsonObject>("blockStatus") as JsonArray<JsonObject>
         val blockStatus = hashMapOf<MatrixId, RGBA>()
