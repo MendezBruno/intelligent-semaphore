@@ -16,12 +16,12 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
         })
 
         .when('/app/login', {
-            templateUrl: 'views/home.html',
+            templateUrl: 'views/login.html',
             controller: 'loginController'
         })
 
         .when('/app/passrecovery', {
-            templateUrl: 'views/home.html',
+            templateUrl: 'views/passrecovery.html',
             controller: 'loginController'
         })
 
