@@ -30,51 +30,77 @@
             </div>
 
             <div class="panel-body container-fluid">
-                Panel content
                 <div class="row">
-                    <div class="col-sm-1" style="background-color: blue">
+                    <div class="col-sm-6 container-fluid">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Datos generales
+                            </div>
+                            <div class="panel-body container-fluid tg-panel">
+                            <div class="row">
+                                <div class="col-xs-2"><label>Nombre</label></div>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control" ng-model="nombre">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <label>Cantidad de calles horizontales</label>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="text" class="touch-spinner" ng-model="callesH">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <label>Cantidad de calles verticales</label>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="text" class="touch-spinner" ng-model="callesV" ng-keypress="ver($event)">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Estructura del modelo
+                            </div>
+                            <div class="panel-body container-fluid">
+                                <div class="row">
+                                    <div class="canvas-container col-sm-11">
+                                        <canvas id="mapa" width="500px" height="250px">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-5 container-fluid" style="background-color: ">
-                        <div class="row">
-                            <div class="col-xs-2"></div>
-                            <div class="col-xs-2"><h4>Nombre</h4></div>
-                            <div class="col-xs-8">
-                                <input type="text" class="form-control" ng-model="nombre">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3"></div>
-                            <div class="col-xs-6"><b>Cant. calles horizontales</b></div>
-                            <div class="col-xs-3">
-                                <input type="text" class="form-control" ng-model="callesH">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3"></div>
-                            <div class="col-xs-6"><b>Cant. calles verticales</b></div>
-                            <div class="col-xs-3">
-                                <input type="text" class="form-control" ng-model="callesV" ng-keypress="ver($event)">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12 canvas-container">
-                                <canvas id= "mapa" width="500px" height="410px">
-
-                                </canvas>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-5 container-fluid" style="background-color: ">
-                        asdsdasd
+                    <div class="col-sm-6 container-fluid">
                         <div class="row">
                             <div class="col-sm-12" ng-include="'templates/tg-panel.html'">
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-1" style="background-color: pink">
-                    </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            $("input[class='touch-spinner']").TouchSpin({
+                maxboostedstep: 10,
+                min: 0,
+                max: 10,
+                step: 1,
+                boostat: 5
+            });
+            $("input[class='touch-spinner-200']").TouchSpin({
+                maxboostedstep: 10,
+                min: 0,
+                max: 200,
+                step: 1,
+                boostat: 5
+            });
+        </script>
+
     </body>
 </html>
