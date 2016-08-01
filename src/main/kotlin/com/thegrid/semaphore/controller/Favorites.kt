@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse
 
 class Favorites : HttpServlet() {
 
-    val list: ArrayList<String> = ArrayList<String>()
+    val list = arrayListOf<String>()
 
     public override fun doGet(req: HttpServletRequest, res: HttpServletResponse) {
         res.contentType = "text/plain"
@@ -15,6 +15,7 @@ class Favorites : HttpServlet() {
     }
 
     public override fun doPost(req: HttpServletRequest, res: HttpServletResponse) {
+
         list.add(req.getParameter("name"))
         res.contentType = "text/plain"
         if (list.isEmpty()) {

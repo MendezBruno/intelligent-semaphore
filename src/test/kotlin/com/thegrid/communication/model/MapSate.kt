@@ -16,10 +16,10 @@ class TestMapState: Spek({
         val mapState: MapState = MapState.SharedInstance
 
         blockStatus.put(MatrixId(1,1), RGBA(255,255,255,0))
-        blockStatus.put(MatrixId(2,2), RGBA(100,100,100,0))
+        //blockStatus.put(MatrixId(2,2), RGBA(100,100,100,0))
 
         semaphoreStatus.put(MatrixId(1,1),"HORIZONTAL")
-        semaphoreStatus.put(MatrixId(2,2),"VERTICAL")
+        //semaphoreStatus.put(MatrixId(2,2),"VERTICAL")
 
         mapState.blockStatus = blockStatus
         mapState.semaphoreStatus = semaphoreStatus
@@ -36,9 +36,8 @@ class TestMapState: Spek({
 
             it("should return the parsed map") {
                 val parsedMap: String ="{\"blockStatus\":[{\"row\":1,\"column\":1,\"color\":{\"R\":255,\"G\":255,\"B\":255," +
-                        "\"A\":0}},{\"row\":2,\"column\":2,\"color\":{\"R\":100,\"G\":100,\"B\":100,\"A\":0}}]," +
-                        "\"semaphoreStatus\":[{\"row\":1,\"column\":1,\"state\":\"HORIZONTAL\"},{\"row\":2,\"column" +
-                        "\":2,\"state\":\"VERTICAL\"}]}"
+                        "\"A\":0}}]," +
+                        "\"semaphoreStatus\":[{\"row\":1,\"column\":1,\"state\":\"HORIZONTAL\"}]}"
 
                 assert(jsonMap.equals(parsedMap))
             }
