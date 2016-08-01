@@ -3,9 +3,11 @@
  */
 (function() {
 
-    function Nodo(posx, posy,radio,color) {
+    function NodoControl(fila,columna,posx, posy,radio,color) {
         this.Container_constructor();
 
+        this.fila = fila;
+        this.columna = columna;
         this.color = color;
         this.posx = posx;
         this.posy = posy;
@@ -13,14 +15,15 @@
 
         this.setup();
     }
-    var p = createjs.extend(Nodo, createjs.Container);
+    var p = createjs.extend(NodoControl, createjs.Container);
 
+    //VARIABLES GLOBALES DEL CONSTRUCTOR
+    var background;
+    var BLANCO="#ffffff";
+    var AMARILLO="#ffff80";
 
     p.setup = function() {
-
-
-
-        var background = new createjs.Shape();
+        background = new createjs.Shape();
         background.graphics.beginFill(this.color).drawCircle(this.posx,this.posy,this.radio);
 
         this.addChild(background);
@@ -36,11 +39,20 @@
     } ;
 
     p.handleClick = function (event) {
-        if (this.color == "#ff3333") { this.color = "66ff66"}
+        if (this.color == BLANCO) { this.cambiarColor(event.currentTarget.children[0],AMARILLO)}
+        else {
+            if (this.color == AMARILLO) { this.cambiarColor(event.currentTarget.children[0],BLANCO)}
+        }
+        console.log(event.currentTarget.children[0]);
     } ;
     p.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
     };
 
-    window.Nodo = createjs.promote(Nodo, "Container");
+    p.cambiarColor = function(child,color){
+        child.graphics.clear().beginFill(color).drawCircle(this.posx,this.posy,this.radio);
+        this.color= color;
+    };
+
+    window.NodoControl = createjs.promote(NodoControl, "Container");
 }());
