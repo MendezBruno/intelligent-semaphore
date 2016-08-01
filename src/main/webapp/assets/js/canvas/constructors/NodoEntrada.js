@@ -1,9 +1,10 @@
 (function() {
 
-    function NodoEntrada(idNum, posx, posy,radio,color) {
+    function NodoEntrada(fila,columna, posx, posy,radio,color) {
         this.Container_constructor();
 
-        this.idNum = idNum;
+        this.fila = fila;
+        this.columna = columna;
         this.color = color;
         this.posx = posx;
         this.posy = posy;
