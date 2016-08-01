@@ -13,7 +13,7 @@ app.controller('editorController', function($scope,logica) {
     stage.update();
     logica.modificarGrilla(3,3,30,stage);
     stage.update();
-//    createjs.Ticker.on("tick", stage);
+    createjs.Ticker.on("tick", stage);
 
     $scope.ver = function() {
         console.log($scope.callesV);
