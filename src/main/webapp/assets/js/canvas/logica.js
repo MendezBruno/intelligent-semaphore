@@ -11,7 +11,7 @@ app.factory('logica', function () {
             var posy = largo;
             var separador = 20;
             var ENTRADA = "#66ff66";
-            var SALIDA = "#ff3333"
+            var SALIDA = "#ff3333";
 
             console.log("entre aca");
             for (i = 0; i < fila; i++) {
@@ -44,6 +44,9 @@ app.factory('logica', function () {
                 stage.removeAllChildren();
                 this.crearGrilla(fila, columna, ancho, stage);
             },
+
+
+
 
 
 

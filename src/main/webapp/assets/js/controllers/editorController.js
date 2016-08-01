@@ -23,4 +23,5 @@ app.controller('editorController', function($scope,logica) {
 
 
     };
+
 });
