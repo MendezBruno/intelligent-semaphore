@@ -10,7 +10,7 @@ import java.io.InputStream
  * Created by Surakituaka on 21/07/2016.
  */
 
-class MapParser(val map: MapState) {
+class MapStateParser(val map: MapState) {
 
     fun parseToJson(): String {
 
