@@ -34,7 +34,7 @@
                 <div class="row">
                     <div class="col-sm-1" style="background-color: blue">
                     </div>
-                    <div class="col-sm-5 container-fluid" style="background-color: green">
+                    <div class="col-sm-5 container-fluid" style="background-color: ">
                         <div class="row">
                             <div class="col-xs-2"></div>
                             <div class="col-xs-2"><h4>Nombre</h4></div>
@@ -65,148 +65,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-5 container-fluid" style="background-color: red">
+                    <div class="col-sm-5 container-fluid" style="background-color: ">
                         asdsdasd
                         <div class="row">
-                            <div class="col-sm-12">
-                                <div class="panel panel-default tg-panel">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">
-                                            Opciones de cuadra
-                                        </h3>
-                                    </div>
-                                    <div class="panel-body container-fluid">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>Cantidad de carriles</label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>Sentido</label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control">
-                                                    <option>Norte-Sur</option>
-                                                    <option>Sur-Norte</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body container-fluid">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label>
-                                                    FDP de vehículos de entrada
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>Cantidad máxima de automóviles</label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>Intervalo de tiempo</label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body container-fluid" style="border-bottom: 1px black solid;">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label>
-                                                    FDP de vehículos de salida
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>Cantidad máxima de automóviles</label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>Intervalo de tiempo</label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="panel-body container-fluid">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>
-                                                    Preferencia / popularidad
-                                                </label>
-                                                <span class="glyphicon glyphicon-question-sign" aria-hidden="true">
-                                                </span>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <select class="form-control">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <label>
-                                                    Longitud (metros)
-                                                </label>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" ng-model="valor" ng-keypress="ver()">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="col-sm-12" ng-include="'templates/tg-panel.html'">
                             </div>
                         </div>
                     </div>
