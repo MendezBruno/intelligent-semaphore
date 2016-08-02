@@ -3,6 +3,8 @@
  */
 app.factory('logica', function () {
     return {
+        cuadraSeleccionada:undefined,
+
         crearGrilla: function (fila, columna, largo, stage) {
             var i;
             var j=0;
@@ -15,12 +17,23 @@ app.factory('logica', function () {
             var ENTRADA = "#66ff66";
             var SALIDA = "#ff3333";
             var NEUTRAL = "#ffffff";
+            var onClick = function(c){
+                //console.log(c);
+                //console.log(c.id);
+                if(this.cuadraSeleccionada) {
+                    this.cuadraSeleccionada.desmarcar();
+                };
+                this.cuadraSeleccionada= c;
+                this.cuadraSeleccionada.marcar();
+            };
 
             for (i = 0; i < fila; i++) {
                 posx = posInicialX;
                 stage.addChild(new NodoEntrada(i+2,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
                 for (j = 0; j < columna + 1; j++) {
-                    stage.addChild(new Cuadra(id, posx, posy, largo, "#b3b3b3", true));
+                    var cuadra = new Cuadra(id, posx, posy, largo, "#b3b3b3", true);
+                    cuadra.clickListeners.push(onClick);
+                    stage.addChild(cuadra);
                     id++;
                     posx = posx + largo + separador;
                     if(columna+1 != j){stage.addChild(new NodoControl(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,NEUTRAL));};
@@ -34,13 +47,17 @@ app.factory('logica', function () {
             for (i = 0; i < fila + 1; i++) {
 
                 for (j = 0; j < columna; j++) {
-                    stage.addChild(new Cuadra(j, posx, posy, largo, "#b3b3b3", false));
+                    var cuadra = new Cuadra(id, posx, posy, largo, "#b3b3b3", false);
+                    cuadra.clickListeners.push(onClick);
+                    stage.addChild(cuadra);
                     if(0 == i){stage.addChild(new NodoEntrada(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA));};
                     if(fila == i){stage.addChild(new NodoEntrada(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA));};
                     posx = posx + largo + separador;
+                    id++;
                 }
                 posy = posy + largo + separador;
                 posx = largo + posInicialX;
+
             }
         },
 
