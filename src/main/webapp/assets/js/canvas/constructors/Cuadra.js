@@ -10,19 +10,19 @@
         this.color = color;
         this.horizontal = horizontal;
 
+
         this.setup();
     }
     var p = createjs.extend(Cuadra, createjs.Container);
 
+    var background;
+    var width = 20;
+    var marcado = false;
 
     p.setup = function() {
-        var width = 20;     //viene predefinido
-        //var height =10;
+            //viene predefinido
         container = new createjs.Container();
-        //container.addChild(circle, btn1);
-        //container.x = 100;
-
-        var background = new createjs.Shape();
+        background = new createjs.Shape();
         if (this.horizontal){
         background.graphics.beginFill(this.color).drawRect(this.posX,this.posY,this.largo,width,10);
         }
@@ -44,10 +44,35 @@
 
     p.handleClick = function (event) {
         alert("You clicked on a button:"+this.id);
+        if (!marcado) { this.marcar(event.currentTarget.children[0])}
+        else {this.desmarcar(event.currentTarget.children[0])}
+
+        console.log(event.currentTarget.children[0]);
     } ;
     p.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
     };
+
+    p.marcar= function(child){
+
+        if (this.horizontal){
+            child.graphics.clear().beginFill(this.color).beginStroke("#000000").setStrokeStyle(1).drawRect(this.posX,this.posY,this.largo,width,10);
+        }
+        else {
+            child.graphics.clear().beginFill(this.color).beginStroke("#000000").setStrokeStyle(1).drawRect(this.posX,this.posY,width,this.largo,10);
+        }
+        marcado = true;
+    };
+
+    p.desmarcar= function(child){
+        if (this.horizontal){
+            child.graphics.clear().beginFill(this.color).drawRect(this.posX,this.posY,this.largo,width,10);
+        }
+        else {
+            child.graphics.clear().beginFill(this.color).drawRect(this.posX,this.posY,width,this.largo,10);
+        }
+        marcado= false;
+    }
 
     window.Cuadra = createjs.promote(Cuadra, "Container");
 }());

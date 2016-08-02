@@ -24,7 +24,7 @@
 
     p.setup = function() {
         background = new createjs.Shape();
-        background.graphics.beginFill(this.color).drawCircle(this.posx,this.posy,this.radio);
+        background.graphics.beginFill(this.color).beginStroke("#000000").setStrokeStyle(1).drawCircle(this.posx,this.posy,this.radio);
 
         this.addChild(background);
         this.on("click", this.handleClick);
@@ -50,7 +50,7 @@
     };
 
     p.cambiarColor = function(child,color){
-        child.graphics.clear().beginFill(color).drawCircle(this.posx,this.posy,this.radio);
+        child.graphics.clear().beginFill(color).beginStroke("#000000").setStrokeStyle(1).drawCircle(this.posx,this.posy,this.radio);
         this.color= color;
     };
 
