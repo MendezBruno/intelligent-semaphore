@@ -22,7 +22,7 @@ class MapState private constructor() {
     var blockStatus = hashMapOf<MatrixId, RGBA>()
     var semaphoreStatus = hashMapOf<MatrixId, String>()
 
-    fun setMapState(mapstate: MapStructure) {
+    fun setMapState(mapstate: MapStructure) { //TODO poner la funcionalidad de los extract aca (tienen codigo repetido)
         blockStatus = extractBlocks(mapstate)
         semaphoreStatus = extractSemaphores(mapstate)
     }

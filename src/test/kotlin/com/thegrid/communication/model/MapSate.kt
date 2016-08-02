@@ -24,6 +24,9 @@ class TestMapState: Spek({
         mapState.blockStatus = blockStatus
         mapState.semaphoreStatus = semaphoreStatus
 
+        val parsedMap: String ="{\"blockStatus\":[{\"row\":1,\"column\":1,\"color\":{\"R\":255,\"G\":255,\"B\":255," +
+                "\"A\":0}}]," +
+                "\"semaphoreStatus\":[{\"row\":1,\"column\":1,\"state\":\"HORIZONTAL\"}]}"
 
         on("parsing to json") {
             val mapStateParser: MapStateParser = MapStateParser(mapState)
@@ -35,15 +38,11 @@ class TestMapState: Spek({
            // println(jsonMap)
 
             it("should return the parsed mapState") {
-                val parsedMap: String ="{\"blockStatus\":[{\"row\":1,\"column\":1,\"color\":{\"R\":255,\"G\":255,\"B\":255," +
-                        "\"A\":0}}]," +
-                        "\"semaphoreStatus\":[{\"row\":1,\"column\":1,\"state\":\"HORIZONTAL\"}]}"
-
                 assert(jsonMap.equals(parsedMap))
             }
         }
 
-        on("creating a mapState from json"){
+        on("creating a mapState from json with klaxon"){
             val stateParser: MapStateParser = MapStateParser(mapState)
             val mapStructure: MapStructure = MapStructure(stateParser.parseToJson())
 
@@ -56,5 +55,15 @@ class TestMapState: Spek({
                 assert(newMapState.blockStatus.contains(MatrixId(1,1)))
             }
         }
+/**
+        on("creating a mapState from json with jackson"){
+            val mapper = ObjectMapper().registerKotlinModule()
+            val streamMap: InputStream = parsedMap.byteInputStream()
+            val newMapState: MapState = mapper.readValue(streamMap, MapState.SharedInstance.javaClass)
+
+            it("should return the map as object"){
+                assert(newMapState.blockStatus.contains(MatrixId(1,1)))
+            }
+        }*/
     }
 })

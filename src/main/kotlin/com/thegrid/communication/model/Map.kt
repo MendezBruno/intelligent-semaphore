@@ -1,11 +1,6 @@
 package com.thegrid.communication.model
 
-import com.beust.klaxon.*
 import com.thegrid.communication.extension.MatrixId
-import com.thegrid.communication.model.Street
-import com.thegrid.communication.extension.RGBA
-import com.thegrid.communication.service.MapStateParser
-import java.util.*
 
 /**
  * Created by Surakituaka on 01/08/2016.
@@ -39,6 +34,7 @@ class Map private constructor() {
         }
 
         return  blockStatus*/
+        return MapState.SharedInstance
     }
 
 
