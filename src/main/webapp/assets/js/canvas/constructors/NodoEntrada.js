@@ -43,7 +43,6 @@
             if (this.color == VERDE) { this.cambiarColor(event.currentTarget.children[0],ROJO)}
         }
         console.log(event.currentTarget.children[0]);
-
     } ;
     p.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
@@ -52,7 +51,6 @@
     p.cambiarColor = function(child,color){
         child.graphics.clear().beginFill(color).drawCircle(this.posx,this.posy,this.radio);
         this.color= color;
-
     }
     window.NodoEntrada = createjs.promote(NodoEntrada, "Container");
 }());/**
