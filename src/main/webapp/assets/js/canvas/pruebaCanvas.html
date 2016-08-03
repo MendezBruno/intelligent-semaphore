@@ -17,6 +17,7 @@
         var stage;
         var circle;
         var btn1;
+        var btn2;
         var holder;
         var image;
         var container;
@@ -24,28 +25,36 @@
         var nodo;
         var nodoEntrada;
         var nodoControl;
+        var handleClick = function (event){
+            alert("aaaa");
+        }
 
         function init() {
             stage = new createjs.Stage("demoCanvas");
             stage.enableMouseOver();
 
 
-           btn1 = stage.addChild(new Boton("Hello!", "#F00",60));
-            btn1.y = 20;
+           btn2 = stage.addChild(new Boton("Hello!", "#FF0",60));
+            btn2.y = 400;
+            btn2.x =400;
+
 
             btn1 = stage.addChild(new Cuadra("cuadra1",0,0,200, "#F00",true));
+            btn1.y =400;
+            btn1.x =400;
 
 //
             circle = new createjs.Shape();
             circle.graphics.beginFill("red").beginStroke("#000000").setStrokeStyle(1).drawCircle(333, 333, 50);
             circle.x = 150;
             circle.y = 100;
+            circle.on("click", handleClick);
 //            var fillCommand = circle.graphics.beginFill("blue").command;
 //            // ... later, update the fill style/color:
 //            fillCommand.color = "blue";
 //            circle.append(fillCommand);
 
-            stage.addChild(circle);
+//            stage.addChild(circle);
 
 
 
@@ -56,14 +65,16 @@
 
 
 //
-//            container = new createjs.Container();
-//            container.addChild(circle, btn1);
-//            container.x = 100;
-//
-//            stage.addChild(container);
+            container = new createjs.Container();
+            container.addChild(circle, btn2);
 
+//
+            stage.addChild(container);
+            container.x = 100;
 //            grilla = new Grilla(3,3,40);
 //            stage.addChild(grilla);
+
+            console.log(container.getChildAt(1));
 
             crearGrilla(4, 5, 50, stage);
 //            modificarGrilla(3,3,50,stage);

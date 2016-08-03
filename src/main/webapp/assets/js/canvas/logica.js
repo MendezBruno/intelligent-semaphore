@@ -27,19 +27,11 @@ app.factory('logica', function () {
                 this.cuadraSeleccionada.marcar();
                 seleccionar(this.cuadraSeleccionada,cuadra);
             };
-            var onClickNodo = function (n,color){
-                console.log(n);
-                console.log(n.color);
-                if (n.color == SALIDA) { n.cambiarColor(ENTRADA)}
-                    else {
-                        if (n.color == ENTRADA) { n.cambiarColor(SALIDA)}
-                    }
-            };
+
 
             for (i = 0; i < fila; i++) {
                 posx = posInicialX;
                 var entrada = new NodoBorde(i+2,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA);
-                entrada.clickListeners.push(onClickNodo);
                 stage.addChild(entrada);
                 for (j = 0; j < columna + 1; j++) {
                     var cuadra = new Cuadra(id, posx, posy, largo, "#b3b3b3", true);
@@ -50,9 +42,9 @@ app.factory('logica', function () {
                     if(columna+1 != j){stage.addChild(new NodoControl(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,NEUTRAL));};
                 }
                 var salida = new NodoBorde(i+2,j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA);
-                salida.clickListeners.push(onClickNodo);
                 stage.addChild(salida);
                 posy = posy + largo + separador;
+                stage.addChild(new CnvCalleHorizontal(entrada,salida));
             };
 
             posx = largo + posInicialX;
@@ -65,12 +57,10 @@ app.factory('logica', function () {
                     stage.addChild(cuadra);
                     if(0 == i){
                         var entrada = new NodoBorde(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
-                        entrada.clickListeners.push(onClickNodo);
                         stage.addChild(entrada);
                     };
                     if(fila == i){
                         var salida = new NodoBorde(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA);
-                        salida.clickListeners.push(onClickNodo);
                         stage.addChild(salida);
                     };
                     posx = posx + largo + separador;
