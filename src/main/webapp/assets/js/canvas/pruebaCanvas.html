@@ -7,7 +7,7 @@
     <script src="constructors/Boton.js"></script>
     <script src="constructors/Cuadra.js"></script>
     <script src="constructors/Grilla.js"></script>
-    <script src="constructors/NodoEntrada.js"></script>
+    <script src="constructors/NodoBorde.js"></script>
     <script src="constructors/NodoControl.js"></script>
     <script src="/assets/libs/easeljs-NEXT.combined.js"></script>
 
@@ -68,7 +68,7 @@
             crearGrilla(4, 5, 50, stage);
 //            modificarGrilla(3,3,50,stage);
 
-//            btn1 = stage.addChild(new NodoEntrada(100,100,40,"#66ff66"));
+//            btn1 = stage.addChild(new NodoBorde(100,100,40,"#66ff66"));
 
 
         }
@@ -94,13 +94,13 @@
             console.log("entre aca");
             for (i = 0; i < fila; i++) {
                 posx=posInicialX;
-                stage.addChild(new NodoEntrada(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
+                stage.addChild(new NodoBorde(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
                 for (j = 0; j < columna+1; j++) {
                     stage.addChild(new Cuadra(i, posx, posy, largo, "#b3b3b3", true));
                     posx = posx+largo+separador;
                     if(columna+1 != j){stage.addChild(new NodoControl(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,NEUTRAL));};
                 }
-                stage.addChild(new NodoEntrada(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,SALIDA));
+                stage.addChild(new NodoBorde(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,SALIDA));
                 posy = posy+largo+separador;
             };
 
@@ -110,8 +110,8 @@
 
                 for (j = 0; j < columna; j++) {
                     stage.addChild(new Cuadra(j, posx, posy, largo, "#b3b3b3", false));
-                    if(0 == i){stage.addChild(new NodoEntrada(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA));};
-                    if(fila == i){stage.addChild(new NodoEntrada(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA));};
+                    if(0 == i){stage.addChild(new NodoBorde(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA));};
+                    if(fila == i){stage.addChild(new NodoBorde(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA));};
                     posx = posx + largo+separador;
 
                 }
