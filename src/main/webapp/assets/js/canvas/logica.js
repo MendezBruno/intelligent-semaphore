@@ -44,7 +44,8 @@ app.factory('logica', function () {
                 var salida = new NodoBorde(i+2,j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA);
                 stage.addChild(salida);
                 posy = posy + largo + separador;
-                stage.addChild(new CnvCalleHorizontal(entrada,salida));
+                new CnvCalleHorizontal(entrada,salida);
+                // stage.addChild();
             };
 
             posx = largo + posInicialX;
