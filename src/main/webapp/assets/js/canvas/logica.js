@@ -17,6 +17,8 @@ app.factory('logica', function () {
             var ENTRADA = "#66ff66";
             var SALIDA = "#ff3333";
             var NEUTRAL = "#ffffff";
+            var listaCalleEntrada = new Array();
+            var listaCalleSalida = new Array();
             var onClick = function(c){
                 //console.log(c);
                 //console.log(c.id);
@@ -56,13 +58,17 @@ app.factory('logica', function () {
                     var cuadra = new Cuadra(id, posx, posy, largo, "#b3b3b3", false);
                     cuadra.clickListeners.push(onClick);
                     stage.addChild(cuadra);
+
                     if(0 == i){
-                        var entrada = new NodoBorde(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+                        entrada = new NodoBorde(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
                         stage.addChild(entrada);
+                        listaCalleEntrada.push(entrada);
                     };
                     if(fila == i){
-                        var salida = new NodoBorde(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA);
+                        salida = new NodoBorde(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA);
                         stage.addChild(salida);
+                        listaCalleSalida.push(salida);
+
                     };
                     posx = posx + largo + separador;
                     id++;
@@ -71,6 +77,13 @@ app.factory('logica', function () {
                 posx = largo + posInicialX;
 
             }
+
+            function crearCalleVerticales(listaCalleEntrada, ListaCalleSalida){
+                while(listaCalleEntrada.length) {new CnvCalleVertical(listaCalleEntrada.pop(),ListaCalleSalida.pop())};
+            }
+
+            crearCalleVerticales(listaCalleEntrada,listaCalleSalida);
+
 
             function seleccionar(cuadra) {
                 $scope.cuadra = cuadra;
