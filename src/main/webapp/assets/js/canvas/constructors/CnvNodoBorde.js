@@ -1,4 +1,4 @@
-    function NodoBorde(fila,columna, posx, posy,radio,color) {
+    function CnvNodoBorde(fila,columna, posx, posy,radio,color) {
         this.Container_constructor();
 
         this.fila = fila;
@@ -19,14 +19,14 @@
 
         this.setup();
     }
-    createjs.extend(NodoBorde, createjs.Container);
+    createjs.extend(CnvNodoBorde, createjs.Container);
 
     //CONSTANTES GLOBALES DEL CONSTRUCTOR
     var ROJO="#ff3333";
     var VERDE="#66ff66";
 
     //METODOS DEL CONSTRUCTOR
-    NodoBorde.prototype.setup = function() {
+    CnvNodoBorde.prototype.setup = function() {
         this.background = new createjs.Shape();
         this.background.graphics
             .beginFill(this.color)
@@ -44,18 +44,18 @@
         this.count = 0;
     } ;
 
-    NodoBorde.prototype.handleRollOver = function(event) {
+    CnvNodoBorde.prototype.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
     };
 
-    NodoBorde.prototype.cambiarColor = function(){
+    CnvNodoBorde.prototype.cambiarColor = function(){
         this.color= this.color == ROJO?  VERDE:ROJO;
         this.background.graphics.clear()
             .beginFill(this.color)
             .drawCircle(this.posx,this.posy,this.radio);
     }
 
-    window.NodoBorde = createjs.promote(NodoBorde, "Container");
+    window.NodoBorde = createjs.promote(CnvNodoBorde, "Container");
 /**
  * Created by bruno on 28/07/16.
  */

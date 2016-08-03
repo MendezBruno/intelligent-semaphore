@@ -1,4 +1,4 @@
-function Cuadra(id,posX, posY,largo,color,horizontal) {
+function CnvCuadra(id,posX, posY,largo,color,horizontal) {
     this.Container_constructor();
 
     this.id= id;
@@ -21,9 +21,9 @@ function Cuadra(id,posX, posY,largo,color,horizontal) {
 
     this.setup();
 }
-createjs.extend(Cuadra, createjs.Container);
+createjs.extend(CnvCuadra, createjs.Container);
 
-Cuadra.prototype.setup = function() {
+CnvCuadra.prototype.setup = function() {
     //viene predefinido
     container = new createjs.Container();
     this.background = new createjs.Shape();
@@ -48,11 +48,11 @@ Cuadra.prototype.setup = function() {
     this.count = 0;
 } ;
 
-Cuadra.prototype.handleRollOver = function(event) {
+CnvCuadra.prototype.handleRollOver = function(event) {
     this.alpha = event.type == "rollover" ? 0.4 : 1;
 };
 
-Cuadra.prototype.marcar= function(){
+CnvCuadra.prototype.marcar= function(){
     //console.log("entre a marcar");
     if (this.horizontal){
         this.background.graphics.clear()
@@ -70,7 +70,7 @@ Cuadra.prototype.marcar= function(){
     }
 };
 
-Cuadra.prototype.desmarcar= function(){
+CnvCuadra.prototype.desmarcar= function(){
     //console.log("entre a desmarcar");
     if (this.horizontal){
         this.background.graphics.clear()
@@ -85,4 +85,4 @@ Cuadra.prototype.desmarcar= function(){
     this.marcado = false;
 }
 
-window.Cuadra = createjs.promote(Cuadra, "Container");
+window.Cuadra = createjs.promote(CnvCuadra, "Container");

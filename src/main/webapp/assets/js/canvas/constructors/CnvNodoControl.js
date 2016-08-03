@@ -3,7 +3,7 @@
  */
 (function() {
 
-    function NodoControl(fila,columna,posx, posy,radio,color) {
+    function CnvNodoControl(fila,columna,posx, posy,radio,color) {
         this.Container_constructor();
 
         this.fila = fila;
@@ -15,7 +15,7 @@
 
         this.setup();
     }
-    var p = createjs.extend(NodoControl, createjs.Container);
+    var p = createjs.extend(CnvNodoControl, createjs.Container);
 
     //VARIABLES GLOBALES DEL CONSTRUCTOR
     var background;
@@ -54,5 +54,5 @@
         this.color= color;
     };
 
-    window.NodoControl = createjs.promote(NodoControl, "Container");
+    window.NodoControl = createjs.promote(CnvNodoControl, "Container");
 }());
