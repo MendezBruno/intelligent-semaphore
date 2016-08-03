@@ -13,7 +13,7 @@
 
         this.handleClick = function (){
             this.clickListeners.forEach(function(l){
-                l(self,this.color);
+                l(self);
             });
         };
 
@@ -21,7 +21,7 @@
     }
     createjs.extend(NodoBorde, createjs.Container);
 
-    //VARIABLES GLOBALES DEL CONSTRUCTOR
+    //CONSTANTES GLOBALES DEL CONSTRUCTOR
     var ROJO="#ff3333";
     var VERDE="#66ff66";
 
@@ -38,28 +38,23 @@
         this.on("rollout", this.handleRollOver);
         this.cursor = "pointer";
 
-        this.mouseChildren = false;
+        this.mouseChildren = true;
 
         this.offset = Math.random()*10;
         this.count = 0;
     } ;
 
-    //NodoBorde.prototype.handleClick = function (event) {
-    //    //var child = holder.getChildAt(event.id);
-    //    if (this.color == ROJO) { this.cambiarColor(event.currentTarget.children[0],VERDE)}
-    //    else {
-    //        if (this.color == VERDE) { this.cambiarColor(event.currentTarget.children[0],ROJO)}
-    //    }
-    //    console.log(event.currentTarget.children[0]);
-    //};
     NodoBorde.prototype.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
     };
 
-    NodoBorde.prototype.cambiarColor = function(color){
-        this.background.graphics.clear().beginFill(color).drawCircle(this.posx,this.posy,this.radio);
-        this.color= color;
+    NodoBorde.prototype.cambiarColor = function(){
+        this.color= this.color == ROJO?  VERDE:ROJO;
+        this.background.graphics.clear()
+            .beginFill(this.color)
+            .drawCircle(this.posx,this.posy,this.radio);
     }
+
     window.NodoBorde = createjs.promote(NodoBorde, "Container");
 /**
  * Created by bruno on 28/07/16.
