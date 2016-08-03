@@ -30,7 +30,9 @@ app.factory('logica', function () {
                 seleccionar(this.cuadraSeleccionada,cuadra);
             };
 
+            var mapaEditor = new MapaEditor();
 
+            //CREACION DE CALLES HORIZONTALES
             for (i = 0; i < fila; i++) {
                 posx = posInicialX;
                 var entrada = new CnvNodoBorde(i+2,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA);

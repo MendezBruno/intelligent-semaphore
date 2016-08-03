@@ -5,20 +5,24 @@
 app.controller('editorController', function($scope,logica) {
 
     var stage;
+    var largo = 30;
 
     stage = new createjs.Stage("mapa");
-    logica.crearGrilla(4,4,30,stage,$scope);
+    logica.crearGrilla(4,4,largo,stage,$scope);
     stage.update();
-    logica.modificarGrilla(5,5,30,stage);
-    stage.update();
-    logica.modificarGrilla(3,3,30,stage);
-    stage.update();
+    //logica.modificarGrilla(3,3,largo,stage);
+    //stage.update();
     createjs.Ticker.on("tick", stage);
 
     $scope.ver = function() {
         console.log($scope.callesV);
-        logica.modificarGrilla(parseInt($scope.callesV),parseInt($scope.callesH),30,stage);
-
+        logica.modificarGrilla(parseInt($scope.callesV),parseInt($scope.callesH),largo,stage);
+        console.log($scope.cantCarriles);
         stage.update();
+    };
+
+    $scope.actualizar = function (){
+
+
     };
 });
