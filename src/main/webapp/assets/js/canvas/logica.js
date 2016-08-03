@@ -26,10 +26,20 @@ app.factory('logica', function () {
                 this.cuadraSeleccionada= c;
                 this.cuadraSeleccionada.marcar();
             };
+            var onClickNodo = function (n,color){
+                console.log(n);
+                console.log(n.color);
+                if (n.color == SALIDA) { n.cambiarColor(ENTRADA)}
+                    else {
+                        if (n.color == ENTRADA) { n.cambiarColor(SALIDA)}
+                    }
+            };
 
             for (i = 0; i < fila; i++) {
                 posx = posInicialX;
-                stage.addChild(new NodoEntrada(i+2,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
+                var entrada = new NodoEntrada(i+2,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA);
+                entrada.clickListeners.push(onClickNodo);
+                stage.addChild(entrada);
                 for (j = 0; j < columna + 1; j++) {
                     var cuadra = new Cuadra(id, posx, posy, largo, "#b3b3b3", true);
                     cuadra.clickListeners.push(onClick);
@@ -38,7 +48,9 @@ app.factory('logica', function () {
                     posx = posx + largo + separador;
                     if(columna+1 != j){stage.addChild(new NodoControl(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,NEUTRAL));};
                 }
-                stage.addChild(new NodoEntrada(i+2,j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
+                var salida = new NodoEntrada(i+2,j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA);
+                salida.clickListeners.push(onClickNodo);
+                stage.addChild(salida);
                 posy = posy + largo + separador;
             };
 
@@ -50,8 +62,16 @@ app.factory('logica', function () {
                     var cuadra = new Cuadra(id, posx, posy, largo, "#b3b3b3", false);
                     cuadra.clickListeners.push(onClick);
                     stage.addChild(cuadra);
-                    if(0 == i){stage.addChild(new NodoEntrada(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA));};
-                    if(fila == i){stage.addChild(new NodoEntrada(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA));};
+                    if(0 == i){
+                        var entrada = new NodoEntrada(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+                        entrada.clickListeners.push(onClickNodo);
+                        stage.addChild(entrada);
+                    };
+                    if(fila == i){
+                        var salida = new NodoEntrada(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA);
+                        salida.clickListeners.push(onClickNodo);
+                        stage.addChild(salida);
+                    };
                     posx = posx + largo + separador;
                     id++;
                 }
