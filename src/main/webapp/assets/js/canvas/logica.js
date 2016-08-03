@@ -5,7 +5,7 @@ app.factory('logica', function () {
     return {
         cuadraSeleccionada:undefined,
 
-        crearGrilla: function (fila, columna, largo, stage) {
+        crearGrilla: function (fila, columna, largo, stage, $scope) {
             var i;
             var j=0;
             var id=1;
@@ -25,6 +25,7 @@ app.factory('logica', function () {
                 };
                 this.cuadraSeleccionada= c;
                 this.cuadraSeleccionada.marcar();
+                seleccionar(this.cuadraSeleccionada,cuadra);
             };
             var onClickNodo = function (n,color){
                 console.log(n);
@@ -78,6 +79,11 @@ app.factory('logica', function () {
                 posy = posy + largo + separador;
                 posx = largo + posInicialX;
 
+            }
+
+            function seleccionar(cuadra) {
+                $scope.cuadra = cuadra;
+                $scope.calle = cuadra.calle;
             }
         },
 
