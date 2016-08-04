@@ -8,7 +8,7 @@ app.controller('editorController', function($scope,logica) {
     var largo = 30;
 
     stage = new createjs.Stage("mapa");
-    logica.crearGrilla(4,4,largo,stage,$scope);
+    logica.crearGrilla(3,3,largo,stage,$scope);
     stage.update();
     //logica.modificarGrilla(3,3,largo,stage);
     //stage.update();

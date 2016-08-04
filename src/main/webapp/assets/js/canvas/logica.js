@@ -2,7 +2,13 @@
  * Created by bruno on 28/07/16.
  */
 app.factory('logica', function () {
+
+
     return {
+
+
+
+
         cuadraSeleccionada:undefined,
 
         crearGrilla: function (filas, columnas, largo, stage, $scope) {
@@ -13,6 +19,7 @@ app.factory('logica', function () {
             var posx = posInicialX;
             var posy = largo+posInicialY;
             var separador = 20;
+
             //CONSTANTES
             var ENTRADA = "#66ff66";
             var SALIDA = "#ff3333";
@@ -20,7 +27,12 @@ app.factory('logica', function () {
             var PRIMER_COLUMNA = 1;
             var HORIZONTAL = true;
             var VERTICAL = false;
+
             //LISTAS AUXILIARES
+            var callesHorizontales = new Array();
+            var callesVerticales = new Array();
+            var binodo = new BiArray();
+
             var listaCalleEntrada = new Array();
             var listaCalleSalida = new Array();
             var cuadras = new Array();
@@ -43,42 +55,58 @@ app.factory('logica', function () {
             for (i = 0; i < filas; i++) {
                 moverPosxAlOrigen();
                 var entrada = stage.addChild(new CnvNodoBorde(i+2,PRIMER_COLUMNA,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
+                var cuadras = new Array();
 
                 for (j = 0; j < columnas + 1; j++) {
-                    generarCuadra(HORIZONTAL);
+                    cuadras.push(generarCuadra(HORIZONTAL));
                     actualizarPosX();
-                    if(columnas+1 != j){stage.addChild(new NodoControl(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,NEUTRAL));};
+                    if(columnas+1 != j){
+                        var nodoCentral = new CnvNodoControl( i+1, j+1, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
+                        stage.addChild(nodoCentral);
+                        binodo.push(i+1,j+1,nodoCentral);
+                    }
                 }
 
-                var salida = stage.addChild(new CnvNodoBorde(i+2,j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
+                var salida = stage.addChild(new CnvNodoBorde( i+2, j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
                 actualizarPosY();
-                new CnvCalleHorizontal(entrada,salida);
+                var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
+                callesHorizontales.push(cnvCalleHorizontal);
+                cnvCalleHorizontal.cuadras = cuadras;
             };
 
             //ARMO LAS CALLES VERTICALES
             moverPosxAlOrigen();
-            posx=posx + largo;
             moverPosyAlOrigen();
-            for (i = 0; i < filas + 1; i++) {
+            posx=posx + largo;
+            for (i = 0; i < columnas; i++) {
+                var entrada = new CnvNodoBorde(1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+                stage.addChild(entrada);
+                var cuadras = new Array();
 
-                for (j = 0; j < columnas; j++) {
-                    generarCuadra(VERTICAL);
-                    if(0 == i){ listaCalleEntrada.push(stage.addChild(new CnvNodoBorde(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA)));}
-                    if(filas == i){listaCalleSalida.push(stage.addChild(new CnvNodoBorde(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA)));}
-                    actualizarPosX();
+                for (j = 0; j < filas+1; j++) {
+                    cuadras.push(generarCuadra(VERTICAL));
+                    actualizarPosY();
                 }
-                actualizarPosY();
-                moverPosxAlOrigen();
-                posx=posx + largo;
+                var salida = new CnvNodoBorde(j,i+1,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA);
+                stage.addChild(salida);
+                listaCalleSalida.push(salida);
+                actualizarPosX();
+                moverPosyAlOrigen();
+                //posx=posx + largo;
+                var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
+                cnvCalleVertical.cuadras = cuadras;
 
             }
 
-
-            function crearCalleVerticales(listaCalleEntrada, ListaCalleSalida){
-                while(listaCalleEntrada.length) {new CnvCalleVertical(listaCalleEntrada.pop(),ListaCalleSalida.pop())};
-            }
-
-            crearCalleVerticales(listaCalleEntrada,listaCalleSalida);
+            //CONJUNTOS DE FUNCIONES
+            //function crearCalleVerticales(listaCalleEntrada, ListaCalleSalida){
+            //    while(listaCalleEntrada.length) {
+            //       var cnvCalleVertical = new CnvCalleVertical(listaCalleEntrada.pop(),ListaCalleSalida.pop());
+            //
+            //    }
+            //}
+            //
+            //crearCalleVerticales(listaCalleEntrada,listaCalleSalida);
 
             function generarCuadra(direccion){
                 var cuadra = new CnvCuadra(id, posx, posy, largo, "#b3b3b3", direccion);
@@ -86,6 +114,7 @@ app.factory('logica', function () {
                 cuadras.push(cuadra);
                 stage.addChild(cuadra);
                 id++;
+                return cuadra;
             }
 
             function actualizarPosX(){
@@ -108,6 +137,8 @@ app.factory('logica', function () {
                 $scope.cuadra = cuadra;
                 $scope.calle = cuadra.calle;
             }
+
+
         },
 
 
@@ -120,3 +151,9 @@ app.factory('logica', function () {
 
     };
 });
+
+
+function BiArray (){
+}
+
+BiArray.prototype.push = function(x,y,elem){};

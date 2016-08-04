@@ -54,5 +54,5 @@
         this.color= color;
     };
 
-    window.NodoControl = createjs.promote(CnvNodoControl, "Container");
+    window.CnvNodoControl = createjs.promote(CnvNodoControl, "Container");
 }());
