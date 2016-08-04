@@ -20,6 +20,11 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             controller: 'loginController'
         })
 
+        .when('/app/registro', {
+            templateUrl: 'views/registro.html',
+            controller: 'loginController'
+        })
+
         .when('/app/passrecovery', {
             templateUrl: 'views/passrecovery.html',
             controller: 'loginController'
