@@ -9,6 +9,7 @@ var VERDE="#66ff66";
 function CnvCalle() {
     this.Container_constructor();
     var self = this;
+    this.cuadras = new Array();
     this.clickListeners = new Array();
     this.handleClick = function (){
         this.clickListeners.forEach(function(l){
