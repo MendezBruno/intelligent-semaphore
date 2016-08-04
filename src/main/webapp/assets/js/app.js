@@ -22,12 +22,12 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
 
         .when('/app/registro', {
             templateUrl: 'views/registro.html',
-            controller: 'loginController'
+            controller: 'registroController'
         })
 
         .when('/app/passrecovery', {
             templateUrl: 'views/passrecovery.html',
-            controller: 'loginController'
+            controller: 'passrecoveryController'
         })
 
         .when('/app/editor', {
