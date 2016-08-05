@@ -61,7 +61,7 @@ function GrillaController(filas, columnas, largo, stage, $scope){
 GrillaController.prototype.redibujar = function() {
     // console.log(this.modelo);
     // console.log(this.nodos);
-    //borrar todo
+    this.stage.clear();
 
     //VARIABLES LOCALES
     var id=1;
@@ -73,6 +73,7 @@ GrillaController.prototype.redibujar = function() {
     var largo = this.largo;
 
     var separador = 20;
+    this.separador = separador;
     //CONSTANTES
     var ENTRADA = "#66ff66";
     var SALIDA = "#ff3333";
@@ -205,6 +206,16 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
         cuadra.nodoDestino = destino.id;
         calle.cuadras.push(cuadra);
     }
+    this.redimensionarCanvas();
+}
+GrillaController.prototype.redimensionarCanvas = function () {
+    var nodosH = this.nodos[1].length;
+    var nodosV = this.nodos.length;
+    var ancho = nodosH*this.separador + (nodosH-1)*this.largo;
+    var alto = nodosV*this.separador + (nodosV-1)*this.largo;
+    this.stage.canvas.width = ancho;
+    this.stage.canvas.height = alto;
+    this.stage.update();
 }
 GrillaController.prototype.quitarCalleHorizontal = function() {
 
