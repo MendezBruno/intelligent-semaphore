@@ -1,41 +1,20 @@
 package com.thegrid.communication.model
 
-import com.thegrid.communication.extension.MatrixId
-
 /**
  * Created by Surakituaka on 01/08/2016.
  */
 
-class Map private constructor() {
+data class Map(val name: String, val nodes: MutableList<Node>, val blocks: MutableList<Block>,
+               val streets: MutableList<Street>) {
 
-    private object Holder { val INSTANCE = Map() }
+    fun addNode(node: Node) = nodes.add(node)
 
-    companion object {
-        val SharedInstance: Map by lazy { Holder.INSTANCE }
-    }
+    fun addBlock(block: Block) = blocks.add(block)
 
-    var mapState: MapState = MapState.SharedInstance
-    var streets = hashMapOf<MatrixId,Street>()
 
-    fun setMap(map: MapStructure) {
-        mapState = extractMapState(map)
 
-    }
 
-    private fun extractMapState(mapState: MapStructure): MapState {/**
-        val jsonObjectMap = MapStateParser.createParsedMap(mapStruct.map) as JsonObject
-        val blocks = jsonObjectMap.array<JsonObject>("blockStatus") as JsonArray<JsonObject>
-        val blockStatus = hashMapOf<MatrixId, RGBA>()
 
-        for (block in blocks) {
-            val color: JsonObject = block.obj("color")!!
-            blockStatus.put(MatrixId(block.int("row")!!,block.int("column")!!), RGBA(color.int("R")!!, color.int("G")!!,
-                    color.int("B")!!, color.int("A")!!))
-        }
-
-        return  blockStatus*/
-        return MapState.SharedInstance
-    }
 
 
 
