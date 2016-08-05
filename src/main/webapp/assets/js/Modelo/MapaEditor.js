@@ -2,9 +2,13 @@
  * Created by bruno on 03/08/16.
  */
 function MapaEditor() {
-    this.calles = new Array();
-    this.cuadras = new Array();
-    this.nodos = new Array();
+    this.callesHorizontales = new Array();
+    this.callesVerticales = new Array();
+    this.nodosEntrada = new Array();
+    this.nodosSalida = new Array();
+    this.nodosSemaforo = new Array();
+    this.nodosNoSemaforo = new Array();
+    this.nombre = "";
 }
 
 MapaEditor.prototype.insertarCalle = function(id,cuadras,sentido,orientacion){
