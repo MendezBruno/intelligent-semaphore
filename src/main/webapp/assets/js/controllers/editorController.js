@@ -23,11 +23,10 @@ app.controller('editorController', function($scope) {
     };
 
     $scope.actualizar = function (){
-
-
+        logica.agregarCalleHorizontal();
+        logica.redibujar();
+        stage.update();
     };
-
-    
 
     var mapa = {
         nombre: "San telmo",

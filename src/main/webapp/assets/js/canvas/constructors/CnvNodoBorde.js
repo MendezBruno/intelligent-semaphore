@@ -55,7 +55,7 @@
             .drawCircle(this.posx,this.posy,this.radio);
     }
 
-    window.NodoBorde = createjs.promote(CnvNodoBorde, "Container");
+    window.CnvNodoBorde = createjs.promote(CnvNodoBorde, "Container");
 /**
  * Created by bruno on 28/07/16.
  */

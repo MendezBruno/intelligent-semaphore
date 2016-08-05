@@ -6,7 +6,8 @@ function GrillaController(filas, columnas, largo, stage, $scope){
     this.largo = largo;
     this.stage = stage;
     this.$scope = $scope;
-    var nodos = [];
+    this.nodos = [];
+    var nodos = this.nodos;
     nodos[0]=[];
     nodos[filas+1]=[];
     for (i=1; i < filas+1; i++) {
@@ -58,8 +59,8 @@ function GrillaController(filas, columnas, largo, stage, $scope){
     }
 }
 GrillaController.prototype.redibujar = function() {
-    console.log(this.stage);
-    console.log(this.modelo);
+    // console.log(this.modelo);
+    // console.log(this.nodos);
     //borrar todo
 
     //VARIABLES LOCALES
@@ -167,6 +168,53 @@ GrillaController.prototype.redibujar = function() {
         $scope.calle = cuadra.calle;
     }
 }
+GrillaController.prototype.agregarCalleHorizontal = function() {
+    var nodos = this.nodos;
+    var modelo = this.modelo;
+    var ultima = nodos.length;
+    nodos[ultima] = [];
+    var verticales = modelo.callesVerticales;
+    console.log(verticales);
+    var cantCuadrasHorizontales = nodos[1].length-1;
+    for(i=1;i<cantCuadrasHorizontales;i++){
+        var borde=nodos[ultima-1][i];
+        var nuevo=new NodoNoSemaforo();
+        nodos[ultima-1][i]=nuevo;
+        nodos[ultima][i]=borde;
+        //Buscar la cuadra que quedo desconectada.
+        var colgada = verticales[i-1].cuadras
+            .filter(function(e){return e.nodoDestino == borde.id});
+        colgada.nodoDestino =nuevo.id;
+        var nuevaCuadra = new Cuadra();
+        nuevaCuadra.nodoOrigen = nuevo.id;
+        nuevaCuadra.nodoDestino = borde.id;
+        verticales[i-1].cuadras.push(nuevaCuadra);
+    }
+    var calle = new Calle();
+    calle.sentido = Sentido.OESTE_ESTE;
+    var entrada = new NodoBorde();
+    var salida = new NodoBorde();
+    nodos[ultima-1][0]=entrada;
+    nodos[ultima-1][cantCuadrasHorizontales]=salida;
+    modelo.callesHorizontales.push(calle);
+    for(j=0;j<cantCuadrasHorizontales-1;j++){
+        var cuadra = new Cuadra();
+        var origen = nodos[ultima-1][j];
+        var destino = nodos[ultima-1][j];
+        cuadra.nodoOrigen = origen.id;
+        cuadra.nodoDestino = destino.id;
+        calle.cuadras.push(cuadra);
+    }
+}
+GrillaController.prototype.quitarCalleHorizontal = function() {
+
+}
+GrillaController.prototype.agregarCalleVertical = function() {
+
+}
+GrillaController.prototype.quitarCalleVertical = function() {
+
+}
 
 app.factory('logica', function (filas, columnas, largo, stage, $scope) {
     return new GrillaController(filas, columnas, largo, stage, $scope);
@@ -196,3 +244,7 @@ Nodo.getNextId = function() {
     Nodo.nextId++;
     return "nodo-"+next;
 }
+
+Array.prototype.flatMap = function(lambda) {
+    return Array.prototype.concat.apply([], this.map(lambda));
+};
