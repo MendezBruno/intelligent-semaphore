@@ -20,8 +20,8 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         nodos[i][columnas+1]=salida;
         this.modelo.nodosEntrada.push(entrada);
         this.modelo.nodosSalida.push(salida);
-        calle.nodos.push(entrada);
-        calle.nodos.push(salida);
+
+
 
         for (j=0; j<columnas+1; j++) {
             var cuadra = new Cuadra();
@@ -47,8 +47,7 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         nodos[columnas+1][j]=salida;
         this.modelo.nodosEntrada.push(entrada);
         this.modelo.nodosSalida.push(salida);
-        calle.nodos.push(entrada);
-        calle.nodos.push(salida);
+
 
 
         calle.sentido = Sentido.NORTE_SUR;
@@ -123,6 +122,7 @@ GrillaController.prototype.redibujar = function() {
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         cnvCalleHorizontal.cuadras = cuadras;
         cnvCalleHorizontal.modelo = modelo;
+        cnvCalleHorizontal.calle = horizontales[i];
     }
     moverPosxAlOrigen();
     moverPosyAlOrigen();
@@ -146,6 +146,7 @@ GrillaController.prototype.redibujar = function() {
         var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
         cnvCalleVertical.cuadras = cuadras;
         cnvCalleVertical.modelo =modelo;
+        cnvCalleVertical.calle = verticales[i];
 
     }
 
