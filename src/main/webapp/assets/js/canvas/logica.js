@@ -174,22 +174,22 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     var modelo = this.modelo;
     var ultima = nodos.length;
     nodos[ultima] = [];
-    var verticales = modelo.callesVerticales;
     console.log(verticales);
     var cantCuadrasHorizontales = nodos[1].length-1;
     for(i=1;i<cantCuadrasHorizontales;i++){
+        var verticales = modelo.callesVerticales[i-1];
         var borde=nodos[ultima-1][i];
         var nuevo=new NodoNoSemaforo();
         nodos[ultima-1][i]=nuevo;
         nodos[ultima][i]=borde;
         //Buscar la cuadra que quedo desconectada.
-        var colgada = verticales[i-1].cuadras
+        var colgada = verticales.cuadras
             .filter(function(e){return e.nodoDestino == borde.id});
         colgada.nodoDestino =nuevo.id;
         var nuevaCuadra = new Cuadra();
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
-        verticales[i-1].cuadras.push(nuevaCuadra);
+        verticales.cuadras.push(nuevaCuadra);
     }
     var calle = new Calle();
     calle.sentido = Sentido.OESTE_ESTE;
@@ -201,7 +201,7 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     for(j=0;j<cantCuadrasHorizontales-1;j++){
         var cuadra = new Cuadra();
         var origen = nodos[ultima-1][j];
-        var destino = nodos[ultima-1][j];
+        var destino = nodos[ultima-1][j+1];
         cuadra.nodoOrigen = origen.id;
         cuadra.nodoDestino = destino.id;
         calle.cuadras.push(cuadra);
@@ -213,7 +213,7 @@ GrillaController.prototype.redimensionarCanvas = function () {
     var nodosV = this.nodos.length;
     var ancho = nodosH*this.separador + (nodosH-1)*this.largo;
     var alto = nodosV*this.separador + (nodosV-1)*this.largo;
-    this.stage.canvas.width = ancho;
+    this.stage.canvas.width = ancho+50;
     this.stage.canvas.height = alto;
     this.stage.update();
 }
@@ -221,7 +221,41 @@ GrillaController.prototype.quitarCalleHorizontal = function() {
 
 }
 GrillaController.prototype.agregarCalleVertical = function() {
-
+    var nodos = this.nodos;
+    var modelo = this.modelo;
+    var ultima = nodos[1].length;
+    var cantCuadrasVerticales = nodos.length-1;
+    for(i=1;i<cantCuadrasVerticales;i++){
+        var horizontal = this.modelo.callesHorizontales[i-1];
+        var borde=nodos[i][ultima-1];
+        var nuevo=new NodoNoSemaforo();
+        nodos[i][ultima-1]=nuevo;
+        nodos[i][ultima]=borde;
+        //Buscar la cuadra que quedo desconectada.
+        var colgada = horizontal.cuadras
+            .filter(function(e){return e.nodoDestino == borde.id});
+        colgada.nodoDestino =nuevo.id;
+        var nuevaCuadra = new Cuadra();
+        nuevaCuadra.nodoOrigen = nuevo.id;
+        nuevaCuadra.nodoDestino = borde.id;
+        horizontal.cuadras.push(nuevaCuadra);
+    }
+    var calle = new Calle();
+    calle.sentido = Sentido.NORTE_SUR;
+    var entrada = new NodoBorde();
+    var salida = new NodoBorde();
+    nodos[0][ultima-1]=entrada;
+    nodos[cantCuadrasVerticales][ultima-1]=salida;
+    modelo.callesVerticales.push(calle);
+    for(i=0;i<cantCuadrasVerticales-1;i++){
+        var cuadra = new Cuadra();
+        var origen = nodos[i][ultima-1];
+        var destino = nodos[i+1][ultima-1];
+        cuadra.nodoOrigen = origen.id;
+        cuadra.nodoDestino = destino.id;
+        calle.cuadras.push(cuadra);
+    }
+    this.redimensionarCanvas();
 }
 GrillaController.prototype.quitarCalleVertical = function() {
 
