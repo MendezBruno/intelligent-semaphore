@@ -15,12 +15,12 @@ app.controller('editorController', function($scope) {
     //stage.update();
     createjs.Ticker.on("tick", stage);
 
-    $scope.ver = function() {
-        console.log($scope.callesV);
-        logica.modificarGrilla(parseInt($scope.callesV),parseInt($scope.callesH),largo,stage);
-        console.log($scope.cantCarriles);
-        stage.update();
-    };
+    //$scope.ver = function() {
+    //    console.log($scope.callesV);
+    //    logica.modificarGrilla(parseInt($scope.callesV),parseInt($scope.callesH),largo,stage);
+    //    console.log($scope.cantCarriles);
+    //    stage.update();
+    //};
 
     $scope.actualizar = function (){
     };

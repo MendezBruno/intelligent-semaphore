@@ -174,22 +174,21 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     var modelo = this.modelo;
     var ultima = nodos.length;
     nodos[ultima] = [];
-    console.log(verticales);
     var cantCuadrasHorizontales = nodos[1].length-1;
     for(i=1;i<cantCuadrasHorizontales;i++){
-        var verticales = modelo.callesVerticales[i-1];
+        var vertical = modelo.callesVerticales[i-1];
         var borde=nodos[ultima-1][i];
         var nuevo=new NodoNoSemaforo();
         nodos[ultima-1][i]=nuevo;
         nodos[ultima][i]=borde;
         //Buscar la cuadra que quedo desconectada.
-        var colgada = verticales.cuadras
+        var colgada = vertical.cuadras
             .filter(function(e){return e.nodoDestino == borde.id});
         colgada.nodoDestino =nuevo.id;
         var nuevaCuadra = new Cuadra();
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
-        verticales.cuadras.push(nuevaCuadra);
+        vertical.cuadras.push(nuevaCuadra);
     }
     var calle = new Calle();
     calle.sentido = Sentido.OESTE_ESTE;
@@ -211,9 +210,9 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
 GrillaController.prototype.redimensionarCanvas = function () {
     var nodosH = this.nodos[1].length;
     var nodosV = this.nodos.length;
-    var ancho = nodosH*this.separador + (nodosH-1)*this.largo;
+    var ancho = nodosH*this.separador + (nodosH+1)*this.largo;
     var alto = nodosV*this.separador + (nodosV-1)*this.largo;
-    this.stage.canvas.width = ancho+50;
+    this.stage.canvas.width = ancho;
     this.stage.canvas.height = alto;
     this.stage.update();
 }
