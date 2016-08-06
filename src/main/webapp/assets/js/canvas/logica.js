@@ -66,6 +66,7 @@ GrillaController.prototype.redibujar = function() {
      console.log(this.modelo);
     // console.log(this.nodos);
     this.stage.clear();
+    var self = this;
 
     //VARIABLES LOCALES
     var id=1;
@@ -96,7 +97,7 @@ GrillaController.prototype.redibujar = function() {
         };
         this.cuadraSeleccionada= c;
         this.cuadraSeleccionada.marcar();
-        seleccionar(this.cuadraSeleccionada,cuadra);
+        seleccionar(this.cuadraSeleccionada.cuadra);
     };
 
     var horizontales = this.modelo.callesHorizontales;
@@ -150,7 +151,7 @@ GrillaController.prototype.redibujar = function() {
 
     }
 
-    function generarCuadra(direccion){
+    function generarCuadra(direccion, calle){
         var cuadra = new CnvCuadra(id, posx, posy, largo, "#b3b3b3", direccion);
         cuadra.clickListeners.push(onClick);
         cuadras.push(cuadra);
@@ -176,8 +177,8 @@ GrillaController.prototype.redibujar = function() {
     }
 
     function seleccionar(cuadra) {
-        $scope.cuadra = cuadra;
-        $scope.calle = cuadra.calle;
+        self.$scope.cuadra = cuadra;
+        self.$scope.calle = cuadra.calle;
     }
 }
 GrillaController.prototype.agregarCalleHorizontal = function() {
