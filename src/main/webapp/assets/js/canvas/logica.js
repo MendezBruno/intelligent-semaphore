@@ -173,15 +173,18 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     var nodos = this.nodos;
     var modelo = this.modelo;
     var ultima = nodos.length;
-    nodos[ultima] = [];
+    nodos[ultima] = [];   //ultima fila+1
     var verticales = modelo.callesVerticales;
+    console.log("antes ndos");
+    console.log(nodos);
+    console.log("des nodos");
     console.log(verticales);
-    var cantCuadrasHorizontales = nodos[1].length-1;
-    for(i=1;i<cantCuadrasHorizontales;i++){
-        var borde=nodos[ultima-1][i];
-        var nuevo=new NodoNoSemaforo();
-        nodos[ultima-1][i]=nuevo;
-        nodos[ultima][i]=borde;
+    var cantCuadrasHorizontales = nodos[1].length-1;  //leng de calles verticales
+    for(i=1;i<cantCuadrasHorizontales;i++){     //for de 1 hasta cantidad de filas
+        var borde=nodos[ultima-1][i];     //me guardo el borde
+        var nuevo=new NodoNoSemaforo();   //crear un nodo nuevo
+        nodos[ultima-1][i]=nuevo;         // asignas el nuevo
+        nodos[ultima][i]=borde;            //corres el borde
         //Buscar la cuadra que quedo desconectada.
         var colgada = verticales[i-1].cuadras
             .filter(function(e){return e.nodoDestino == borde.id});
@@ -201,7 +204,7 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     for(j=0;j<cantCuadrasHorizontales-1;j++){
         var cuadra = new Cuadra();
         var origen = nodos[ultima-1][j];
-        var destino = nodos[ultima-1][j];
+        var destino = nodos[ultima-1][j+1];
         cuadra.nodoOrigen = origen.id;
         cuadra.nodoDestino = destino.id;
         calle.cuadras.push(cuadra);
@@ -211,7 +214,7 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
 GrillaController.prototype.redimensionarCanvas = function () {
     var nodosH = this.nodos[1].length;
     var nodosV = this.nodos.length;
-    var ancho = nodosH*this.separador + (nodosH-1)*this.largo;
+    var ancho = nodosH*this.separador + (nodosH+1)*this.largo;
     var alto = nodosV*this.separador + (nodosV-1)*this.largo;
     this.stage.canvas.width = ancho;
     this.stage.canvas.height = alto;
