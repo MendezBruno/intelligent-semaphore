@@ -12,7 +12,7 @@ function GrillaController(filas, columnas, largo, stage, $scope){
     nodos[filas+1]=[];
     for (i=1; i < filas+1; i++) {
         nodos[i]=[];
-        var calle = new Calle();
+        var calle = new CalleHorizontal();
         var entrada = new NodoBorde();
         var salida = new NodoBorde();
         calle.sentido = Sentido.OESTE_ESTE;
@@ -37,10 +37,9 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         this.modelo.callesHorizontales.push(calle);
     }
     for (j=1; j < columnas+1; j++) {
-        var calle = new Calle();
+        var calle = new CalleVertical();
         var entrada = new NodoBorde();
         var salida = new NodoBorde();
-        calle.sentido = Sentido.OESTE_ESTE;
         nodos[0][j]=entrada;
         nodos[columnas+1][j]=salida;
         this.modelo.nodosEntrada.push(entrada);
@@ -57,6 +56,7 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         }
         this.modelo.callesVerticales.push(calle);
     }
+    console.log(this.modelo);
 }
 GrillaController.prototype.redibujar = function() {
     this.stage.removeAllChildren();
@@ -205,7 +205,7 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
         vertical.cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
     }
-    var calle = new Calle();
+    var calle = new CalleHorizontal();
     calle.sentido = Sentido.OESTE_ESTE;
     var entrada = new NodoBorde();
     var salida = new NodoBorde();
@@ -289,7 +289,7 @@ GrillaController.prototype.agregarCalleVertical = function() {
         horizontal.cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
     }
-    var calle = new Calle();
+    var calle = new CalleVertical();
     calle.sentido = Sentido.NORTE_SUR;
     var entrada = new NodoBorde();
     var salida = new NodoBorde();
