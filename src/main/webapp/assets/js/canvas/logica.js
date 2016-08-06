@@ -21,8 +21,6 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         this.modelo.nodosEntrada.push(entrada);
         this.modelo.nodosSalida.push(salida);
 
-
-
         for (j=0; j<columnas+1; j++) {
             var cuadra = new Cuadra();
             var origen = nodos[i][j];
@@ -48,8 +46,6 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         this.modelo.nodosEntrada.push(entrada);
         this.modelo.nodosSalida.push(salida);
 
-
-
         calle.sentido = Sentido.NORTE_SUR;
         for (i=0; i<filas+1; i++) {
             var cuadra = new Cuadra();
@@ -57,14 +53,12 @@ function GrillaController(filas, columnas, largo, stage, $scope){
             var destino = nodos[i+1][j];
             cuadra.nodoOrigen = origen.id;
             cuadra.nodoDestino = destino.id;
-
+            calle.cuadras.push(cuadra);
         }
         this.modelo.callesVerticales.push(calle);
     }
 }
 GrillaController.prototype.redibujar = function() {
-     console.log(this.modelo);
-    // console.log(this.nodos);
     this.stage.clear();
     var self = this;
 
@@ -91,26 +85,27 @@ GrillaController.prototype.redibujar = function() {
     var VERTICAL = false;
 
     //FUNCIONES LOCALES
-    var onClick = function(c){
+    var onClick = function(calle,cnvCuadra){
         if(this.cuadraSeleccionada) {
             this.cuadraSeleccionada.desmarcar();
         };
-        this.cuadraSeleccionada= c;
+        this.cuadraSeleccionada= cnvCuadra;
         this.cuadraSeleccionada.marcar();
-        seleccionar(this.cuadraSeleccionada.cuadra);
+        seleccionar(calle,cnvCuadra.cuadra);
     };
 
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
-    console.log(horizontales.length);
     for (i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
-
+        var calle = horizontales[i];
         var entrada = stage.addChild(new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA].id,i+2,PRIMER_COLUMNA,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
         var cuadras = new Array();
 
         for (j = 0; j < verticales.length + 1; j++) {
-            cuadras.push(generarCuadra(HORIZONTAL));
+            var cnvCuadra = generarCuadra(HORIZONTAL,calle);
+            cnvCuadra.cuadra = calle.cuadras[j];
+            cuadras.push(cnvCuadra);
             actualizarPosX();
             if(verticales.length+1 != j){
                 var nodoCentral = new CnvNodoControl( nodos[i+1][j+1].id,i+1, j+1, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
@@ -130,11 +125,14 @@ GrillaController.prototype.redibujar = function() {
     posx=posx + largo;
     for (i = 0; i < verticales.length; i++) {
         var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1].id,1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+        var calle = verticales[i];
         stage.addChild(entrada);
         var cuadras = new Array();
 
         for (j = 0; j < horizontales.length+1; j++) {
-            cuadras.push(generarCuadra(VERTICAL));
+            var cnvCuadra = generarCuadra(VERTICAL,calle);
+            cnvCuadra.cuadra = calle.cuadras[j];
+            cuadras.push(cnvCuadra);
             actualizarPosY();
         }
        // actualizarPosY();
@@ -153,7 +151,7 @@ GrillaController.prototype.redibujar = function() {
 
     function generarCuadra(direccion, calle){
         var cuadra = new CnvCuadra(id, posx, posy, largo, "#b3b3b3", direccion);
-        cuadra.clickListeners.push(onClick);
+        cuadra.clickListeners.push(partial(onClick,calle));
         cuadras.push(cuadra);
         stage.addChild(cuadra);
         id++;
@@ -176,9 +174,13 @@ GrillaController.prototype.redibujar = function() {
         posy = posInicialY;
     }
 
-    function seleccionar(cuadra) {
+    function seleccionar(calle,cuadra) {
         self.$scope.cuadra = cuadra;
-        self.$scope.calle = cuadra.calle;
+        self.$scope.calle = calle;
+        console.log(cuadra.id);
+        calle.cuadras.forEach(function (c) {
+            console.log(c.id);
+        })
     }
 }
 GrillaController.prototype.agregarCalleHorizontal = function() {
@@ -351,3 +353,17 @@ Array.prototype.removeIf = function(callback) {
         }
     }
 };
+
+//Aplicacion parcial en js. Repasar concepto de Paradigmas de programacion
+function partial(fn /*, args...*/) {
+    // A reference to the Array#slice method.
+    var slice = Array.prototype.slice;
+    // Convert arguments object to an array, removing the first argument.
+    var args = slice.call(arguments, 1);
+
+    return function() {
+    // Invoke the originally-specified function, passing in all originally-
+    // specified arguments, followed by any just-specified arguments.
+        return fn.apply(this, args.concat(slice.call(arguments, 0)));
+    };
+}
