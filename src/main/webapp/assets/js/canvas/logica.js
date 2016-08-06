@@ -20,6 +20,8 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         nodos[i][columnas+1]=salida;
         this.modelo.nodosEntrada.push(entrada);
         this.modelo.nodosSalida.push(salida);
+        calle.nodos.push(entrada);
+        calle.nodos.push(salida);
 
         for (j=0; j<columnas+1; j++) {
             var cuadra = new Cuadra();
@@ -45,6 +47,9 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         nodos[columnas+1][j]=salida;
         this.modelo.nodosEntrada.push(entrada);
         this.modelo.nodosSalida.push(salida);
+        calle.nodos.push(entrada);
+        calle.nodos.push(salida);
+
 
         calle.sentido = Sentido.NORTE_SUR;
         for (i=0; i<filas+1; i++) {
@@ -53,13 +58,13 @@ function GrillaController(filas, columnas, largo, stage, $scope){
             var destino = nodos[i+1][j];
             cuadra.nodoOrigen = origen.id;
             cuadra.nodoDestino = destino.id;
-            calle.cuadras.push(cuadra);
+
         }
         this.modelo.callesVerticales.push(calle);
     }
 }
 GrillaController.prototype.redibujar = function() {
-    // console.log(this.modelo);
+     console.log(this.modelo);
     // console.log(this.nodos);
     this.stage.clear();
 
@@ -72,9 +77,7 @@ GrillaController.prototype.redibujar = function() {
     var stage = this.stage;
     var largo = this.largo;
     var nodos = this.nodos;
-    console.log("dentro dibujar");
-    console.log(nodos);
-    console.log("dentro dibujar");
+    var modelo = this.modelo;
 
     var separador = 20;
     this.separador = separador;
@@ -110,21 +113,22 @@ GrillaController.prototype.redibujar = function() {
             cuadras.push(generarCuadra(HORIZONTAL));
             actualizarPosX();
             if(verticales.length+1 != j){
-                var nodoCentral = new CnvNodoControl( nodos[i+1][j+1],i+1, j+1, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
+                var nodoCentral = new CnvNodoControl( nodos[i+1][j+1].id,i+1, j+1, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
                 stage.addChild(nodoCentral);
             }
         }
 
-        var salida = stage.addChild(new CnvNodoBorde( nodos[i+1][verticales.length + 1],i+2, j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
+        var salida = stage.addChild(new CnvNodoBorde( nodos[i+1][verticales.length + 1].id,i+2, j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
         actualizarPosY();
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         cnvCalleHorizontal.cuadras = cuadras;
+        cnvCalleHorizontal.modelo = modelo;
     }
     moverPosxAlOrigen();
     moverPosyAlOrigen();
     posx=posx + largo;
     for (i = 0; i < verticales.length; i++) {
-        var entrada = new CnvNodoBorde(1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+        var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1].id,1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
         stage.addChild(entrada);
         var cuadras = new Array();
 
@@ -133,7 +137,7 @@ GrillaController.prototype.redibujar = function() {
             actualizarPosY();
         }
        // actualizarPosY();
-        var salida = new CnvNodoBorde(j,i+1,posx+separador/2,
+        var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1].id,j,i+1,posx+separador/2,
             posy-largo+separador,separador/2,SALIDA);
         stage.addChild(salida);
         actualizarPosX();
@@ -141,6 +145,7 @@ GrillaController.prototype.redibujar = function() {
         //posx=posx + this.largo;
         var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
         cnvCalleVertical.cuadras = cuadras;
+        cnvCalleVertical.modelo =modelo;
 
     }
 

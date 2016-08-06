@@ -10,6 +10,7 @@ function CnvCalle() {
     this.Container_constructor();
     var self = this;
     this.cuadras = new Array();
+    this.modelo;
     this.clickListeners = new Array();
     this.handleClick = function (){
         this.clickListeners.forEach(function(l){
@@ -20,10 +21,13 @@ function CnvCalle() {
         self.nodo1().cambiarColor();
         self.nodo2().cambiarColor();
     }
-    this.afectarModelo = function(modelo){
-        var nodoEntrada = modelo.nodosEntrada
-            .filter(function(e){return e.id == self.nodo1().id});
-
+    this.afectarModelo = function(){
+        console.log(self.nodo1().id);
+        console.log(self.nodo2().id);
+        self.modelo.cambiarSentido(self.nodo1().id,self.nodo2().id);
+        var aux = self.nodo1().id;
+        self.nodo1().id = self.nodo2().id;
+        self.nodo2().id = aux;
     }
 
 }
@@ -34,6 +38,8 @@ window.CnvCalle = createjs.promote(CnvCalle, "Container");
 CnvCalle.prototype.inicializar = function() {
     this.nodo1().clickListeners.push(this.intercambiarColor);
     this.nodo2().clickListeners.push(this.intercambiarColor);
+    this.nodo1().clickListeners.push(this.afectarModelo);
+    this.nodo2().clickListeners.push(this.afectarModelo);
 }
 
 CnvCalle.prototype.setup = function() { //Abstracta
@@ -48,8 +54,8 @@ function CnvCalleHorizontal(nodoBordeD,nodoBordeI) {
     CnvCalle.call(this); //super();
     this.nodoDerecho = nodoBordeD;
     this.nodoIzquierdo = nodoBordeI;
-    this.nodo1 = function () { return this.nodoIzquierdo; };
-    this.nodo2 = function () { return this.nodoDerecho; };
+    this.nodo1 = function () { return this.nodoDerecho; };
+    this.nodo2 = function () { return this.nodoIzquierdo; };
     this.inicializar();
 }
 createjs.extend(CnvCalleHorizontal, CnvCalle);

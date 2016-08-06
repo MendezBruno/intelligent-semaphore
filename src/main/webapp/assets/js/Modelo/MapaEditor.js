@@ -9,6 +9,46 @@ function MapaEditor() {
     this.nodosSemaforo = new Array();
     this.nodosNoSemaforo = new Array();
     this.nombre = "";
+    self = this;
+
+    self.nodoEntradaSegunId = function(idNodo){
+       return this.nodosEntrada
+            .filter(function(e){return e.id == idNodo});
+    }
+
+    self.nodoSalidaSegunId = function(idNodo){
+        return this.nodosSalida
+            .filter(function(e){return e.id == idNodo});
+    }
+
+    self.calleSegunIdNodoEntrada = function(idNodoEntrada){
+        //var nodoEntrada = self.nodoEntradaSegunId(idNodoEntrada);
+        var calles = this.callesHorizontales.concat(this.callesVerticales);
+        //console.log(nodoEntrada);
+        console.log(calles);
+        return calles
+            .filter(function(e){return e.tenesEsteNodo(idNodoEntrada)});
+    }
+
+    self.intercambiarNodos = function (idNodoEntradaCanvas,idNodoSalidaCanvas){
+        var nodoEntrada = this.nodoEntradaSegunId(idNodoEntradaCanvas);
+        var nodoSalida = this.nodoSalidaSegunId(idNodoSalidaCanvas);
+        var indice = this.nodosEntrada.indexOf(nodoEntrada[0]);  //se supone es el mismo indice para los dos nodos siempre
+        console.log(this.nodosEntrada);
+        console.log(this.nodosSalida);
+        this.nodosEntrada.splice(indice,1,nodoSalida[0]);
+        this.nodosSalida.splice(indice,1,nodoEntrada[0]);
+        console.log(this.nodosEntrada);
+        console.log(this.nodosSalida);
+    }
+
+    self.intercambiarSentidos = function (idNodoEntradaCanvas){
+        var calle = self.calleSegunIdNodoEntrada(idNodoEntradaCanvas);
+        console.log(calle);
+        calle[0].cambiaTuSentido();
+        console.log(calle[0].sentido);
+    }
+
 }
 
 MapaEditor.prototype.insertarCalle = function(id,cuadras,sentido,orientacion){
@@ -19,3 +59,11 @@ MapaEditor.prototype.insertarCalle = function(id,cuadras,sentido,orientacion){
     this.calles.push(new Calle());
     console.log(this.calles.pop());
 }
+
+
+MapaEditor.prototype.cambiarSentido = function(idNodoEntradaCanvas,idNodoSalidaCanvas) {
+    this.intercambiarSentidos(idNodoEntradaCanvas);
+    this.intercambiarNodos(idNodoEntradaCanvas,idNodoSalidaCanvas);
+
+}
+
