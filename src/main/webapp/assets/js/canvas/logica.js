@@ -71,6 +71,10 @@ GrillaController.prototype.redibujar = function() {
     var posy = this.largo+posInicialY;
     var stage = this.stage;
     var largo = this.largo;
+    var nodos = this.nodos;
+    console.log("dentro dibujar");
+    console.log(nodos);
+    console.log("dentro dibujar");
 
     var separador = 20;
     this.separador = separador;
@@ -78,7 +82,8 @@ GrillaController.prototype.redibujar = function() {
     var ENTRADA = "#66ff66";
     var SALIDA = "#ff3333";
     var NEUTRAL = "#ffffff";
-    var PRIMER_COLUMNA = 1;
+    var PRIMERA_FILA = 0;
+    var PRIMER_COLUMNA = 0;
     var HORIZONTAL = true;
     var VERTICAL = false;
 
@@ -98,19 +103,19 @@ GrillaController.prototype.redibujar = function() {
     for (i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
 
-        var entrada = stage.addChild(new CnvNodoBorde(i+2,PRIMER_COLUMNA,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
+        var entrada = stage.addChild(new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA].id,i+2,PRIMER_COLUMNA,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
         var cuadras = new Array();
 
         for (j = 0; j < verticales.length + 1; j++) {
             cuadras.push(generarCuadra(HORIZONTAL));
             actualizarPosX();
             if(verticales.length+1 != j){
-                var nodoCentral = new CnvNodoControl( i+1, j+1, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
+                var nodoCentral = new CnvNodoControl( nodos[i+1][j+1],i+1, j+1, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
                 stage.addChild(nodoCentral);
             }
         }
 
-        var salida = stage.addChild(new CnvNodoBorde( i+2, j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
+        var salida = stage.addChild(new CnvNodoBorde( nodos[i+1][verticales.length + 1],i+2, j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
         actualizarPosY();
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         cnvCalleHorizontal.cuadras = cuadras;

@@ -20,6 +20,12 @@ function CnvCalle() {
         self.nodo1().cambiarColor();
         self.nodo2().cambiarColor();
     }
+    this.afectarModelo = function(modelo){
+        var nodoEntrada = modelo.nodosEntrada
+            .filter(function(e){return e.id == self.nodo1().id});
+
+    }
+
 }
 
 createjs.extend(CnvCalle, createjs.Container);
