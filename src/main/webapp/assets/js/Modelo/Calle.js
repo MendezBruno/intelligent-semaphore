@@ -13,21 +13,14 @@ function Calle() { //ABSTRACTA
     this.cantCarriles = 2;
     this.sentido=undefined;
     this.cuadras = new Array();
-    this.nodos = new Array();
-    this.preferencia = 1;
-
-    this.tenesEsteNodo = function(id){
-        return this.nodos.some(function(e){return e.id == id})
-    }
+   this.preferencia = 1;
 
     this.cambiaTuSentido =function (){
         this.sentido = this.sentido == 1 ? 2:1;  //TODO Implementar la herencia para que cada calle cambien el sentido que debe cambiar @EZE
     }
 }
 
-Calle.prototype.tenesEsteNodo = function (nodo){
-    this.cuadras.some(function(e){return e.id == nodo.id})
-}
+
 
 function CalleVertical() {
     this.sentidosPosibles = [Sentido.NORTE_SUR, Sentido.SUR_NORTE];
