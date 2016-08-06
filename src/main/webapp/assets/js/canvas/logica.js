@@ -189,11 +189,14 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
         vertical.cuadras.push(nuevaCuadra);
+        modelo.nodosNoSemaforo.push(nuevo);
     }
     var calle = new Calle();
     calle.sentido = Sentido.OESTE_ESTE;
     var entrada = new NodoBorde();
     var salida = new NodoBorde();
+    modelo.nodosEntrada.push(entrada);
+    modelo.nodosSalida.push(salida);
     nodos[ultima-1][0]=entrada;
     nodos[ultima-1][cantCuadrasHorizontales]=salida;
     modelo.callesHorizontales.push(calle);
@@ -217,7 +220,39 @@ GrillaController.prototype.redimensionarCanvas = function () {
     this.stage.update();
 }
 GrillaController.prototype.quitarCalleHorizontal = function() {
+    var nodos = this.nodos;
+    var modelo = this.modelo;
+    var ultima = nodos.length-1;
+    var cantCuadrasHorizontales = nodos[1].length-1;
+    for(i=1;i<cantCuadrasHorizontales;i++){
+        var vertical = modelo.callesVerticales[i-1];
+        var borde=nodos[ultima][i];
+        var aEliminar=nodos[ultima-1][i];
+        nodos[ultima-1][i]=borde;
+        //Buscar la cuadra que iba hacia el borde.
+        var cuadraAEliminar = vertical.cuadras.filter(function(e){
+            return e.nodoDestino == borde.id; });
+        var cuadraAAjustar = vertical.cuadras.filter(function(e){
+            return e.nodoDestino == aEliminar.id; });
+        cuadraAAjustar.nodoDestino =borde.id;
 
+        vertical.cuadras.removeIf(function(e,idx){
+            return e.id == cuadraAEliminar.id; });
+        modelo.nodosNoSemaforo.removeIf(function(e,idx){
+            return e.id == aEliminar.id; });
+        modelo.nodosSemaforo.removeIf(function(e,idx){
+            return e.id == aEliminar.id; });
+    }
+    modelo.nodosEntrada.removeIf(function (e,idx) {
+        return e.id == nodos[ultima-1][0].id ||
+            e.id == nodos[ultima-1][cantCuadrasHorizontales].id;
+    })
+    modelo.nodosSalida.removeIf(function (e,idx) {
+        return e.id == nodos[ultima-1][0].id ||
+            e.id == nodos[ultima-1][cantCuadrasHorizontales].id;
+    })
+    modelo.callesHorizontales.pop();
+    nodos.pop();
 }
 GrillaController.prototype.agregarCalleVertical = function() {
     var nodos = this.nodos;
@@ -238,11 +273,14 @@ GrillaController.prototype.agregarCalleVertical = function() {
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
         horizontal.cuadras.push(nuevaCuadra);
+        modelo.nodosNoSemaforo.push(nuevo);
     }
     var calle = new Calle();
     calle.sentido = Sentido.NORTE_SUR;
     var entrada = new NodoBorde();
     var salida = new NodoBorde();
+    modelo.nodosEntrada.push(entrada);
+    modelo.nodosSalida.push(salida);
     nodos[0][ultima-1]=entrada;
     nodos[cantCuadrasVerticales][ultima-1]=salida;
     modelo.callesVerticales.push(calle);
@@ -291,4 +329,13 @@ Nodo.getNextId = function() {
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
+};
+
+Array.prototype.removeIf = function(callback) {
+    var i = this.length;
+    while (i--) {
+        if (callback(this[i], i)) {
+            this.splice(i, 1);
+        }
+    }
 };
