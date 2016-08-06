@@ -38,7 +38,7 @@ app.controller('editorController', function($scope) {
         }
 
         if (newValue>oldValue) {
-            $scope.agregarCalleH();
+            $scope.agregarCalleH(newValue,oldValue);
         }
         if (newValue<oldValue) {
             $scope.quitarCalleH();
@@ -53,7 +53,7 @@ app.controller('editorController', function($scope) {
         }
 
         if (newValue>oldValue) {
-            $scope.agregarCalleV();
+            $scope.agregarCalleV(newValue,oldValue);
         }
         if (newValue<oldValue) {
             $scope.quitarCalleV();
@@ -64,22 +64,26 @@ app.controller('editorController', function($scope) {
     $scope.actualizar = function (){
     };
 
-    $scope.agregarCalleH = function () {
+    $scope.agregarCalleH = function (newVal,oldVal) {
+        for(h=0;h<(newVal-oldVal);h++)
         logica.agregarCalleHorizontal();
         logica.redibujar();
     };
 
-    $scope.agregarCalleV = function () {
+    $scope.agregarCalleV = function (newVal,oldVal) {
+        for(h=0;h<(newVal-oldVal);h++)
         logica.agregarCalleVertical();
         logica.redibujar();
     }
 
     $scope.quitarCalleH= function(){
+        for(h=0;h<(oldValue-newValue);h++)
         logica.quitarCalleHorizontal();
         logica.redibujar();
     }
 
     $scope.quitarCalleV=function(){
+        for(h=0;h<(oldValue-newValue);h++)
         logica.quitarCalleVertical();
         logica.redibujar();
 
