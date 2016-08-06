@@ -2,10 +2,19 @@
  * Created by Ezequiel on 26/07/2016.
  */
 
+app.directive('ngTouchSpin'['$timeout', '$interval',
+    function($timeout, $interval) {}]);
+
 app.controller('editorController', function($scope) {
 
     var stage;
     var largo = 30;
+
+    $scope.callesH = 3;
+
+    $scope.callesV = 3;
+
+    console.log("hola");
 
     stage = new createjs.Stage("mapa");
     var logica = new GrillaController(3,3,largo,stage,$scope);
@@ -22,17 +31,58 @@ app.controller('editorController', function($scope) {
     //    stage.update();
     //};
 
+    $scope.$watch('callesH',function (newValue,oldValue){
+
+        if (newValue===oldValue) {
+            return;
+        }
+
+        if (newValue>oldValue) {
+            $scope.agregarCalleH();
+        }
+        if (newValue<oldValue) {
+            $scope.quitarCalleH();
+        }
+
+    });
+
+    $scope.$watch('callesV',function (newValue,oldValue){
+
+        if (newValue===oldValue) {
+            return;
+        }
+
+        if (newValue>oldValue) {
+            $scope.agregarCalleV();
+        }
+        if (newValue<oldValue) {
+            $scope.quitarCalleV();
+        }
+
+    });
+
     $scope.actualizar = function (){
     };
 
     $scope.agregarCalleH = function () {
         logica.agregarCalleHorizontal();
         logica.redibujar();
-    }
+    };
 
     $scope.agregarCalleV = function () {
         logica.agregarCalleVertical();
         logica.redibujar();
+    }
+
+    $scope.quitarCalleH= function(){
+        logica.quitarCalleHorizontal();
+        logica.redibujar();
+    }
+
+    $scope.quitarCalleV=function(){
+        logica.quitarCalleVertical();
+        logica.redibujar();
+
     }
 
     var mapa = {
