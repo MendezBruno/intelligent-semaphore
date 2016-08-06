@@ -59,7 +59,7 @@ function GrillaController(filas, columnas, largo, stage, $scope){
     }
 }
 GrillaController.prototype.redibujar = function() {
-    this.stage.clear();
+    this.stage.removeAllChildren();
     var self = this;
 
     //VARIABLES LOCALES
