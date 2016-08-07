@@ -41,7 +41,7 @@ app.controller('editorController', function($scope) {
             $scope.agregarCalleH(newValue,oldValue);
         }
         if (newValue<oldValue) {
-            $scope.quitarCalleH();
+            $scope.quitarCalleH(newValue,oldValue);
         }
 
     });
@@ -56,7 +56,7 @@ app.controller('editorController', function($scope) {
             $scope.agregarCalleV(newValue,oldValue);
         }
         if (newValue<oldValue) {
-            $scope.quitarCalleV();
+            $scope.quitarCalleV(newValue,oldValue);
         }
 
     });
@@ -76,14 +76,14 @@ app.controller('editorController', function($scope) {
         logica.redibujar();
     }
 
-    $scope.quitarCalleH= function(){
-        for(h=0;h<(oldValue-newValue);h++)
+    $scope.quitarCalleH= function(newVal,oldVal){
+        for(h=0;h<(oldVal-newVal);h++)
         logica.quitarCalleHorizontal();
         logica.redibujar();
     }
 
-    $scope.quitarCalleV=function(){
-        for(h=0;h<(oldValue-newValue);h++)
+    $scope.quitarCalleV=function(newVal,oldVal){
+        for(h=0;h<(oldVal-newVal);h++)
         logica.quitarCalleVertical();
         logica.redibujar();
 
