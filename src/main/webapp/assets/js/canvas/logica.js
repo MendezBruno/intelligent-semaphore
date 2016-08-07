@@ -56,7 +56,7 @@ function GrillaController(filas, columnas, largo, stage, $scope){
         }
         this.modelo.callesVerticales.push(calle);
     }
-    console.log(this.modelo);
+    // console.log(this.modelo);
 }
 GrillaController.prototype.redibujar = function() {
     this.stage.removeAllChildren();
@@ -243,15 +243,8 @@ GrillaController.prototype.quitarCalleHorizontal = function() {
         var borde=nodos[ultima][i];
         var aEliminar=nodos[ultima-1][i];
         nodos[ultima-1][i]=borde;
-        //Buscar la cuadra que iba hacia el borde.
-        var cuadraAEliminar = vertical.cuadras.filter(function(e){
-            return e.nodoDestino == borde.id; });
-        var cuadraAAjustar = vertical.cuadras.filter(function(e){
-            return e.nodoDestino == aEliminar.id; });
-        cuadraAAjustar.nodoDestino =borde.id;
-
-        vertical.cuadras.removeIf(function(e,idx){
-            return e.id == cuadraAEliminar.id; });
+        vertical.cuadras.pop();
+        vertical.cuadras[ultima-2].nodoDestino = borde.id;
         modelo.nodosNoSemaforo.removeIf(function(e,idx){
             return e.id == aEliminar.id; });
         modelo.nodosSemaforo.removeIf(function(e,idx){
@@ -274,7 +267,7 @@ GrillaController.prototype.agregarCalleVertical = function() {
     var ultima = nodos[1].length;
     var cantCuadrasVerticales = nodos.length-1;
     for(i=1;i<cantCuadrasVerticales;i++){
-        var horizontal = this.modelo.callesHorizontales[i-1];
+        var horizontal = modelo.callesHorizontales[i-1];
         var borde=nodos[i][ultima-1];
         var nuevo=new NodoNoSemaforo();
         nodos[i][ultima-1]=nuevo;
@@ -288,6 +281,7 @@ GrillaController.prototype.agregarCalleVertical = function() {
         nuevaCuadra.nodoDestino = borde.id;
         horizontal.cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
+        // console.log(nuevo.id);
     }
     var calle = new CalleVertical();
     calle.sentido = Sentido.NORTE_SUR;
@@ -307,14 +301,39 @@ GrillaController.prototype.agregarCalleVertical = function() {
         calle.cuadras.push(cuadra);
     }
     this.redimensionarCanvas();
+    // console.log(nodos);
 }
 GrillaController.prototype.quitarCalleVertical = function() {
-
+    var nodos = this.nodos;
+    var modelo = this.modelo;
+    var ultima = nodos[1].length-1;
+    var cantCuadrasVerticales = nodos.length-1;
+    for(i=1;i<cantCuadrasVerticales;i++){
+        var horizontal = modelo.callesHorizontales[i-1];
+        var borde=nodos[i][ultima];
+        var aEliminar=nodos[i][ultima-1];
+        nodos[i][ultima-1]=borde;
+        horizontal.cuadras.pop();
+        horizontal.cuadras[ultima-2].nodoDestino=borde.id;
+        modelo.nodosNoSemaforo.removeIf(function(e,idx){
+            return e.id == aEliminar.id; });
+        modelo.nodosSemaforo.removeIf(function(e,idx){
+            return e.id == aEliminar.id; });
+        // console.log(aEliminar.id);
+    }
+    modelo.nodosEntrada.removeIf(function (e,idx) {
+        return e.id == nodos[0][ultima-1].id ||
+            e.id == nodos[cantCuadrasVerticales][ultima-1].id;
+    })
+    modelo.nodosSalida.removeIf(function (e,idx) {
+        return e.id == nodos[0][ultima-1].id ||
+            e.id == nodos[cantCuadrasVerticales][ultima-1].id;
+    })
+    modelo.callesVerticales.pop();
+    nodos.forEach(function (fila) {
+        fila.pop();
+    })
 }
-
-app.factory('logica', function (filas, columnas, largo, stage, $scope) {
-    return new GrillaController(filas, columnas, largo, stage, $scope);
-});
 
 function BiArray (){
 }
