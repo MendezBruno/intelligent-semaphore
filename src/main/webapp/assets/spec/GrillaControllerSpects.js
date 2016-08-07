@@ -64,6 +64,14 @@ describe("redimensionar el mapa", function () {
         expect(idsOrigen).toBe(idsResultado);
     });
 
+    it("Agregar y quitar calle H debe dejar estructura auxiliar de nodos igual", function () {
+        var idsOrigen = getIds(logica.nodos);
+        logica.agregarCalleHorizontal();
+        logica.quitarCalleHorizontal();
+        var idsResultado = getIds(logica.nodos);
+        expect(idsOrigen).toBe(idsResultado);
+    });
+
     it("Agregar y quitar calle V debe dejar las calles verticales del modelo igual", function () {
         var idsOrigen = getIdsCalle(modelo.callesVerticales);
         logica.agregarCalleVertical();
@@ -111,6 +119,14 @@ describe("redimensionar el mapa", function () {
         var idsResultado = getIds(modelo.nodosSemaforo);
         expect(idsOrigen).toBe(idsResultado);
     });
+
+    it("Agregar y quitar calle V debe dejar estructura auxiliar de nodos igual", function () {
+        var idsOrigen = getIds(logica.nodos);
+        logica.agregarCalleVertical();
+        logica.quitarCalleVertical();
+        var idsResultado = getIds(logica.nodos);
+        expect(idsOrigen).toBe(idsResultado);
+    });
 });
 
 var loggearNodos = function(nodos) {
@@ -135,9 +151,18 @@ var getIds = function(listaNodos) {
 var getIdsCalle = function (calles) {
     var str = "";
     calles.forEach(function (calle) {
-        var cuadras = new Array();
         calle.cuadras.forEach(function (cuadra) {
             str+=" "+cuadra.id;
+        });
+    });
+    return str;
+}
+
+var getIdsAuxNodos = function (aux) {
+    var str = "";
+    aux.forEach(function (fila) {
+        fila.forEach(function (n) {
+            str+=" "+n.id;
         });
     });
     return str;
