@@ -85,13 +85,14 @@ GrillaController.prototype.redibujar = function() {
     var VERTICAL = false;
 
     //FUNCIONES LOCALES
-    var onClick = function(calle,cnvCuadra){
+    var onClick = function(cnvCalle,cnvCuadra){
         if(this.cuadraSeleccionada) {
             this.cuadraSeleccionada.desmarcar();
         };
         this.cuadraSeleccionada= cnvCuadra;
         this.cuadraSeleccionada.marcar();
-        seleccionar(calle,cnvCuadra.cuadra);
+        seleccionar(cnvCalle.calle,cnvCuadra.cuadra,
+            cnvCalle.nodo1(),cnvCalle.nodo2());
     };
 
     var onClickNodoCentral = function(cnvNodoCentral){
@@ -103,23 +104,27 @@ GrillaController.prototype.redibujar = function() {
     for (i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
         var calle = horizontales[i];
-        var entrada = stage.addChild(new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA].id,i+2,PRIMER_COLUMNA,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
+        var entrada = stage.addChild(new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA].id,
+            i+2,PRIMER_COLUMNA, posx-separador/2, posy+separador/2,
+            separador/2,  ENTRADA));
+        var posXNodoSalida = posx+(largo+separador)*(verticales.length+1);
+        var salida = stage.addChild(new CnvNodoBorde(nodos[i+1][verticales.length+1].id,
+            i+2, verticales.length+1, posXNodoSalida-separador/2,
+            posy+separador/2, separador/2, SALIDA));
+        var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         var cuadras = new Array();
 
         for (j = 0; j < verticales.length + 1; j++) {
-            var cnvCuadra = generarCuadra(HORIZONTAL,calle);
+            var cnvCuadra = generarCuadra(HORIZONTAL,cnvCalleHorizontal);
             cnvCuadra.cuadra = calle.cuadras[j];
             cuadras.push(cnvCuadra);
             actualizarPosX();
-            if(verticales.length+1 != j){
+            if(verticales.length != j){
                 generarCnvNodoCentral(nodos[i+1][j+1].id,i+1,j+1);
-
             }
         }
 
-        var salida = stage.addChild(new CnvNodoBorde( nodos[i+1][verticales.length + 1].id,i+2, j+1, posx - separador / 2, posy + separador / 2, separador / 2, SALIDA));
         actualizarPosY();
-        var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         cnvCalleHorizontal.cuadras = cuadras;
         cnvCalleHorizontal.modelo = modelo;
         cnvCalleHorizontal.calle = horizontales[i];
@@ -129,28 +134,29 @@ GrillaController.prototype.redibujar = function() {
     posx=posx + largo;
     for (i = 0; i < verticales.length; i++) {
         var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1].id,1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+        var posYNodoSalida = posy+(largo+separador)*(horizontales.length+1);
+        var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1].id,
+            horizontales.length,i+1,posx+separador/2,
+            posYNodoSalida-separador/2,separador/2,SALIDA);
         var calle = verticales[i];
-        stage.addChild(entrada);
         var cuadras = new Array();
+        var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
+        stage.addChild(entrada);
+        stage.addChild(salida);
 
         for (j = 0; j < horizontales.length+1; j++) {
-            var cnvCuadra = generarCuadra(VERTICAL,calle);
+            // actualizarPosY();
+            //posx=posx + this.largo;
+            var cnvCuadra = generarCuadra(VERTICAL,cnvCalleVertical);
             cnvCuadra.cuadra = calle.cuadras[j];
             cuadras.push(cnvCuadra);
             actualizarPosY();
         }
-       // actualizarPosY();
-        var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1].id,j,i+1,posx+separador/2,
-            posy-largo+separador,separador/2,SALIDA);
-        stage.addChild(salida);
         actualizarPosX();
         moverPosyAlOrigen();
-        //posx=posx + this.largo;
-        var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
         cnvCalleVertical.cuadras = cuadras;
         cnvCalleVertical.modelo =modelo;
         cnvCalleVertical.calle = verticales[i];
-
     }
 
     function generarCuadra(direccion, calle){
@@ -184,13 +190,17 @@ GrillaController.prototype.redibujar = function() {
         posy = posInicialY;
     }
 
-    function seleccionar(calle,cuadra) {
+    function seleccionar(calle,cuadra, nodo1, nodo2) {
         self.$scope.cuadra = cuadra;
         self.$scope.calle = calle;
+        self.$scope.nodo1 = nodo1;
+        self.$scope.nodo2 = nodo2;
         console.log(cuadra.id);
+        console.log(nodo1.id);
+        console.log(nodo2.id);
         calle.cuadras.forEach(function (c) {
             console.log(c.id);
-        })
+        });
     }
 }
 GrillaController.prototype.agregarCalleHorizontal = function() {
