@@ -50,3 +50,26 @@ MapaEditor.prototype.cambiarSentido = function (idNodoEntradaCanvas,idNodoSalida
     //console.log(this.nodosSalida);
 }
 
+MapaEditor.prototype.noSemaforoTOsemaforo = function (id) {
+    var nodo = this.nodosNoSemaforo.find(function(nodo){
+        return nodo.id == id;
+    } );
+    this.nodosNoSemaforo.removeIf(function(nodoLista){
+        return nodoLista.id==nodo.id;
+    })
+    nodo.tiempoHorizontal = 4;
+    nodo.tiempoVertical = 4;
+    this.nodosSemaforo.push(nodo);
+};
+
+MapaEditor.prototype.semaforoTOnoSemaforo = function (id) {
+    var nodo = this.nodosSemaforo.find(function(nodo){
+        return nodo.id == id;
+    } );
+    this.nodosSemaforo.removeIf(function(nodoLista){
+        return nodoLista.id==nodo.id;
+    })
+    nodo.tiempoHorizontal = undefined;
+    nodo.tiempoVertical = undefined;
+    this.nodosNoSemaforo.push(nodo);
+};

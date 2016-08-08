@@ -10,7 +10,15 @@ describe("redimensionar el mapa", function () {
     beforeEach(function () {
         stageMock = {
             canvas: {},
-            update: function () { }
+            children: new Array(),
+            update: function () { },
+            addChild: function (child){
+                this.children.push(child);
+            },
+            removeAllChildren: function (){
+
+            }
+
         };
         logica = new GrillaController(3,3,40,stageMock,{});
         modelo = logica.modelo;
@@ -144,6 +152,42 @@ describe("redimensionar el mapa", function () {
         // console.log(logica.nodos);
         expect(true).toBe(true);
     });
+
+    it("Intercambiar nodo NO semáforo por semáforo", function () {
+        logica.redibujar();
+        var nodo = stageMock.children.find(function(child){
+            return child instanceof CnvNodoControl;
+        })
+        var cantidadNodosNoSemaforos = logica.modelo.nodosNoSemaforo.length;
+        nodo.cambiarTipoDeNodoCentral(logica.modelo);
+        expect(logica.modelo.nodosNoSemaforo.length).toBe(cantidadNodosNoSemaforos-1);
+        expect(logica.modelo.nodosSemaforo.length).toBe(1);
+        var nodoSemaforo = logica.modelo.nodosSemaforo.pop();
+        expect(!nodoSemaforo.tiempoHorizontal).toBe(false);
+        expect(!nodoSemaforo.tiempoVertical).toBe(false);
+    });
+
+    it("Intercambiar nodo semáforo por NO semáforo", function () {
+        logica.redibujar();
+        var nodo = stageMock.children.find(function(child){
+            return child instanceof CnvNodoControl;
+        })
+        var cantidadNodosNoSemaforos = logica.modelo.nodosNoSemaforo.length;
+        nodo.cambiarTipoDeNodoCentral(logica.modelo);
+        nodo.cambiarTipoDeNodoCentral(logica.modelo);
+
+        var nodoNoSemaforo = logica.modelo.nodosNoSemaforo.find(function(n){
+            return n.id == nodo.id;
+        })
+
+        expect(logica.modelo.nodosNoSemaforo.length).toBe(cantidadNodosNoSemaforos);
+        expect(logica.modelo.nodosSemaforo.length).toBe(0);
+
+        expect(!nodoNoSemaforo.tiempoHorizontal).toBe(true);
+        expect(!nodoNoSemaforo.tiempoVertical).toBe(true);
+
+    });
+
 });
 
 var loggearNodos = function(nodos) {

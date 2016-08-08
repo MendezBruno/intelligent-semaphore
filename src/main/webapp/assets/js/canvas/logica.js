@@ -95,8 +95,8 @@ GrillaController.prototype.redibujar = function() {
             cnvCalle.nodo1(),cnvCalle.nodo2());
     };
 
-    var onClickNodoCentral = function(cnvNodoCentral){
-        cnvNodoCentral.cambiarColor();
+    var onClickNodoCentral = function(cnvNodoControl){
+        cnvNodoControl.cambiarTipoDeNodoCentral(this.modelo);
 
     }
 
@@ -105,13 +105,15 @@ GrillaController.prototype.redibujar = function() {
     for (i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
         var calle = horizontales[i];
-        var entrada = stage.addChild(new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA].id,
+        var entrada = new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA].id,
             i+2,PRIMER_COLUMNA, posx-separador/2, posy+separador/2,
-            separador/2,  ENTRADA));
+            separador/2,  ENTRADA);
+        stage.addChild(entrada);
         var posXNodoSalida = posx+(largo+separador)*(verticales.length+1);
-        var salida = stage.addChild(new CnvNodoBorde(nodos[i+1][verticales.length+1].id,
+        var salida = new CnvNodoBorde(nodos[i+1][verticales.length+1].id,
             i+2, verticales.length+1, posXNodoSalida-separador/2,
-            posy+separador/2, separador/2, SALIDA));
+            posy+separador/2, separador/2, SALIDA);
+        stage.addChild(salida);
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         var cuadras = new Array();
 
@@ -173,6 +175,7 @@ GrillaController.prototype.redibujar = function() {
         var nodoCentral = new CnvNodoControl(id,fila, columna, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
         nodoCentral.clickListeners.push(onClickNodoCentral);
         stage.addChild(nodoCentral);
+        console.log(stage);
     }
 
     function actualizarPosX(){
@@ -361,30 +364,32 @@ function BiArray (){
 
 BiArray.prototype.push = function(x,y,elem){};
 
-function NodoNoSemaforo() {
-    this.id = Nodo.getNextId();
-}
-
-function NodoControl() {
-    this.id = nodo.getNextId();
-
-}
-
-function NodoBorde() {
-    this.id = Nodo.getNextId();
-}
-
-function Nodo() {
-
-}
-
-Nodo.nextId = 1;
-
-Nodo.getNextId = function() {
-    var next = Nodo.nextId;
-    Nodo.nextId++;
-    return "nodo-"+next;
-}
+//function NodoNoSemaforo() {
+//    this.id = Nodo.getNextId();
+//}
+//
+//function NodoControl() {
+//    this.id = nodo.getNextId();
+//    this.tiempoHorizontal = undefined;
+//    this.tiempoVertical = undefined;
+//
+//}
+//
+//function NodoBorde() {
+//    this.id = Nodo.getNextId();
+//}
+//
+//function Nodo() {
+//
+//}
+//
+//Nodo.nextId = 1;
+//
+//Nodo.getNextId = function() {
+//    var next = Nodo.nextId;
+//    Nodo.nextId++;
+//    return "nodo-"+next;
+//}
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
