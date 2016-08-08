@@ -37,29 +37,29 @@
                                 Datos generales
                             </div>
                             <div class="panel-body container-fluid tg-panel">
-                            <div class="row">
-                                <div class="col-xs-2"><label>Nombre</label></div>
-                                <div class="col-xs-10">
-                                    <input type="text" class="form-control" ng-model="nombre">
+                                <div class="row">
+                                    <div class="col-xs-2"><label>Nombre</label></div>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control" ng-model="nombre">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <label>Cantidad de calles horizontales</label>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="text" class="touch-spinner" ng-model="callesH" ng-touch-spin value="3">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <label>Cantidad de calles verticales</label>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="text" class="touch-spinner" ng-model="callesV" ng-touch-spin value="3">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    <label>Cantidad de calles horizontales</label>
-                                </div>
-                                <div class="col-xs-4">
-                                    <input type="text" class="touch-spinner" ng-model="callesH" ng-touch-spin value="3">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-8">
-                                    <label>Cantidad de calles verticales</label>
-                                </div>
-                                <div class="col-xs-4">
-                                    <input type="text" class="touch-spinner" ng-model="callesV" ng-touch-spin value="3">
-                                </div>
-                            </div>
-                        </div>
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -72,6 +72,13 @@
                                         </canvas>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-7">
+                            </div>
+                            <div class="col-xs-5">
+                                    <input type="button" class="form-control"  value="Generar Mapa" ng-click="generarMapa()">
                             </div>
                         </div>
                     </div>

@@ -5,7 +5,7 @@
 app.directive('ngTouchSpin'['$timeout', '$interval',
     function($timeout, $interval) {}]);
 
-app.controller('editorController', function($scope) {
+app.controller('editorController', function($scope,Mapa) {
 
     var stage;
     var largo = 30;
@@ -20,16 +20,7 @@ app.controller('editorController', function($scope) {
     var logica = new GrillaController(3,3,largo,stage,$scope);
     logica.redibujar();
     stage.update();
-    //logica.modificarGrilla(3,3,largo,stage);
-    //stage.update();
     createjs.Ticker.on("tick", stage);
-
-    //$scope.ver = function() {
-    //    console.log($scope.callesV);
-    //    logica.modificarGrilla(parseInt($scope.callesV),parseInt($scope.callesH),largo,stage);
-    //    console.log($scope.cantCarriles);
-    //    stage.update();
-    //};
 
     $scope.$watch('callesH',function (newValue,oldValue){
 
@@ -60,6 +51,12 @@ app.controller('editorController', function($scope) {
         }
 
     });
+
+    $scope.generarMapa = function(){
+        console.log(JSON.stringify(logica.modelo));
+        Mapa.save(JSON.stringify(logica.modelo));
+        alert(JSON.stringify(logica.modelo))
+    }
 
     $scope.actualizar = function (){
     };

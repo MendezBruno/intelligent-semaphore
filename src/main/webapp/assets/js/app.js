@@ -53,3 +53,12 @@ app.factory("Favorito", ['$resource', function($resource) {
             'query': { method:'GET', isArray: false }
         });
 }]);
+
+app.factory("Mapa", ["$resource",function($resource){
+    return  $resource("/api_v1.0/mapa/:id", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+
+
