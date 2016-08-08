@@ -11,4 +11,9 @@ data class Block(val id: String, val street: Street, val length: Double, val ent
     var backBendCarAmount: Int = 0
     var frontStraightCarAmount: Int = 0
     var frontBendCarAmount: Int = 0
+
+    fun vBlock() : Boolean{
+        return street.orientation == "Norte-Sur" || street.orientation == "Sur-Norte"
+    }
+
 }

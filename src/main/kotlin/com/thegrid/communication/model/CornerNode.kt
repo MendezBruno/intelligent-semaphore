@@ -5,5 +5,24 @@ package com.thegrid.communication.model
  */
 
 class CornerNode(override val id: String) : Node {
+    var hEntryBlock: Block? = null
+    var vEntryBlock: Block? = null
+    var hEgressBlock: Block? = null
+    var vEgressBlock: Block? = null
+
+
+    override fun addEgressBlock(block: Block) {
+        if (block.vBlock())
+            vEgressBlock = block
+        else
+            hEgressBlock = block
+    }
+
+    override fun addEntryBlock(block: Block) {
+        if (block.vBlock())
+            vEntryBlock = block
+        else
+            hEntryBlock = block
+    }
 
 }

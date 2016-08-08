@@ -7,5 +7,14 @@ import com.thegrid.communication.extension.FDP
  */
 
 class EgressNode(override val id: String, var FDPCarOutput: FDP) : Node{
+    var entryBlock: Block? = null
+
+    override fun addEgressBlock(block: Block) {
+        throw UnsupportedOperationException("EgressNode doesn't have EgressBlock")
+    }
+
+    override fun addEntryBlock(block: Block) {
+        entryBlock = block
+    }
 
 }
