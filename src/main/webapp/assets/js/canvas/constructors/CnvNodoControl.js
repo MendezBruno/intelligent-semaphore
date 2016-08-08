@@ -1,9 +1,4 @@
-/**
- * Created by bruno on 28/07/16.
- */
-(function() {
-
-    function CnvNodoControl(id,fila,columna,posx, posy,radio,color) {
+function CnvNodoControl(id,fila,columna,posx, posy,radio,color) {
         this.Container_constructor();
 
         this.fila = fila;
@@ -13,47 +8,70 @@
         this.posx = posx;
         this.posy = posy;
         this.radio = radio;
+        this.clickListeners = new Array();
+        this.background;
+
+        var self =this;
+
+        this.handleClick = function (){
+            this.clickListeners.forEach(function(l){
+                l(self);
+            });
+        };
 
         this.setup();
     }
-    var p = createjs.extend(CnvNodoControl, createjs.Container);
+    createjs.extend(CnvNodoControl, createjs.Container);
 
     //VARIABLES GLOBALES DEL CONSTRUCTOR
-    var background;
     var BLANCO="#ffffff";
     var AMARILLO="#ffff80";
 
-    p.setup = function() {
-        background = new createjs.Shape();
-        background.graphics.beginFill(this.color).beginStroke("#000000").setStrokeStyle(1).drawCircle(this.posx,this.posy,this.radio);
+    CnvNodoControl.prototype.setup = function() {
+        this.background = new createjs.Shape();
+        this.background.graphics
+            .beginFill(this.color)
+            .beginStroke("#000000")
+            .setStrokeStyle(1).drawCircle(this.posx,this.posy,this.radio);
 
-        this.addChild(background);
+        this.addChild(this.background);
         this.on("click", this.handleClick);
         this.on("rollover", this.handleRollOver);
         this.on("rollout", this.handleRollOver);
         this.cursor = "pointer";
 
-        this.mouseChildren = false;
+        this.mouseChildren = true;
 
         this.offset = Math.random()*10;
         this.count = 0;
     } ;
 
-    p.handleClick = function (event) {
-        if (this.color == BLANCO) { this.cambiarColor(event.currentTarget.children[0],AMARILLO)}
-        else {
-            if (this.color == AMARILLO) { this.cambiarColor(event.currentTarget.children[0],BLANCO)}
-        }
-        console.log(event.currentTarget.children[0]);
-    } ;
-    p.handleRollOver = function(event) {
+    //CnvNodoControl.prototype.handleClick = function (event) {
+        //if (this.color == BLANCO) { this.cambiarColor(event.currentTarget.children[0],AMARILLO)}
+        //else {
+        //    if (this.color == AMARILLO) { this.cambiarColor(event.currentTarget.children[0],BLANCO)}
+        //}
+        //console.log(event.currentTarget.children[0]);
+    //} ;
+
+    CnvNodoControl.prototype.handleRollOver = function(event) {
         this.alpha = event.type == "rollover" ? 0.4 : 1;
     };
 
-    p.cambiarColor = function(child,color){
-        child.graphics.clear().beginFill(color).beginStroke("#000000").setStrokeStyle(1).drawCircle(this.posx,this.posy,this.radio);
-        this.color= color;
+    CnvNodoControl.prototype.cambiarColor = function(){
+        this.color= this.color == BLANCO?  AMARILLO:BLANCO;
+        this.background.graphics.clear()
+            .beginFill(this.color)
+            .beginStroke("#000000").setStrokeStyle(1)
+            .drawCircle(this.posx,this.posy,this.radio);
+
+        //child.graphics.clear().beginFill(color).beginStroke("#000000").setStrokeStyle(1).drawCircle(this.posx,this.posy,this.radio);
+        //this.color= color;
     };
 
     window.CnvNodoControl = createjs.promote(CnvNodoControl, "Container");
-}());
+
+
+/**
+ * Created by bruno on 28/07/16.
+ */

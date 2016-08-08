@@ -94,6 +94,10 @@ GrillaController.prototype.redibujar = function() {
         seleccionar(calle,cnvCuadra.cuadra);
     };
 
+    var onClickNodoCentral = function(cnvNodoCentral){
+        cnvNodoCentral.cambiarColor();
+    }
+
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
     for (i=0; i<horizontales.length; i++) {
@@ -108,8 +112,8 @@ GrillaController.prototype.redibujar = function() {
             cuadras.push(cnvCuadra);
             actualizarPosX();
             if(verticales.length+1 != j){
-                var nodoCentral = new CnvNodoControl( nodos[i+1][j+1].id,i+1, j+1, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
-                stage.addChild(nodoCentral);
+                generarCnvNodoCentral(nodos[i+1][j+1].id,i+1,j+1);
+
             }
         }
 
@@ -156,6 +160,12 @@ GrillaController.prototype.redibujar = function() {
         stage.addChild(cuadra);
         id++;
         return cuadra;
+    }
+
+    function generarCnvNodoCentral(id,fila,columna) {
+        var nodoCentral = new CnvNodoControl(id,fila, columna, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
+        nodoCentral.clickListeners.push(onClickNodoCentral);
+        stage.addChild(nodoCentral);
     }
 
     function actualizarPosX(){
@@ -342,6 +352,11 @@ BiArray.prototype.push = function(x,y,elem){};
 
 function NodoNoSemaforo() {
     this.id = Nodo.getNextId();
+}
+
+function NodoControl() {
+    this.id = nodo.getNextId();
+
 }
 
 function NodoBorde() {
