@@ -5,5 +5,8 @@ package com.thegrid.communication.model
  */
 
 interface Node{
-    //TODO ver variables y funs
+    val id: String
+
+    fun addEntryBlock(block: Block)
+    fun addEgressBlock(block: Block)
 }
