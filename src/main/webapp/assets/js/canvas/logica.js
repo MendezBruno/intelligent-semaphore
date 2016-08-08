@@ -214,7 +214,7 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     nodos[ultima-1][0]=entrada;
     nodos[ultima-1][cantCuadrasHorizontales]=salida;
     modelo.callesHorizontales.push(calle);
-    for(j=0;j<cantCuadrasHorizontales-1;j++){
+    for(j=0;j<cantCuadrasHorizontales;j++){
         var cuadra = new Cuadra();
         var origen = nodos[ultima-1][j];
         var destino = nodos[ultima-1][j+1];
@@ -292,7 +292,7 @@ GrillaController.prototype.agregarCalleVertical = function() {
     nodos[0][ultima-1]=entrada;
     nodos[cantCuadrasVerticales][ultima-1]=salida;
     modelo.callesVerticales.push(calle);
-    for(i=0;i<cantCuadrasVerticales-1;i++){
+    for(i=0;i<cantCuadrasVerticales;i++){
         var cuadra = new Cuadra();
         var origen = nodos[i][ultima-1];
         var destino = nodos[i+1][ultima-1];

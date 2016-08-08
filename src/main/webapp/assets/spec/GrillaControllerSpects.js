@@ -127,17 +127,58 @@ describe("redimensionar el mapa", function () {
         var idsResultado = getIds(logica.nodos);
         expect(idsOrigen).toBe(idsResultado);
     });
+
+    it("Agregar calle H y V", function () {
+        // var idsOrigen = getIds(logica.nodos);
+        // console.log(logica.nodos);
+        loggearNodos(logica.nodos);
+        loggearModelo(modelo);
+        logica.agregarCalleVertical();
+        loggearNodos(logica.nodos);
+        loggearModelo(modelo);
+        // console.log(logica.nodos);
+        logica.agregarCalleHorizontal();
+        loggearNodos(logica.nodos);
+        loggearModelo(modelo);
+        // var idsResultado = getIds(logica.nodos);
+        // console.log(logica.nodos);
+        expect(true).toBe(true);
+    });
 });
 
 var loggearNodos = function(nodos) {
+    console.log("");
     for (i=0;i<nodos.length;i++) {
         var str = "";
+        if (i==0 || i==nodos.length-1) str+="         ";
         for (j=0;j<nodos[i].length;j++) {
             if (!nodos[i][j]) continue;
             str+=" "+nodos[i][j].id;
         }
         console.log(str);
     }
+}
+
+var loggearModelo = function(modelo) {
+    var horizontales = modelo.callesHorizontales;
+    var verticales = modelo.callesVerticales;
+    console.log("");
+    console.log("H");
+    horizontales.forEach(function (calle) {
+        var str = "";
+        calle.cuadras.forEach(function (cuadra) {
+            str+="(O:"+cuadra.nodoOrigen+" D:"+cuadra.nodoDestino+") ";
+        });
+        console.log(str);
+    });
+    console.log("V");
+    verticales.forEach(function (calle) {
+        var str = "";
+        calle.cuadras.forEach(function (cuadra) {
+            str+="(O:"+cuadra.nodoOrigen+" D:"+cuadra.nodoDestino+") ";
+        });
+        console.log(str);
+    });
 }
 
 var getIds = function(listaNodos) {
