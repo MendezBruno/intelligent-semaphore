@@ -97,6 +97,7 @@ GrillaController.prototype.redibujar = function() {
 
     var onClickNodoCentral = function(cnvNodoCentral){
         cnvNodoCentral.cambiarColor();
+
     }
 
     var horizontales = this.modelo.callesHorizontales;
