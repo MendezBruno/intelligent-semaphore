@@ -202,9 +202,6 @@ GrillaController.prototype.redibujar = function() {
         self.$scope.calle = calle;
         self.$scope.nodo1 = nodo1;
         self.$scope.nodo2 = nodo2;
-        self.$scope.cantCarriles = calle.cantCarriles;
-        self.$scope.sentido = calle.sentido;
-        self.$scope.popularidad = calle.preferencia;
         if (calle.sentido==Sentido.NORTE_SUR || calle.sentido==Sentido.OESTE_ESTE) {
             self.$scope.nodoEntrada = nodo1.nodo;
             self.$scope.nodoSalida = nodo2.nodo;

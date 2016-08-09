@@ -20,7 +20,7 @@
                 <label>Cantidad de carriles</label>
             </div>
             <div class="col-sm-4">
-                <input type="text" class="touch-spinner" ng-model="$parent.cantCarriles" ng-change="actualizar()" value="1">
+                <input type="text" class="touch-spinner" ng-model="$parent.calle.cantCarriles" ng-change="actualizar()" value="1">
             </div>
         </div>
         <div class="row">
@@ -28,10 +28,8 @@
                 <label>Sentido</label>
             </div>
             <div class="col-sm-5">
-                <select class="form-control" ng-model="$parent.sentido"
+                <select class="form-control" ng-model="$parent.calle.sentido"
                 ng-options="option for option in $parent.calle.sentidosPosibles">
-                    <!--<option>Norte-Sur</option>-->
-                    <!--<option>Sur-Norte</option>-->
                 </select>
             </div>
         </div>
@@ -94,7 +92,7 @@
                 </span>
             </div>
             <div class="col-sm-4">
-                <input type="text" class="touch-spinner" value="1" ng-model="$parent.popularidad">
+                <input type="text" class="touch-spinner" value="1" ng-model="$parent.calle.preferencia">
             </div>
         </div>
     </div>
