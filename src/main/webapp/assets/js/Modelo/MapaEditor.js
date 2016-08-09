@@ -38,16 +38,39 @@ MapaEditor.prototype.insertarCalle = function(id,cuadras,sentido,orientacion){
 }
 
 
-MapaEditor.prototype.cambiarSentido = function (idNodoEntradaCanvas,idNodoSalidaCanvas){
-    var nodoEntrada = this.nodoEntradaSegunId(idNodoEntradaCanvas);
-    var nodoSalida = this.nodoSalidaSegunId(idNodoSalidaCanvas);
-    var indice = this.nodosEntrada.indexOf(nodoEntrada[0]);  //se supone es el mismo indice para los dos nodos siempre
+MapaEditor.prototype.cambiarSentido = function (nodo1,nodo2){
+    // var nodoEntrada = this.nodoEntradaSegunId(idNodoEntradaCanvas);
+    // var nodoSalida = this.nodoSalidaSegunId(idNodoSalidaCanvas);
+    var nodoEntrada;
+    var nodoSalida;
+    var indice;
+    for (i=0; i<this.nodosEntrada.length;i++) {
+        if (this.nodosEntrada[i].id == nodo1.id) {
+            nodoEntrada = nodo1;
+            nodoSalida = nodo2;
+            indice = i;
+            break
+        }
+        if (this.nodosEntrada[i].id == nodo2.id) {
+            nodoEntrada = nodo2;
+            nodoSalida = nodo1;
+            indice = i;
+            break
+        }
+    }
+    // var indice = this.nodosEntrada.indexOf(nodoEntrada[0]);  //se supone es el mismo indice para los dos nodos siempre
     //console.log(this.nodosEntrada);
     //console.log(this.nodosSalida);
-    this.nodosEntrada.splice(indice,1,nodoSalida[0]);
-    this.nodosSalida.splice(indice,1,nodoEntrada[0]);
+    this.nodosEntrada.splice(indice,1,nodoSalida);
+    this.nodosSalida.splice(indice,1,nodoEntrada);
     //console.log(this.nodosEntrada);
     //console.log(this.nodosSalida);
+    var cme = nodoEntrada.cantMaxima;
+    var ie = nodoEntrada.intervalo;
+    nodoEntrada.cantMaxima = nodoSalida.cantMaxima;
+    nodoEntrada.intervalo = nodoSalida.intervalo;
+    nodoSalida.cantMaxima = cme;
+    nodoSalida.intervalo = ie;
 }
 
 MapaEditor.prototype.noSemaforoTOsemaforo = function (id) {

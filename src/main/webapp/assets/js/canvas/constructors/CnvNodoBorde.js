@@ -1,9 +1,10 @@
-    function CnvNodoBorde(id,fila,columna, posx, posy,radio,color) {
+    function CnvNodoBorde(nodo,fila,columna, posx, posy,radio,color) {
         this.Container_constructor();
 
         this.fila = fila;
         this.columna = columna;
-        this.id = id;
+        this.id = nodo.id;
+        this.nodo = nodo;
         this.color = color;
         this.posx = posx;
         this.posy = posy;

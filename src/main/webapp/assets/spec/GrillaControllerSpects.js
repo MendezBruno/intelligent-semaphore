@@ -5,6 +5,7 @@
 describe("redimensionar el mapa", function () {
     var logica;
     var stageMock;
+    var scopeMock;
     var modelo;
 
     beforeEach(function () {
@@ -15,12 +16,12 @@ describe("redimensionar el mapa", function () {
             addChild: function (child){
                 this.children.push(child);
             },
-            removeAllChildren: function (){
-
-            }
-
+            removeAllChildren: function (){}
         };
-        logica = new GrillaController(3,3,40,stageMock,{});
+        scopeMock = {
+            $apply: function () { console.log("$scope.$apply()"); }
+        }
+        logica = new GrillaController(3,3,40,stageMock,scopeMock);
         modelo = logica.modelo;
     })
     
@@ -185,9 +186,47 @@ describe("redimensionar el mapa", function () {
 
         expect(!nodoNoSemaforo.tiempoHorizontal).toBe(true);
         expect(!nodoNoSemaforo.tiempoVertical).toBe(true);
-
     });
 
+    it("Cambiar sentido calle cambia atributos de los nodos borde", function () {
+        logica.redibujar();
+        var cuadra = stageMock.children.find(function(child){
+            return child instanceof CnvCuadra;
+        });
+        var calle = cuadra.calle;
+        var nodo1 = calle.nodo1().nodo;
+        var nodo2 = calle.nodo2().nodo;
+        var cme = nodo1.cantMaxima;
+        var ie = nodo1.intervalo;
+        var cms = nodo2.cantMaxima;
+        var is = nodo2.intervalo;
+
+        //Provoco que el $scope se actualice con la cuadra seleccionada.
+        cuadra.handleClick();
+
+        //Provoco un intercambio
+        calle.nodo1().handleClick();
+
+        //que los nodos intercambien valor
+        expect(nodo1.cantMaxima).toBe(cms);
+        expect(nodo1.intervalo).toBe(is);
+        expect(nodo2.cantMaxima).toBe(cme);
+        expect(nodo2.intervalo).toBe(ie);
+
+        //que los nodos se intercambien de listas
+        expect(modelo.nodosEntrada.some(function (n) {
+            return n.id == nodo2.id;
+        })).toBe(true);
+        expect(modelo.nodosSalida.some(function (n) {
+            return n.id == nodo1.id;
+        })).toBe(true);
+
+        //que no cambien los valores de nodo1 y nodo2 del scope
+        expect(scopeMock.nodoEntrada.cantMaxima).toBe(cme);
+        expect(scopeMock.nodoEntrada.intervalo).toBe(ie);
+        expect(scopeMock.nodoSalida.cantMaxima).toBe(cms);
+        expect(scopeMock.nodoSalida.intervalo).toBe(is);
+    })
 });
 
 var loggearNodos = function(nodos) {

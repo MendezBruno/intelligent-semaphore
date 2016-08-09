@@ -12,6 +12,7 @@ function CnvCalle() {
     this.cuadras = new Array();
     this.modelo;
     this.calle;
+    this.$scope;
     this.clickListeners = new Array();
     this.handleClick = function (){
         this.clickListeners.forEach(function(l){
@@ -23,17 +24,22 @@ function CnvCalle() {
         self.nodo2().cambiarColor();
     }
     this.afectarModelo = function(){
-        console.log(self.nodo1().id);
-        console.log(self.nodo2().id);
-        self.modelo.cambiarSentido(self.nodo1().id,self.nodo2().id);
+        // console.log(self.nodo1().id);
+        // console.log(self.nodo2().id);
+        self.modelo.cambiarSentido(self.nodo1().nodo,self.nodo2().nodo);
         console.log(self.calle.sentido);
         self.calle.cambiaTuSentido();
         console.log(self.calle.sentido);
-        var aux = self.nodo1().id;
-        self.nodo1().id = self.nodo2().id;
-        self.nodo2().id = aux;
+        // var aux = self.nodo1().id;
+        // self.nodo1().id = self.nodo2().id;
+        // self.nodo2().id = aux;
     }
-
+    this.afectarScope = function() {
+        var entrada = self.$scope.nodoEntrada;
+        self.$scope.nodoEntrada = self.$scope.nodoSalida;
+        self.$scope.nodoSalida = entrada;
+        self.$scope.$apply();
+    }
 }
 
 createjs.extend(CnvCalle, createjs.Container);
@@ -44,6 +50,8 @@ CnvCalle.prototype.inicializar = function() {
     this.nodo2().clickListeners.push(this.intercambiarColor);
     this.nodo1().clickListeners.push(this.afectarModelo);
     this.nodo2().clickListeners.push(this.afectarModelo);
+    this.nodo1().clickListeners.push(this.afectarScope);
+    this.nodo2().clickListeners.push(this.afectarScope);
 }
 
 CnvCalle.prototype.setup = function() { //Abstracta

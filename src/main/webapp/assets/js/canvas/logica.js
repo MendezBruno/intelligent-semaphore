@@ -106,12 +106,12 @@ GrillaController.prototype.redibujar = function() {
     for (i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
         var calle = horizontales[i];
-        var entrada = new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA].id,
+        var entrada = new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA],
             i+2,PRIMER_COLUMNA, posx-separador/2, posy+separador/2,
             separador/2,  ENTRADA);
         stage.addChild(entrada);
         var posXNodoSalida = posx+(largo+separador)*(verticales.length+1);
-        var salida = new CnvNodoBorde(nodos[i+1][verticales.length+1].id,
+        var salida = new CnvNodoBorde(nodos[i+1][verticales.length+1],
             i+2, verticales.length+1, posXNodoSalida-separador/2,
             posy+separador/2, separador/2, SALIDA);
         stage.addChild(salida);
@@ -131,15 +131,16 @@ GrillaController.prototype.redibujar = function() {
         actualizarPosY();
         cnvCalleHorizontal.cuadras = cuadras;
         cnvCalleHorizontal.modelo = modelo;
+        cnvCalleHorizontal.$scope = this.$scope;
         cnvCalleHorizontal.calle = horizontales[i];
     }
     moverPosxAlOrigen();
     moverPosyAlOrigen();
     posx=posx + largo;
     for (i = 0; i < verticales.length; i++) {
-        var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1].id,1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+        var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1],1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
         var posYNodoSalida = posy+(largo+separador)*(horizontales.length+1);
-        var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1].id,
+        var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1],
             horizontales.length,i+1,posx+separador/2,
             posYNodoSalida-separador/2,separador/2,SALIDA);
         var calle = verticales[i];
@@ -160,12 +161,14 @@ GrillaController.prototype.redibujar = function() {
         moverPosyAlOrigen();
         cnvCalleVertical.cuadras = cuadras;
         cnvCalleVertical.modelo =modelo;
+        cnvCalleVertical.$scope = this.$scope;
         cnvCalleVertical.calle = verticales[i];
     }
 
     function generarCuadra(direccion, calle){
         var cuadra = new CnvCuadra(id, posx, posy, largo, "#b3b3b3", direccion);
         cuadra.clickListeners.push(partial(onClick,calle));
+        cuadra.calle = calle;
         cuadras.push(cuadra);
         stage.addChild(cuadra);
         id++;
@@ -176,7 +179,6 @@ GrillaController.prototype.redibujar = function() {
         var nodoCentral = new CnvNodoControl(id,fila, columna, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
         nodoCentral.clickListeners.push(onClickNodoCentral);
         stage.addChild(nodoCentral);
-        console.log(stage);
     }
 
     function actualizarPosX(){
@@ -203,31 +205,21 @@ GrillaController.prototype.redibujar = function() {
         self.$scope.cantCarriles = calle.cantCarriles;
         self.$scope.sentido = calle.sentido;
         self.$scope.popularidad = calle.preferencia;
-        if (calle.sentido="Norte-Sur")
-        {
-            self.$scope.cantMaxEnt = nodo1.cantMaxima;
-            self.$scope.intervaloTiempoEnt = nodo1.intervalo;
-
-            self.$scope.cantMaxSal = nodo2.cantMaxima;
-            self.$scope.intervaloTiempoSal = nodo2.intervalo;
-
+        if (calle.sentido==Sentido.NORTE_SUR || calle.sentido==Sentido.OESTE_ESTE) {
+            self.$scope.nodoEntrada = nodo1.nodo;
+            self.$scope.nodoSalida = nodo2.nodo;
         }
-        if (calle.sentido="Sur-Norte")
-        {
-            self.$scope.cantMaxSal = nodo1.cantMaxima;
-            self.$scope.intervaloTiempoSal = nodo1.intervalo;
-
-            self.$scope.cantMaxEnt = nodo2.cantMaxima;
-            self.$scope.intervaloTiempoEnt = nodo2.intervalo;
-
+        if (calle.sentido==Sentido.SUR_NORTE || calle.sentido==Sentido.ESTE_OESTE) {
+            self.$scope.nodoEntrada = nodo2.nodo;
+            self.$scope.nodoSalida = nodo1.nodo;
         }
         self.$scope.$apply();
-        console.log(cuadra.id);
-        console.log(nodo1.id);
-        console.log(nodo2.id);
-        calle.cuadras.forEach(function (c) {
-            console.log(c.id);
-        });
+        // console.log(cuadra.id);
+        // console.log(nodo1);
+        // console.log(nodo2);
+        // calle.cuadras.forEach(function (c) {
+        //     console.log(c.id);
+        // });
     }
 }
 GrillaController.prototype.agregarCalleHorizontal = function() {
@@ -381,38 +373,6 @@ GrillaController.prototype.quitarCalleVertical = function() {
         fila.pop();
     })
 }
-
-function BiArray (){
-}
-
-BiArray.prototype.push = function(x,y,elem){};
-
-//function NodoNoSemaforo() {
-//    this.id = Nodo.getNextId();
-//}
-//
-//function NodoControl() {
-//    this.id = nodo.getNextId();
-//    this.tiempoHorizontal = undefined;
-//    this.tiempoVertical = undefined;
-//
-//}
-//
-//function NodoBorde() {
-//    this.id = Nodo.getNextId();
-//}
-//
-//function Nodo() {
-//
-//}
-//
-//Nodo.nextId = 1;
-//
-//Nodo.getNextId = function() {
-//    var next = Nodo.nextId;
-//    Nodo.nextId++;
-//    return "nodo-"+next;
-//}
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
