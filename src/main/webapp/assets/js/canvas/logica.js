@@ -97,7 +97,7 @@ GrillaController.prototype.redibujar = function() {
     };
 
     var onClickNodoCentral = function(cnvNodoControl){
-        cnvNodoControl.cambiarTipoDeNodoCentral(this.modelo);
+        cnvNodoControl.cambiarTipoDeNodoCentral(self.modelo);
 
     }
 
