@@ -34,11 +34,13 @@ function CnvCalle() {
         // self.nodo1().id = self.nodo2().id;
         // self.nodo2().id = aux;
     }
-    this.afectarScope = function() {
-        var entrada = self.$scope.nodoEntrada;
-        self.$scope.nodoEntrada = self.$scope.nodoSalida;
-        self.$scope.nodoSalida = entrada;
-        self.$scope.$apply();
+    this.afectarScope = function(cnvNodo) {
+        if(self.$scope.nodoEntrada.id == cnvNodo.nodo.id || self.$scope.nodoSalida.id == cnvNodo.nodo.id) {
+            var entrada = self.$scope.nodoEntrada;
+            self.$scope.nodoEntrada = self.$scope.nodoSalida;
+            self.$scope.nodoSalida = entrada;
+            self.$scope.$apply();
+        }
     }
 }
 
