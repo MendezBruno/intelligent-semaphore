@@ -14,6 +14,8 @@ app.controller('editorController', function($scope,Mapa) {
 
     $scope.callesV = 3;
 
+   // $scope.cantCarriles = 3;
+
     console.log("hola");
 
     stage = new createjs.Stage("mapa");

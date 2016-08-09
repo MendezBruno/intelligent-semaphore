@@ -2,6 +2,7 @@
  * Created by bruno on 28/07/16.
  */
 function GrillaController(filas, columnas, largo, stage, $scope){
+
     this.modelo = new MapaEditor();
     this.largo = largo;
     this.stage = stage;
@@ -199,6 +200,28 @@ GrillaController.prototype.redibujar = function() {
         self.$scope.calle = calle;
         self.$scope.nodo1 = nodo1;
         self.$scope.nodo2 = nodo2;
+        self.$scope.cantCarriles = calle.cantCarriles;
+        self.$scope.sentido = calle.sentido;
+        self.$scope.popularidad = calle.preferencia;
+        if (calle.sentido="Norte-Sur")
+        {
+            self.$scope.cantMaxEnt = nodo1.cantMaxima;
+            self.$scope.intervaloTiempoEnt = nodo1.intervalo;
+
+            self.$scope.cantMaxSal = nodo2.cantMaxima;
+            self.$scope.intervaloTiempoSal = nodo2.intervalo;
+
+        }
+        if (calle.sentido="Sur-Norte")
+        {
+            self.$scope.cantMaxSal = nodo1.cantMaxima;
+            self.$scope.intervaloTiempoSal = nodo1.intervalo;
+
+            self.$scope.cantMaxEnt = nodo2.cantMaxima;
+            self.$scope.intervaloTiempoEnt = nodo2.intervalo;
+
+        }
+        self.$scope.$apply();
         console.log(cuadra.id);
         console.log(nodo1.id);
         console.log(nodo2.id);
