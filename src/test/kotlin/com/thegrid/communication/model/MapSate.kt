@@ -2,7 +2,7 @@ package com.thegrid.communication.model
 
 import com.thegrid.communication.extension.MatrixId
 import com.thegrid.communication.extension.RGBA
-import com.thegrid.communication.service.MapParser
+import com.thegrid.communication.service.MapStateParser
 import org.jetbrains.spek.api.Spek
 
 /**
@@ -10,7 +10,7 @@ import org.jetbrains.spek.api.Spek
  */
 
 class TestMapState: Spek({
-    given("a mapStatet") {
+    given("a mapState") {
         var blockStatus = hashMapOf<MatrixId, RGBA>()
         var semaphoreStatus = hashMapOf<MatrixId, String>()
         val mapState: MapState = MapState.SharedInstance
@@ -24,31 +24,30 @@ class TestMapState: Spek({
         mapState.blockStatus = blockStatus
         mapState.semaphoreStatus = semaphoreStatus
 
+        val parsedMap: String ="{\"blockStatus\":[{\"row\":1,\"column\":1,\"color\":{\"R\":255,\"G\":255,\"B\":255," +
+                "\"A\":0}}]," +
+                "\"semaphoreStatus\":[{\"row\":1,\"column\":1,\"state\":\"HORIZONTAL\"}]}"
 
         on("parsing to json") {
-            val parser: MapParser = MapParser(mapState)
-            var inputStreamMap = parser.parseToJson()
+            val mapStateParser: MapStateParser = MapStateParser(mapState)
+            var inputStreamMap = mapStateParser.parseToJson()
 
             val reader = inputStreamMap.reader()
             var jsonMap = reader.readText()
 
            // println(jsonMap)
 
-            it("should return the parsed map") {
-                val parsedMap: String ="{\"blockStatus\":[{\"row\":1,\"column\":1,\"color\":{\"R\":255,\"G\":255,\"B\":255," +
-                        "\"A\":0}}]," +
-                        "\"semaphoreStatus\":[{\"row\":1,\"column\":1,\"state\":\"HORIZONTAL\"}]}"
-
+            it("should return the parsed mapState") {
                 assert(jsonMap.equals(parsedMap))
             }
         }
 
-        on("creating a mapState from json"){
-            val parser: MapParser = MapParser(mapState)
-            val mapStructure: MapStructure = MapStructure(parser.parseToJson())
+        on("creating a mapState from json with klaxon"){
+            val stateParser: MapStateParser = MapStateParser(mapState)
+            val mapStructure: MapStructure = MapStructure(stateParser.parseToJson())
 
             var newMapState: MapState = MapState.SharedInstance
-            newMapState.setMap(mapStructure)
+            newMapState.setMapState(mapStructure)
 
             //newMapState.blockStatus.forEach { matrixId, rgb -> println(matrixId.toString() +" ||| "+ rgb.toString())  }
 
@@ -56,5 +55,15 @@ class TestMapState: Spek({
                 assert(newMapState.blockStatus.contains(MatrixId(1,1)))
             }
         }
+/**
+        on("creating a mapState from json with jackson"){
+            val mapper = ObjectMapper().registerKotlinModule()
+            val streamMap: InputStream = parsedMap.byteInputStream()
+            val newMapState: MapState = mapper.readValue(streamMap, MapState.SharedInstance.javaClass)
+
+            it("should return the map as object"){
+                assert(newMapState.blockStatus.contains(MatrixId(1,1)))
+            }
+        }*/
     }
 })
