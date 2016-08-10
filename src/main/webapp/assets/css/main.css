@@ -1,5 +1,27 @@
 body{
-    padding-top: 70px;
     background-color: whitesmoke;
 }
 /*aca van los estilos de las vistas*/
+
+.tg-panel .row {
+    margin: 5px 0 5px 0;
+}
+
+.tg-panel .row:first-child {
+    margin: 0 0 5px 0;
+}
+
+.tg-panel label {
+    margin-top: 9px;
+}
+
+.tg-panel .popover {
+    width:300px;
+}
+
+.canvas-container {
+    overflow: auto;
+    padding: 0px;
+    margin: 0 4% 0 4%;
+    height: 300px;
+}

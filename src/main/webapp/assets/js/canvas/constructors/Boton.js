@@ -32,7 +32,7 @@
         this.on("rollout", this.handleRollOver);
         this.cursor = "pointer";
 
-        this.mouseChildren = false;
+        this.mouseChildren = true;
 
         this.offset = Math.random()*10;
         this.count = 0;

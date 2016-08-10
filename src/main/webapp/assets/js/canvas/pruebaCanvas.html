@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <script src="constructors/Boton.js"></script>
+    <script src="constructors/CnvCuadra.js"></script>
+    <script src="constructors/Grilla.js"></script>
+    <script src="constructors/CnvNodoBorde.js"></script>
+    <script src="constructors/CnvNodoControl.js"></script>
+    <script src="/assets/libs/easeljs-NEXT.combined.js"></script>
+
+
+
+    <script>
+        var stage;
+        var circle;
+        var btn1;
+        var btn2;
+        var holder;
+        var image;
+        var container;
+        var grilla;
+        var nodo;
+        var nodoEntrada;
+        var nodoControl;
+        var handleClick = function (event){
+            alert("aaaa");
+        }
+
+        function init() {
+            stage = new createjs.Stage("demoCanvas");
+            stage.enableMouseOver();
+
+
+           btn2 = stage.addChild(new Boton("Hello!", "#FF0",60));
+            btn2.y = 400;
+            btn2.x =400;
+
+
+            btn1 = stage.addChild(new CnvCuadra("cuadra1",0,0,200, "#F00",true));
+            btn1.y =400;
+            btn1.x =400;
+
+//
+            circle = new createjs.Shape();
+            circle.graphics.beginFill("red").beginStroke("#000000").setStrokeStyle(1).drawCircle(333, 333, 50);
+            circle.x = 150;
+            circle.y = 100;
+            circle.on("click", handleClick);
+//            var fillCommand = circle.graphics.beginFill("blue").command;
+//            // ... later, update the fill style/color:
+//            fillCommand.color = "blue";
+//            circle.append(fillCommand);
+
+//            stage.addChild(circle);
+
+
+
+
+//
+            createjs.Ticker.on("tick", stage);
+//            circle.addEventListener("click",presion);
+
+
+//
+            container = new createjs.Container();
+            container.addChild(circle, btn2);
+
+//
+            stage.addChild(container);
+            container.x = 100;
+//            grilla = new Grilla(3,3,40);
+//            stage.addChild(grilla);
+
+            console.log(container.getChildAt(1));
+
+            crearGrilla(4, 5, 50, stage);
+//            modificarGrilla(3,3,50,stage);
+
+//            btn1 = stage.addChild(new CnvNodoBorde(100,100,40,"#66ff66"));
+
+
+        }
+
+        function presion(event) {
+            circle.x=200;
+            stage.update(event);
+        };
+
+
+        function crearGrilla(fila,columna,largo,stage){
+            var i;
+            var j=0;
+            var posInicialX=20;
+            var posInicialY=20;
+            var posx=posInicialX;
+            var posy=largo+posInicialY;
+            var separador=20;
+            var ENTRADA="#66ff66";
+            var SALIDA="#ff3333";
+            var NEUTRAL = "#ffffff"
+
+            console.log("entre aca");
+            for (i = 0; i < fila; i++) {
+                posx=posInicialX;
+                stage.addChild(new CnvNodoBorde(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,ENTRADA));
+                for (j = 0; j < columna+1; j++) {
+                    stage.addChild(new CnvCuadra(i, posx, posy, largo, "#b3b3b3", true));
+                    posx = posx+largo+separador;
+                    if(columna+1 != j){stage.addChild(new NodoControl(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,NEUTRAL));};
+                }
+                stage.addChild(new CnvNodoBorde(i+1,j+1,posx-separador/2,posy+separador/2,separador/2,SALIDA));
+                posy = posy+largo+separador;
+            };
+
+            posx=largo+posInicialX;
+            posy=posInicialY;
+            for (i = 0; i < fila+1; i++) {
+
+                for (j = 0; j < columna; j++) {
+                    stage.addChild(new CnvCuadra(j, posx, posy, largo, "#b3b3b3", false));
+                    if(0 == i){stage.addChild(new CnvNodoBorde(i+1,j,posx+separador/2,posy-separador/2,separador/2,ENTRADA));};
+                    if(fila == i){stage.addChild(new CnvNodoBorde(i+1,j,posx+separador/2,posy+largo+separador/2,separador/2,SALIDA));};
+                    posx = posx + largo+separador;
+
+                }
+                    posy = posy+largo+separador;
+
+                posx=largo+posInicialX;
+            };
+
+        }
+
+        function modificarGrilla(fila,columna,ancho,stage){
+//                var l = stage.numChildren;
+//                for (var i=0; i<l; i++) {
+//                    var child =stage.getChildAt(i);
+//                            child.graphics.clear();
+//                }
+            stage.removeAllChildren();
+            crearGrilla(fila,columna,ancho,stage);
+        }
+
+    </script>
+
+
+
+</head>
+
+
+<body onload="init();">
+
+<p>Hola salgo o no?</p>
+
+
+<canvas id="demoCanvas" width="800" height="800"></canvas>
+no está funcionando!
+
+
+
+<!--Libs-->
+<script src="/assets/libs/jquery-1.11.3.min.js"></script>
+<script src="/assets/libs/bootstrap.min.js"></script>
+
+<!--Angular-->
+<script src="/assets/libs/angular.js"></script>
+<script src="/assets/libs/angular-resource.js"></script>
+<script src="/assets/libs/angular-route.js"></script>
+
+
+</body>
+</html>
