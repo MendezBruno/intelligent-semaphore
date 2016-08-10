@@ -2,17 +2,12 @@ var app = angular.module('app', ['ngRoute','ngResource']);
 
 app.run(['$rootScope',
     function($rootScope) {
-
         $rootScope.cargandoHttp=true;
         //$rootScope.splashes = splashes;
-
-
-
     }]);
 
 app.config(function($routeProvider, $locationProvider, $httpProvider) {
     $locationProvider.html5Mode(true);
-
     $routeProvider
 
         .when('/', {
@@ -21,13 +16,18 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
         })
 
         .when('/app/login', {
-            templateUrl: 'views/home.html',
+            templateUrl: 'views/login.html',
             controller: 'loginController'
         })
 
+        .when('/app/registro', {
+            templateUrl: 'views/registro.html',
+            controller: 'registroController'
+        })
+
         .when('/app/passrecovery', {
-            templateUrl: 'views/home.html',
-            controller: 'loginController'
+            templateUrl: 'views/passrecovery.html',
+            controller: 'passrecoveryController'
         })
 
         .when('/app/editor', {
@@ -53,3 +53,12 @@ app.factory("Favorito", ['$resource', function($resource) {
             'query': { method:'GET', isArray: false }
         });
 }]);
+
+app.factory("Mapa", ["$resource",function($resource){
+    return  $resource("/api_v1.0/mapa/:id", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+
+

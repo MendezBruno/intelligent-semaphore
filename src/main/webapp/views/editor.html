@@ -1,1 +1,113 @@
-soy el editor
+<html>
+    <head>
+        <style>
+            .navbar-brand
+            {
+                position: absolute;
+                width: 100%;
+                left: 0;
+                text-align: center;
+                margin:0 auto;
+            }
+            .navbar-toggle {
+                z-index:3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <div class="container-fluid panel-container">
+                    <div class="col-xs-3 text-left">
+                    </div>
+                    <div class="col-xs-6 text-center ">
+                        <!--Construcción del modelo vial-->
+                        <h3 class="panel-title">Construcción del modelo vial</h3>
+                    </div>
+                    <div class="col-xs-3 text-right">
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body container-fluid">
+                <div class="row">
+                    <div class="col-sm-6 container-fluid">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Datos generales
+                            </div>
+                            <div class="panel-body container-fluid tg-panel">
+                                <div class="row">
+                                    <div class="col-xs-2"><label>Nombre</label></div>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control" ng-model="nombre">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <label>Cantidad de calles horizontales</label>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="text" class="touch-spinner" ng-model="callesH" ng-touch-spin value="3">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8">
+                                        <label>Cantidad de calles verticales</label>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="text" class="touch-spinner" ng-model="callesV" ng-touch-spin value="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Estructura del modelo
+                            </div>
+                            <div class="panel-body container-fluid">
+                                <div class="row">
+                                    <div class="canvas-container col-sm-11">
+                                        <canvas id="mapa" width="500px" height="250px">
+                                        </canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-7">
+                            </div>
+                            <div class="col-xs-5">
+                                    <input type="button" class="form-control"  value="Generar Mapa" ng-click="generarMapa()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12" ng-include="'templates/tg-panel.html'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $("input[class='touch-spinner']").TouchSpin({
+                maxboostedstep: 10,
+                min: 3,
+                max: 10,
+                step: 1,
+                boostat: 5
+            });
+            $("input[class='touch-spinner-200']").TouchSpin({
+                maxboostedstep: 10,
+                min: 0,
+                max: 200,
+                step: 1,
+                boostat: 5
+            });
+        </script>
+
+    </body>
+</html>
