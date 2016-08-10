@@ -27,7 +27,7 @@ createjs.extend(CnvCuadraReproductor, createjs.Container);
 
 CnvCuadraReproductor.prototype.setup = function() {
     //viene predefinido
-    container = new createjs.Container();
+    var container = new createjs.Container();
     this.background = new createjs.Shape();
     if (this.horizontal){
         this.background.graphics
@@ -40,7 +40,26 @@ CnvCuadraReproductor.prototype.setup = function() {
             .drawRect(this.posX,this.posY,this.width,this.largo,10);
     }
 
-    this.addChild(this.background);
+    var carril = new createjs.Shape();
+        carril.graphics
+            .beginFill(this.color)
+            .drawRect(this.posX,this.posY*2,this.largo,this.width,10);
+    var posinicial=this.posX;
+    var largoLinea = 10;
+    for (i=0;i<this.largo/largoLinea;i++)
+    {
+    var linea = new createjs.Shape();
+        linea.graphics
+            .beginFill("#ffff80")
+            .drawRect(posinicial,this.posY,largoLinea,this.width/10,10);
+    container.addChild(linea);
+        posinicial = posinicial + largoLinea +3
+    }
+
+    container.addChild(this.background);
+    container.addChild(carril);
+
+    this.addChild(container);
     this.on("click", this.handleClick);
     this.on("rollover", this.handleRollOver);
     this.on("rollout", this.handleRollOver);
