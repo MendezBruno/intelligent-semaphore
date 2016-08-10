@@ -9,6 +9,7 @@
     <script src="constructors/Grilla.js"></script>
     <script src="constructors/CnvNodoBorde.js"></script>
     <script src="constructors/CnvNodoControl.js"></script>
+    <script src="reproductor/CnvCuadraReproductor.js"></script>
     <script src="/assets/libs/easeljs-NEXT.combined.js"></script>
 
 
@@ -53,20 +54,15 @@
 //            // ... later, update the fill style/color:
 //            fillCommand.color = "blue";
 //            circle.append(fillCommand);
-
 //            stage.addChild(circle);
-
-
-
-
-//
             createjs.Ticker.on("tick", stage);
 //            circle.addEventListener("click",presion);
 
 
 //
+            var cuadraCanvas = new CnvCuadraReproductor(0,0,50,1,"#b3b3b3",true);
             container = new createjs.Container();
-            container.addChild(circle, btn2);
+            container.addChild(cuadraCanvas);
 
 //
             stage.addChild(container);
@@ -74,9 +70,9 @@
 //            grilla = new Grilla(3,3,40);
 //            stage.addChild(grilla);
 
-            console.log(container.getChildAt(1));
+//            console.log(container.getChildAt(1));
 
-            crearGrilla(4, 5, 50, stage);
+//            crearGrilla(4, 5, 50, stage);
 //            modificarGrilla(3,3,50,stage);
 
 //            btn1 = stage.addChild(new CnvNodoBorde(100,100,40,"#66ff66"));
