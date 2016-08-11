@@ -4,4 +4,11 @@
 function ReproductorController(modelo, stage, $scope){
 
 
+
+}
+
+
+ReproductorController.prototype.dibujar = function (){
+
+
 }
