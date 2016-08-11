@@ -13,7 +13,7 @@ app.controller('reproductorController', function($scope) {
         circle.x = 15;
         circle.y = 10;
         //stageReproductor.addChild(circle);
-        stageReproductor.addChild(new CnvCuadraReproductor(0,0,200,2,"#000000",true));
+        stageReproductor.addChild(new CnvCuadraReproductor(0,0,200,3,"#b3b3b3",false));
         createjs.Ticker.on("tick", stageReproductor);
         stageReproductor.update();
         console.log(stageReproductor);
