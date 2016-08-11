@@ -7,12 +7,12 @@ function CnvCuadraReproductor(posX, posY,largo,cantCarriles,color,horizontal) {
     this.posX = posX;
     this.posY = posY;
     this.largo = largo;
+    this.cantCarriles=cantCarriles;
     this.color = color;
     this.horizontal = horizontal;
-    this.marcado = false;
     this.clickListeners = new Array();
     this.background;
-    this.width = 20;
+    this.width = 20;  //valor standar de vialidad
     var self = this;
 
     this.handleClick = function (event) {
@@ -27,37 +27,75 @@ createjs.extend(CnvCuadraReproductor, createjs.Container);
 
 CnvCuadraReproductor.prototype.setup = function() {
     //viene predefinido
+    var colorCalle = "#b3b3b3";
+    var sla = 4;   //Separacino de la linea amarilla
+    var ala = this.width/6    //ancho linea amarilla es una sexta parte del ancho de la calle
+    var largoLinea = 10;
     var container = new createjs.Container();
+
+    //UNA CALLE SOLA
     this.background = new createjs.Shape();
     if (this.horizontal){
         this.background.graphics
             .beginFill(this.color)
             .drawRect(this.posX,this.posY,this.largo,this.width,10);
+
+        //AGREGO N CARRILES
+        for (numCarril=1; numCarril<this.cantCarriles; numCarril++) {
+            //this.posY=this.posY+this.width;
+            var carril = new createjs.Shape();
+            carril.graphics
+                .beginFill(colorCalle)
+                .drawRect(this.posX, this.posY+this.width, this.largo, this.width + ala, 10);
+            var posinicial = this.posX;
+            container.addChild(carril);
+
+            //LINEAS CARRIL
+
+            for (j = 0; j < this.largo / (largoLinea+sla); j++) {
+                var linea = new createjs.Shape();
+                linea.graphics
+                    .beginFill("#ffff80")
+                    .drawRect(posinicial, this.posY + this.width, largoLinea, ala, 10);
+                container.addChild(linea);
+                posinicial = posinicial + largoLinea + sla
+            }
+            this.posY = this.posY+this.width;
+        }
+
     }
-    else {
+    else {// CALLE VERTICAL
         this.background.graphics
             .beginFill(this.color)
             .drawRect(this.posX,this.posY,this.width,this.largo,10);
-    }
+        //AGREGO N CARRILES
+        for (numCarril=1; numCarril<this.cantCarriles; numCarril++) {
+            //this.posY=this.posY+this.width;
+            var carril = new createjs.Shape();
+            carril.graphics
+                .beginFill(colorCalle)
+                .drawRect(this.posX+this.width, this.posY, this.width + ala,this.largo, 10);
+            var posinicial = this.posY;
+            container.addChild(carril);
 
-    var carril = new createjs.Shape();
-        carril.graphics
-            .beginFill(this.color)
-            .drawRect(this.posX,this.posY*2,this.largo,this.width,10);
-    var posinicial=this.posX;
-    var largoLinea = 10;
-    for (i=0;i<this.largo/largoLinea;i++)
-    {
-    var linea = new createjs.Shape();
-        linea.graphics
-            .beginFill("#ffff80")
-            .drawRect(posinicial,this.posY,largoLinea,this.width/10,10);
-    container.addChild(linea);
-        posinicial = posinicial + largoLinea +3
-    }
+            //LINEAS CARRIL
 
+            for (j = 0; j < this.largo / (largoLinea+sla); j++) {
+                var linea = new createjs.Shape();
+                linea.graphics
+                    .beginFill("#ffff80")
+                    .drawRect( this.posX + this.width,posinicial, ala,largoLinea, 10);
+                container.addChild(linea);
+                posinicial = posinicial + largoLinea + sla
+            }
+            this.posX = this.posX+this.width;
+        }
+    }
     container.addChild(this.background);
-    container.addChild(carril);
+
+
+
+
 
     this.addChild(container);
     this.on("click", this.handleClick);
