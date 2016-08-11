@@ -58,6 +58,7 @@ app.controller('editorController', function($scope,Mapa) {
         console.log(JSON.stringify(logica.modelo));
         Mapa.save(JSON.stringify(logica.modelo));
         alert(JSON.stringify(logica.modelo))
+        $scope.modelo = logica.modelo;
     }
 
     $scope.actualizar = function (){
