@@ -18,6 +18,13 @@ class TestMap: Spek({
             it("should return the the map with its name, streets, blocks and nodes") {
                 assert(map.name == "san telmo" && map.streets.count() == 6 && map.blocks.count() == 24)
             }
+
+            it("should bind correctly nodes and blocks") {
+                assert(map.blocks.filter{ block -> block.id =="cuadra-1"}.first().egressNode.equals(
+                        map.blocks.filter{ block -> block.id =="cuadra-2"}.first().entryNode)
+                        )
+                assert(map.blocks.filter{ block -> block.id =="cuadra-1"}.first().egressNode.id == "nodo-3")
+            }
         }
     }
 })
