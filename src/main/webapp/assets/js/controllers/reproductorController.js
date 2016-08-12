@@ -14,7 +14,7 @@ app.controller('reproductorController', function($scope) {
         //console.log(stageReproductor);
 
         var stageReproductor = new createjs.Stage("reproductor");
-        stageReproductor.addChild(new CnvInterseccion(0,0,2,2));
+        stageReproductor.addChild(new CnvSemaforo());
         var logicaReproductor = new ReproductorController($scope.modelo,stageReproductor,$scope);
         createjs.Ticker.on("tick", stageReproductor);
         stageReproductor.update();
