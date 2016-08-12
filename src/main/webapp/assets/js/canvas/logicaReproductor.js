@@ -9,15 +9,24 @@ function ReproductorController(modelo, stage, $scope){
 
 }
 
+//ReproductorController.prototype.dibujar = function (){
+//
+//    this.stage.addChild(new CnvCuadraReproductor(20,20,200,5,"#b3b3b3",false));
+//}
+
+
 
 ReproductorController.prototype.dibujar = function (){
 
     var self = this;
+    var stage = self.stage;
     var posInicialX = 20;   //en un futuro se podria parametrizar
     var posInicialY = 20;   //en un futuro se podria parametrizar
     var posx = posInicialX;
     var posy = this.largo+posInicialY;
     var separador = 20;
+    var largo = this.largo;
+
     //CONSTANTES
     var ENTRADA = "#66ff66";
     var SALIDA = "#ff3333";
@@ -27,31 +36,34 @@ ReproductorController.prototype.dibujar = function (){
     var HORIZONTAL = true;
     var VERTICAL = false;
 
-
+    console.log(this.modelo);
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
-    for (i=0; i<horizontales.length; i++) {
+    for (var i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
-
-
-        for (j = 0; j < verticales.length + 1; j++) {
-            var cnvCuadraReproductor = generarCuadra(HORIZONTAL,horizontales[i].cantCarriles);
+        for (var  j = 0; j < verticales.length; j++) {
+            //generarCuadra(HORIZONTAL,horizontales[i].cantCarriles);
+            this.stage.addChild(new CnvCuadraReproductor(posx,posy,largo,horizontales[i].cantCarriles,"#b3b3b3",HORIZONTAL));
             actualizarPosX(verticales[j].cantCarriles);
             if(verticales.length != j){
-                generarCnvInterseccion(horizontales[i].cantCarriles,verticales[j].cantCarriles);
+                this.stage.addChild(new CnvInterseccion(posx-largo/2,posy,horizontales[i].cantCarriles,verticales[j].cantCarriles));
+                //generarCnvInterseccion(horizontales[i].cantCarriles,verticales[j].cantCarriles);
             }
         }
+        this.stage.addChild(new CnvCuadraReproductor(posx,posy,largo,horizontales[i].cantCarriles,"#b3b3b3",HORIZONTAL));
         actualizarPosY(horizontales[i].cantCarriles);
     }
 
     moverPosxAlOrigen();
     moverPosyAlOrigen();
     posx=posx + largo;
-    for (i = 0; i < verticales.length; i++) {
-        for (j = 0; j < horizontales.length+1; j++) {
+    for (var i = 0; i < verticales.length; i++) {
+        moverPosyAlOrigen();
+        for (var j = 0; j < horizontales.length; j++) {
             // actualizarPosY();
             //posx=posx + this.largo;
-            var cnvCuadra = generarCuadra(VERTICAL,verticales[i].cantCarriles);
+            stage.addChild(new CnvCuadraReproductor(posx,posy,largo,verticales[i].cantCarriles,"#b3b3b3",VERTICAL));
+            //var cnvCuadra = generarCuadra(VERTICAL,verticales[i].cantCarriles);
             actualizarPosY(horizontales[j].cantCarriles);
         }
         actualizarPosX(verticales[i].cantCarriles);
@@ -60,15 +72,12 @@ ReproductorController.prototype.dibujar = function (){
 
 
         function generarCnvInterseccion(cantCarrilesH,cantCarrilesV) {
-            var interseccion = new CnvInterseccion(posx,posv,cantCarrilesH,cantCarrilesV);
+            var interseccion = new CnvInterseccion(posx,posy,cantCarrilesH,cantCarrilesV);
             stage.addChild(interseccion);
         }
 
         function generarCuadra(direccion,cantCarriles){
-            var cuadra = new CnvCuadraReproductor(posx,posy,this.largo,cantCarriles,"#b3b3b3",direccion)
-            stage.addChild(cuadra);
-            id++;
-            return cuadra;
+            stage.addChild(new CnvCuadraReproductor(posx,posy,largo,cantCarriles,"#b3b3b3",direccion));
         }
 
         function actualizarPosX(cantCarriles){
@@ -80,7 +89,7 @@ ReproductorController.prototype.dibujar = function (){
         }
 
         function moverPosxAlOrigen(){
-            posx = largo + posInicialX;
+            posx = posInicialX;
         }
 
         function moverPosyAlOrigen(){
