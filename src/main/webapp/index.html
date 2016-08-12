@@ -46,9 +46,11 @@
     <script src="assets/js/canvas/constructors/CnvCuadra.js"></script>
     <script src="assets/js/canvas/constructors/CnvCalle.js"></script>
     <script src="assets/js/canvas/logica.js"></script>
+    <script src="assets/js/canvas/logicaReproductor.js"></script>
     <script src="assets/js/canvas/constructors/CnvNodoBorde.js"></script>
     <script src="assets/js/canvas/constructors/CnvNodoControl.js"></script>
     <script src="assets/js/canvas/reproductor/CnvCuadraReproductor.js"></script>
+    <script src="assets/js/canvas/reproductor/CnvInterseccion.js"></script>
     <script src="assets/libs/easeljs-NEXT.combined.js"></script>
 
     <!--Modelo Del Front -->
@@ -62,9 +64,6 @@
             headerHeight = parseInt($(".tg-header").css("height"),10);
             windowHeight = $(window).height();
             tgngviewheight = windowHeight - headerHeight;
-            console.log(windowHeight);
-            console.log(headerHeight);
-            console.log(tgngviewheight);
             $(".tg-ng-view").height(tgngviewheight);
         }
         window.addEventListener("resize", ajustarAlto);
