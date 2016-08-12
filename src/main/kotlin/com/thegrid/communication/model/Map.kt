@@ -1,15 +1,17 @@
 package com.thegrid.communication.model
 
 import com.beust.klaxon.*
+import com.thegrid.behavior.model.Orientation
+import com.thegrid.behavior.model.Street
 import com.thegrid.communication.service.MapParser
 
 /**
  * Created by Surakituaka on 01/08/2016.
  */
 
-data class Map(val name: String, val nodes: MutableList<Node>, val streets: MutableList<Street>) {
+data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: MutableList<Street>) {
 
-    val blocks: MutableList<Block> = mutableListOf(streets.flatMap{ street -> street.blocks }).flatten().toMutableList() //TODO no se si es necesario
+    val blocks = streets.map { street -> street.blocks }.flatten().toMutableList()
 
     companion object {
 
@@ -23,7 +25,7 @@ data class Map(val name: String, val nodes: MutableList<Node>, val streets: Muta
             val semaphoreNodes = klaxonMap.array<JsonObject>("nodosSemaforo") as JsonArray<JsonObject>
             val cornerNodes = klaxonMap.array<JsonObject>("nodosNoSemaforo") as JsonArray<JsonObject>
 
-            val nodes = mutableListOf<Node>()
+            val nodes = mutableListOf<NodeType>()
 
             for(kNode in entryNodes){
                 nodes.add(EntryNode(kNode.string("id")!!/*, FDP(kNode.int("cantMaxima")!!, kNode.int("intervalo")!!)*/))
@@ -48,7 +50,7 @@ data class Map(val name: String, val nodes: MutableList<Node>, val streets: Muta
 
             for(kStreet in vStreets){
                 val street = Street(/*kStreet.double("velocidadMax")!!, */kStreet.int("cantCarriles")!!,
-                        kStreet.string("sentido")!!, mutableListOf<Block>(), kStreet.int("preferencia")!!)
+                        Orientation.from(kStreet.string("sentido")!!), mutableListOf<Block>(), kStreet.int("preferencia")!!)
 
                 val kBlocks = kStreet.array<JsonObject>("cuadras") as JsonArray<JsonObject>
 
@@ -66,7 +68,7 @@ data class Map(val name: String, val nodes: MutableList<Node>, val streets: Muta
 
             for(kStreet in hStreets){
                 val street = Street(/*kStreet.double("velocidadMax")!!,*/ kStreet.int("cantCarriles")!!,
-                        kStreet.string("sentido")!!, mutableListOf<Block>(), kStreet.int("preferencia")!!)
+                        Orientation.from(kStreet.string("sentido")!!), mutableListOf<Block>(), kStreet.int("preferencia")!!)
 
                 val kBlocks = kStreet.array<JsonObject>("cuadras") as JsonArray<JsonObject>
 
