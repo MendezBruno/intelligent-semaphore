@@ -5,16 +5,10 @@ function ReproductorController(modelo, stage, $scope){
 
     this.modelo = modelo;
     this.largo = 50;        //*TODO* sacar el largo de la calle como dato general
+    this.ancho = 20         //*TODO* ver tambien la posibilidad que sea un dato general
     this.stage = stage;
 
 }
-
-//ReproductorController.prototype.dibujar = function (){
-//
-//    this.stage.addChild(new CnvCuadraReproductor(20,20,200,5,"#b3b3b3",false));
-//}
-
-
 
 ReproductorController.prototype.dibujar = function (){
 
@@ -26,6 +20,9 @@ ReproductorController.prototype.dibujar = function (){
     var posy = this.largo+posInicialY;
     var separador = 20;
     var largo = this.largo;
+    var ancho = this.ancho;
+    var sla = 4;   //Separacino de la linea amarilla
+    var ala = ancho/6    //ancho linea amarilla es una sexta parte del ancho de la calle
 
     //CONSTANTES
     var ENTRADA = "#66ff66";
@@ -45,10 +42,10 @@ ReproductorController.prototype.dibujar = function (){
             //generarCuadra(HORIZONTAL,horizontales[i].cantCarriles);
             this.stage.addChild(new CnvCuadraReproductor(posx,posy,largo,horizontales[i].cantCarriles,"#b3b3b3",HORIZONTAL));
             actualizarPosX(verticales[j].cantCarriles);
-            if(verticales.length != j){
-                this.stage.addChild(new CnvInterseccion(posx-largo/2,posy,horizontales[i].cantCarriles,verticales[j].cantCarriles));
-                //generarCnvInterseccion(horizontales[i].cantCarriles,verticales[j].cantCarriles);
-            }
+            //if(verticales.length != j){
+            //    this.stage.addChild(new CnvInterseccion(posx-largo/2,posy,horizontales[i].cantCarriles,verticales[j].cantCarriles));
+            //    generarCnvInterseccion(horizontales[i].cantCarriles,verticales[j].cantCarriles);
+            //}
         }
         this.stage.addChild(new CnvCuadraReproductor(posx,posy,largo,horizontales[i].cantCarriles,"#b3b3b3",HORIZONTAL));
         actualizarPosY(horizontales[i].cantCarriles);
@@ -81,11 +78,11 @@ ReproductorController.prototype.dibujar = function (){
         }
 
         function actualizarPosX(cantCarriles){
-            posx = posx + largo + separador*cantCarriles;
+            posx = posx + largo + separador*cantCarriles +ala;
         }
 
         function actualizarPosY(cantCarriles){
-            posy = posy + largo + separador*cantCarriles;
+            posy = posy + largo + separador*cantCarriles +ala;
         }
 
         function moverPosxAlOrigen(){
