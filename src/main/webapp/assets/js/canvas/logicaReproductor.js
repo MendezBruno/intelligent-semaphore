@@ -43,8 +43,14 @@ ReproductorController.prototype.dibujar = function (){
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
             stage.addChild(generarCuadra(HORIZONTAL,cantCarriles));
-            if(j!=cuadras.length-1)
-                actualizarPosX(verticales[j].cantCarriles);
+            if(j!=cuadras.length-1){
+                var cantCarrilesV = verticales[j].cantCarriles;
+                stage.addChild(new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV));
+                actualizarPosX(cantCarrilesV);
+                //(posx-ala- separador*cantCarrilesV)
+                //- (separador*cantCarriles +ala)
+                //-(separador*verticales[j].cantCarriles +ala)
+            }
         }
         actualizarPosY(cantCarriles);
     }

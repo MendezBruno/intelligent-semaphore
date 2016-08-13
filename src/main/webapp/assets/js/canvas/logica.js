@@ -103,7 +103,7 @@ GrillaController.prototype.redibujar = function() {
 
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
-    for (i=0; i<horizontales.length; i++) {
+    for (var i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
         var calle = horizontales[i];
         var entrada = new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA],
@@ -118,7 +118,7 @@ GrillaController.prototype.redibujar = function() {
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         var cuadras = new Array();
 
-        for (j = 0; j < verticales.length + 1; j++) {
+        for (var j = 0; j < verticales.length + 1; j++) {
             var cnvCuadra = generarCuadra(HORIZONTAL,cnvCalleHorizontal);
             cnvCuadra.cuadra = calle.cuadras[j];
             cuadras.push(cnvCuadra);
@@ -137,7 +137,7 @@ GrillaController.prototype.redibujar = function() {
     moverPosxAlOrigen();
     moverPosyAlOrigen();
     posx=posx + largo;
-    for (i = 0; i < verticales.length; i++) {
+    for (var i = 0; i < verticales.length; i++) {
         var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1],1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
         var posYNodoSalida = posy+(largo+separador)*(horizontales.length+1);
         var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1],
@@ -149,7 +149,7 @@ GrillaController.prototype.redibujar = function() {
         stage.addChild(entrada);
         stage.addChild(salida);
 
-        for (j = 0; j < horizontales.length+1; j++) {
+        for (var j = 0; j < horizontales.length+1; j++) {
             // actualizarPosY();
             //posx=posx + this.largo;
             var cnvCuadra = generarCuadra(VERTICAL,cnvCalleVertical);

@@ -19,15 +19,19 @@ function CnvInterseccion(posX, posY, cantCarrilesH, cantCarrilesV) {
 };
 
 createjs.extend(CnvInterseccion, createjs.Container);
-window.CnvInterseccion = createjs.promote(CnvInterseccion, "Container");
+
 
 CnvInterseccion.prototype.setup = function () {
     var ancho = this.cantCarrilesV * Carril.ancho;
     var alto = this.cantCarrilesH * Carril.ancho;
-    var background = new createjs.Shape();
-    background.graphics
+    var ala = Carril.ancho/6;  //ancho de linea amarilla es siempre sobre el ancho de 1 (uno) carril
+    //ancho=+100;
+    //alto=+100;
+    this.background = new createjs.Shape();
+    this.background.graphics
         .beginFill("#b3b3b3")
-        .drawRect(this.posX,this.posY,ancho,alto,10);
+        .drawRect(this.posX,this.posY,ancho+ala,alto+ala,10);
     this.addChild(this.background);
     
-}
+};
+window.CnvInterseccion = createjs.promote(CnvInterseccion, "Container");
