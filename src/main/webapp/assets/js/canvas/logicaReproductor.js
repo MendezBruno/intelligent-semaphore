@@ -73,7 +73,7 @@ ReproductorController.prototype.dibujar = function (){
     }
 
     function generarCuadra(direccion,cantCarriles){
-        return new CnvCuadraReproductor(posx,posy,largo,cantCarriles,"#b3b3b3",direccion);
+        return new CnvCuadraReproductor(posx,posy,largo,cantCarriles,direccion);
     }
 
     function actualizarPosX(cantCarriles){
