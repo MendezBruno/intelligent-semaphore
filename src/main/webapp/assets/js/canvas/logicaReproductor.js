@@ -54,7 +54,7 @@ ReproductorController.prototype.dibujar = function (){
                         });
                     }
                 );
-                stage.addChild(new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,haySemaforo));
+                stage.addChild(new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,true));
                 actualizarPosX(cantCarrilesV);
                 //(posx-ala- separador*cantCarrilesV)
                 //- (separador*cantCarriles +ala)
