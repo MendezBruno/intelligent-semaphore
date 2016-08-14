@@ -62,6 +62,19 @@ CnvCuadraReproductor.prototype.setup = function() {
         //AGREGO N CARRILES
         for (var numCarril=1; numCarril<this.cantCarriles; numCarril++) {
             var posinicial = this.posY;
+
+            //AGREGO SENDA PEATONAL
+            var posinicialSenda=this.posX-this.width;
+            var anchoSenda= this.width/4;
+            for (var numsenda=1; numsenda<this.cantCarriles*2; numsenda++) {
+                var sendapeatonal = new createjs.Shape();
+                sendapeatonal.graphics
+                    .beginFill("#ffffff")
+                    .drawRect(posinicialSenda, this.posY, anchoSenda,this.largo/8, 10);
+                this.addChild(sendapeatonal);
+                    posinicialSenda += this.width/2;
+            }
+
             //LINEAS CARRIL
             for (var j = 0; j < this.largo / (largoLinea+sla); j++) {
                 var linea = new createjs.Shape();
