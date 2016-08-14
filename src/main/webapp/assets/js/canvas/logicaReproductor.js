@@ -21,6 +21,7 @@ ReproductorController.prototype.dibujar = function (){
     var separador = 20;
     var largo = this.largo;
     var ancho = this.ancho;
+    var modelo = this.modelo;
     var sla = 4;   //Separacino de la linea amarilla
     var ala = ancho/6    //ancho linea amarilla es una sexta parte del ancho de la calle
 
@@ -45,7 +46,15 @@ ReproductorController.prototype.dibujar = function (){
             stage.addChild(generarCuadra(HORIZONTAL,cantCarriles));
             if(j!=cuadras.length-1){
                 var cantCarrilesV = verticales[j].cantCarriles;
-                stage.addChild(new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV));
+                var haySemaforo = cuadras.some(function(cuadra)
+                    {
+                        return modelo.nodosSemaforo.some(function(semaforo)
+                        {
+                            return cuadra.nodoDestino.id=semaforo.id;
+                        });
+                    }
+                );
+                stage.addChild(new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,haySemaforo));
                 actualizarPosX(cantCarrilesV);
                 //(posx-ala- separador*cantCarrilesV)
                 //- (separador*cantCarriles +ala)

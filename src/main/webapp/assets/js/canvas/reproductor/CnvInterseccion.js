@@ -5,12 +5,13 @@
 Carril = {};
 Carril.ancho = 20; // Podria cambiar
 
-function CnvInterseccion(posX, posY, cantCarrilesH, cantCarrilesV) {
+function CnvInterseccion(posX, posY, cantCarrilesH, cantCarrilesV,semaforo) {
     this.Container_constructor();
     this.posX=posX;
     this.posY=posY;
     this.cantCarrilesH=cantCarrilesH;
     this.cantCarrilesV=cantCarrilesV;
+    this.semaforo = semaforo;
     this.clickListeners = new Array();
     this.background = new createjs.Shape();
     var self = this;
@@ -32,6 +33,12 @@ CnvInterseccion.prototype.setup = function () {
         .beginFill("#b3b3b3")
         .drawRect(this.posX,this.posY,ancho+ala,alto+ala,10);
     this.addChild(this.background);
+   if (this.semaforo){
+    var cnvSemaforo = new CnvSemaforo();
+    cnvSemaforo.x = this.posX;
+    cnvSemaforo.y = this.posY;
+    this.addChild(cnvSemaforo);
+   }
     
 };
 window.CnvInterseccion = createjs.promote(CnvInterseccion, "Container");
