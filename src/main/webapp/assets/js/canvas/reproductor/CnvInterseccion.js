@@ -47,6 +47,9 @@ CnvInterseccion.prototype.setup = function () {
     cnvSemaforo.y = this.posY + alto/2 - proporcionAlto*8;  //+ alto/2 + ladoSemaforo/2
     this.addChild(cnvSemaforo);
    }
+    else{
+       //agregar interseccion vacia si es una avenida grande
+   }
     
 };
 window.CnvInterseccion = createjs.promote(CnvInterseccion, "Container");
