@@ -111,11 +111,11 @@ ReproductorController.prototype.dibujar = function (){
     }
 
     function actualizarPosX(cantCarriles){
-        posx = posx + largo + separador*cantCarriles +ala;
+        posx = posx + largo + separador*cantCarriles;
     }
 
     function actualizarPosY(cantCarriles){
-        posy = posy + largo + separador*cantCarriles +ala;
+        posy = posy + largo + separador*cantCarriles;
     }
 
     function moverPosxAlOrigen(){

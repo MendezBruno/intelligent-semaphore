@@ -48,7 +48,7 @@ CnvCuadraReproductor.prototype.setup = function() {
                 var linea = new createjs.Shape();
                 linea.graphics
                     .beginFill("#ffffff")
-                    .drawRect(posinicial, this.posY + this.width, largoLinea, ala, 10);
+                    .drawRect(posinicial, this.posY + this.width - ala/2, largoLinea, ala, 10);
                 this.addChild(linea);
                 posinicial += largoLinea + sla;
             }
@@ -80,7 +80,7 @@ CnvCuadraReproductor.prototype.setup = function() {
                 var linea = new createjs.Shape();
                 linea.graphics
                     .beginFill("#ffffff")
-                    .drawRect( this.posX + this.width,posinicial, ala,largoLinea, 10);
+                    .drawRect( this.posX + this.width - ala/2,posinicial, ala,largoLinea, 10);
                 this.addChild(linea);
                 posinicial += largoLinea + sla;
             }
