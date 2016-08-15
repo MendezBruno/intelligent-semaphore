@@ -82,6 +82,25 @@ ReproductorController.prototype.dibujar = function (){
     }
     stage.canvas.height = posy + largo;
 
+    //Dibujar manzanas
+    posx = posInicialX;
+    posy = posInicialY;
+    for (var i=0; i<horizontales.length+1; i++) {
+        for (var j=0; j<verticales.length+1; j++) {
+            stage.addChild(new CnvManzana(posx,posy));
+            var cv = verticales[j];
+            if (cv) {
+                posx += CnvManzana.largo + cv.cantCarriles * Carril.ancho;
+            } else {
+                posx = posInicialX;
+            }
+        }
+        var calle = horizontales[i];
+        if (calle) {
+            posy += CnvManzana.largo + calle.cantCarriles * Carril.ancho;
+        }
+    }
+
     function generarCnvInterseccion(cantCarrilesH,cantCarrilesV) {
         var interseccion = new CnvInterseccion(posx,posy,cantCarrilesH,cantCarrilesV);
         stage.addChild(interseccion);

@@ -21,6 +21,7 @@ app.controller('reproductorController', function($scope,Mapa) {
         logicaReproductor.dibujar();
         createjs.Ticker.on("tick", stageReproductor);
         //stageReproductor.addChild(new CnvInterseccion(100,100,1000,1000));
+        // stageReproductor.addChild(new CnvManzana(0,0));
         stageReproductor.update();
         console.log(stageReproductor);
 
