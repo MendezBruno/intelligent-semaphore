@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse
  */
 
 class MapController : HttpServlet() {
-/**
+
     public override fun doGet(req: HttpServletRequest, res: HttpServletResponse) {
 
 
         res.contentType = "text/plain"
-        res.writer.print("text")
-    }*/
+        res.writer.print("esto devuelve en get")
+    }
 
 
     //TODO completar

@@ -31,4 +31,13 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
+	<servlet>
+		<servlet-name>Map</servlet-name>
+		<servlet-class>com.thegrid.communication.controller.MapController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Map</servlet-name>
+		<url-pattern>/api_v1.0/map</url-pattern>
+	</servlet-mapping>
+
 </web-app>
