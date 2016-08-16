@@ -43,5 +43,6 @@ class MapController : HttpServlet() {
             // crash and burn
             throw IOException("Error parsing JSON request string")
         }
+
     }
 }
