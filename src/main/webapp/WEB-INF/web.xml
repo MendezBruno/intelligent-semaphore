@@ -4,23 +4,6 @@
 	<welcome-file>index.html</welcome-file>
 </welcome-file-list>
 
-<servlet>
-	<servlet-name>Favorites</servlet-name>
-	<servlet-class>com.thegrid.semaphore.controller.Favorites</servlet-class>
-</servlet>
-<servlet-mapping>
-	<servlet-name>Favorites</servlet-name>
-	<url-pattern>/api_v1.0/favorites</url-pattern>
-</servlet-mapping>
-
-<servlet>
-	<servlet-name>Contacts</servlet-name>
-	<servlet-class>com.thegrid.semaphore.controller.Contacts</servlet-class>
-</servlet>
-<servlet-mapping>
-	<servlet-name>Contacts</servlet-name>
-	<url-pattern>/api_v1.0/contacts</url-pattern>
-</servlet-mapping>
 	<filter>
 		<filter-name>UrlRewriteFilter</filter-name>
 		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
@@ -31,4 +14,21 @@
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
+	<servlet>
+    <servlet-name>Map</servlet-name>
+    <servlet-class>com.thegrid.communication.controller.MapController</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>Map</servlet-name>
+        <url-pattern>/api_v1.0/map</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>MapState</servlet-name>
+        <servlet-class>com.thegrid.communication.controller.MapStateController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MapState</servlet-name>
+        <url-pattern>/api_v1.0/map_state</url-pattern>
+    </servlet-mapping>
+
 </web-app>
