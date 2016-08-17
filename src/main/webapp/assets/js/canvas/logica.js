@@ -226,19 +226,18 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     nodos[ultima] = [];
     var cantCuadrasHorizontales = nodos[1].length-1;
     for(i=1;i<cantCuadrasHorizontales;i++){
-        var vertical = modelo.callesVerticales[i-1];
+        var cuadras = modelo.callesVerticales[i-1].cuadras;
         var borde=nodos[ultima-1][i];
         var nuevo=new NodoNoSemaforo();
         nodos[ultima-1][i]=nuevo;
         nodos[ultima][i]=borde;
         //Buscar la cuadra que quedo desconectada.
-        var colgada = vertical.cuadras
-            .filter(function(e){return e.nodoDestino == borde.id});
+        var colgada = cuadras[cuadras.length-1];
         colgada.nodoDestino =nuevo.id;
         var nuevaCuadra = new Cuadra();
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
-        vertical.cuadras.push(nuevaCuadra);
+        cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
     }
     var calle = new CalleHorizontal();
@@ -303,19 +302,18 @@ GrillaController.prototype.agregarCalleVertical = function() {
     var ultima = nodos[1].length;
     var cantCuadrasVerticales = nodos.length-1;
     for(i=1;i<cantCuadrasVerticales;i++){
-        var horizontal = modelo.callesHorizontales[i-1];
+        var cuadras = modelo.callesHorizontales[i-1].cuadras;
         var borde=nodos[i][ultima-1];
         var nuevo=new NodoNoSemaforo();
         nodos[i][ultima-1]=nuevo;
         nodos[i][ultima]=borde;
         //Buscar la cuadra que quedo desconectada.
-        var colgada = horizontal.cuadras
-            .filter(function(e){return e.nodoDestino == borde.id});
+        var colgada = cuadras[cuadras.length-1];
         colgada.nodoDestino =nuevo.id;
         var nuevaCuadra = new Cuadra();
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
-        horizontal.cuadras.push(nuevaCuadra);
+        cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
         // console.log(nuevo.id);
     }

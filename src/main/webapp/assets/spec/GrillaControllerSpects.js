@@ -226,7 +226,31 @@ describe("redimensionar el mapa", function () {
         expect(scopeMock.nodoEntrada.intervalo).toBe(ie);
         expect(scopeMock.nodoSalida.cantMaxima).toBe(cms);
         expect(scopeMock.nodoSalida.intervalo).toBe(is);
-    })
+    });
+
+    it("Agregar calle vertical crea bien las referencias", function () {
+        logica.agregarCalleVertical();
+        var cuadras = modelo.callesHorizontales[0].cuadras;
+        var idDestinoAnterior = cuadras[cuadras.length-2].nodoDestino;
+        var idDestinoUltimo = cuadras[cuadras.length-1].nodoDestino;
+        var idOrigenUltimo = cuadras[cuadras.length-1].nodoOrigen;
+        var idOrigenAnterior = cuadras[cuadras.length-2].nodoOrigen;
+        expect(idDestinoAnterior == idDestinoUltimo).toBe(false);
+        expect(idDestinoAnterior == idOrigenUltimo).toBe(true);
+        expect(idOrigenAnterior == idDestinoUltimo).toBe(false);
+    });
+
+    it("Agregar calle horizontales crea bien las referencias", function () {
+        logica.agregarCalleHorizontal();
+        var cuadras = modelo.callesVerticales[0].cuadras;
+        var idDestinoAnterior = cuadras[cuadras.length-2].nodoDestino;
+        var idDestinoUltimo = cuadras[cuadras.length-1].nodoDestino;
+        var idOrigenUltimo = cuadras[cuadras.length-1].nodoOrigen;
+        var idOrigenAnterior = cuadras[cuadras.length-2].nodoOrigen;
+        expect(idDestinoAnterior == idDestinoUltimo).toBe(false);
+        expect(idDestinoAnterior == idOrigenUltimo).toBe(true);
+        expect(idOrigenAnterior == idDestinoUltimo).toBe(false);
+    });
 });
 
 var loggearNodos = function(nodos) {
