@@ -64,13 +64,31 @@ CnvCuadraReproductor.prototype.setup = function() {
             .beginFill(this.color)
             .drawRect(this.posX,this.posY,anchoCuadra,this.largo,10);
         //AGREGO N CARRILES
+        for (var numCarril=0; numCarril<this.cantCarriles; numCarril++) {
 
-        for (var numCarril=1; numCarril<this.cantCarriles+1; numCarril++) {
+            var posinicialSendaX = this.posX+ala/2; //le restamos media ala
+            var posinicialSendaY = this.posY + CnvCuadraReproductor.radioManzana;
+            for (var numsenda=0; numsenda<2; numsenda++) {
+                var sendapeatonal = new createjs.Shape();
+                sendapeatonal.graphics
+                    .beginFill("#ffffff")
+                    .drawRect(posinicialSendaX, posinicialSendaY, anchoSenda,this.largo/8, 10);
+                this.addChild(sendapeatonal);
+                posinicialSendaX =posinicialSendaX+ anchoSenda+ala;
+            }
+            //LINEA HORIZONTAL 1era
+            var lineaHorizontal = new createjs.Shape();
+            lineaHorizontal.graphics
+                .beginFill("#ffffff")
+                .drawRect( this.posX,posinicialSendaY + (this.largo/8 + ala), anchoCuadra,anchoSenda, 10);
+            this.addChild(lineaHorizontal);
+
+
             var posinicial = this.posY + (this.largo/8)*2+anchoSenda + ala;
 
             //AGREGO SENDA PEATONAL
-            var posinicialSendaX=this.posX+ala/2; //le restamos media ala
-            var posinicialSendaY = this.posY + CnvCuadraReproductor.radioManzana;
+            var posinicialSendaX = this.posX + ala/2; //le restamos media ala
+            var posinicialSendaY = this.posY + this.largo - CnvCuadraReproductor.radioManzana;
             for (var numsenda=0; numsenda<2; numsenda++) {
                 var sendapeatonal = new createjs.Shape();
                 sendapeatonal.graphics
@@ -81,21 +99,32 @@ CnvCuadraReproductor.prototype.setup = function() {
             }
 
             //LINEAS CARRIL
-            for (var j = 0; j < ((this.largo-(this.largo/8)*2-anchoSenda-ala)/2 / (largoLinea+sla)); j++) {
-                var linea = new createjs.Shape();
-                linea.graphics
-                    .beginFill("#ffffff")
-                    .drawRect( this.posX + this.width - ala/2,posinicial, ala,largoLinea, 10);
-                this.addChild(linea);
-                posinicial += largoLinea + sla;
+            if (numCarril != this.cantCarriles-1 ){
+                for (var j = 0; j < ((this.largo-(CnvCuadraReproductor.radioManzana+anchoSenda*2+this.largo/4)) / (largoLinea+sla)); j++) {
+                    var linea = new createjs.Shape();
+                    linea.graphics
+                        .beginFill("#ffffff")
+                        .drawRect(this.posX + this.width - ala / 2, posinicial, ala, largoLinea, 10);
+                    this.addChild(linea);
+                    posinicial += largoLinea + sla;
+                }
+
             }
+
             this.posX += this.width;
         }
-        //LINEA HORIZONTAL
+        ////LINEA HORIZONTAL 1era
+        //var lineaHorizontal = new createjs.Shape();
+        //lineaHorizontal.graphics
+        //    .beginFill("#ffffff")
+        //    .drawRect( this.posX -anchoCuadra,posinicialSendaY + (this.largo/8 + ala), anchoCuadra,anchoSenda, 10);
+        //this.addChild(lineaHorizontal);
+
+        //LINEA HORIZONTAL 2DA
         var lineaHorizontal = new createjs.Shape();
         lineaHorizontal.graphics
             .beginFill("#ffffff")
-            .drawRect( this.posX -anchoCuadra,posinicialSendaY + this.largo/8 + ala, anchoCuadra,anchoSenda, 10);
+            .drawRect( this.posX -anchoCuadra,posinicialSendaY , anchoCuadra,anchoSenda, 10);
         this.addChild(lineaHorizontal);
 
     }
