@@ -96,3 +96,38 @@ MapaEditor.prototype.semaforoTOnoSemaforo = function (id) {
     nodo.tiempoVertical = undefined;
     this.nodosNoSemaforo.push(nodo);
 };
+
+/**
+ * Recupera un modelo MapaEditor desde un json.
+ * Todos sus elementos tienen sus respectivos prototipos.
+ * @param json String con formato json
+ */
+MapaEditor.desParsear = function (json) {
+    var modelo = JSON.parse(JSON.stringify(json));
+    modelo.__proto__ = MapaEditor.prototype;
+    modelo.nodosEntrada
+        .concat(modelo.nodosSalida)
+        .forEach(function (n) {
+            n.__proto__ = NodoBorde.prototype;
+        });
+    modelo.nodosSemaforo
+        .concat(modelo.nodosNoSemaforo)
+        .forEach(function (n) {
+            n.__proto__ = NodoControl.prototype;
+        });
+    modelo.callesHorizontales
+        .forEach(function (calle) {
+            calle.__proto__ = CalleHorizontal.prototype;
+            calle.cuadras.forEach(function (c) {
+                c.__proto__ = Cuadra.prototype;
+            })
+        });
+    modelo.callesVerticales
+        .forEach(function (calle) {
+            calle.__proto__ = CalleVertical.prototype;
+            calle.cuadras.forEach(function (c) {
+                c.__proto__ = Cuadra.prototype;
+            })
+        });
+    return modelo;
+}

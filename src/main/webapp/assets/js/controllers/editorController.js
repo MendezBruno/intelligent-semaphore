@@ -32,16 +32,13 @@ app.controller('editorController', function($scope,Mapa,MyService) {
     stage.update();
     createjs.Ticker.on("tick", stage);
 
- //   var modelo = JSON.parse(JSON.stringify(MyService.data));
-
- //     modelo1.__proto__ = MapaEditor.prototype;
-
- //     logica.modelo=modelo1;
-
- //     logica.galeriaMapa(MyService.data);
-
- //     logica.redibujar();
- //     stage.update();
+    var json = MyService.data;
+    if(json){
+        var modelo1 = MapaEditor.desParsear(json);
+        logica.setModelo(modelo1);
+        logica.redibujar();
+        stage.update();
+    }
 
     $scope.$watch('callesH',function (newValue,oldValue){
 

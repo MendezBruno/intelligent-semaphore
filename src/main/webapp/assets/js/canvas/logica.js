@@ -165,6 +165,8 @@ GrillaController.prototype.redibujar = function() {
         cnvCalleVertical.calle = verticales[i];
     }
 
+    this.redimensionarCanvas();
+
     function generarCuadra(direccion, calle){
         var cuadra = new CnvCuadra(id, posx, posy, largo, "#b3b3b3", direccion);
         cuadra.clickListeners.push(partial(onClick,calle));
@@ -369,144 +371,48 @@ GrillaController.prototype.quitarCalleVertical = function() {
     })
 }
 
-GrillaController.prototype.galeriaMapa = function(modelo) {
-
-    var cantidadCallesHorizontalesAAgregar;
-
-    var cantidadCaleesVerticalesAAgregar;
-
-    this.$scope.nombre = modelo.nombre;
-
-    cantidadCallesHorizontalesAAgregar =  modelo.callesHorizontales[0].cuadras.length - this.$scope.callesH - 1;
-
-    cantidadCaleesVerticalesAAgregar = modelo.callesVerticales[0].cuadras.length - this.$scope.callesV - 1;
-
-    this.$scope.callesH = modelo.callesHorizontales[0].cuadras.length - 1;
-
-    this.$scope.callesV = modelo.callesVerticales[0].cuadras.length - 1;
-
-      this.nodos = [];
-      var nodos = this.nodos;
-      var nodo_bordes_aux = modelo.nodosEntrada;
-      nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosSalida);
-      nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosNoSemaforo);
-      nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosSemaforo);
-      nodos[0]=[];
-      console.log(modelo.nodosEntrada.length);
-      console.log(modelo.nodosSalida.length);
-      console.log(modelo.nodosNoSemaforo.length);
-      console.log(modelo.nodosSemaforo.length);
-      console.log(nodo_bordes_aux);
-
-      nodos[modelo.callesVerticales[0].cuadras.length]=[];  // Uso calles verticales debido a que dependiendo de la cantidad de cuadras verticale hay calles horizontales
-      for (var i=1; i < modelo.callesVerticales[0].cuadras.length; i++) {
-          nodos[i]=[];
-
-          for (var j=0; j<modelo.callesHorizontales[0].cuadras.length; j++) {
-
-              nodos[i][j]=nodo_bordes_aux.find(function(nodo ) { return nodo.id === modelo.callesHorizontales[i-1].cuadras[j].nodoOrigen});
-              console.log(nodos[i][j]);
-              console.log(modelo.callesHorizontales[i-1].cuadras[j].nodoOrigen);
-
-          }
-
-          nodos[i][modelo.callesHorizontales[0].cuadras.length]=nodo_bordes_aux.find(function(nodo ) { return nodo.id === modelo.callesHorizontales[i-1].cuadras[j-1].nodoDestino});
-
-
-      }
-
-    for (j=1; j < modelo.callesHorizontales[0].cuadras.length; j++) {
-
-
-        nodos[0][j]=nodo_bordes_aux.find(function(nodo ) { return nodo.id === modelo.callesVerticales[j-1].cuadras[0].nodoOrigen});
-        nodos[modelo.callesVerticales[0].cuadras.length][j]=nodo_bordes_aux.find(function(nodo ) { return nodo.id === modelo.callesVerticales[j-1].cuadras[modelo.callesVerticales[0].cuadras.length-1].nodoDestino});
-        console.log(modelo.callesVerticales[j-1].cuadras[modelo.callesVerticales[0].cuadras.length-1].nodoDestino);
-
-
-    }
-
-    var modeloParseado = JSON.parse(JSON.stringify(modelo));
-
-    modeloParseado.__proto__ = MapaEditor.prototype;
-
-    this.modelo=modeloParseado;
-
-    for(var p=0;p<8;p++)
-
-    console.log(this.modelo.nodosEntrada[p]);
-
-    this.nodos = nodos;
-
-
-     /*
-        for (j=0; j<columnas+1; j++) {
-            var cuadra = new Cuadra();
-            var origen = nodos[i][j];
-            var destino = nodos[i][j+1];
-            if (!destino) {
-                destino = new NodoNoSemaforo();
-                nodos[i][j+1] = destino;
-                this.modelo.nodosNoSemaforo.push(destino);
-            }
-            cuadra.nodoOrigen = origen.id;
-            cuadra.nodoDestino = destino.id;
-            calle.cuadras.push(cuadra);
-        }
-        this.modelo.callesHorizontales.push(calle); */
-//    }
-
-    /*
-    for (j=1; j < columnas+1; j++) {
-        var calle = new CalleVertical();
-        var entrada = new NodoBorde();
-        var salida = new NodoBorde();
-        nodos[0][j]=entrada;
-        nodos[columnas+1][j]=salida;
-        this.modelo.nodosEntrada.push(entrada);
-        this.modelo.nodosSalida.push(salida);
-
-        calle.sentido = Sentido.NORTE_SUR;
-        for (i=0; i<filas+1; i++) {
-            var cuadra = new Cuadra();
-            var origen = nodos[i][j];
-            var destino = nodos[i+1][j];
-            cuadra.nodoOrigen = origen.id;
-            cuadra.nodoDestino = destino.id;
-            calle.cuadras.push(cuadra);
-        }
-        this.modelo.callesVerticales.push(calle);
-    }
-
-    */
-
-
-
-
-
-
-  //  this.redibujar();
-
-
-//    self.$scope.$apply();
-
-
-
-}
-
 GrillaController.prototype.setModelo = function(modelo) {
-
     this.modelo=modelo;
+    var nodo_bordes_aux = modelo.nodosEntrada;
+    nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosSalida);
+    nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosNoSemaforo);
+    nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosSemaforo);
 
-    console.log(modelo.nombre);
+    this.nodos = [];
+    var nodos = this.nodos;
+    var verticales = modelo.callesVerticales;
+    var horizontales = modelo.callesHorizontales;
+    //Algoritmo de Mariano tuneado.
+    nodos[0]=[];
+    nodos[horizontales.length+1] = [];
+    for (var i=0; i<horizontales.length; i++) {
+        var cuadras = horizontales[i].cuadras;
+        nodos[i+1] = [];
+        //Asigno los nodo origen de cada cuadra por cada calle horizontal
+        for (var j=0; j<cuadras.length; j++) {
+            nodos[i+1][j] = nodo_bordes_aux.find(function(nodo) {
+                return nodo.id === cuadras[j].nodoOrigen;
+            });
+        }
+        //Asigno el ultimo nodo de la calle.
+        nodos[i+1][j] = nodo_bordes_aux.find(function(nodo) {
+            return nodo.id === cuadras[j-1].nodoDestino;
+        });
+    }
 
-    this.redibujar();
+    //Asigno por cada calle vertical el primer y ultimo nodo
+    for (var j=0; j<verticales.length; j++) {
+        var cuadras = verticales[j].cuadras;
+        nodos[0][j+1] = nodo_bordes_aux.find(function(nodo) {
+            return nodo.id === cuadras[0].nodoOrigen;
+        });
+        nodos[cuadras.length][j+1] = nodo_bordes_aux.find(function(nodo) {
+            return nodo.id === cuadras[cuadras.length-1].nodoDestino;
+        });
+    }
 
+    loggearNodos(nodos);
 }
-
-
-
-
-
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
@@ -520,6 +426,19 @@ Array.prototype.removeIf = function(callback) {
         }
     }
 };
+
+var loggearNodos = function(nodos) {
+    console.log("");
+    for (i=0;i<nodos.length;i++) {
+        var str = "";
+        if (i==0 || i==nodos.length-1) str+="         ";
+        for (j=0;j<nodos[i].length;j++) {
+            if (!nodos[i][j]) continue;
+            str+=" "+nodos[i][j].id;
+        }
+        console.log(str);
+    }
+}
 
 //Aplicacion parcial en js. Repasar concepto de Paradigmas de programacion
 function partial(fn /*, args...*/) {

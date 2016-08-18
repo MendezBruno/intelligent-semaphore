@@ -19,17 +19,18 @@ function Calle() { //ABSTRACTA
 function CalleVertical() {
     Calle.call(this);
     this.sentidosPosibles = [Sentido.NORTE_SUR, Sentido.SUR_NORTE];
-    this.cambiaTuSentido =function (){
-        this.sentido = this.sentido == Sentido.NORTE_SUR ? Sentido.SUR_NORTE:Sentido.NORTE_SUR;
-    }
 }
 createjs.extend(CalleVertical,Calle);
+
+CalleVertical.prototype.cambiaTuSentido = function (){
+    this.sentido = this.sentido == Sentido.NORTE_SUR ? Sentido.SUR_NORTE:Sentido.NORTE_SUR;
+}
 
 function CalleHorizontal() {
     Calle.call(this);
     this.sentidosPosibles = [Sentido.ESTE_OESTE, Sentido.OESTE_ESTE];
-    this.cambiaTuSentido =function (){
-        this.sentido = this.sentido == Sentido.ESTE_OESTE ? Sentido.OESTE_ESTE:Sentido.ESTE_OESTE;
-    }
 }
 createjs.extend(CalleHorizontal,Calle);
+CalleHorizontal.prototype.cambiaTuSentido =function (){
+    this.sentido = this.sentido == Sentido.ESTE_OESTE ? Sentido.OESTE_ESTE:Sentido.ESTE_OESTE;
+}

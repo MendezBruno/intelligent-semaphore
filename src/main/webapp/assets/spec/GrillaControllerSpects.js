@@ -140,15 +140,15 @@ describe("redimensionar el mapa", function () {
     it("Agregar calle H y V", function () {
         // var idsOrigen = getIds(logica.nodos);
         // console.log(logica.nodos);
-        loggearNodos(logica.nodos);
-        loggearModelo(modelo);
-        logica.agregarCalleVertical();
-        loggearNodos(logica.nodos);
-        loggearModelo(modelo);
+        // loggearNodos(logica.nodos);
+        // loggearModelo(modelo);
+        // logica.agregarCalleVertical();
+        // loggearNodos(logica.nodos);
+        // loggearModelo(modelo);
         // console.log(logica.nodos);
-        logica.agregarCalleHorizontal();
-        loggearNodos(logica.nodos);
-        loggearModelo(modelo);
+        // logica.agregarCalleHorizontal();
+        // loggearNodos(logica.nodos);
+        // loggearModelo(modelo);
         // var idsResultado = getIds(logica.nodos);
         // console.log(logica.nodos);
         expect(true).toBe(true);
@@ -251,6 +251,13 @@ describe("redimensionar el mapa", function () {
         expect(idDestinoAnterior == idOrigenUltimo).toBe(true);
         expect(idOrigenAnterior == idDestinoUltimo).toBe(false);
     });
+
+    it("Comparar con setModelo", function () {
+        loggearNodos(logica.nodos);
+        logica.setModelo(modelo);
+        loggearNodos(logica.nodos);
+        expect(true).toBe(true);
+    })
 });
 
 var loggearNodos = function(nodos) {
