@@ -27,13 +27,21 @@ function CnvCuadraReproductor(posX, posY,largo,cantCarriles,horizontal) {
 createjs.extend(CnvCuadraReproductor, createjs.Container);
 
 CnvCuadraReproductor.radioManzana = 40;
+CnvCuadraReproductor.largoSenda = 35;
+CnvCuadraReproductor.sla = 4;
+CnvCuadraReproductor.largoLineaSeparacionCarriles = 10;
 
 CnvCuadraReproductor.prototype.setup = function() {
-    var sla = 4;   //Separacino de la linea amarilla
-    var ala = this.width/6    //ancho linea amarilla es una sexta parte del ancho de la calle
-    var largoLinea = 10;
+    var sla = CnvCuadraReproductor.sla;   //Separacino de la linea amarilla
+    var ala = Carril.ancho/6;    //ancho linea amarilla es una sexta parte del ancho de la calle
     var anchoCuadra = Carril.ancho * this.cantCarriles + ala;
     var anchoSenda = (Carril.ancho - 2*ala)/2;
+    var largoCalle = this.largo;
+    var largoLinea = CnvCuadraReproductor.largoLineaSeparacionCarriles;
+    var largoSenda = CnvCuadraReproductor.largoSenda;
+    var radioManzana =  CnvCuadraReproductor.radioManzana;
+    var ses = largoCalle - largoSenda*2 - anchoSenda*2 - radioManzana*2 - ala*2;    //SEPARACION ENTRE SENDAS
+
 
 
     //UNA CALLE SOLA
@@ -93,7 +101,7 @@ CnvCuadraReproductor.prototype.setup = function() {
                 var sendapeatonal = new createjs.Shape();
                 sendapeatonal.graphics
                     .beginFill("#ffffff")
-                    .drawRect(posinicialSendaX, posinicialSendaY, anchoSenda,this.largo/8, 10);
+                    .drawRect(posinicialSendaX, posinicialSendaY - CnvCuadraReproductor.radioManzana , anchoSenda,this.largo/8, 10);
                 this.addChild(sendapeatonal);
                 posinicialSendaX =posinicialSendaX+ anchoSenda+ala;
             }
