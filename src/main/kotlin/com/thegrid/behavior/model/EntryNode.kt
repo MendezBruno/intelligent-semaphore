@@ -4,11 +4,12 @@ package com.thegrid.communication.model
  * Created by Surakituaka on 05/08/2016.
  */
 
-class EntryNode(override val id: String/*, var FDPCarInput : FDP*/) : Node{
-    var egressBlock: Block? = null
+class EntryNode(id: String/*, var FDPCarInput : FDP*/) : NodeType(id) {
+
+    private var _egressBlock: Block? = null
 
     override fun addEgressBlock(block: Block) {
-        egressBlock = block
+        _egressBlock = block
     }
 
     override fun addEntryBlock(block: Block) {
