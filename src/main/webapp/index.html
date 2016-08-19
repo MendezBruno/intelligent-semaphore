@@ -9,50 +9,73 @@
     <link type="text/css" rel="stylesheet" href="/assets/css/main.css"/>
     <link type="text/css" rel="stylesheet" href="/assets/css/bootstrap/bootstrap-theme.min.css"/>
     <link type="text/css" rel="stylesheet" href="/assets/libs/bootstrap-touchspin-master/jquery.bootstrap-touchspin.css"/>
-    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <!--<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>-->
+    <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
 
 </head>
 
-<body ng-controller="mainController" >
-    <p>Hola salgo o no?</p>
-    <p>Hola</p>
-        <div class="container">
-            <div ng-view>
-            </div>
-        </div>
-
+<body ng-controller="mainController">
+    <div class="tg-header">
+        <p>Hola salgo o no?</p>
+        <p>Hola</p>
+        <a href="/app/galeria">Salir</a>
+    </div>
+        <!--<div class="container">-->
+        <!--</div>-->
+    <div ng-view class="tg-ng-view">
+    </div>
 
     <!--Libs-->
-<script src="assets/libs/jquery-1.11.3.min.js"></script>
-<script src="assets/libs/bootstrap.min.js"></script>
-<script src="assets/libs/bootstrap-touchspin-master/jquery.bootstrap-touchspin.js"></script>
-<!--Angular-->
-<script src="assets/libs/angular.js"></script>
-<script src="assets/libs/angular-resource.js"></script>
-<script src="assets/libs/angular-route.js"></script>
-<!--Scripts-->
-<script src="assets/js/app.js"></script>
-<script src="assets/js/utils.js"></script>
-<script src="assets/js/controllers/mainController.js"></script>
-<script src="assets/js/controllers/editorController.js"></script>
-<script src="assets/js/controllers/galeriaController.js"></script>
-<script src="assets/js/controllers/reproductorController.js"></script>
-<script src="assets/js/controllers/loginController.js"></script>
+    <script src="assets/libs/jquery-1.11.3.min.js"></script>
+    <script src="assets/libs/bootstrap.min.js"></script>
+    <script src="assets/libs/bootstrap-touchspin-master/jquery.bootstrap-touchspin.js"></script>
+    <!--Angular-->
+    <script src="assets/libs/angular.js"></script>
+    <script src="assets/libs/angular-resource.js"></script>
+    <script src="assets/libs/angular-route.js"></script>
+    <!--Scripts-->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/controllers/mainController.js"></script>
+    <script src="assets/js/controllers/editorController.js"></script>
+    <script src="assets/js/controllers/galeriaController.js"></script>
+    <script src="assets/js/controllers/reproductorController.js"></script>
+    <script src="assets/js/controllers/loginController.js"></script>
+    <script src="assets/js/canvas/factoria/fabricaGaleria.js"></script>
 
-<!--Canvas-->
-<script src="assets/js/canvas/constructors/Boton.js"></script>
-<script src="assets/js/canvas/constructors/CnvCuadra.js"></script>
-<script src="assets/js/canvas/constructors/CnvCalle.js"></script>
-<script src="assets/js/canvas/logica.js"></script>
-<script src="assets/js/canvas/constructors/CnvNodoBorde.js"></script>
-<script src="assets/js/canvas/constructors/CnvNodoControl.js"></script>
-<script src="assets/libs/easeljs-NEXT.combined.js"></script>
+    <!--Canvas-->
+    <script src="assets/js/canvas/constructors/Boton.js"></script>
+    <script src="assets/js/canvas/constructors/CnvCuadra.js"></script>
+    <script src="assets/js/canvas/constructors/CnvCalle.js"></script>
+    <script src="assets/js/canvas/logica.js"></script>
+    <script src="assets/js/canvas/logicaReproductor.js"></script>
+    <script src="assets/js/canvas/constructors/CnvNodoBorde.js"></script>
+    <script src="assets/js/canvas/constructors/CnvNodoControl.js"></script>
+    <script src="assets/js/canvas/reproductor/CnvCuadraReproductor.js"></script>
+    <script src="assets/js/canvas/reproductor/CnvManzana.js"></script>
+    <script src="assets/js/canvas/reproductor/ColoresRGB.js"></script>
+    <script src="assets/js/canvas/reproductor/CnvInterseccion.js"></script>
+    <script src="assets/js/canvas/reproductor/CnvSemaforo.js"></script>
+    <script src="assets/libs/easeljs-NEXT.combined.js"></script>
 
-<!--Modelo Del Front -->
-<script src="assets/js/Modelo/Calle.js"></script>
-<script src="assets/js/Modelo/Cuadra.js"></script>
-<script src="assets/js/Modelo/MapaEditor.js"></script>
-<script src="assets/js/Modelo/Nodo.js"></script>
+
+    <!--Modelo Del Front -->
+    <script src="assets/js/Modelo/Calle.js"></script>
+    <script src="assets/js/Modelo/Cuadra.js"></script>
+    <script src="assets/js/Modelo/MapaEditor.js"></script>
+    <script src="assets/js/Modelo/Nodo.js"></script>
+
+    <script>
+        ajustarAlto = function() {
+            headerHeight = parseInt($(".tg-header").css("height"),10);
+            windowHeight = $(window).height();
+            tgngviewheight = windowHeight - headerHeight;
+            $(".tg-ng-view").height(tgngviewheight);
+        }
+        window.addEventListener("resize", ajustarAlto);
+
+        ajustarAlto();
+    </script>
 
 </body>
 </html>

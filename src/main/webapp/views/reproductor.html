@@ -1,1 +1,64 @@
-<a href="/app/galeria">Salir</a>
+<html>
+<head>
+    <style>
+        .tg-marco{
+            background-color: #e3e3e3;
+            border: 1px #adadad solid;
+            padding:10px;
+        }
+        .tg-row {
+            padding:10px;
+        }
+        .tg-row > div{
+            padding:0px;
+        }
+        #header {
+            height: 30px;
+            padding: 5px;
+        }
+        #canvaspanel {
+            background-color: white;
+            overflow:auto;
+            padding:0px;
+        }
+        #controles {
+            height: 50px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row tg-row">
+            <div class="col-sm-9">
+                <div class="tg-marco">
+                    <div id="header">
+                        Simulacion en curso...{{algunaVariable}}
+                    </div>
+                    <div class="container-fluid" id="canvaspanel">
+                        <canvas id="reproductor" width="1000px" height="1000px">
+                        </canvas>
+                    </div>
+                    <div id="controles">
+                        Controles de reproduccion
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="tg-marco">
+                    Panel de datos
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var resize = function () {
+            var headerHeight = parseInt($("#header").height(),10);
+            var controlesHeight = parseInt($("#controles").height(),10);
+            $("#canvaspanel").css("height",tgngviewheight-80-headerHeight-controlesHeight);
+        };
+        window.addEventListener("resize", resize);
+        resize();
+    </script>
+</body>
+</html>

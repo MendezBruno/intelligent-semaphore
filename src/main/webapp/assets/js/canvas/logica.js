@@ -103,7 +103,7 @@ GrillaController.prototype.redibujar = function() {
 
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
-    for (i=0; i<horizontales.length; i++) {
+    for (var i=0; i<horizontales.length; i++) {
         moverPosxAlOrigen();
         var calle = horizontales[i];
         var entrada = new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA],
@@ -118,7 +118,7 @@ GrillaController.prototype.redibujar = function() {
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         var cuadras = new Array();
 
-        for (j = 0; j < verticales.length + 1; j++) {
+        for (var j = 0; j < verticales.length + 1; j++) {
             var cnvCuadra = generarCuadra(HORIZONTAL,cnvCalleHorizontal);
             cnvCuadra.cuadra = calle.cuadras[j];
             cuadras.push(cnvCuadra);
@@ -137,7 +137,7 @@ GrillaController.prototype.redibujar = function() {
     moverPosxAlOrigen();
     moverPosyAlOrigen();
     posx=posx + largo;
-    for (i = 0; i < verticales.length; i++) {
+    for (var i = 0; i < verticales.length; i++) {
         var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1],1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
         var posYNodoSalida = posy+(largo+separador)*(horizontales.length+1);
         var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1],
@@ -149,7 +149,7 @@ GrillaController.prototype.redibujar = function() {
         stage.addChild(entrada);
         stage.addChild(salida);
 
-        for (j = 0; j < horizontales.length+1; j++) {
+        for (var j = 0; j < horizontales.length+1; j++) {
             // actualizarPosY();
             //posx=posx + this.largo;
             var cnvCuadra = generarCuadra(VERTICAL,cnvCalleVertical);
@@ -164,6 +164,8 @@ GrillaController.prototype.redibujar = function() {
         cnvCalleVertical.$scope = this.$scope;
         cnvCalleVertical.calle = verticales[i];
     }
+
+    this.redimensionarCanvas();
 
     function generarCuadra(direccion, calle){
         var cuadra = new CnvCuadra(id, posx, posy, largo, "#b3b3b3", direccion);
@@ -226,19 +228,18 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     nodos[ultima] = [];
     var cantCuadrasHorizontales = nodos[1].length-1;
     for(i=1;i<cantCuadrasHorizontales;i++){
-        var vertical = modelo.callesVerticales[i-1];
+        var cuadras = modelo.callesVerticales[i-1].cuadras;
         var borde=nodos[ultima-1][i];
         var nuevo=new NodoNoSemaforo();
         nodos[ultima-1][i]=nuevo;
         nodos[ultima][i]=borde;
         //Buscar la cuadra que quedo desconectada.
-        var colgada = vertical.cuadras
-            .filter(function(e){return e.nodoDestino == borde.id});
+        var colgada = cuadras[cuadras.length-1];
         colgada.nodoDestino =nuevo.id;
         var nuevaCuadra = new Cuadra();
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
-        vertical.cuadras.push(nuevaCuadra);
+        cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
     }
     var calle = new CalleHorizontal();
@@ -303,19 +304,18 @@ GrillaController.prototype.agregarCalleVertical = function() {
     var ultima = nodos[1].length;
     var cantCuadrasVerticales = nodos.length-1;
     for(i=1;i<cantCuadrasVerticales;i++){
-        var horizontal = modelo.callesHorizontales[i-1];
+        var cuadras = modelo.callesHorizontales[i-1].cuadras;
         var borde=nodos[i][ultima-1];
         var nuevo=new NodoNoSemaforo();
         nodos[i][ultima-1]=nuevo;
         nodos[i][ultima]=borde;
         //Buscar la cuadra que quedo desconectada.
-        var colgada = horizontal.cuadras
-            .filter(function(e){return e.nodoDestino == borde.id});
+        var colgada = cuadras[cuadras.length-1];
         colgada.nodoDestino =nuevo.id;
         var nuevaCuadra = new Cuadra();
         nuevaCuadra.nodoOrigen = nuevo.id;
         nuevaCuadra.nodoDestino = borde.id;
-        horizontal.cuadras.push(nuevaCuadra);
+        cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
         // console.log(nuevo.id);
     }
@@ -371,6 +371,49 @@ GrillaController.prototype.quitarCalleVertical = function() {
     })
 }
 
+GrillaController.prototype.setModelo = function(modelo) {
+    this.modelo=modelo;
+    var nodo_bordes_aux = modelo.nodosEntrada;
+    nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosSalida);
+    nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosNoSemaforo);
+    nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosSemaforo);
+
+    this.nodos = [];
+    var nodos = this.nodos;
+    var verticales = modelo.callesVerticales;
+    var horizontales = modelo.callesHorizontales;
+    //Algoritmo de Mariano tuneado.
+    nodos[0]=[];
+    nodos[horizontales.length+1] = [];
+    for (var i=0; i<horizontales.length; i++) {
+        var cuadras = horizontales[i].cuadras;
+        nodos[i+1] = [];
+        //Asigno los nodo origen de cada cuadra por cada calle horizontal
+        for (var j=0; j<cuadras.length; j++) {
+            nodos[i+1][j] = nodo_bordes_aux.find(function(nodo) {
+                return nodo.id === cuadras[j].nodoOrigen;
+            });
+        }
+        //Asigno el ultimo nodo de la calle.
+        nodos[i+1][j] = nodo_bordes_aux.find(function(nodo) {
+            return nodo.id === cuadras[j-1].nodoDestino;
+        });
+    }
+
+    //Asigno por cada calle vertical el primer y ultimo nodo
+    for (var j=0; j<verticales.length; j++) {
+        var cuadras = verticales[j].cuadras;
+        nodos[0][j+1] = nodo_bordes_aux.find(function(nodo) {
+            return nodo.id === cuadras[0].nodoOrigen;
+        });
+        nodos[cuadras.length][j+1] = nodo_bordes_aux.find(function(nodo) {
+            return nodo.id === cuadras[cuadras.length-1].nodoDestino;
+        });
+    }
+
+    loggearNodos(nodos);
+}
+
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
 };
@@ -383,6 +426,19 @@ Array.prototype.removeIf = function(callback) {
         }
     }
 };
+
+var loggearNodos = function(nodos) {
+    console.log("");
+    for (i=0;i<nodos.length;i++) {
+        var str = "";
+        if (i==0 || i==nodos.length-1) str+="         ";
+        for (j=0;j<nodos[i].length;j++) {
+            if (!nodos[i][j]) continue;
+            str+=" "+nodos[i][j].id;
+        }
+        console.log(str);
+    }
+}
 
 //Aplicacion parcial en js. Repasar concepto de Paradigmas de programacion
 function partial(fn /*, args...*/) {

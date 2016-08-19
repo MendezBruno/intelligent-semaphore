@@ -1,0 +1,67 @@
+
+<html>
+<head>
+    <style>
+        .borde-izq
+        {
+            border-right: 1px solid black;
+
+        }
+        .featurette-divider
+        {
+            border: 1px solid gray;
+            width: 90%;
+
+        }
+
+        .col-xs-5ths {
+            width: 20%;
+            float: left;
+        }
+
+    </style>
+</head>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-5ths borde-izq">
+
+        <div class="btn-group-vertical">
+
+                <a href="/app/editor" class="btn btn-default" role="button">Crear Mapa</a>
+
+                <hr class="featurette-divider">
+
+                <button type="button" class="btn btn-default">Editar</button>
+
+
+                <button type="button" class="btn btn-default">Eliminar</button>
+
+
+                <button type="button" class="btn btn-default">Ejecutar</button>
+
+
+
+        </div>
+
+    </div>
+
+        <div class="tumbnails">
+
+                <div ng-repeat="pic in pictures" class="col-md-4">
+
+                <img alt="Imagen Semaforo" src="{{pic.url}}" class="img-responsive" width="150" height="150" ng-click="mostrar(pic.title)" />
+
+                <h1>{{pic.title}}</h1>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+</html>

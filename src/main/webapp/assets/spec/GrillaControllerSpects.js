@@ -140,15 +140,15 @@ describe("redimensionar el mapa", function () {
     it("Agregar calle H y V", function () {
         // var idsOrigen = getIds(logica.nodos);
         // console.log(logica.nodos);
-        loggearNodos(logica.nodos);
-        loggearModelo(modelo);
-        logica.agregarCalleVertical();
-        loggearNodos(logica.nodos);
-        loggearModelo(modelo);
+        // loggearNodos(logica.nodos);
+        // loggearModelo(modelo);
+        // logica.agregarCalleVertical();
+        // loggearNodos(logica.nodos);
+        // loggearModelo(modelo);
         // console.log(logica.nodos);
-        logica.agregarCalleHorizontal();
-        loggearNodos(logica.nodos);
-        loggearModelo(modelo);
+        // logica.agregarCalleHorizontal();
+        // loggearNodos(logica.nodos);
+        // loggearModelo(modelo);
         // var idsResultado = getIds(logica.nodos);
         // console.log(logica.nodos);
         expect(true).toBe(true);
@@ -226,6 +226,37 @@ describe("redimensionar el mapa", function () {
         expect(scopeMock.nodoEntrada.intervalo).toBe(ie);
         expect(scopeMock.nodoSalida.cantMaxima).toBe(cms);
         expect(scopeMock.nodoSalida.intervalo).toBe(is);
+    });
+
+    it("Agregar calle vertical crea bien las referencias", function () {
+        logica.agregarCalleVertical();
+        var cuadras = modelo.callesHorizontales[0].cuadras;
+        var idDestinoAnterior = cuadras[cuadras.length-2].nodoDestino;
+        var idDestinoUltimo = cuadras[cuadras.length-1].nodoDestino;
+        var idOrigenUltimo = cuadras[cuadras.length-1].nodoOrigen;
+        var idOrigenAnterior = cuadras[cuadras.length-2].nodoOrigen;
+        expect(idDestinoAnterior == idDestinoUltimo).toBe(false);
+        expect(idDestinoAnterior == idOrigenUltimo).toBe(true);
+        expect(idOrigenAnterior == idDestinoUltimo).toBe(false);
+    });
+
+    it("Agregar calle horizontales crea bien las referencias", function () {
+        logica.agregarCalleHorizontal();
+        var cuadras = modelo.callesVerticales[0].cuadras;
+        var idDestinoAnterior = cuadras[cuadras.length-2].nodoDestino;
+        var idDestinoUltimo = cuadras[cuadras.length-1].nodoDestino;
+        var idOrigenUltimo = cuadras[cuadras.length-1].nodoOrigen;
+        var idOrigenAnterior = cuadras[cuadras.length-2].nodoOrigen;
+        expect(idDestinoAnterior == idDestinoUltimo).toBe(false);
+        expect(idDestinoAnterior == idOrigenUltimo).toBe(true);
+        expect(idOrigenAnterior == idDestinoUltimo).toBe(false);
+    });
+
+    it("Comparar con setModelo", function () {
+        loggearNodos(logica.nodos);
+        logica.setModelo(modelo);
+        loggearNodos(logica.nodos);
+        expect(true).toBe(true);
     })
 });
 
