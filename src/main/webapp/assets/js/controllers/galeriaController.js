@@ -49,7 +49,8 @@ app.controller('galeriaController', function($scope,$location,MyService) {
      //   console.log(MyService.data.nombre);
 
         $location.url("/app/editor");
-        
+
+
     };
 
 
