@@ -5,31 +5,40 @@ import com.google.api.server.spi.config.ApiMethod
 import com.google.api.server.spi.config.ApiNamespace
 import com.thegrid.communication.model.*
 
-/**
- * Created by Surakituaka on 01/08/2016.
- */
-
 @Api(name = "intelligentsemaphore", version = "v1",
-        namespace = ApiNamespace(ownerDomain = "helloworld.example.com",
-                ownerName = "helloworld.example.com", packagePath = ""))
+        namespace = ApiNamespace(ownerDomain = "com.thegrid.intelligentsemaphore",
+                ownerName = "com.thegrid.intelligentsemaphore", packagePath = ""))
 class MapController {
-    @ApiMethod(name = "mapa", httpMethod = ApiMethod.HttpMethod.POST)
-    fun postMapa(mapa:MapaFrontend): MapaFrontend {
-        return mapa;
+    @ApiMethod(name = "map", httpMethod = ApiMethod.HttpMethod.POST)
+    fun postMap(map: dataMap): dataMap {
+        return map;
     }
 
-    @ApiMethod(name = "mapatest", httpMethod = ApiMethod.HttpMethod.GET)
-    fun getMapaTest(): MapaFrontend {
-        return MapaFrontend("San telmo",
-                arrayOf(Calle(10,5,"Norte-Sur",
-                        arrayOf("Norte-Sur", "Sur-Norte"),
-                        arrayOf(Cuadra("4",100,"7","8")))),
-                arrayOf(Calle(10,5,"Norte-Sur",
-                        arrayOf("Norte-Sur", "Sur-Norte"),
-                        arrayOf(Cuadra("4",100,"9","10")))),
-                arrayOf(NodoBorde("7")),
-                arrayOf(NodoBorde("8")),
-                arrayOf(NodoControl("9")),
-                arrayOf(NodoControl("10")));
+    @ApiMethod(name = "maptest", httpMethod = ApiMethod.HttpMethod.GET)
+    fun getMapTest(): dataMap {
+
+        val dBlock1 = dataBlock();
+        dBlock1.id = "1";
+        val dBlock2 = dataBlock();
+        dBlock2.id = "2";
+        val dStreet1 = dataStreet();
+        dStreet1.blocks = arrayOf(dBlock1);
+        dStreet1.posibleSenses = arrayOf("Norte-Sur", "Sur-Norte");
+        val dStreet2 = dataStreet();
+        dStreet2.blocks = arrayOf(dBlock2);
+        dStreet2.posibleSenses = arrayOf("Norte-Sur", "Sur-Norte");
+        val dSemaphoreNode = dataSemaphoreNode();
+        val dNonSemaphoreNode = dataControlNode();
+        val dEntryNode = dataEdgeNode();
+        val dEndNode = dataEdgeNode();
+        val dMap = dataMap();
+        dMap.hStreets = arrayOf(dStreet1);
+        dMap.vStreets = arrayOf(dStreet2);
+        dMap.entryNodes = arrayOf(dEntryNode);
+        dMap.endNodes = arrayOf(dEndNode);
+        dMap.semaphoreNodes = arrayOf(dSemaphoreNode);
+        dMap.nonSemaphoreNodes = arrayOf(dNonSemaphoreNode);
+        dMap.setName("San Telmo");
+        return dMap;
     }
 }

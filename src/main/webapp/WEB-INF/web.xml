@@ -15,8 +15,6 @@
 			<param-value>
 				<!--Aca van clases que contienen endpoints,
 				tanto java como kotlin-->
-				com.thegrid.api.WebApi,
-				com.thegrid.api.WebApiKotlin,
 				com.thegrid.communication.controller.MapController
 			</param-value>
 		</init-param>
