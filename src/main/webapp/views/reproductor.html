@@ -33,7 +33,11 @@
             <div class="col-sm-9">
                 <div class="tg-marco">
                     <div id="header">
-                        Simulacion en curso...{{algunaVariable}}
+                        <div></div><p>Simulacion en curso   tiempo: {{contador}} </p> </div>
+                        <div>
+                            <a class="btn" ng-click="iniciar()" role="button"> Iniciar</a>
+                            <a class="btn" ng-click="detener()" role="button"> Detener</a>
+                        </div>
                     </div>
                     <div class="container-fluid" id="canvaspanel">
                         <canvas id="reproductor" width="1000px" height="1000px">

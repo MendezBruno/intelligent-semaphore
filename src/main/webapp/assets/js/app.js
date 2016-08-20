@@ -1,7 +1,7 @@
 var app = angular.module('app', ['ngRoute','ngResource']);
 
-app.run(['$rootScope',
-    function($rootScope) {
+app.run(['$rootScope','$interval',
+    function($rootScope,$interval) {
         $rootScope.cargandoHttp=true;
         //$rootScope.splashes = splashes;
     }]);
@@ -61,4 +61,10 @@ app.factory("Mapa", ["$resource",function($resource){
         });
 }]);
 
+app.factory("MapaUpdate", ["$resource",function($resource){
+    return  $resource("/api_v1.0/mapaUpdate", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
 
