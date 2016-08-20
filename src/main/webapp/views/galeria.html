@@ -2,9 +2,11 @@
 <html>
 <head>
     <style>
-        .borde-izq
+        .borde-der
         {
-            border-right: 1px solid black;
+            border-right: black;
+            width:1px;
+            height:1000px
 
         }
         .featurette-divider
@@ -22,10 +24,73 @@
     </style>
 </head>
 
+<body>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-5ths borde-izq">
+        <div class="col-md-2 " style="border-right: 1px solid black; height:1000px">
+
+            <div class="btn-group-vertical center-block">
+
+                <a href="/app/editor" class="btn btn-default" role="button">Crear Mapa</a>
+
+                <hr class="featurette-divider">
+
+                <button type="button" class="btn btn-default">Editar</button>
+
+                <br>
+
+                <button type="button" class="btn btn-default">Eliminar</button>
+
+                <br>
+
+                <button type="button" class="btn btn-default">Ejecutar</button>
+
+            </div>
+
+
+         </div>
+
+        <div class="col-md-10" >
+
+
+            <div class="container-fluid">
+
+                <div class="tumbnails">
+
+                    <div ng-repeat="pic in pictures" class="col-md-4">
+
+                        <img alt="Imagen Semaforo" src="{{pic.url}}" class="img-responsive" id="imagenes" onclick="miFuncion(imagenes)" width="150" height="150" ng-dblclick="mostrar(pic.title)" />
+
+                        <h3>{{pic.title}}</h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+</div>
+
+    </div>
+
+
+<script>
+    function myFunction(imag) {
+        this.style.opacity=0.5;
+    }
+</script>
+
+
+</body>
+
+
+
+
+
+<!--
 
         <div class="btn-group-vertical">
 
@@ -63,5 +128,7 @@
     </div>
 
 </div>
+
+-->
 
 </html>
