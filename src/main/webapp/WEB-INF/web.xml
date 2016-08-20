@@ -14,7 +14,8 @@
 		<param-name>services</param-name>
 		<param-value>
 			com.thegrid.api.WebApi,
-			com.thegrid.api.WebApiKotlin
+			com.thegrid.api.WebApiKotlin,
+			com.thegrid.communication.controller.MapController
 		</param-value>
 	</init-param>
 </servlet>

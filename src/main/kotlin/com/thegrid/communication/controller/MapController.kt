@@ -1,31 +1,35 @@
 package com.thegrid.communication.controller
 
-import javax.servlet.http.HttpServlet
+import com.google.api.server.spi.config.Api
+import com.google.api.server.spi.config.ApiMethod
+import com.google.api.server.spi.config.ApiNamespace
+import com.thegrid.communication.model.*
 
 /**
  * Created by Surakituaka on 01/08/2016.
  */
 
-class MapController : HttpServlet() {
-/**
-    public override fun doGet(req: HttpServletRequest, res: HttpServletResponse) {
-
-
-        res.contentType = "text/plain"
-        res.writer.print("text")
-    }*/
-
-
-    //TODO completar
-/**
-    public override fun doPost(req: HttpServletRequest, res: HttpServletResponse) {
-    list.add(req.getParameter("name"))
-    res.contentType = "text/plain"
-    if (list.isEmpty()) {
-    res.writer.println("Please enter a name")
+@Api(name = "intelligentsemaphore", version = "v1",
+        namespace = ApiNamespace(ownerDomain = "helloworld.example.com",
+                ownerName = "helloworld.example.com", packagePath = ""))
+class MapController {
+    @ApiMethod(name = "mapa", httpMethod = ApiMethod.HttpMethod.POST)
+    fun postMapa(mapa:MapaFrontend): MapaFrontend {
+        return mapa;
     }
-    for(item: String in list) {
-    res.writer.println("Hello " + item!!)
+
+    @ApiMethod(name = "mapatest", httpMethod = ApiMethod.HttpMethod.GET)
+    fun getMapaTest(): MapaFrontend {
+        return MapaFrontend("San telmo",
+                arrayOf(Calle(10,5,"Norte-Sur",
+                        arrayOf("Norte-Sur", "Sur-Norte"),
+                        arrayOf(Cuadra("4",100,"7","8")))),
+                arrayOf(Calle(10,5,"Norte-Sur",
+                        arrayOf("Norte-Sur", "Sur-Norte"),
+                        arrayOf(Cuadra("4",100,"9","10")))),
+                arrayOf(NodoBorde("7")),
+                arrayOf(NodoBorde("8")),
+                arrayOf(NodoControl("9")),
+                arrayOf(NodoControl("10")));
     }
-    }*/
 }
