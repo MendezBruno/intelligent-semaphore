@@ -21,6 +21,45 @@
             float: left;
         }
 
+        .check
+        {
+            opacity:0.5;
+            color:#996;
+
+        }
+
+        .thumbnail {position: relative; z-index: 0; }
+        .thumbnail:hover{ background-color: transparent; z-index: 50; }
+        .thumbnail span{ /* Estilos para la imagen agrandada */
+            position: absolute;
+            background-color: black;
+            padding: 5px;
+            left: -100px;
+            border: 5px double gray;
+            visibility: hidden;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .thumbnail span img{ border-width: 0; padding: 2px; }
+        .thumbnail:hover span{ visibility: visible; top: 150px; left: 0px; }
+
+
+        .box{
+            display: none;
+            width: 80%;
+        }
+
+        a:hover + .box,.box:hover{
+            display: block;
+            position: absolute;
+            z-index: 100;
+        }
+
+        .box { visibility: visible; top: 100px; left: px; }
+
+
+
+
     </style>
 </head>
 
@@ -60,9 +99,26 @@
 
                     <div ng-repeat="pic in pictures" class="col-md-4">
 
-                        <img alt="Imagen Semaforo" src="{{pic.url}}" class="img-responsive" id="imagenes" onclick="miFuncion(imagenes)" width="150" height="150" ng-dblclick="mostrar(pic.title)" />
+                        <label class="btn btn-primary">
 
-                        <h3>{{pic.title}}</h3>
+                   <!--         <a class="thumbnail" href="#thumb"> -->
+
+                            <a href="/app/editor">
+
+                            <img alt="Imagen Semaforo" src="{{pic.url}}" class="img-responsive img-thumbnail img-check" width="150" height="150" ng-dblclick="mostrar(pic.title)" /><input type="checkbox" name="chk1" id="{{ 'object-' + $index }}" value="val1" class="hidden" autocomplete="off">
+
+
+                          <!--      <span><img src="../assets/img/logoImagen.jpg" width="300" height="300" /><br />{{pic.title}}</span></a> -->
+
+                            </a>
+
+                            <div class="box"><iframe src="/app/editor" width = "500px" height = "500px"></iframe><br />{{pic.title}}</div>
+
+                            <h3>{{pic.title}}</h3>
+
+                        </label>
+
+                        <a href="/app/editor"></a><div class="box"><iframe src="/app/editor" width = "500px" height = "500px"></iframe> <br />{{pic.title}}</div>
 
                     </div>
 
@@ -72,16 +128,20 @@
 
         </div>
 
-</div>
-
     </div>
 
+</div>
 
 <script>
-    function myFunction(imag) {
-        this.style.opacity=0.5;
-    }
+
+    $(document).ready(function(e){
+        $(".img-check").click(function(){
+            $(this).toggleClass("check");
+        });
+    });
+
 </script>
+
 
 
 </body>
