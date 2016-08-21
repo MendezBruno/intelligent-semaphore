@@ -1,7 +1,6 @@
 package com.thegrid.communication.model
 
-import com.thegrid.behavior.model.Orientation
-import com.thegrid.behavior.model.Street
+import com.thegrid.behavior.model.*
 
 data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: MutableList<Street>) {
 

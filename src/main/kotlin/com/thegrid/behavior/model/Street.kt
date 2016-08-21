@@ -1,7 +1,5 @@
 package com.thegrid.behavior.model
 
-import com.thegrid.communication.model.Block
-
 data class Street(
         /*val maxSpeed: Double, */
         val lanes: Int,

@@ -1,4 +1,6 @@
-package com.thegrid.communication.model
+package com.thegrid.behavior.model
+
+import com.thegrid.behavior.observer.SemaphoreListener
 
 class SemaphoreNode : NodeType {
 
@@ -8,6 +10,7 @@ class SemaphoreNode : NodeType {
     private var _verticalEgressBlock: Block? = null
     private val _hTime: Double;
     private var _vTime: Double
+    private var changeListeners : MutableList<SemaphoreListener> = mutableListOf();
 
     constructor(id:String, hTime:Double, vTime:Double) : super(id){
         _hTime = hTime;
@@ -24,5 +27,7 @@ class SemaphoreNode : NodeType {
         else _horizontalEntryBlock = block
     }
 
-
+    public fun getChangeListeners() : MutableList<SemaphoreListener> {
+        return changeListeners;
+    }
 }

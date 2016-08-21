@@ -1,4 +1,4 @@
-package com.thegrid.communication.model
+package com.thegrid.behavior.model
 
 class CornerNode : NodeType {
 
