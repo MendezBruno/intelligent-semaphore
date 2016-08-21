@@ -10,6 +10,4 @@ class dataMap{
     public var nodosSalida: MutableList<dataEdgeNode> = mutableListOf();
     public var nodosSemaforo: MutableList<dataSemaphoreNode> = mutableListOf();
     public var nodosNoSemaforo: MutableList<dataControlNode> = mutableListOf();
-
-    companion object
 }
