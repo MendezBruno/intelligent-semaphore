@@ -40,7 +40,12 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             controller: 'galeriaController'
         })
 
-        .when('/app/reproductor', {
+        .when('/app/reproductor/:id', {
+            templateUrl: 'views/reproductor.html',
+            controller: 'reproductorController'
+        })
+
+        .when('/app/reproductor/', {
             templateUrl: 'views/reproductor.html',
             controller: 'reproductorController'
         });
