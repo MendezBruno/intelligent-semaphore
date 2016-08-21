@@ -1,15 +1,18 @@
 package com.thegrid.communication.model
 
-/**
- * Created by Surakituaka on 05/08/2016.
- */
-
-class SemaphoreNode(id: String/*, var vGreen: Int, var hGreen: Int*/) : NodeType(id) {
+class SemaphoreNode : NodeType {
 
     private var _horizontalEntryBlock: Block? = null
     private var _verticalEntryBlock: Block? = null
     private var _horizontalEgressBlock: Block? = null
     private var _verticalEgressBlock: Block? = null
+    private val _hTime: Double;
+    private var _vTime: Double
+
+    constructor(id:String, hTime:Double, vTime:Double) : super(id){
+        _hTime = hTime;
+        _vTime = vTime;
+    }
 
     override fun addEgressBlock(block: Block) {
         if (block.hasVerticalDirection()) _verticalEgressBlock = block

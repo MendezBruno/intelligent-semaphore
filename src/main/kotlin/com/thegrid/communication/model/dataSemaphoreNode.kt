@@ -1,14 +1,7 @@
 package com.thegrid.communication.model
 
-import com.google.api.server.spi.config.ApiResourceProperty
-
 class dataSemaphoreNode{
-
     public var id:String="";
-
-    @ApiResourceProperty(name = "tiempoHorizontal")
-    public var hTime:Int=150;
-
-    @ApiResourceProperty(name = "tiempoVertical")
-    public var vTime:Int=150;
+    public var tiempoHorizontal:Double=150.0;
+    public var tiempoVertical:Double=150.0;
 }
