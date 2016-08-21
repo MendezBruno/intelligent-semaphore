@@ -1,38 +1,22 @@
 package com.thegrid.communication.controller
 
+import com.google.api.server.spi.config.Api
+import com.google.api.server.spi.config.ApiMethod
+import com.google.api.server.spi.config.ApiNamespace
 import com.thegrid.communication.model.MapState
-import com.thegrid.communication.service.MapStateParser
-import javax.servlet.http.HttpServlet
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import com.thegrid.communication.model.dataBlockStatus
+import com.thegrid.communication.model.dataSemaphoreStatus
 
-/**
- * Created by Surakituaka on 21/07/2016.
- */
+@Api(name = "intelligentsemaphore", version = "v1",
+        namespace = ApiNamespace(ownerDomain = "com.thegrid.intelligentsemaphore",
+        ownerName = "com.thegrid.intelligentsemaphore", packagePath = ""))
+class MapStateController{
 
-
-class MapStateController : HttpServlet() {
-
-    public override fun doGet(req: HttpServletRequest, res: HttpServletResponse) {
-        val mapState = MapState.SharedInstance //obtengo el mapa
-
-        val parser = MapStateParser(mapState) //creo el parser enviando el mapa
-
-
-        res.contentType = "application/json" // tipo para json
-        res.writer.print(parser.parseToJson()) //envio el json (string)
+    @ApiMethod(name = "mapstate", httpMethod = ApiMethod.HttpMethod.GET)
+    fun getMapState(): MapState {
+        var mapState = MapState.SharedInstance;
+        mapState.blockStatus.add(dataBlockStatus());
+        mapState.semaphoreStatus.add(dataSemaphoreStatus())
+        return mapState;
     }
-
-
-    /**
-    public override fun doPost(req: HttpServletRequest, res: HttpServletResponse) {
-        list.add(req.getParameter("name"))
-        res.contentType = "text/plain"
-        if (list.isEmpty()) {
-            res.writer.println("Please enter a name")
-        }
-        for(item: String in list) {
-            res.writer.println("Hello " + item!!)
-        }
-    }*/
 }
