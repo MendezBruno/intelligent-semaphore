@@ -130,4 +130,19 @@ MapaEditor.desParsear = function (json) {
             })
         });
     return modelo;
+};
+
+MapaEditor.prototype.nodoSemaforoPorID = function(id){
+    return this.nodosSemaforo.find(function(nodo){
+        return nodo.id == id;
+    } );
+};
+
+MapaEditor.prototype.cuadraPorID = function(id){
+    var callesAux = this.callesHorizontales;
+    callesAux.concat(this.callesVerticales);
+
+    return callesAux.find(function(cuadra){
+        return cuadra.id == id;
+    } );
 }

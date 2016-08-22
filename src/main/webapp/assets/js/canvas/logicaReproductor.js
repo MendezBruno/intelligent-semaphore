@@ -126,3 +126,23 @@ ReproductorController.prototype.dibujar = function (){
         posy = posInicialY;
     }
 };
+
+ReproductorController.prototype.actualizar = function (datos){
+
+//datos.blockStatus.forEach(actualizarCuadra);
+// datos.semaphoreStatus.forEach(actualizarSemaforo);
+
+
+    //function actualizarCuadra(datosCuadra){
+    //    var cuadra = modelo.cuadraPorID(datosCuadra.id);
+    //    cuadra.cuadraCnv.cambiarColor(datosCuadra.color);
+    //    //cuadra.stock = datosCuadra.stock; no se hizo nada con este dato aun, es para probar el panel de referencia
+    //}
+    //
+    //function actualizarSemaforo(datosSemaforo){
+    //    var semaforo = modelo.nodoSemaforoPorID(datosSemaforo.id);
+    //    semaforo.semaforoCnv.cambiar();
+    //}
+};
+
+
