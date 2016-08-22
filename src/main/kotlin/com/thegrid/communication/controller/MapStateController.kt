@@ -16,16 +16,11 @@ class MapStateController{
 
         val simulation = SimulationMock.SharedInstance
 
-        val mapState = simulation!!.getMemory().getStatus()
+        val mapState: MapState = simulation!!.getMemory().getStatus()
+
+        simulation.nextStatus() //TODO implementar
 
 
-        /*
-        var mapState = MapState.SharedInstance;
-        mapState.blockStatus.add(dataBlockStatus());
-        mapState.semaphoreStatus.add(dataSemaphoreStatus())
-        */
-
-
-        return mapState;
+        return mapState
     }
 }

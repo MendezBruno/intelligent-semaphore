@@ -23,7 +23,7 @@ data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: 
             }
 
             for (node in map.nodosSemaforo) {
-                val sem = SemaphoreNode(node.id, node.tiempoHorizontal, node.tiempoVertical)
+                val sem = SemaphoreNode(node.id, node.tiempoHorizontal, node.tiempoVertical, true)
                 nodes.add(sem)
                 semaphoreNodes.add(sem)
             }

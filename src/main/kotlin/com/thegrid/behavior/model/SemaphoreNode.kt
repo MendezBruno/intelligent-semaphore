@@ -8,13 +8,15 @@ class SemaphoreNode : NodeType {
     private var _verticalEntryBlock: Block? = null
     private var _horizontalEgressBlock: Block? = null
     private var _verticalEgressBlock: Block? = null
-    private val _hTime: Double;
+    private val _hTime: Double
     private var _vTime: Double
-    private var _changeListeners : MutableList<SemaphoreListener> = mutableListOf();
+    private var _vGreen: Boolean = true
+    private var _changeListeners : MutableList<SemaphoreListener> = mutableListOf()
 
-    constructor(id:String, hTime:Double, vTime:Double) : super(id){
-        _hTime = hTime;
-        _vTime = vTime;
+    constructor(id:String, hTime:Double, vTime:Double, vGreen: Boolean) : super(id){
+        _hTime = hTime
+        _vTime = vTime
+        _vGreen = vGreen
     }
 
     override fun addEgressBlock(block: Block) {
@@ -31,12 +33,16 @@ class SemaphoreNode : NodeType {
         return _changeListeners;
     }
 
+    public fun getVGreen() : Boolean {
+        return _vGreen;
+    }
+
     //TODO modificaciones del nodo
     public fun metodoDeInterfazQueModificaEstado() {
 
         //Calculo y asigno cosas
 
-        var self = this;
+        var self = this
         _changeListeners.forEach { listener -> listener.fire(self) }
     }
 

@@ -14,13 +14,13 @@ data class Block(
         val entryNode: NodeType,
         val egressNode: NodeType) {
 
-    private val _carCapacity: Int = 3 //TODO calcular segun length
-    private val _changeListeners: MutableList<BlockListener> = mutableListOf();
+    private val _carCapacity: Int = 3 //TODO calcular segun length, algo como Int(length/"valor promedio de largo de vehiculos)
+    private val _changeListeners: MutableList<BlockListener> = mutableListOf()
     private var _backStraightCarAmount: Int = 0
     private var _backBendCarAmount: Int = 0
     private var _frontStraightCarAmount: Int = 0
     private var _frontBendCarAmount: Int = 0
-    private val _colorStatus = RGBA(0,0,0,1);
+    private val _colorStatus = RGBA(0,0,0,1)
 
 
     //TODO modificaciones de la cuadra
@@ -28,7 +28,7 @@ data class Block(
 
         //Calculo y asigno cosas
 
-        var self = this;
+        var self = this
         _changeListeners.forEach { listener -> listener.fire(self) }
     }
 
@@ -37,7 +37,28 @@ data class Block(
     }
 
     public fun getChangeListeners() : MutableList<BlockListener> {
-        return _changeListeners;
+        return _changeListeners
+    }
+
+
+    public fun getBackStraightCarAmount() : Int {
+        return _backStraightCarAmount
+    }
+
+    public fun getBackBendCarAmount() : Int {
+        return _backBendCarAmount
+    }
+
+    public fun getFrontStraightCarAmount() : Int {
+        return _frontStraightCarAmount
+    }
+
+    public fun getFrontBendCarAmount() : Int {
+        return _frontBendCarAmount
+    }
+
+    public fun getColorStatus() : RGBA {
+        return _colorStatus
     }
 
 }
