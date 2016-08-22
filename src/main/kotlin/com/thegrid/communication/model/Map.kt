@@ -2,7 +2,8 @@ package com.thegrid.communication.model
 
 import com.thegrid.behavior.model.*
 
-data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: MutableList<Street>) {
+data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: MutableList<Street>,
+               val semaphoreNodes: MutableList<SemaphoreNode>) {
 
     val blocks = streets.map { street -> street.blocks }.flatten().toMutableList()
 
@@ -11,6 +12,7 @@ data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: 
         fun createMapFromMapaFrontend(map: dataMap): Map {
 
             val nodes = mutableListOf<NodeType>()
+            val semaphoreNodes = mutableListOf<SemaphoreNode>()
 
             for (node in map.nodosEntrada) {
                 nodes.add(EntryNode(node.id, node.intervalo, node.cantMaxima));
@@ -21,7 +23,9 @@ data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: 
             }
 
             for (node in map.nodosSemaforo) {
-                nodes.add(SemaphoreNode(node.id, node.tiempoHorizontal, node.tiempoVertical))
+                val sem = SemaphoreNode(node.id, node.tiempoHorizontal, node.tiempoVertical)
+                nodes.add(sem)
+                semaphoreNodes.add(sem)
             }
 
             for (node in map.nodosNoSemaforo) {
@@ -48,7 +52,7 @@ data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: 
                 streets.add(street)
             }
 
-            return Map(map.nombre, nodes, streets)
+            return Map(map.nombre, nodes, streets, semaphoreNodes)
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.thegrid.behavior.model
 
-import com.thegrid.behavior.model.Orientation
-import com.thegrid.behavior.model.Street
 import com.thegrid.behavior.observer.BlockListener
-import com.thegrid.behavior.observer.SemaphoreListener
 import com.thegrid.communication.extension.RGBA
 
 /**
@@ -25,6 +22,8 @@ data class Block(
     private var _frontBendCarAmount: Int = 0
     private val _colorStatus = RGBA(0,0,0,1);
 
+
+    //TODO modificaciones de la cuadra
     public fun metodoDeInterfazQueModificaEstado() {
 
         //Calculo y asigno cosas

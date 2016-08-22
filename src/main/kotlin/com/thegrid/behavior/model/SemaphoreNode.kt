@@ -10,7 +10,7 @@ class SemaphoreNode : NodeType {
     private var _verticalEgressBlock: Block? = null
     private val _hTime: Double;
     private var _vTime: Double
-    private var changeListeners : MutableList<SemaphoreListener> = mutableListOf();
+    private var _changeListeners : MutableList<SemaphoreListener> = mutableListOf();
 
     constructor(id:String, hTime:Double, vTime:Double) : super(id){
         _hTime = hTime;
@@ -28,6 +28,17 @@ class SemaphoreNode : NodeType {
     }
 
     public fun getChangeListeners() : MutableList<SemaphoreListener> {
-        return changeListeners;
+        return _changeListeners;
     }
+
+    //TODO modificaciones del nodo
+    public fun metodoDeInterfazQueModificaEstado() {
+
+        //Calculo y asigno cosas
+
+        var self = this;
+        _changeListeners.forEach { listener -> listener.fire(self) }
+    }
+
+
 }
