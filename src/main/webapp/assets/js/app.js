@@ -60,14 +60,14 @@ app.factory("Favorito", ['$resource', function($resource) {
 }]);
 
 app.factory("Mapa", ["$resource",function($resource){
-    return  $resource("/api_v1.0/mapa/:id", null,
+    return  $resource("/_ah/api/intelligentsemaphore/v1/map/:id", null,
         {
             'query': { method:'GET', isArray: false }
         });
 }]);
 
 app.factory("MapaUpdate", ["$resource",function($resource){
-    return  $resource("/api_v1.0/mapaUpdate", null,
+    return  $resource("/_ah/api/intelligentsemaphore/v1/mapState", null,
         {
             'query': { method:'GET', isArray: false }
         });
