@@ -46,5 +46,8 @@ class SemaphoreNode : NodeType {
         _changeListeners.forEach { listener -> listener.fire(self) }
     }
 
+    public fun equals(other: SemaphoreNode): Boolean {
+        return this.id == other.id
+    }
 
 }

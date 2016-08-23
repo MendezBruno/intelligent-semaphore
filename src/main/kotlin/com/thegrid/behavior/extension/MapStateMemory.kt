@@ -12,8 +12,8 @@ import com.thegrid.communication.model.dataSemaphoreStatus
 class MapStateMemory {
 
     private val _mapState : MapState = MapState()
-    private var _cuadrasCache : MutableList<Block> = mutableListOf()
-    private var _nodosCache : MutableList<SemaphoreNode> = mutableListOf()
+    private var _cuadrasCache : MutableSet<Block> = mutableSetOf()
+    private var _nodosCache : MutableSet<SemaphoreNode> = mutableSetOf()
 
     constructor(map : Map) {
 

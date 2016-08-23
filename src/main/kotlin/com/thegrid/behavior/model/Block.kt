@@ -81,4 +81,9 @@ data class Block(
         return _colorStatus
     }
 
+    public fun equals(other: Block): Boolean {
+        return this.id == other.id
+    }
+
+
 }
