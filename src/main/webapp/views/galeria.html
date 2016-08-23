@@ -1,13 +1,31 @@
 
 <html>
 <head>
-    <style>
+    <style type="text/css">
         .borde-der
         {
             border-right: black;
             width:1px;
             height:1000px
 
+        }
+
+        .input_hidden {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .selected {
+            background-color: #ccc;
+        }
+
+        #emotion label {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        #emotion label img {
+            padding: 3px;
         }
         .featurette-divider
         {
@@ -28,22 +46,6 @@
 
         }
 
-        .thumbnail {position: relative; z-index: 0; }
-        .thumbnail:hover{ background-color: transparent; z-index: 50; }
-        .thumbnail span{ /* Estilos para la imagen agrandada */
-            position: absolute;
-            background-color: black;
-            padding: 5px;
-            left: -100px;
-            border: 5px double gray;
-            visibility: hidden;
-            color: #ffffff;
-            text-decoration: none;
-        }
-        .thumbnail span img{ border-width: 0; padding: 2px; }
-        .thumbnail:hover span{ visibility: visible; top: 150px; left: 0px; }
-
-
         .box{
             display: none;
             width: 80%;
@@ -55,12 +57,33 @@
             z-index: 100;
         }
 
-        .box { visibility: visible; top: 100px; left: px; }
+        .box { visibility: visible; top: 100px; left: 0px; }
 
 
+        p {margin:20px 0;}
+
+        label {font-weight:bold;}
 
 
     </style>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $("a.radio-picture").click(function(){
+    var $id = $(this).attr('id');
+    $("a.radio-picture").removeClass('green-border');
+    $("a#" + $id).addClass('green-border');
+    });
+    });
+
+
+    function set_radio($inputid) {
+    $("input#" + $inputid).click();
+    }
+
+</script>
+
 </head>
 
 <body>
@@ -75,7 +98,7 @@
 
                 <hr class="featurette-divider">
 
-                <button type="button" class="btn btn-default">Editar</button>
+                <button type="button" class="btn btn-default" ng-click="mostrara()">Editar</button>
 
                 <br>
 
@@ -95,34 +118,32 @@
 
             <div class="container-fluid">
 
-                <div class="tumbnails">
 
                     <div ng-repeat="pic in pictures" class="col-md-4">
 
-                        <label class="btn btn-primary">
 
-                   <!--         <a class="thumbnail" href="#thumb"> -->
+                      <!--  <label class="btn btn-primary"> -->
 
-                            <a href="/app/editor">
+                        <input type="radio" id="{{ 'radio-' + $index }}" ng-model="$parent.colorValue" name="colorValue" value="{{pic.title}}">
 
-                            <img alt="Imagen Semaforo" src="{{pic.url}}" class="img-responsive img-thumbnail img-check" width="150" height="150" ng-dblclick="mostrar(pic.title)" /><input type="checkbox" name="chk1" id="{{ 'object-' + $index }}" value="val1" class="hidden" autocomplete="off">
+                        <a>
 
 
-                          <!--      <span><img src="../assets/img/logoImagen.jpg" width="300" height="300" /><br />{{pic.title}}</span></a> -->
+                            <img alt="Imagen Semaforo" src="{{pic.url}}" for="{{ 'radio-' + $index }}" class="img-responsive img-thumbnail img-check" width="150" height="150" ng-dblclick="mostrar(pic.title)" ng-mouseover="" ng-mouseleave="hoverOut()" />
 
-                            </a>
 
-                            <div class="box"><iframe src="/app/editor" width = "500px" height = "500px"></iframe><br />{{pic.title}}</div>
+                            <!--<input type="checkbox" name="chk1" id="{{ 'object-' + $index }}" value="val1" class="hidden" autocomplete="off"> -->
+
+                        </a>
+
+                            <div class="box"><iframe ng-src="{{urls}}" width = "500px" height = "500px"></iframe></div>
 
                             <h3>{{pic.title}}</h3>
 
-                        </label>
+                        <!-- </label> -->
 
-                        <a href="/app/editor"></a><div class="box"><iframe src="/app/editor" width = "500px" height = "500px"></iframe> <br />{{pic.title}}</div>
 
                     </div>
-
-                </div>
 
             </div>
 
@@ -138,6 +159,11 @@
         $(".img-check").click(function(){
             $(this).toggleClass("check");
         });
+    });
+
+    $('#emotion input:radio').addClass('input_hidden');
+    $('#emotion label').click(function(){
+        $(this).addClass('selected').siblings().removeClass('selected');
     });
 
 </script>

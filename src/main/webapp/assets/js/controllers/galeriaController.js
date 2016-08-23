@@ -6,7 +6,7 @@
 
 
 
-app.controller('galeriaController', function($scope,$location,MyService) {
+app.controller('galeriaController', function($scope,$location,MyService,$sce) {
 
     var pictures =$scope.pictures=[];
 
@@ -55,18 +55,25 @@ app.controller('galeriaController', function($scope,$location,MyService) {
         
     };
 
+    $scope.mostrara=function () {
+
+        $location.url("/app/editor/" + $scope.colorValue);
+
+    };
+
     $scope.setOpacity = function(){
 
      document.getElementById("object-0").filter.opacity = 0.5;
 
     };
 
+    $scope.itemDetail = function(link){
+        $scope.detailFrame = link;
+    };
 
 
 
 
-
-
-        //   $scope.nombres    = ['modelo1','modelo2'];
+    //   $scope.nombres    = ['modelo1','modelo2'];
 
 });
