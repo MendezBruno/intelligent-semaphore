@@ -72,7 +72,7 @@ app.factory("Mapa", ["$resource",function($resource){
 }]);
 
 app.factory("MapaUpdate", ["$resource",function($resource){
-    return  $resource("/_ah/api/intelligentsemaphore/v1/map", null,    ///_ah/api/intelligentsemaphore/v1/map
+    return  $resource("/_ah/api/intelligentsemaphore/v1/mapState", null,
         {
             'query': { method:'GET', isArray: false }
         });
