@@ -5,6 +5,7 @@
 Carril = {};
 Carril.ancho = 20; // Podria cambiar
 
+
 function CnvInterseccion(posX, posY, cantCarrilesH, cantCarrilesV,semaforo) {
     this.Container_constructor();
     this.posX=posX;
@@ -20,6 +21,7 @@ function CnvInterseccion(posX, posY, cantCarrilesH, cantCarrilesV,semaforo) {
 };
 
 createjs.extend(CnvInterseccion, createjs.Container);
+
 
 
 CnvInterseccion.prototype.setup = function () {

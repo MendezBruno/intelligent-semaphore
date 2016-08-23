@@ -1,11 +1,17 @@
 /**
  * Created by bruno on 11/08/16.
  */
+
+//ReproductorController.prototype.largo = 300;
+//ReproductorController.prototype.ancho = 20;
+//ReproductorController.prototype.separador = 20;
+
 function ReproductorController(modelo, stage, $scope){
 
     this.modelo = modelo;
+    this.auxCnvModel = {};
     this.largo = 300;        //*TODO* sacar el largo de la calle como dato general
-    this.ancho = 20         //*TODO* ver tambien la posibilidad que sea un dato general
+    this.ancho = 20;         //*TODO* ver tambien la posibilidad que sea un dato general
     this.stage = stage;
 
 }
@@ -14,6 +20,7 @@ ReproductorController.prototype.dibujar = function (){
 
     var self = this;
     var stage = self.stage;
+    var auxCnvModel = self.auxCnvModel;
     var posInicialX = 0;   //en un futuro se podria parametrizar
     var posInicialY = 0;   //en un futuro se podria parametrizar
     var posx = posInicialX;
@@ -37,24 +44,24 @@ ReproductorController.prototype.dibujar = function (){
     console.log(this.modelo);
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
-    for (var i=0; i<horizontales.length; i++) {
+    for (var i=0; i < horizontales.length; i++) {
         var calle = horizontales[i];
         var cantCarriles = calle.cantCarriles;
         var cuadras = calle.cuadras;
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            stage.addChild(generarCuadra(HORIZONTAL,cantCarriles));
+            var cnvCuadraReproductor = generarCuadra(HORIZONTAL,cantCarriles);
+            stage.addChild(cnvCuadraReproductor);
+            auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1){
                 var cantCarrilesV = verticales[j].cantCarriles;
-                var haySemaforo = cuadras.some(function(cuadra)
+                var semaforo = modelo.nodosSemaforo.find(function(unSemaforo)
                     {
-                        return modelo.nodosSemaforo.some(function(semaforo)
-                        {
-                            return cuadra.nodoDestino.id=semaforo.id;
-                        });
-                    }
-                );
-                stage.addChild(new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,true));
+                      return cuadras[j].nodoDestino == unSemaforo.id;
+                    });
+                var cnvInterseccion = new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,semaforo != undefined);
+                stage.addChild(cnvInterseccion);
+                if (semaforo) {auxCnvModel [semaforo.id] = cnvInterseccion};
                 actualizarPosX(cantCarrilesV);
                 //(posx-ala- separador*cantCarrilesV)
                 //- (separador*cantCarriles +ala)
@@ -74,7 +81,9 @@ ReproductorController.prototype.dibujar = function (){
         var cuadras = calle.cuadras;
         moverPosyAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            stage.addChild(generarCuadra(VERTICAL,cantCarriles));
+            var cnvCuadraReproductor = generarCuadra(VERTICAL,cantCarriles);
+            stage.addChild(cnvCuadraReproductor);
+            auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1)
                 actualizarPosY(horizontales[j].cantCarriles);
         }
@@ -129,15 +138,19 @@ ReproductorController.prototype.dibujar = function (){
 
 ReproductorController.prototype.actualizar = function (datos){
 
-//datos.blockStatus.forEach(actualizarCuadra);
-// datos.semaphoreStatus.forEach(actualizarSemaforo);
-
-
-    //function actualizarCuadra(datosCuadra){
-    //    var cuadra = modelo.cuadraPorID(datosCuadra.id);
-    //    cuadra.cuadraCnv.cambiarColor(datosCuadra.color);
-    //    //cuadra.stock = datosCuadra.stock; no se hizo nada con este dato aun, es para probar el panel de referencia
-    //}
+datos.blockStatus.forEach(actualizarCuadra);
+ //datos.semaphoreStatus.forEach(actualizarSemaforo);
+    console.log(this.auxCnvModel);
+    var auxCnvModel = this.auxCnvModel;
+    var self = this;
+    console.log(self);
+    console.log(auxCnvModel);
+    function actualizarCuadra(datosCuadra){
+        self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
+        //var cuadra = modelo.cuadraPorID(datosCuadra.id);
+        //cuadra.cuadraCnv.cambiarColor(datosCuadra.color);
+        //cuadra.stock = datosCuadra.stock; no se hizo nada con este dato aun, es para probar el panel de referencia
+    }
     //
     //function actualizarSemaforo(datosSemaforo){
     //    var semaforo = modelo.nodoSemaforoPorID(datosSemaforo.id);
