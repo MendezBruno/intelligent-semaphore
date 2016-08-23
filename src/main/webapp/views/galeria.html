@@ -106,7 +106,7 @@
 
                 <br>
 
-                <button type="button" class="btn btn-default">Ejecutar</button>
+                <button type="button" class="btn btn-default"  ng-click="mostrara1()">Ejecutar</button>
 
             </div>
 
@@ -136,7 +136,7 @@
 
                         </a>
 
-                            <div class="box"><iframe ng-src="{{urls}}" width = "500px" height = "500px"></iframe></div>
+                            <div class="box"><iframe ng-src="/app/editor/" + "{{pic.title}}" width = "500px" height = "500px"></iframe></div>
 
                             <h3>{{pic.title}}</h3>
 

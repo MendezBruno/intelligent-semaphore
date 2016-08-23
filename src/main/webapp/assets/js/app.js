@@ -35,6 +35,11 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             controller: 'editorController'
         })
 
+        .when('/app/editor/:id', {
+            templateUrl: 'views/editor.html',
+            controller: 'editorController'
+        })
+
         .when('/app/galeria', {
             templateUrl: 'views/galeria.html',
             controller: 'galeriaController'
