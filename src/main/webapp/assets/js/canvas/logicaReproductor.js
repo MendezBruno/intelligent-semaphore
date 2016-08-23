@@ -138,13 +138,16 @@ ReproductorController.prototype.dibujar = function (){
 
 ReproductorController.prototype.actualizar = function (datos){
 
-datos.blockStatus.forEach(actualizarCuadra);
- //datos.semaphoreStatus.forEach(actualizarSemaforo);
-    console.log(this.auxCnvModel);
+
     var auxCnvModel = this.auxCnvModel;
+    console.log(this.auxCnvModel);
     var self = this;
     console.log(self);
     console.log(auxCnvModel);
+
+    datos.blockStatus.forEach(actualizarCuadra);
+    datos.semaphoreStatus.forEach(actualizarSemaforo);
+
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
         //var cuadra = modelo.cuadraPorID(datosCuadra.id);
@@ -152,10 +155,17 @@ datos.blockStatus.forEach(actualizarCuadra);
         //cuadra.stock = datosCuadra.stock; no se hizo nada con este dato aun, es para probar el panel de referencia
     }
     //
-    //function actualizarSemaforo(datosSemaforo){
-    //    var semaforo = modelo.nodoSemaforoPorID(datosSemaforo.id);
-    //    semaforo.semaforoCnv.cambiar();
-    //}
+    function actualizarSemaforo(datosSemaforo){
+       var estado =  datosSemaforo.state;
+       var semaforo = self.auxCnvModel[datosSemaforo.id].cnvSemaforo;
+
+        if(estado=="HORIZONTAL") {
+            semaforo.verdeH();
+        }else{
+            semaforo.verdeV();
+        }
+
+    }
 };
 
 

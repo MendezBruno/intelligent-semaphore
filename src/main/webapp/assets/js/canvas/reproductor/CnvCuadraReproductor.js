@@ -213,7 +213,7 @@ CnvCuadraReproductor.prototype.handleRollOver = function(event) {
 CnvCuadraReproductor.prototype.cambiarColor = function (colorCuadra) {
     var bg = this.background;
     var color = this.color;
-    createjs.Tween.get(color).to(colorCuadra, 300)
+    createjs.Tween.get(color).to(colorCuadra, 500)
         .addEventListener('change', function() {
             bg.graphics._fill.style = color.toString();
         });

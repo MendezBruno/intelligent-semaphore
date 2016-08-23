@@ -28,7 +28,7 @@ CnvInterseccion.prototype.setup = function () {
     var ancho = this.cantCarrilesV * Carril.ancho;
     var alto = this.cantCarrilesH * Carril.ancho;
     var ala = Carril.ancho/6;  //ancho de linea amarilla es siempre sobre el ancho de 1 (uno) carril
-    var ladoSemaforo = 30;
+    var ladoSemaforo = 10;
     var proporcionAncho = ancho/ladoSemaforo;
     var proporcionAlto = alto/ladoSemaforo;
     proporcionAlto = proporcionAlto /4;
@@ -48,6 +48,7 @@ CnvInterseccion.prototype.setup = function () {
     cnvSemaforo.x = this.posX + ancho/2 - proporcionAncho*8 ;  //- ladoSemaforo/2
     cnvSemaforo.y = this.posY + alto/2 - proporcionAlto*8;  //+ alto/2 + ladoSemaforo/2
     this.addChild(cnvSemaforo);
+       this.cnvSemaforo = cnvSemaforo;
    }
     else{
        //agregar interseccion vacia si es una avenida grande

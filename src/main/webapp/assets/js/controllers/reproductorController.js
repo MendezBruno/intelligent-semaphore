@@ -12,7 +12,7 @@ mapas = {
 };
 
 updates = {
-        update1 : '{"blockStatus":[{"id": 4,"stock": 14,"color": {"R": 255,"G": 255,"B": 255,"A": 0}},{"id": 1,"stock": 50,"color": {"R": 255,"G": 255,"B": 255,"A": 0}}],"semaphoreStatus":[{"id": 1,"state": "HORIZONTAL"},{"id": 3,"state": "VERTICAL"}]}'
+        update1 : '{"blockStatus":[{"id": "cuadra-4","stock": 14,"color": {"r": 125,"g": 125,"b": 125,"a": 0}},{"id": "cuadra-1","stock": 50,"color": {"r": 255,"g": 255,"b": 255,"a": 0}}],"semaphoreStatus":[{"id": "nodo-10","state": "HORIZONTAL"},{"id": "nodo-8","state": "VERTICAL"}]}'      //modulo 7
 };
 
 
@@ -21,7 +21,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
 
 
         var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
-        $scope.intervalo = 10; //se puede sertear en el reproductor antes de arrancar
+        $scope.intervalo = 5; //se puede sertear en el reproductor antes de arrancar
         var modelo = JSON.parse(mapa);
 
         //$scope.algunaVariable = 1111;
