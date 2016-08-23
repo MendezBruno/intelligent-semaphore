@@ -85,5 +85,7 @@ data class Block(
         return this.id == other.id
     }
 
-
+    override fun hashCode(): Int {
+        return id.hashCode();
+    }
 }

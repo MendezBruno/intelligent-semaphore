@@ -15,4 +15,8 @@ abstract class NodeType(val id: String){
                 is NodeType -> this.id == other.id
                 else -> throw Exception("Not the same type")
             }
+
+    override fun hashCode(): Int {
+        return id.hashCode();
+    }
 }
