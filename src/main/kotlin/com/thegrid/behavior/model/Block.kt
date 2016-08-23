@@ -27,7 +27,27 @@ data class Block(
     public fun metodoDeInterfazQueModificaEstado() {
 
         //Calculo y asigno cosas
+        fireListeners();
+    }
 
+    //Metodo a mode de ejemplo, sin mucho sentido
+    public fun setStock(stk:Int) {
+        _backStraightCarAmount = stk;
+        changeColor();
+        fireListeners();
+    }
+
+    private fun changeColor() {
+        when (_backStraightCarAmount) {
+            in 1..10 -> _colorStatus.set(189,210,195);
+            in 11..20 -> _colorStatus.set(184,189,142);
+            in 21..30 -> _colorStatus.set(189,210,195);
+            in 31..40 -> _colorStatus.set(227,206,132);
+            in 41..50 -> _colorStatus.set(234,95,95);
+        }
+    }
+
+    private fun fireListeners() {
         var self = this
         _changeListeners.forEach { listener -> listener.fire(self) }
     }

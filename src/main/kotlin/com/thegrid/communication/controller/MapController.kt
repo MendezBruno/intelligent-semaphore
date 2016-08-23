@@ -12,7 +12,7 @@ import com.thegrid.communication.model.dataMap
     ownerName = "com.thegrid.intelligentsemaphore", packagePath = ""))
 class MapController {
 
-    @ApiMethod(name = "map", httpMethod = ApiMethod.HttpMethod.POST)
+    @ApiMethod(name = "map", path="map", httpMethod = ApiMethod.HttpMethod.POST)
     fun postMap(dataMap: dataMap) {
         var map = Map.createMapFromMapaFrontend(dataMap)
         SimulationMock.loadSimulation(map)

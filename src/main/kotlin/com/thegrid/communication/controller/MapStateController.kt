@@ -11,7 +11,7 @@ import com.thegrid.communication.model.MapState
         ownerName = "com.thegrid.intelligentsemaphore", packagePath = ""))
 class MapStateController{
 
-    @ApiMethod(name = "mapstate", httpMethod = ApiMethod.HttpMethod.GET)
+    @ApiMethod(name = "mapstate", path="mapState", httpMethod = ApiMethod.HttpMethod.GET)
     fun getMapState(): MapState {
 
         val simulation = SimulationMock.SharedInstance
