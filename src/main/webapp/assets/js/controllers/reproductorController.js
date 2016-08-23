@@ -58,9 +58,9 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         update = function (){
                 console.log("quiero update yeeeeeeeeeeah!");
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
-                //MapaUpdate.query(function(data) {
-                //                logicaReproductor.actualizar(data);
-                //        });
+                MapaUpdate.query(function(data) {
+                                console.log(data);
+                        });
                 logicaReproductor.actualizar(JSON.parse(updates["update1"]));
         };
 
