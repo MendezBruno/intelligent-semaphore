@@ -64,6 +64,43 @@
 
         label {font-weight:bold;}
 
+        .orange {
+            color: orange;
+        }
+
+
+
+        body { font-family:calibri; }
+        /*
+          Hide radio button (the round disc)
+          we will use just the label to create pushbutton effect
+        */
+        input[type=radio] {
+            display:none;
+            margin:10px;
+        }
+
+        /*
+          Change the look'n'feel of labels (which are adjacent to radiobuttons).
+          Add some margin, padding to label
+        */
+        input[type=radio] + label {
+            display:inline-block;
+            margin:-2px;
+            padding: 4px 12px;
+            background-color: #e7e7e7;
+            border-color: #ddd;
+        }
+        /*
+         Change background color for label next to checked radio button
+         to make it look like highlighted button
+        */
+        input[type=radio]:checked + label {
+            background-image: none;
+            background-color:#d0d0d0;
+        }
+
+
 
     </style>
 
@@ -126,19 +163,25 @@
 
                         <input type="radio" id="{{ 'radio-' + $index }}" ng-model="$parent.colorValue" name="colorValue" value="{{pic.title}}">
 
+                        <label for="{{ 'radio-' + $index }}">
+
                         <a>
 
 
-                            <img alt="Imagen Semaforo" src="{{pic.url}}" for="{{ 'radio-' + $index }}" class="img-responsive img-thumbnail img-check" width="150" height="150" ng-dblclick="mostrar(pic.title)" ng-mouseover="" ng-mouseleave="hoverOut()" />
+                            <img alt="Imagen Semaforo" src="{{pic.url}}" class="img-responsive img-thumbnail img-check" width="150" height="150"/>
 
 
                             <!--<input type="checkbox" name="chk1" id="{{ 'object-' + $index }}" value="val1" class="hidden" autocomplete="off"> -->
 
                         </a>
 
-                            <div class="box"><iframe ng-src="/app/editor/" + "{{pic.title}}" width = "500px" height = "500px"></iframe></div>
+                            <div class="box"><iframe ng-src="{{mostrarUrl(pic.title)}}" width = "500px" height = "500px"></iframe></div>
 
                             <h3>{{pic.title}}</h3>
+
+                        </label>
+
+
 
                         <!-- </label> -->
 
@@ -152,22 +195,6 @@
     </div>
 
 </div>
-
-<script>
-
-    $(document).ready(function(e){
-        $(".img-check").click(function(){
-            $(this).toggleClass("check");
-        });
-    });
-
-    $('#emotion input:radio').addClass('input_hidden');
-    $('#emotion label').click(function(){
-        $(this).addClass('selected').siblings().removeClass('selected');
-    });
-
-</script>
-
 
 
 </body>
