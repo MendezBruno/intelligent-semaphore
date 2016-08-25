@@ -5,8 +5,9 @@
 function CnvSemaforo() {
     this.Container_constructor();
     this.background = new createjs.Shape();
+    var ancho = CnvSemaforo.anchoOriginal;
     var bg = this.background;
-    bg.graphics.beginFill("black").drawRect(0,0,30,30,10);
+    bg.graphics.beginFill("black").drawRect(0,0,30,30);
     this.left = new createjs.Shape();
     this.right = new createjs.Shape();
     this.top = new createjs.Shape();
@@ -30,9 +31,15 @@ function CnvSemaforo() {
     }
     this.on("click", this.handleClick);
 }
+CnvSemaforo.anchoOriginal = 30;
 
 createjs.extend(CnvSemaforo, createjs.Container);
 window.CnvSemaforo = createjs.promote(CnvSemaforo, "Container");
+
+CnvSemaforo.prototype.setSize = function(aSize){
+    this.scaleX = aSize / CnvSemaforo.anchoOriginal;
+    this.scaleY = aSize / CnvSemaforo.anchoOriginal;
+}
 
 CnvSemaforo.prototype.verdeH = function () {
     this.top.graphics.beginFill("#ff0000").drawRect(7,0,16,5,10);
