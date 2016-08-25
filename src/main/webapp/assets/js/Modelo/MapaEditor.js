@@ -103,7 +103,7 @@ MapaEditor.prototype.semaforoTOnoSemaforo = function (id) {
  * @param json String con formato json
  */
 MapaEditor.desParsear = function (json) {
-    var modelo = JSON.parse(JSON.stringify(json));
+    var modelo = JSON.parse(json);
     modelo.__proto__ = MapaEditor.prototype;
     modelo.nodosEntrada
         .concat(modelo.nodosSalida)
