@@ -23,17 +23,19 @@ class SimulationMock {
         return _memory
     }
 
+    public fun nextStatus() {
+        val r = Random();
+        _map.blocks.filter { b -> r.nextBoolean() }
+                .forEach { b -> b.setStock(r.nextInt(50)) }
+        _map.semaphoreNodes.filter { s -> r.nextBoolean() }
+                .forEach { s -> s.setVGreen(r.nextBoolean()) }
+    }
+
     companion object {
         var SharedInstance: SimulationMock? = null
 
         public fun loadSimulation(map : Map) {
             SharedInstance = SimulationMock(map)
         }
-    }
-    //TODO hacer el "random"
-    fun nextStatus() {
-        val r = Random();
-        _map.blocks.filter { b -> r.nextBoolean() }
-                .forEach { b -> b.setStock(r.nextInt(50)) }
     }
 }
