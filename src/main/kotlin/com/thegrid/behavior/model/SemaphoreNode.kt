@@ -37,11 +37,12 @@ class SemaphoreNode : NodeType {
         return _vGreen;
     }
 
-    //TODO modificaciones del nodo
-    public fun metodoDeInterfazQueModificaEstado() {
+    public fun setVGreen(isGreen: Boolean) {
+        this._vGreen = isGreen;
+        fireListeners();
+    }
 
-        //Calculo y asigno cosas
-
+    private fun fireListeners() {
         var self = this
         _changeListeners.forEach { listener -> listener.fire(self) }
     }
