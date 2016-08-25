@@ -5,7 +5,7 @@
 app.directive('ngTouchSpin'['$timeout', '$interval',
     function($timeout, $interval) {}]);
 
-app.controller('editorController', function($scope,Mapa,MyService,$routeParams) {
+app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$location) {
     var largo = 30;
     var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
     var modelo1 = MapaEditor.desParsear(mapa);
@@ -47,9 +47,11 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams) 
 
     $scope.generarMapa = function(){
         console.log(JSON.stringify(logica.modelo));
-        Mapa.save(JSON.stringify(logica.modelo));
-        alert(JSON.stringify(logica.modelo))
+        //Mapa.save(JSON.stringify(logica.modelo));
+        //alert(JSON.stringify(logica.modelo))
         $scope.modelo = logica.modelo;
+        mapas["moduloNuevo"] = JSON.stringify(logica.modelo);
+        $location.url("app/reproductor/moduloNuevo");
     }
 
     $scope.actualizar = function (){
