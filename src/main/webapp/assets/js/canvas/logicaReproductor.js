@@ -139,8 +139,10 @@ ReproductorController.prototype.actualizar = function (datos){
     console.log(self);
     console.log(auxCnvModel);
 
-    datos.blockStatus.forEach(actualizarCuadra);
-    datos.semaphoreStatus.forEach(actualizarSemaforo);
+    var blockStatus = datos.blockStatus;
+    var semaphoreStatus = datos.semaphoreStatus;
+    if (blockStatus) blockStatus.forEach(actualizarCuadra);
+    if (semaphoreStatus) semaphoreStatus.forEach(actualizarSemaforo);
 
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
@@ -150,7 +152,7 @@ ReproductorController.prototype.actualizar = function (datos){
     }
     //
     function actualizarSemaforo(datosSemaforo){
-       var estado =  datosSemaforo.state;
+       var estado =  datosSemaforo.status;
        var semaforo = self.auxCnvModel[datosSemaforo.id].cnvSemaforo;
 
         if(estado=="HORIZONTAL") {
