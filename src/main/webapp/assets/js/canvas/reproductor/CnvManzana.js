@@ -12,6 +12,7 @@ function CnvManzana(posX, posY) {
 createjs.extend(CnvManzana, createjs.Container);
 
 CnvManzana.largo = 300;
+CnvManzana.radioEsquina = 40;
 
 CnvManzana.prototype.setup = function () {
     this.background = new createjs.Shape();
@@ -24,7 +25,7 @@ CnvManzana.prototype.setup = function () {
         .beginFill("#979797")
         .drawRoundRect(this.posX, this.posY,
             CnvManzana.largo,CnvManzana.largo,
-            40);
+            CnvManzana.radioEsquina);
     this.addChild(this.background);
     this.addChild(cordon);
 }
