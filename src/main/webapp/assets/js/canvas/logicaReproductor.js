@@ -138,10 +138,9 @@ ReproductorController.prototype.dibujar = function (){
 
 ReproductorController.prototype.actualizar = function (datos){
 
-
+    var self = this;
     var auxCnvModel = this.auxCnvModel;
     console.log(this.auxCnvModel);
-    var self = this;
     console.log(self);
     console.log(auxCnvModel);
 

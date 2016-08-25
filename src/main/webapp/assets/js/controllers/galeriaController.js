@@ -80,6 +80,11 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce) {
         $scope.detailFrame = link;
     };
 
+    $scope.mostrarUrl  = function (title) {
+        return "/app/editor/" + title;
+
+    };
+
 
 
 

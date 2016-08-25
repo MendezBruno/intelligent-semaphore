@@ -33,20 +33,23 @@
             <div class="col-sm-9">
                 <div class="tg-marco">
                     <div id="header">
-                        <div></div><p>Simulacion en curso   tiempo: {{contador}} </p> </div>
-                        <div>
-                            <a class="btn" ng-click="iniciar()" role="button"> Iniciar</a>
-                            <a class="btn" ng-click="detener()" role="button"> Detener</a>
-                        </div>
+                      <!--*TODO* poner banner aqui-->
                     </div>
                     <div class="container-fluid" id="canvaspanel">
                         <canvas id="reproductor" width="1000px" height="1000px">
                         </canvas>
                     </div>
-                    <div id="controles">
-                        Controles de reproduccion
-                    </div>
+                    <div class="row" id="controles">
+                            <div class="col-sm-8"><p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p></div>
+                            <div class="col-sm-4">
+                                <button class="btn btn-default" type="button" ng-click="iniciar()">
+                                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Iniciar </button>
+                                <button class="btn btn-default" type="button" ng-click="detener()" >
+                                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Detener</button>
+                            </div>
+                     </div>
                 </div>
+            </div>
             <div class="col-sm-3">
                 <div class="tg-marco">
                     Panel de datos

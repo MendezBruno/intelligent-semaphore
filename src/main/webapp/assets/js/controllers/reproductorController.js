@@ -21,24 +21,15 @@ updates = {
 app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,$routeParams) {
 
 
-        var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
-        $scope.intervalo = 5; //se puede sertear en el reproductor antes de arrancar
+        var mapa = $routeParams.id? mapas[$routeParams.id]:mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
         var modelo = JSON.parse(mapa);
-
-        //$scope.algunaVariable = 1111;
-        //var stageReproductor = new createjs.Stage("reproductor");
-        //stageReproductor.addChild(new CnvCuadraReproductor(20,20,200,5,"#b3b3b3",false));
-        //createjs.Ticker.on("tick", stageReproductor);
-        //stageReproductor.update();
-        //console.log(stageReproductor);
-
         var stageReproductor = new createjs.Stage("reproductor");
         var logicaReproductor = new ReproductorController(modelo,stageReproductor,$scope);
         logicaReproductor.dibujar();
         createjs.Ticker.on("tick", stageReproductor);
         $scope.contador = 0;
         $scope.Timer = null;
-
+        $scope.intervalo = 5; //se puede sertear en el reproductor antes de arrancar
         //Timer start function.
         $scope.iniciar = function () {
                 //Initialize the Timer to run every 1000 milliseconds i.e. one second.
@@ -48,14 +39,12 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                         if ( !($scope.contador % $scope.intervalo)){update()}
                 }, 1000);
         };
-
         $scope.detener = function(){
                 if (angular.isDefined($scope.Timer)) {
                         $interval.cancel($scope.Timer);
                 }
                 $scope.contador = 0;
         };
-
         update = function (){
                 console.log("quiero update yeeeeeeeeeeah!");
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
@@ -66,15 +55,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         };
 
         //cargarMapa = function (unMapa){
-        //        var modelo = JSON.parse(unMapa);
-        //        var stageReproductor = new createjs.Stage("reproductor");
-        //        var logicaReproductor = new ReproductorController(modelo,stageReproductor,$scope);
-        //        logicaReproductor.dibujar();
-        //        createjs.Ticker.on("tick", stageReproductor);
-        //        stageReproductor.update();
-        //        console.log(stageReproductor);
-        //        $location.path("app/reproductor");
-        //
+                //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
         //}
 
 });
