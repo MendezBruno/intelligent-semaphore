@@ -47,6 +47,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 }
                 $scope.contador = 0;
         };
+
         update = function (){
                 // console.log("quiero update yeeeeeeeeeeah!");
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
@@ -55,6 +56,8 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                         console.log(data);
                         logicaReproductor.actualizar(data);
                         drawChart(dicDatosCuadras);
+                        actualizarVelocimetro();
+
                 });
         };
 
@@ -73,6 +76,12 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 return Math.random() * (max - min) + min;
         };
 
+        actualizarVelocimetro = function(){
+                var dic = {};
+                dic["1"]= randomEntre(10,80);
+                dic["2"]= randomEntre(10,50);
+                drawChartVelocimetro(dic);
+        }
 
 
         //cargarMapa = function (unMapa){
