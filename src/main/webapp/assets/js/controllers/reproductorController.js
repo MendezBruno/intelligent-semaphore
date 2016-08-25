@@ -32,6 +32,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         $scope.intervalo = 5; //se puede sertear en el reproductor antes de arrancar
         //Timer start function.
         $scope.iniciar = function () {
+                Mapa.save(JSON.stringify(modelo));
                 //Initialize the Timer to run every 1000 milliseconds i.e. one second.
                 $scope.Timer = $interval(function () {
                         //Display the current time.
@@ -46,7 +47,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 $scope.contador = 0;
         };
         update = function (){
-                console.log("quiero update yeeeeeeeeeeah!");
+                // console.log("quiero update yeeeeeeeeeeah!");
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
                 MapaUpdate.query(function(data) {
                         console.log(data);
