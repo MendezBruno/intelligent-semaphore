@@ -7,27 +7,22 @@
 //ReproductorController.prototype.separador = 20;
 
 function ReproductorController(modelo, stage, $scope){
-
     this.modelo = modelo;
     this.auxCnvModel = {};
-    this.largo = 300;        //*TODO* sacar el largo de la calle como dato general
-    this.ancho = 20;         //*TODO* ver tambien la posibilidad que sea un dato general
     this.stage = stage;
-
 }
 
 ReproductorController.prototype.dibujar = function (){
-
     var self = this;
     var stage = self.stage;
     var auxCnvModel = self.auxCnvModel;
-    var posInicialX = 0;   //en un futuro se podria parametrizar
     var posInicialY = 0;   //en un futuro se podria parametrizar
+    var posInicialX = 0;   //en un futuro se podria parametrizar
+    var largo = CnvManzana.largo;
+    var ancho = Carril.ancho;
     var posx = posInicialX;
-    var posy = this.largo+posInicialY;
+    var posy = largo+posInicialY;
     var separador = 20;
-    var largo = this.largo;
-    var ancho = this.ancho;
     var modelo = this.modelo;
     var sla = 4;   //Separacino de la linea amarilla
     var ala = ancho/6    //ancho linea amarilla es una sexta parte del ancho de la calle
@@ -99,14 +94,14 @@ ReproductorController.prototype.dibujar = function (){
             stage.addChild(new CnvManzana(posx,posy));
             var cv = verticales[j];
             if (cv) {
-                posx += CnvManzana.largo + cv.cantCarriles * Carril.ancho;
+                posx += CnvManzana.largo + cv.cantCarriles * ancho;
             } else {
                 posx = posInicialX;
             }
         }
         var calle = horizontales[i];
         if (calle) {
-            posy += CnvManzana.largo + calle.cantCarriles * Carril.ancho;
+            posy += CnvManzana.largo + calle.cantCarriles * ancho;
         }
     }
 
