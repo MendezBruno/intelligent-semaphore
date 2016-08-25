@@ -20,9 +20,10 @@ updates = {
 
 app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,$routeParams) {
 
-
+        var dicDatosCuadras = {};
         var mapa = $routeParams.id? mapas[$routeParams.id]:mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
         var modelo = JSON.parse(mapa);
+        var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
         var stageReproductor = new createjs.Stage("reproductor");
         var logicaReproductor = new ReproductorController(modelo,stageReproductor,$scope);
         logicaReproductor.dibujar();
@@ -49,11 +50,30 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         update = function (){
                 // console.log("quiero update yeeeeeeeeeeah!");
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
+                randomCongestion(dicDatosCuadras);
                 MapaUpdate.query(function(data) {
                         console.log(data);
                         logicaReproductor.actualizar(data);
+                        drawChart(dicDatosCuadras);
                 });
         };
+
+        randomCongestion = function(dicDatos){
+                dicDatos["sin"] = randomEntre(1,cantidadDeCuadras+1);
+                dicDatos["leve"] = randomEntre(1,cantidadDeCuadras+1);
+                dicDatos["media"] = randomEntre(1,cantidadDeCuadras+1);
+                dicDatos["alta"] = randomEntre(1,cantidadDeCuadras+1);
+                dicDatos["muy"] = randomEntre(1,cantidadDeCuadras+1);
+
+        }
+
+
+        // Retorna un número aleatorio entre min (incluido) y max (excluido)
+        randomEntre = function (min, max) {
+                return Math.random() * (max - min) + min;
+        };
+
+
 
         //cargarMapa = function (unMapa){
                 //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
