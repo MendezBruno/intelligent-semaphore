@@ -15,6 +15,11 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             controller: 'mainController'
         })
 
+        .when('/app/bienvenida', {
+            templateUrl: 'views/bienvenida.html',
+            controller: 'bienvenidaController'
+        })
+
         .when('/app/login', {
             templateUrl: 'views/login.html',
             controller: 'loginController'

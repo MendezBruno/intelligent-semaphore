@@ -87,7 +87,6 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce) {
 
 
 
-
     //   $scope.nombres    = ['modelo1','modelo2'];
 
 });
