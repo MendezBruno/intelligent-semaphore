@@ -50,16 +50,16 @@ CnvCuadraReproductor.prototype.setup = function() {
 
 
     //UNA CALLE SOLA
-    this.background = new createjs.Shape();
+    //this.background = new createjs.Shape();
     this.colorPanel = new createjs.Shape();
-    this.addChild(this.background);
+    //this.addChild(this.background);
     this.addChild(this.colorPanel);
 
     if (this.horizontal){
-        this.background.graphics
-            .beginFill(ColoresRGB.getGRAY())
-            .drawRect(this.posX, this.posY,
-                largoCalle, anchoCuadra);
+        //this.background.graphics
+        //    .beginFill(ColoresRGB.getGRAY())
+        //    .drawRect(this.posX, this.posY,
+        //        largoCalle, anchoCuadra);
 
         this.colorPanel.graphics
             .beginFill(this.color)
@@ -92,9 +92,9 @@ CnvCuadraReproductor.prototype.setup = function() {
 
     }
     else {// CALLE VERTICAL
-        this.background.graphics
-            .beginFill(ColoresRGB.getGRAY())
-            .drawRect(this.posX,this.posY,anchoCuadra,largoCalle);
+        //this.background.graphics
+        //    .beginFill(ColoresRGB.getGRAY())
+        //    .drawRect(this.posX,this.posY,anchoCuadra,largoCalle);
 
         this.colorPanel.graphics
             .beginFill(this.color)

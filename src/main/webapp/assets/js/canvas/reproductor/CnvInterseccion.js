@@ -26,13 +26,13 @@ CnvInterseccion.prototype.setup = function () {
     var ancho = this.cantCarrilesV * Carril.ancho;
     var alto = this.cantCarrilesH * Carril.ancho;
     var ala = Carril.ancho/6;  //ancho de linea amarilla es siempre sobre el ancho de 1 (uno) carril
-    var factorCarril = 1;
+    var factorCarril = 2;
 
-    this.background = new createjs.Shape();
-    this.background.graphics
-        .beginFill(ColoresRGB.getGRAY().toHexa())
-        .drawRect(this.posX,this.posY,ancho,alto);
-    this.addChild(this.background);
+    //this.background = new createjs.Shape();
+    //this.background.graphics
+    //    .beginFill(ColoresRGB.getGRAY().toHexa())
+    //    .drawRect(this.posX,this.posY,ancho,alto);
+    //this.addChild(this.background);
     if (this.semaforo){
         var cnvSemaforo = new CnvSemaforo();
         cnvSemaforo.setSize(Carril.ancho * factorCarril);

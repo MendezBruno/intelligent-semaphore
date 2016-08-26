@@ -25,6 +25,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         var modelo = JSON.parse(mapa);
         var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
         var stageReproductor = new createjs.Stage("reproductor");
+        stageReproductor.canvas.setAttribute('style', 'background-color:'+ColoresRGB.getGRAY().toHexa());
         var logicaReproductor = new ReproductorController(modelo,stageReproductor,$scope);
         logicaReproductor.dibujar();
         createjs.Ticker.on("tick", stageReproductor);
