@@ -17,7 +17,20 @@ function drawChart(dicDatos) {
     ]);
 
     var options = {
-        title: 'Congestion'
+        backgroundColor: ColoresRGB.getPANEL_GRAY().toHexa(),
+        chartArea: {
+            left: 5,
+            top: 5,
+            width: '100%',
+            height: '100%'
+        },
+        legend: {
+            position: 'right',
+            alignment: 'center',
+            textStyle: {
+                fontSize:13
+            }
+        }
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
