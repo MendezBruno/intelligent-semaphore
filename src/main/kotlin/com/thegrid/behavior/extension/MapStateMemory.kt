@@ -4,7 +4,7 @@ import com.thegrid.behavior.model.Block
 import com.thegrid.behavior.model.SemaphoreNode
 import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.observer.SemaphoreListener
-import com.thegrid.communication.model.Map
+import com.thegrid.behavior.model.Map
 import com.thegrid.communication.model.MapState
 import com.thegrid.communication.model.dataBlockStatus
 import com.thegrid.communication.model.dataSemaphoreStatus

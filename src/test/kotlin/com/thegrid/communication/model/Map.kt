@@ -2,6 +2,8 @@ package com.thegrid.communication.model
 
 import com.github.salomonbrys.kotson.*
 import com.google.gson.Gson
+import com.thegrid.behavior.model.Map
+import com.thegrid.communication.services.MapConversor
 import org.jetbrains.spek.api.Spek
 
 /**
@@ -19,7 +21,7 @@ class TestMap: Spek({
                 //Simula ser el parser de GAE
                 val frontendMap = Gson().fromJson<dataMap>(jsonMap);
 
-                val map = Map.createMapFromMapaFrontend(frontendMap);
+                val map = MapConversor.convert(frontendMap);
                 assert(map.name == "san telmo" && map.streets.count() == 6 && map.blocks.count() == 24);
             }
         }

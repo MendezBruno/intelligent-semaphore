@@ -2,7 +2,7 @@ package com.thegrid.behavior.model
 
 import com.google.appengine.repackaged.com.google.common.base.Randoms
 import com.thegrid.behavior.extension.MapStateMemory
-import com.thegrid.communication.model.Map
+import com.thegrid.behavior.model.Map
 import java.util.*
 
 class SimulationMock {

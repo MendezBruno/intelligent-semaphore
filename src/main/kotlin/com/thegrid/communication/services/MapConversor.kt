@@ -1,16 +1,12 @@
-package com.thegrid.communication.model
+package com.thegrid.communication.services
 
 import com.thegrid.behavior.model.*
+import com.thegrid.behavior.model.Map
+import com.thegrid.communication.model.dataMap
 
-data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: MutableList<Street>,
-               val semaphoreNodes: MutableList<SemaphoreNode>) {
-
-    val blocks = streets.map { street -> street.blocks }.flatten().toMutableList()
-
+class MapConversor {
     companion object {
-
-        fun createMapFromMapaFrontend(map: dataMap): Map {
-
+        fun convert(map: dataMap): Map {
             val nodes = mutableListOf<NodeType>()
             val semaphoreNodes = mutableListOf<SemaphoreNode>()
 
