@@ -1,11 +1,31 @@
 
 <html>
 <head>
-    <style>
-        .borde-izq
+    <style type="text/css">
+        .borde-der
         {
-            border-right: 1px solid black;
+            border-right: black;
+            width:1px;
+            height:1000px
 
+        }
+
+        .input_hidden {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .selected {
+            background-color: #ccc;
+        }
+
+        #emotion label {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        #emotion label img {
+            padding: 3px;
         }
         .featurette-divider
         {
@@ -19,13 +39,170 @@
             float: left;
         }
 
+        .check
+        {
+            opacity:0.5;
+            color:#996;
+
+        }
+
+        .box{
+            display: none;
+            width: 80%;
+        }
+
+        a:hover + .box,.box:hover{
+            display: block;
+            position: absolute;
+            z-index: 100;
+        }
+
+        .box { visibility: visible; top: 100px; left: 0px; }
+
+
+        p {margin:20px 0;}
+
+        label {font-weight:bold;}
+
+        .orange {
+            color: orange;
+        }
+
+
+
+        body { font-family:calibri; }
+        /*
+          Hide radio button (the round disc)
+          we will use just the label to create pushbutton effect
+        */
+        input[type=radio] {
+            display:none;
+            margin:10px;
+        }
+
+        /*
+          Change the look'n'feel of labels (which are adjacent to radiobuttons).
+          Add some margin, padding to label
+        */
+        input[type=radio] + label {
+            display:inline-block;
+            margin:-2px;
+            padding: 4px 12px;
+            background-color: #e7e7e7;
+            border-color: #ddd;
+
+
+        }
+        /*
+         Change background color for label next to checked radio button
+         to make it look like highlighted button
+        */
+        input[type=radio]:checked + label {
+            background-image: none;
+            background-color:#d0d0d0;
+        }
+
+
     </style>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $("a.radio-picture").click(function(){
+    var $id = $(this).attr('id');
+    $("a.radio-picture").removeClass('green-border');
+    $("a#" + $id).addClass('green-border');
+    });
+    });
+
+
+    function set_radio($inputid) {
+    $("input#" + $inputid).click();
+    }
+
+</script>
+
 </head>
 
+<body>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-5ths borde-izq">
+        <div class="col-md-2 " style="border-right: 1px solid black; height:1000px">
+
+            <div class="btn-group-vertical center-block">
+
+                <a href="/app/editor" class="btn btn-default" role="button">Crear Mapa</a>
+
+                <hr class="featurette-divider">
+
+                <button type="button" class="btn btn-default" ng-click="mostrara()">Editar</button>
+
+                <br>
+
+                <button type="button" class="btn btn-default">Eliminar</button>
+
+                <br>
+
+                <button type="button" class="btn btn-default"  ng-click="mostrara1()">Ejecutar</button>
+
+            </div>
+
+
+         </div>
+
+        <div class="col-md-10" >
+
+
+            <div class="container-fluid">
+
+
+                    <div ng-repeat="pic in pictures" class="col-md-4">
+
+
+                      <!--  <label class="btn btn-primary"> -->
+
+                        <input type="radio" id="{{ 'radio-' + $index }}" ng-model="$parent.colorValue" name="colorValue" value="{{pic.title}}">
+
+                        <label for="{{ 'radio-' + $index }}">
+
+                        <a>
+
+                            <img alt="Imagen Semaforo" src="{{pic.url}}" class="img-responsive img-thumbnail img-check" width="150" height="150" />
+
+                            <!--<input type="checkbox" name="chk1" id="{{ 'object-' + $index }}" value="val1" class="hidden" autocomplete="off"> -->
+
+                        </a>
+
+                            <div class="box"><iframe ng-src="{{mostrarUrl(pic.title)}}" width = "500px" height = "500px"></iframe></div>
+
+                            <h3>{{pic.title}}</h3>
+
+                        </label>
+
+
+
+                        <!-- </label> -->
+
+
+                    </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+
+
+
+
+
+<!--
 
         <div class="btn-group-vertical">
 
@@ -63,5 +240,7 @@
     </div>
 
 </div>
+
+-->
 
 </html>

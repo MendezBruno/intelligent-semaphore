@@ -50,13 +50,21 @@ CnvCuadraReproductor.prototype.setup = function() {
 
 
     //UNA CALLE SOLA
-    this.background = new createjs.Shape();
-    this.addChild(this.background);
+    //this.background = new createjs.Shape();
+    this.colorPanel = new createjs.Shape();
+    //this.addChild(this.background);
+    this.addChild(this.colorPanel);
 
     if (this.horizontal){
-        this.background.graphics
+        //this.background.graphics
+        //    .beginFill(ColoresRGB.getGRAY())
+        //    .drawRect(this.posX, this.posY,
+        //        largoCalle, anchoCuadra);
+
+        this.colorPanel.graphics
             .beginFill(this.color)
-            .drawRect(this.posX,this.posY,largoCalle,anchoCuadra,10);
+            .drawRect(this.posX + CnvManzana.radioEsquina,this.posY,
+                largoCalle-2*CnvManzana.radioEsquina, anchoCuadra)
 
         //LINEA LIMITE VEHICULAR
         crearLineaDeLimiteVehicular(VERTICAL,this.posX,this.posY);
@@ -84,9 +92,14 @@ CnvCuadraReproductor.prototype.setup = function() {
 
     }
     else {// CALLE VERTICAL
-        this.background.graphics
+        //this.background.graphics
+        //    .beginFill(ColoresRGB.getGRAY())
+        //    .drawRect(this.posX,this.posY,anchoCuadra,largoCalle);
+
+        this.colorPanel.graphics
             .beginFill(this.color)
-            .drawRect(this.posX,this.posY,anchoCuadra,largoCalle,10);
+            .drawRect(this.posX,this.posY + CnvManzana.radioEsquina,
+                anchoCuadra, largoCalle - 2*CnvManzana.radioEsquina)
 
         //LINEA LIMITE VEHICULAR
         crearLineaDeLimiteVehicular(HORIZONTAL,this.posX,this.posY);
@@ -211,9 +224,9 @@ CnvCuadraReproductor.prototype.handleRollOver = function(event) {
  *  que tenga las propiedades numéricas enteras r g b
  */
 CnvCuadraReproductor.prototype.cambiarColor = function (colorCuadra) {
-    var bg = this.background;
+    var bg = this.colorPanel;
     var color = this.color;
-    createjs.Tween.get(color).to(colorCuadra, 300)
+    createjs.Tween.get(color).to(colorCuadra, 500)
         .addEventListener('change', function() {
             bg.graphics._fill.style = color.toString();
         });

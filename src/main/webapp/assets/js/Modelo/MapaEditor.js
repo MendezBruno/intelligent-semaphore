@@ -103,7 +103,7 @@ MapaEditor.prototype.semaforoTOnoSemaforo = function (id) {
  * @param json String con formato json
  */
 MapaEditor.desParsear = function (json) {
-    var modelo = JSON.parse(JSON.stringify(json));
+    var modelo = JSON.parse(json);
     modelo.__proto__ = MapaEditor.prototype;
     modelo.nodosEntrada
         .concat(modelo.nodosSalida)
@@ -130,4 +130,19 @@ MapaEditor.desParsear = function (json) {
             })
         });
     return modelo;
+};
+
+MapaEditor.prototype.nodoSemaforoPorID = function(id){
+    return this.nodosSemaforo.find(function(nodo){
+        return nodo.id == id;
+    } );
+};
+
+MapaEditor.prototype.cuadraPorID = function(id){
+    var callesAux = this.callesHorizontales;
+    callesAux.concat(this.callesVerticales);
+
+    return callesAux.find(function(cuadra){
+        return cuadra.id == id;
+    } );
 }

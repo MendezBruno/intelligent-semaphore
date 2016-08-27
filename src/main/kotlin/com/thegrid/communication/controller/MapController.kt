@@ -1,31 +1,20 @@
 package com.thegrid.communication.controller
 
-import javax.servlet.http.HttpServlet
+import com.google.api.server.spi.config.Api
+import com.google.api.server.spi.config.ApiMethod
+import com.google.api.server.spi.config.ApiNamespace
+import com.thegrid.behavior.model.SimulationMock
+import com.thegrid.communication.model.Map
+import com.thegrid.communication.model.dataMap
 
-/**
- * Created by Surakituaka on 01/08/2016.
- */
+@Api(name = "intelligentsemaphore", version = "v1",
+    namespace = ApiNamespace(ownerDomain = "com.thegrid.intelligentsemaphore",
+    ownerName = "com.thegrid.intelligentsemaphore", packagePath = ""))
+class MapController {
 
-class MapController : HttpServlet() {
-/**
-    public override fun doGet(req: HttpServletRequest, res: HttpServletResponse) {
-
-
-        res.contentType = "text/plain"
-        res.writer.print("text")
-    }*/
-
-
-    //TODO completar
-/**
-    public override fun doPost(req: HttpServletRequest, res: HttpServletResponse) {
-    list.add(req.getParameter("name"))
-    res.contentType = "text/plain"
-    if (list.isEmpty()) {
-    res.writer.println("Please enter a name")
+    @ApiMethod(name = "map", path="map", httpMethod = ApiMethod.HttpMethod.POST)
+    fun postMap(dataMap: dataMap) {
+        var map = Map.createMapFromMapaFrontend(dataMap)
+        SimulationMock.loadSimulation(map)
     }
-    for(item: String in list) {
-    res.writer.println("Hello " + item!!)
-    }
-    }*/
 }

@@ -1,26 +1,28 @@
 /**
  * Created by bruno on 11/08/16.
  */
+
+//ReproductorController.prototype.largo = 300;
+//ReproductorController.prototype.ancho = 20;
+//ReproductorController.prototype.separador = 20;
+
 function ReproductorController(modelo, stage, $scope){
-
     this.modelo = modelo;
-    this.largo = 300;        //*TODO* sacar el largo de la calle como dato general
-    this.ancho = 20         //*TODO* ver tambien la posibilidad que sea un dato general
+    this.auxCnvModel = {};
     this.stage = stage;
-
 }
 
 ReproductorController.prototype.dibujar = function (){
-
     var self = this;
     var stage = self.stage;
-    var posInicialX = 0;   //en un futuro se podria parametrizar
+    var auxCnvModel = self.auxCnvModel;
     var posInicialY = 0;   //en un futuro se podria parametrizar
+    var posInicialX = 0;   //en un futuro se podria parametrizar
+    var largo = CnvManzana.largo;
+    var ancho = Carril.ancho;
     var posx = posInicialX;
-    var posy = this.largo+posInicialY;
+    var posy = largo+posInicialY;
     var separador = 20;
-    var largo = this.largo;
-    var ancho = this.ancho;
     var modelo = this.modelo;
     var sla = 4;   //Separacino de la linea amarilla
     var ala = ancho/6    //ancho linea amarilla es una sexta parte del ancho de la calle
@@ -37,24 +39,24 @@ ReproductorController.prototype.dibujar = function (){
     console.log(this.modelo);
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
-    for (var i=0; i<horizontales.length; i++) {
+    for (var i=0; i < horizontales.length; i++) {
         var calle = horizontales[i];
         var cantCarriles = calle.cantCarriles;
         var cuadras = calle.cuadras;
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            stage.addChild(generarCuadra(HORIZONTAL,cantCarriles));
+            var cnvCuadraReproductor = generarCuadra(HORIZONTAL,cantCarriles);
+            stage.addChild(cnvCuadraReproductor);
+            auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1){
                 var cantCarrilesV = verticales[j].cantCarriles;
-                var haySemaforo = cuadras.some(function(cuadra)
+                var semaforo = modelo.nodosSemaforo.find(function(unSemaforo)
                     {
-                        return modelo.nodosSemaforo.some(function(semaforo)
-                        {
-                            return cuadra.nodoDestino.id=semaforo.id;
-                        });
-                    }
-                );
-                stage.addChild(new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,true));
+                      return cuadras[j].nodoDestino == unSemaforo.id;
+                    });
+                var cnvInterseccion = new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,semaforo != undefined);
+                stage.addChild(cnvInterseccion);
+                if (semaforo) {auxCnvModel [semaforo.id] = cnvInterseccion};
                 actualizarPosX(cantCarrilesV);
                 //(posx-ala- separador*cantCarrilesV)
                 //- (separador*cantCarriles +ala)
@@ -74,7 +76,9 @@ ReproductorController.prototype.dibujar = function (){
         var cuadras = calle.cuadras;
         moverPosyAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            stage.addChild(generarCuadra(VERTICAL,cantCarriles));
+            var cnvCuadraReproductor = generarCuadra(VERTICAL,cantCarriles);
+            stage.addChild(cnvCuadraReproductor);
+            auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1)
                 actualizarPosY(horizontales[j].cantCarriles);
         }
@@ -90,14 +94,14 @@ ReproductorController.prototype.dibujar = function (){
             stage.addChild(new CnvManzana(posx,posy));
             var cv = verticales[j];
             if (cv) {
-                posx += CnvManzana.largo + cv.cantCarriles * Carril.ancho;
+                posx += CnvManzana.largo + cv.cantCarriles * ancho;
             } else {
                 posx = posInicialX;
             }
         }
         var calle = horizontales[i];
         if (calle) {
-            posy += CnvManzana.largo + calle.cantCarriles * Carril.ancho;
+            posy += CnvManzana.largo + calle.cantCarriles * ancho;
         }
     }
 
@@ -126,3 +130,38 @@ ReproductorController.prototype.dibujar = function (){
         posy = posInicialY;
     }
 };
+
+ReproductorController.prototype.actualizar = function (datos){
+
+    var self = this;
+    var auxCnvModel = this.auxCnvModel;
+    console.log(this.auxCnvModel);
+    console.log(self);
+    console.log(auxCnvModel);
+
+    var blockStatus = datos.blockStatus;
+    var semaphoreStatus = datos.semaphoreStatus;
+    if (blockStatus) blockStatus.forEach(actualizarCuadra);
+    if (semaphoreStatus) semaphoreStatus.forEach(actualizarSemaforo);
+
+    function actualizarCuadra(datosCuadra){
+        self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
+        //var cuadra = modelo.cuadraPorID(datosCuadra.id);
+        //cuadra.cuadraCnv.cambiarColor(datosCuadra.color);
+        //cuadra.stock = datosCuadra.stock; no se hizo nada con este dato aun, es para probar el panel de referencia
+    }
+    //
+    function actualizarSemaforo(datosSemaforo){
+       var estado =  datosSemaforo.status;
+       var semaforo = self.auxCnvModel[datosSemaforo.id].cnvSemaforo;
+
+        if(estado=="HORIZONTAL") {
+            semaforo.verdeH();
+        }else{
+            semaforo.verdeV();
+        }
+
+    }
+};
+
+

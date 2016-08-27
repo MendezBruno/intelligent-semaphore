@@ -1,63 +1,49 @@
 package com.thegrid.communication.model
 
-import com.beust.klaxon.*
-import com.thegrid.behavior.model.Orientation
-import com.thegrid.behavior.model.Street
-import com.thegrid.communication.service.MapParser
+import com.thegrid.behavior.model.*
 
-/**
- * Created by Surakituaka on 01/08/2016.
- */
-
-data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: MutableList<Street>) {
+data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: MutableList<Street>,
+               val semaphoreNodes: MutableList<SemaphoreNode>) {
 
     val blocks = streets.map { street -> street.blocks }.flatten().toMutableList()
 
     companion object {
 
-        fun createMapFromJSON(json: String) : Map {
-            val klaxonMap = MapParser.CreateKlaxonMap(json) as JsonObject
-
-            val mapName = klaxonMap.string("nombre")!!
-
-            val entryNodes = klaxonMap.array<JsonObject>("nodosEntrada") as JsonArray<JsonObject>
-            val egressNodes = klaxonMap.array<JsonObject>("nodosSalida") as JsonArray<JsonObject>
-            val semaphoreNodes = klaxonMap.array<JsonObject>("nodosSemaforo") as JsonArray<JsonObject>
-            val cornerNodes = klaxonMap.array<JsonObject>("nodosNoSemaforo") as JsonArray<JsonObject>
+        fun createMapFromMapaFrontend(map: dataMap): Map {
 
             val nodes = mutableListOf<NodeType>()
+            val semaphoreNodes = mutableListOf<SemaphoreNode>()
 
-            for(kNode in entryNodes){
-                nodes.add(EntryNode(kNode.string("id")!!/*, FDP(kNode.int("cantMaxima")!!, kNode.int("intervalo")!!)*/))
+            for (node in map.nodosEntrada) {
+                nodes.add(EntryNode(node.id, node.intervalo, node.cantMaxima));
             }
 
-            for(node in egressNodes){
-                nodes.add(EgressNode(node.string("id")!!/*, FDP(node.int("cantMaxima")!!, node.int("intervalo")!!)*/))
+            for (node in map.nodosSalida) {
+                nodes.add(EgressNode(node.id, node.intervalo, node.cantMaxima))
             }
 
-            for(node in semaphoreNodes){
-                nodes.add(SemaphoreNode(node.string("id")!!/*,node.int("tiempoVertical")!!, node.int("tiempoHorizontal")!!*/))
+            for (node in map.nodosSemaforo) {
+                val sem = SemaphoreNode(node.id, node.tiempoHorizontal, node.tiempoVertical, true)
+                nodes.add(sem)
+                semaphoreNodes.add(sem)
             }
 
-            for(node in cornerNodes){
-                nodes.add(CornerNode(node.string("id")!!))
+            for (node in map.nodosNoSemaforo) {
+                nodes.add(CornerNode(node.id))
             }
 
             val streets = mutableListOf<Street>()
 
-            val vStreets = klaxonMap.array<JsonObject>("callesVerticales") as JsonArray<JsonObject>
-            val hStreets = klaxonMap.array<JsonObject>("callesHorizontales") as JsonArray<JsonObject>
+            for (kStreet in map.callesHorizontales.plus(map.callesVerticales)) {
+                val street = Street(kStreet.cantCarriles,
+                        Orientation.from(kStreet.sentido),
+                        mutableListOf<Block>(),
+                        kStreet.preferencia)
 
-            for(kStreet in vStreets){
-                val street = Street(/*kStreet.double("velocidadMax")!!, */kStreet.int("cantCarriles")!!,
-                        Orientation.from(kStreet.string("sentido")!!), mutableListOf<Block>(), kStreet.int("preferencia")!!)
-
-                val kBlocks = kStreet.array<JsonObject>("cuadras") as JsonArray<JsonObject>
-
-                for(kBlock in kBlocks){
-                    val block = Block(kBlock.string("id")!!,street,kBlock.int("longitud")!!,
-                            nodes.filter { node -> node.id.equals(kBlock.string("nodoOrigen")!!) }.first(),
-                            nodes.filter { node -> node.id.equals(kBlock.string("nodoDestino")!!) }.first())
+                for (kBlock in kStreet.cuadras) {
+                    val block = Block(kBlock.id, street, kBlock.longitud,
+                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first(),
+                            nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first())
 
                     block.street.addBlock(block)
                     block.entryNode.addEgressBlock(block)
@@ -66,25 +52,7 @@ data class Map(val name: String, val nodes: MutableList<NodeType>, val streets: 
                 streets.add(street)
             }
 
-            for(kStreet in hStreets){
-                val street = Street(/*kStreet.double("velocidadMax")!!,*/ kStreet.int("cantCarriles")!!,
-                        Orientation.from(kStreet.string("sentido")!!), mutableListOf<Block>(), kStreet.int("preferencia")!!)
-
-                val kBlocks = kStreet.array<JsonObject>("cuadras") as JsonArray<JsonObject>
-
-                for(kBlock in kBlocks){
-                    val block = Block(kBlock.string("id")!!,street,kBlock.int("longitud")!!,
-                            nodes.filter { node -> node.id.equals(kBlock.string("nodoOrigen")!!) }.first(),
-                            nodes.filter { node -> node.id.equals(kBlock.string("nodoDestino")!!) }.first())
-
-                    block.street.addBlock(block)
-                    block.entryNode.addEgressBlock(block)
-                    block.egressNode.addEntryBlock(block)
-                }
-                streets.add(street)
-            }
-
-            return Map(mapName,nodes,streets)
+            return Map(map.nombre, nodes, streets, semaphoreNodes)
         }
     }
 }

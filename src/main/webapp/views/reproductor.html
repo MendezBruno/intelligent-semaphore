@@ -33,20 +33,46 @@
             <div class="col-sm-9">
                 <div class="tg-marco">
                     <div id="header">
-                        Simulacion en curso...{{algunaVariable}}
+                      <!--*TODO* poner banner aqui-->
                     </div>
                     <div class="container-fluid" id="canvaspanel">
                         <canvas id="reproductor" width="1000px" height="1000px">
                         </canvas>
                     </div>
-                    <div id="controles">
-                        Controles de reproduccion
-                    </div>
+                    <div class="row" id="controles">
+                            <div class="col-xs-8"><p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p></div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-default" type="button" ng-click="iniciar()" style="float: right">
+                                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Iniciar </button>
+                                <button class="btn btn-default" type="button" ng-click="detener()" style="float: right" >
+                                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Detener</button>
+                            </div>
+                     </div>
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="tg-marco">
-                    Panel de datos
+                    <h2>Congestión</h2>
+                    <div id="piechart" style="width: 100%; height: 200px;">Congestion</div>
+                    <h2>Estado de Cuadras</h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Cuadra</th>
+                            <th>% Congestion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>cuadra 1</td>
+                            <td>10%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--<div class="container">-->
+                        <!---->
+                    <!--</div>-->
+                    <div id="velocidad" style="width: 100%; height: 120px;">velocidades</div>
                 </div>
             </div>
         </div>

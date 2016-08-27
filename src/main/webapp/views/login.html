@@ -30,14 +30,14 @@
                 <div class="row-featurette">
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" placeholder="Ingresar email">
+                        <input type="email" class="form-control" id="email" placeholder="Ingresar email" ng-model="mail">
                     </div>
                     <div class="form-group">
                         <label for="pwd">Contrase&ntildea:</label>
-                        <input type="password" class="form-control" id="pwd" placeholder="Ingresar Password ">
+                        <input type="password" class="form-control" id="pwd" placeholder="Ingresar Password " ng-model="pass">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-default" type="button">Entrar</button>
+                        <button class="btn btn-default" type="button" ng-click="entro()">Entrar</button>
                     </div>
                     <div class="form-group">
                         <a href="/app/passrecovery" >Olvido la contrase&ntildea?</a>

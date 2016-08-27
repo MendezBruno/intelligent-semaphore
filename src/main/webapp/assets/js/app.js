@@ -1,7 +1,7 @@
 var app = angular.module('app', ['ngRoute','ngResource']);
 
-app.run(['$rootScope',
-    function($rootScope) {
+app.run(['$rootScope','$interval',
+    function($rootScope,$interval) {
         $rootScope.cargandoHttp=true;
         //$rootScope.splashes = splashes;
     }]);
@@ -13,6 +13,11 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
         .when('/', {
             templateUrl: 'views/home.html',
             controller: 'mainController'
+        })
+
+        .when('/app/bienvenida', {
+            templateUrl: 'views/bienvenida.html',
+            controller: 'bienvenidaController'
         })
 
         .when('/app/login', {
@@ -35,12 +40,22 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             controller: 'editorController'
         })
 
+        .when('/app/editor/:id', {
+            templateUrl: 'views/editor.html',
+            controller: 'editorController'
+        })
+
         .when('/app/galeria', {
             templateUrl: 'views/galeria.html',
             controller: 'galeriaController'
         })
 
-        .when('/app/reproductor', {
+        .when('/app/reproductor/:id', {
+            templateUrl: 'views/reproductor.html',
+            controller: 'reproductorController'
+        })
+
+        .when('/app/reproductor/', {
             templateUrl: 'views/reproductor.html',
             controller: 'reproductorController'
         });
@@ -55,10 +70,16 @@ app.factory("Favorito", ['$resource', function($resource) {
 }]);
 
 app.factory("Mapa", ["$resource",function($resource){
-    return  $resource("/api_v1.0/mapa/:id", null,
+    return  $resource("/_ah/api/intelligentsemaphore/v1/map/:id", null,
         {
             'query': { method:'GET', isArray: false }
         });
 }]);
 
+app.factory("MapaUpdate", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/mapState", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
 
