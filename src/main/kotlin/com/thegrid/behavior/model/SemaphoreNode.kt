@@ -2,12 +2,8 @@ package com.thegrid.behavior.model
 
 import com.thegrid.behavior.observer.SemaphoreListener
 
-class SemaphoreNode : NodeType {
+class SemaphoreNode : CornerNode {
 
-    private var _horizontalEntryBlock: Block? = null
-    private var _verticalEntryBlock: Block? = null
-    private var _horizontalEgressBlock: Block? = null
-    private var _verticalEgressBlock: Block? = null
     private val _hTime: Double
     private var _vTime: Double
     private var _vGreen: Boolean = true
@@ -17,16 +13,6 @@ class SemaphoreNode : NodeType {
         _hTime = hTime
         _vTime = vTime
         _vGreen = vGreen
-    }
-
-    override fun addEgressBlock(block: Block) {
-        if (block.hasVerticalDirection()) _verticalEgressBlock = block
-        else _horizontalEgressBlock = block
-    }
-
-    override fun addEntryBlock(block: Block) {
-        if (block.hasVerticalDirection()) _verticalEntryBlock = block
-        else _horizontalEntryBlock = block
     }
 
     public fun getChangeListeners() : MutableList<SemaphoreListener> {

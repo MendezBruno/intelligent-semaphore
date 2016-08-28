@@ -1,6 +1,6 @@
 package com.thegrid.behavior.model
 
-class CornerNode : NodeType {
+open class CornerNode : NodeType {
 
     private var _horizontalEntryBlock: Block? = null
     private var _verticalEntryBlock: Block? = null
@@ -18,5 +18,4 @@ class CornerNode : NodeType {
         if (block.hasVerticalDirection()) _verticalEntryBlock = block
         else _horizontalEntryBlock = block
     }
-
 }
