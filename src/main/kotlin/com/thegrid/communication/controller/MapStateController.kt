@@ -16,7 +16,7 @@ class MapStateController{
 
         val simulation = SimulationMock.SharedInstance
 
-        val mapState: MapState = simulation!!.getMemory().getStatus()
+        val mapState: MapState = simulation.getMemory().getStatus()
 
         simulation.nextStatus() //TODO implementar
 
