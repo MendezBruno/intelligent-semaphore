@@ -6,10 +6,6 @@ package com.thegrid.behavior.model
 
 abstract class NodeType(val id: String){
 
-    abstract fun addEntryBlock(block: Block)
-
-    abstract fun addEgressBlock(block: Block)
-
     override operator fun equals(other: Any?) =
             when(other) {
                 is NodeType -> this.id == other.id
@@ -19,4 +15,9 @@ abstract class NodeType(val id: String){
     override fun hashCode(): Int {
         return id.hashCode();
     }
+
+    abstract fun setHorizontalEntryBlock(block: BlockHorizontal)
+    abstract fun setHorizontalEgressBlock(block: BlockHorizontal)
+    abstract fun setVerticalEgressBlock(block: BlockVertical)
+    abstract fun setVerticalEntryBlock(block: BlockVertical)
 }

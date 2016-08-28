@@ -7,7 +7,7 @@ import com.thegrid.communication.extension.RGBA
  * Created by Surakituaka on 01/08/2016.
  */
 
-data class Block(
+abstract class Block(
         val id: String,
         val street: Street,
         val length: Int/*Double*/,
@@ -22,6 +22,14 @@ data class Block(
     private var _frontBendCarAmount: Int = 0
     private val _colorStatus = RGBA(0,0,0,1)
 
+    init {
+        street.addBlock(this)
+        setAsEntryBlock(egressNode)
+        setAsEgressBlock(entryNode)
+    }
+
+    abstract fun setAsEntryBlock(node: NodeType)
+    abstract fun setAsEgressBlock(node: NodeType)
 
     //TODO modificaciones de la cuadra
     public fun metodoDeInterfazQueModificaEstado() {

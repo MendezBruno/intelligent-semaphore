@@ -1,21 +1,29 @@
 package com.thegrid.behavior.model
 
+import kotlin.properties.Delegates
+
 open class CornerNode : NodeType {
 
-    private var _horizontalEntryBlock: Block? = null
-    private var _verticalEntryBlock: Block? = null
-    private var _horizontalEgressBlock: Block? = null
-    private var _verticalEgressBlock: Block? = null
+    protected var _horizontalEntryBlock: BlockHorizontal by Delegates.notNull()
+    protected var _horizontalEgressBlock: BlockHorizontal by Delegates.notNull()
+    protected var _verticalEntryBlock: BlockVertical by Delegates.notNull()
+    protected var _verticalEgressBlock: BlockVertical by Delegates.notNull()
 
     constructor(id: String) : super(id)
 
-    override fun addEgressBlock(block: Block) {
-        if (block.hasVerticalDirection()) _verticalEgressBlock = block
-        else _horizontalEgressBlock = block
+    override fun setHorizontalEntryBlock(block: BlockHorizontal) {
+        _horizontalEntryBlock = block
     }
 
-    override fun addEntryBlock(block: Block) {
-        if (block.hasVerticalDirection()) _verticalEntryBlock = block
-        else _horizontalEntryBlock = block
+    override fun setHorizontalEgressBlock(block: BlockHorizontal) {
+        _horizontalEgressBlock = block;
+    }
+
+    override fun setVerticalEgressBlock(block: BlockVertical) {
+        _verticalEgressBlock = block
+    }
+
+    override fun setVerticalEntryBlock(block: BlockVertical) {
+        _verticalEntryBlock = block
     }
 }

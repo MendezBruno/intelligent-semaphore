@@ -5,7 +5,6 @@ package com.thegrid.behavior.model
  */
 
 class EntryNode : NodeType {
-
     private var _egressBlock: Block? = null
     private var _interval: Int
     private var _maxAmount: Int
@@ -15,12 +14,19 @@ class EntryNode : NodeType {
         _interval = interval;
     }
 
-    override fun addEgressBlock(block: Block) {
+    override fun setHorizontalEgressBlock(block: BlockHorizontal) {
         _egressBlock = block
     }
 
-    override fun addEntryBlock(block: Block) {
+    override fun setVerticalEgressBlock(block: BlockVertical) {
+        _egressBlock = block
+    }
+
+    override fun setHorizontalEntryBlock(block: BlockHorizontal) {
         throw UnsupportedOperationException("EntryNode doesn't have an EntryBlock")
     }
 
+    override fun setVerticalEntryBlock(block: BlockVertical) {
+        throw UnsupportedOperationException("EntryNode doesn't have an EntryBlock")
+    }
 }

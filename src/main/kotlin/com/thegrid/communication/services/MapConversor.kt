@@ -30,20 +30,30 @@ class MapConversor {
 
             val streets = mutableListOf<Street>()
 
-            for (kStreet in map.callesHorizontales.plus(map.callesVerticales)) {
+            for (kStreet in map.callesHorizontales) {
                 val street = Street(kStreet.cantCarriles,
                         Orientation.from(kStreet.sentido),
                         mutableListOf<Block>(),
                         kStreet.preferencia)
 
                 for (kBlock in kStreet.cuadras) {
-                    val block = Block(kBlock.id, street, kBlock.longitud,
+                    BlockHorizontal(kBlock.id, street, kBlock.longitud,
                             nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first(),
                             nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first())
+                }
+                streets.add(street)
+            }
 
-                    block.street.addBlock(block)
-                    block.entryNode.addEgressBlock(block)
-                    block.egressNode.addEntryBlock(block)
+            for (kStreet in map.callesVerticales) {
+                val street = Street(kStreet.cantCarriles,
+                        Orientation.from(kStreet.sentido),
+                        mutableListOf<Block>(),
+                        kStreet.preferencia)
+
+                for (kBlock in kStreet.cuadras) {
+                    BlockVertical(kBlock.id, street, kBlock.longitud,
+                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first(),
+                            nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first())
                 }
                 streets.add(street)
             }
