@@ -34,7 +34,7 @@ class MapStateMemory {
                     _cuadrasCache.add(block)
                 }
             }
-            block.getChangeListeners().add(blockListener)
+            block.changeListeners.add(blockListener)
         }
     }
 
@@ -43,8 +43,10 @@ class MapStateMemory {
         _mapState.semaphoreStatus.clear()
 
         for (block in _cuadrasCache){
-            val dataBlock = dataBlockStatus(block.id, block.getBackBendCarAmount() + block.getBackStraightCarAmount() +
-                    block.getFrontBendCarAmount() + block.getFrontStraightCarAmount(),block.getColorStatus())
+            val dataBlock = dataBlockStatus(block.id,
+                    block.outgoingCrossingByCarsAmount +
+                    block.outgoingTurningCarsAmount,
+                    block.colorStatus)
             _mapState.blockStatus.add(dataBlock)
         }
 

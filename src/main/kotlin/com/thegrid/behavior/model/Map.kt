@@ -7,4 +7,10 @@ data class Map(val name: String,
                val streets: MutableList<Street>,
                val semaphoreNodes: MutableList<SemaphoreNode>) {
     val blocks = streets.map { street -> street.blocks }.flatten().toMutableList()
+
+    init {
+        streets.forEach {
+            it.blocks.forEach { it.startObservation() }
+        }
+    }
 }
