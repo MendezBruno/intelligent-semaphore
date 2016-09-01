@@ -37,9 +37,10 @@ class MapConversor {
                         kStreet.preferencia)
 
                 for (kBlock in kStreet.cuadras) {
-                    BlockHorizontal(kBlock.id, street, kBlock.longitud,
-                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first(),
-                            nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first())
+                    val egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
+                    val block = BlockHorizontal(kBlock.id, street, kBlock.longitud,
+                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
+                    egressNode.horizontalEntryBlock = block
                 }
                 streets.add(street)
             }
@@ -51,9 +52,10 @@ class MapConversor {
                         kStreet.preferencia)
 
                 for (kBlock in kStreet.cuadras) {
-                    BlockVertical(kBlock.id, street, kBlock.longitud,
-                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first(),
-                            nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first())
+                    val egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
+                    val block = BlockVertical(kBlock.id, street, kBlock.longitud,
+                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
+                    egressNode.verticalEntryBlock = block
                 }
                 streets.add(street)
             }

@@ -4,6 +4,8 @@ import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.communication.extension.RGBA
 import rx.Observable
 import rx.lang.kotlin.observable
+import java.util.*
+import kotlin.concurrent.timerTask
 
 /**Es la cuadra que tiene relación
  * directa con una cuadra del json
@@ -12,27 +14,26 @@ abstract class Block(
         val id: String,
         val street: Street,
         val length: Int/*Double*/,
-        val entryNode: NodeType,
-        val egressNode: NodeType) : BlockBase() {
+        val entryNode: NodeType) : BlockBase() {
 
     val colorStatus = RGBA(0,0,0,1)
     val carCapacity: Int = 3 //TODO calcular segun length, algo como Int(length/"valor promedio de largo de vehiculos)
     val changeListeners: MutableList<BlockListener> = mutableListOf()
 
-    protected var _timer: Observable<Int> = observable { /*Do Something*/ }
     protected var _incomingCarsAmount: Int = 0
     protected val _incomingCarsAvailability: Int = carCapacity / 2 - _incomingCarsAmount
     protected val _outgoingCarsAvailability: Int = carCapacity / 2 - outgoingCrossingByCarsAmount - outgoingTurningCarsAmount
-    override var sendingCars = _timer.doOnEach { moveCarsToTheFront() }.map { this }
+    protected var _timer: Observable<Int> = observable { Timer().schedule(timerTask{ it.onNext(0) },0,500) }
+    override var sendingCars = _timer.doOnEach {
+        moveCarsToTheFront()
+        println(this.toString())
+    }.map { this }
 
     init {
         street.addBlock(this)
-        setAsEntryBlock(egressNode)
-        setAsEgressBlock(entryNode)
     }
 
     abstract fun setAsEntryBlock(node: NodeType)
-    abstract fun setAsEgressBlock(node: NodeType)
     abstract fun startObservation()
 
     //TODO modificaciones de la cuadra
@@ -72,23 +73,23 @@ abstract class Block(
     }
 
     override fun hashCode(): Int {
-        return id.hashCode();
+        return id.hashCode()
     }
 
     //Metodo a mode de ejemplo, sin mucho sentido
     fun setStock(stk:Int) {
-        outgoingCrossingByCarsAmount = stk;
-        changeColor();
-        fireListeners();
+        outgoingCrossingByCarsAmount = stk
+        changeColor()
+        fireListeners()
     }
 
     private fun changeColor() {
         when (outgoingCrossingByCarsAmount) {
-            in 1..10 -> colorStatus.set(189,210,195);
-            in 11..20 -> colorStatus.set(184,189,142);
-            in 21..30 -> colorStatus.set(189,210,195);
-            in 31..40 -> colorStatus.set(227,206,132);
-            in 41..50 -> colorStatus.set(234,95,95);
+            in 1..10 -> colorStatus.set(189,210,195)
+            in 11..20 -> colorStatus.set(184,189,142)
+            in 21..30 -> colorStatus.set(189,210,195)
+            in 31..40 -> colorStatus.set(227,206,132)
+            in 41..50 -> colorStatus.set(234,95,95)
         }
     }
 }

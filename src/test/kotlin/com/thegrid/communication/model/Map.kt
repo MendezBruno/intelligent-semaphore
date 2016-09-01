@@ -2,7 +2,6 @@ package com.thegrid.communication.model
 
 import com.github.salomonbrys.kotson.*
 import com.google.gson.Gson
-import com.thegrid.behavior.model.Map
 import com.thegrid.communication.services.MapConversor
 import org.jetbrains.spek.api.Spek
 

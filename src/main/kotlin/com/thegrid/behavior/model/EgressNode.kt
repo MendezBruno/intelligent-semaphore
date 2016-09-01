@@ -8,6 +8,13 @@ import kotlin.properties.Delegates
  */
 
 class EgressNode : NodeType {
+
+    override var horizontalEntryBlock: BlockHorizontal
+        get() = throw UnsupportedOperationException()
+        set(value) { _entryBlock = value }
+    override var verticalEntryBlock: BlockVertical
+        get() = throw UnsupportedOperationException()
+        set(value) { _entryBlock = value }
     private var _interval: Int
     private var _maxAmount: Int
     private var _entryBlock: Block? = null
@@ -17,6 +24,7 @@ class EgressNode : NodeType {
             //ToDO y al despertarse restar la cantidad permitida
             //ToDO en la fdp. Solo hay una cuadra arribando...
         }
+        field = value
     }
 
     constructor(id:String, interval:Int, maxAmount:Int) : super(id) {
@@ -33,19 +41,4 @@ class EgressNode : NodeType {
     override val turningVerticalOutgoingCars: Observable<BlockBase>
         get() = throw UnsupportedOperationException()
 
-    override fun setHorizontalEntryBlock(block: BlockHorizontal) {
-        _entryBlock = block
-    }
-
-    override fun setVerticalEntryBlock(block: BlockVertical) {
-        _entryBlock = block
-    }
-
-    override fun setHorizontalEgressBlock(block: BlockHorizontal) {
-        throw UnsupportedOperationException("EgressNode doesn't have EgressBlock")
-    }
-
-    override fun setVerticalEgressBlock(block: BlockVertical) {
-        throw UnsupportedOperationException("EgressNode doesn't have EgressBlock")
-    }
 }

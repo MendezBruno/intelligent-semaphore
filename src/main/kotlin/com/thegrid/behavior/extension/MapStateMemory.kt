@@ -38,7 +38,7 @@ class MapStateMemory {
         }
     }
 
-    public fun getStatus() : MapState {
+    fun getStatus() : MapState {
         _mapState.blockStatus.clear()
         _mapState.semaphoreStatus.clear()
 
