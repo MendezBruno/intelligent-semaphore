@@ -39,7 +39,7 @@
         this.addChild(this.background);
 
         //Dibujo la flecha
-        var pathFlecha = rutaDeLaFlechaSegunSentido(this.sentido);  //*TODO* Eze: traer del objeto global de sentidos. esto se encuentra en utils.js
+        var pathFlecha = this.rutaDeLaFlechaSegunSentido(this.sentido);  //*TODO* Eze: traer del objeto global de sentidos. esto se encuentra en utils.js
         this.flecha = new createjs.Bitmap(pathFlecha);
         this.flecha.scaleX=0.1;
         this.flecha.scaleY=0.1;
@@ -62,23 +62,7 @@
         this.offset = Math.random()*10;
         this.count = 0;
 
-        function rutaDeLaFlechaSegunSentido(unSentido){
-            switch(unSentido) {
-                case 'Este-Oeste':
-                    return '/assets/img/flechaIzquierda.jpeg';
-                    break;
-                case 'Norte-Sur':
-                    return '/assets/img/flechaAbajo.jpeg';
-                    break;
-                case 'Oeste-Este':
-                    return '/assets/img/flechaDerecha.jpeg';
-                    break;
-                case 'Sur-Norte':
-                    return '/assets/img/flechaArriba.jpeg';
-                    break;
 
-            }
-        }
     } ;
 
     CnvNodoBorde.prototype.handleRollOver = function(event) {
@@ -93,9 +77,65 @@
         this.cambiarSentido();
     }
 
-    CnvNodoBorde.prototype.cambiarSentido = function(){
-        this.flecha.rotation=180;
+    //CnvNodoBorde.prototype.asignarSentidoContrario = function(unSentido) {
+    //    switch(unSentido) {
+    //        case 'Este-Oeste':
+    //            return '/assets/img/flechaIzquierda.jpeg';
+    //            break;
+    //        case 'Norte-Sur':
+    //            return '/assets/img/flechaAbajo.jpeg';
+    //            break;
+    //    }
+    //}
 
+    CnvNodoBorde.prototype.cambiarSentido = function(){
+        var pathFlecha = this.rutaDeLaFlechaSegunCambioDeSentido(this.sentido);
+        this.flecha = new createjs.Bitmap(pathFlecha);
+        this.flecha.scaleX=0.1;
+        this.flecha.scaleY=0.1;
+        this.flecha.x=this.posx-5;
+        this.flecha.y=this.posy-5;
+        this.addChild(this.flecha);
+    }
+
+    CnvNodoBorde.prototype.rutaDeLaFlechaSegunSentido = function(unSentido){
+        switch(unSentido) {
+            case 'Este-Oeste':
+                return '/assets/img/flechaIzquierda.jpeg';
+                break;
+            case 'Norte-Sur':
+                return '/assets/img/flechaAbajo.jpeg';
+                break;
+            case 'Oeste-Este':
+                return '/assets/img/flechaDerecha.jpeg';
+                break;
+            case 'Sur-Norte':
+                return '/assets/img/flechaArriba.jpeg';
+                break;
+
+        }
+    }
+
+    CnvNodoBorde.prototype.rutaDeLaFlechaSegunCambioDeSentido = function(unSentido){
+        switch(unSentido) {
+            case 'Oeste-Este':
+                this.sentido = 'Este-Oeste';
+                return '/assets/img/flechaIzquierda.jpeg';
+                break;
+            case 'Sur-Norte':
+                this.sentido = 'Norte-Sur';
+                return '/assets/img/flechaAbajo.jpeg';
+                break;
+            case 'Este-Oeste':
+                this.sentido = 'Oeste-Este';
+                return '/assets/img/flechaDerecha.jpeg';
+                break;
+            case 'Norte-Sur':
+                this.sentido = 'Sur-Norte';
+                return '/assets/img/flechaArriba.jpeg';
+                break;
+
+        }
     }
 
     window.CnvNodoBorde = createjs.promote(CnvNodoBorde, "Container");
