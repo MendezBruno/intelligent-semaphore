@@ -4,7 +4,7 @@ import com.thegrid.behavior.model.Block
 import com.thegrid.behavior.model.SemaphoreNode
 import com.thegrid.behavior.services.model.PairDispatched
 import org.omg.CORBA.Object
-import java.security.Timestamp
+import java.sql.Timestamp
 
 /**
  * Created by CristianErik on 02/09/2016.
@@ -12,20 +12,12 @@ import java.security.Timestamp
 
 class TimeDispatcher() {
 
-    companion object {
-        val SharedInstance: TimeDispatcher = TimeDispatcher()
+    private val _futureEventsTable = mutableListOf<PairDispatched<Any>>()
+    val nextEvent : PairDispatched<Any>
+        get() = _futureEventsTable.sortedBy { it }.first()
+
+    fun dispatchOn(timeStamp: Timestamp, dispatcheable : Any) {
+        _futureEventsTable.add(PairDispatched(timeStamp, dispatcheable))
     }
-
-   val  futureEventsTable = mutableListOf<PairDispatched<Object>>()
-        get() = futureEventsTable.sorted()
-
-    fun dispatchOn(timeStamp: Timestamp, block: Block) {
-        futureEventsTable
-    }
-
-    fun dispatchOn(timeStamp: Timestamp, block: SemaphoreNode) {
-
-    }
-
 }
 
