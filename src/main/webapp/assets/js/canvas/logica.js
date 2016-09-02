@@ -108,12 +108,12 @@ GrillaController.prototype.redibujar = function() {
         var calle = horizontales[i];
         var entrada = new CnvNodoBorde(nodos[i+1][PRIMER_COLUMNA],
             i+2,PRIMER_COLUMNA, posx-separador/2, posy+separador/2,
-            separador/2,  ENTRADA);
+            separador/2,  ENTRADA, calle.sentido);
         stage.addChild(entrada);
         var posXNodoSalida = posx+(largo+separador)*(verticales.length+1);
         var salida = new CnvNodoBorde(nodos[i+1][verticales.length+1],
             i+2, verticales.length+1, posXNodoSalida-separador/2,
-            posy+separador/2, separador/2, SALIDA);
+            posy+separador/2, separador/2, SALIDA, calle.sentido);
         stage.addChild(salida);
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         var cuadras = new Array();
@@ -138,13 +138,13 @@ GrillaController.prototype.redibujar = function() {
     moverPosyAlOrigen();
     posx=posx + largo;
     for (var i = 0; i < verticales.length; i++) {
-        var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1],1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA);
+        var calle = verticales[i];
+        var cuadras = new Array();
+        var entrada = new CnvNodoBorde(nodos[PRIMERA_FILA][i+1],1,i+1,posx+separador/2,posy-separador/2,separador/2,ENTRADA,calle.sentido);
         var posYNodoSalida = posy+(largo+separador)*(horizontales.length+1);
         var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1],
             horizontales.length,i+1,posx+separador/2,
-            posYNodoSalida-separador/2,separador/2,SALIDA);
-        var calle = verticales[i];
-        var cuadras = new Array();
+            posYNodoSalida-separador/2,separador/2,SALIDA,calle.sentido);
         var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
         stage.addChild(entrada);
         stage.addChild(salida);

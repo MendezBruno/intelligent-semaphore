@@ -10,6 +10,7 @@ function CnvNodoControl(id,fila,columna,posx, posy,radio,color) {
         this.radio = radio;
         this.clickListeners = new Array();
         this.background;
+        this.semaforoCnv;
 
         var self =this;
 
@@ -51,6 +52,19 @@ CnvNodoControl.prototype.handleRollOver = function(event) {
     this.alpha = event.type == "rollover" ? 0.4 : 1;
 };
 
+CnvNodoControl.prototype.dibujarSemaforo = function(){
+    var semaforo = new createjs.Bitmap("/assets/img/semaforo3.png");
+    semaforo.scaleX=0.35;
+    semaforo.scaleY=0.35;
+    semaforo.x = this.posx-9;
+    semaforo.y = this.posy-9;
+    this.semaforoCnv = this.addChild(semaforo);
+}
+CnvNodoControl.prototype.borrarSemaforo  = function(){
+    this.removeChild(this.semaforoCnv);
+
+}
+
 CnvNodoControl.prototype.cambiarColor = function(){
     this.color= this.color == BLANCO?  AMARILLO:BLANCO;
     this.background.graphics.clear()
@@ -60,12 +74,17 @@ CnvNodoControl.prototype.cambiarColor = function(){
     return this.color;
 };
 
+
+
+
 CnvNodoControl.prototype.cambiarTipoDeNodoCentral = function(modelo){
     if(this.cambiarColor()==AMARILLO) {
         modelo.noSemaforoTOsemaforo(this.id);
+        this.dibujarSemaforo();
     }
     else{
         modelo.semaforoTOnoSemaforo(this.id);
+        this.borrarSemaforo();
     }
 
 };
