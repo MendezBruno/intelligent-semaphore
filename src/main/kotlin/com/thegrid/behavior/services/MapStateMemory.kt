@@ -1,4 +1,4 @@
-package com.thegrid.behavior.extension
+package com.thegrid.behavior.services
 
 import com.thegrid.behavior.model.Block
 import com.thegrid.behavior.model.SemaphoreNode
@@ -45,7 +45,7 @@ class MapStateMemory {
         for (block in _cuadrasCache){
             val dataBlock = dataBlockStatus(block.id,
                     block.outgoingCrossingByCarsAmount +
-                    block.outgoingTurningCarsAmount,
+                            block.outgoingTurningCarsAmount,
                     block.colorStatus)
             _mapState.blockStatus.add(dataBlock)
         }

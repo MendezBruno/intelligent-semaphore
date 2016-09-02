@@ -3,7 +3,7 @@ package com.thegrid.behavior.model
 import com.github.salomonbrys.kotson.fromJson
 import com.google.appengine.repackaged.com.google.common.base.Randoms
 import com.google.gson.Gson
-import com.thegrid.behavior.extension.MapStateMemory
+import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
 import com.thegrid.communication.model.dataMap
 import com.thegrid.communication.services.MapConversor

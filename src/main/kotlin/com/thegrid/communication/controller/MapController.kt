@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.ApiMethod
 import com.google.api.server.spi.config.ApiNamespace
 import com.thegrid.behavior.model.SimulationMock
 import com.thegrid.behavior.model.Map
+import com.thegrid.behavior.plattform.Simulation
 import com.thegrid.communication.model.dataMap
 import com.thegrid.communication.services.MapConversor
 
@@ -16,6 +17,7 @@ class MapController {
     @ApiMethod(name = "map", path="map", httpMethod = ApiMethod.HttpMethod.POST)
     fun postMap(dataMap: dataMap) {
         var map = MapConversor.convert(dataMap)
-        SimulationMock.loadSimulation(map)
+//        SimulationMock.loadSimulation(map)
+        Simulation(map)
     }
 }
