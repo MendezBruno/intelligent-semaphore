@@ -1,8 +1,8 @@
-package com.thegrid.behavior.plattform
+package com.thegrid.behavior.platform
 
 import com.google.appengine.api.ThreadManager
 
-class Orquestar(r:Runnable) {
+class Orchestrator(r:Runnable) {
     val hilo: Thread
     init {
         hilo = ThreadManager.createBackgroundThread(r);

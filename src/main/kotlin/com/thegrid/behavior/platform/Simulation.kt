@@ -1,9 +1,9 @@
-package com.thegrid.behavior.plattform
+package com.thegrid.behavior.platform
 
 import com.thegrid.behavior.model.EntryNode
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
-import com.thegrid.behavior.plattform.Orquestar
+import com.thegrid.behavior.platform.Orchestrator
 import com.thegrid.behavior.services.TimeDispatcher
 import com.thegrid.communication.model.MapState
 import kotlin.properties.Delegates
@@ -15,7 +15,7 @@ class Simulation(map : Map) {
 
     val memory: MapStateMemory
     val map: Map
-    val orquestador: Orquestar
+    val orquestador: Orchestrator
     val AG: Object = Object()
     val dispatcher: TimeDispatcher
 
@@ -31,7 +31,7 @@ class Simulation(map : Map) {
             dispatcher.dispatchOn()
         }
 
-        orquestador = Orquestar(Runnable {
+        orquestador = Orchestrator(Runnable {
             while (true) {
                 println("asd")
                 Thread.sleep(5000)
