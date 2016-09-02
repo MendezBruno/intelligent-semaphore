@@ -23,7 +23,7 @@ abstract class Block(
     protected var _incomingCarsAmount: Int = 0
     protected val _incomingCarsAvailability: Int = carCapacity / 2 - _incomingCarsAmount
     protected val _outgoingCarsAvailability: Int = carCapacity / 2 - outgoingCrossingByCarsAmount - outgoingTurningCarsAmount
-    protected var _timer: Observable<Int> = observable { Timer().schedule(timerTask{ it.onNext(0) },0,500) }
+    protected var _timer: Observable<Int> = observable {  }
     override var sendingCars = _timer.doOnEach {
         moveCarsToTheFront()
         println(this.toString())

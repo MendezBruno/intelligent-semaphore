@@ -1,6 +1,8 @@
-package com.thegrid.behavior.model
+package com.thegrid.behavior.plattform
 
-import com.thegrid.behavior.extension.MapStateMemory
+import com.thegrid.behavior.services.MapStateMemory
+import com.thegrid.behavior.model.Map
+import com.thegrid.behavior.plattform.Orquestar
 import com.thegrid.communication.model.MapState
 import kotlin.properties.Delegates
 
@@ -11,7 +13,7 @@ class Simulation(map : Map) {
 
     val memory: MapStateMemory
     val map: Map
-    val orquestador: Object = Object()
+    val orquestador: Orquestar
     val AG: Object = Object()
     val dispatcher: Object = Object()
 
@@ -19,6 +21,12 @@ class Simulation(map : Map) {
         SharedInstance = this
         memory = MapStateMemory(map)
         this.map = map
+        orquestador = Orquestar(Runnable {
+            while (true) {
+                println("asd")
+                Thread.sleep(5000)
+            }
+        })
     }
 
     fun simulate() {
