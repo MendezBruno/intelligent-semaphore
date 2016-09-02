@@ -28,13 +28,15 @@
     //CONSTANTES GLOBALES DEL CONSTRUCTOR
     var ROJO="#ff3333";
     var VERDE="#66ff66";
+    var WHITE="#ffffff";
 
     //METODOS DEL CONSTRUCTOR
     CnvNodoBorde.prototype.setup = function() {
         //Dibujo el nodo
         this.background = new createjs.Shape();
         this.background.graphics
-            .beginFill(this.color)
+            .beginFill(WHITE)
+            .beginStroke("#000000").setStrokeStyle(1)
             .drawCircle(this.posx,this.posy,this.radio);
         this.addChild(this.background);
 
@@ -70,10 +72,11 @@
     };
 
     CnvNodoBorde.prototype.cambiarColor = function(){
-        this.color= this.color == ROJO?  VERDE:ROJO;
-        this.background.graphics.clear()
-            .beginFill(this.color)
-            .drawCircle(this.posx,this.posy,this.radio);
+        //this.color= this.color == ROJO?  VERDE:ROJO;
+        //this.background.graphics.clear()
+        //    .beginFill(this.color)
+        //    .beginStroke("#000000").setStrokeStyle(1)
+        //    .drawCircle(this.posx,this.posy,this.radio);
         this.cambiarSentido();
     }
 
