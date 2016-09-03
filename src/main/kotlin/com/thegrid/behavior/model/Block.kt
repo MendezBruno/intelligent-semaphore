@@ -1,11 +1,11 @@
 package com.thegrid.behavior.model
 
 import com.thegrid.behavior.observer.BlockListener
+import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.communication.extension.RGBA
 import rx.Observable
 import rx.lang.kotlin.observable
 import java.util.*
-import kotlin.concurrent.timerTask
 
 /**Es la cuadra que tiene relación
  * directa con una cuadra del json
@@ -14,7 +14,7 @@ abstract class Block(
         val id: String,
         val street: Street,
         val length: Int/*Double*/,
-        val entryNode: NodeType) : BlockBase() {
+        val entryNode: NodeType) : BlockBase(), IDispatcheable {
 
     val colorStatus = RGBA(0,0,0,1)
     val carCapacity: Int = 3 //TODO calcular segun length, algo como Int(length/"valor promedio de largo de vehiculos)
@@ -33,15 +33,14 @@ abstract class Block(
         street.addBlock(this)
     }
 
+    override fun executeEvent(): Double {
+        moveCarsToTheFront()
+        fireListeners()
+        return 5000-Random().nextDouble()
+    }
+
     abstract fun setAsEntryBlock(node: NodeType)
     abstract fun startObservation()
-
-    //TODO modificaciones de la cuadra
-    public fun metodoDeInterfazQueModificaEstado() {
-
-        //Calculo y asigno cosas
-        fireListeners();
-    }
 
     private fun fireListeners() {
         var self = this

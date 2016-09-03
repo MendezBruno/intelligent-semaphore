@@ -1,8 +1,9 @@
 package com.thegrid.behavior.model
 
 import com.thegrid.behavior.observer.SemaphoreListener
+import com.thegrid.behavior.platform.IDispatcheable
 
-class SemaphoreNode : CornerNode {
+class SemaphoreNode : CornerNode, IDispatcheable {
 
     private val _hTime: Double
     private var _vTime: Double
@@ -13,6 +14,10 @@ class SemaphoreNode : CornerNode {
         _hTime = hTime
         _vTime = vTime
         _vGreen = vGreen
+    }
+
+    override fun executeEvent(): Double {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     public fun getChangeListeners() : MutableList<SemaphoreListener> {
