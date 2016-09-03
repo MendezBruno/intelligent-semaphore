@@ -25,12 +25,6 @@ class Simulation(map : Map) {
         dispatcher = TimeDispatcher()
         this.map = map
 
-        val nodosEntrada = map.nodes.filter {
-            it is EntryNode
-        }.forEach {
-            dispatcher.dispatchOn()
-        }
-
         orquestador = Orchestrator(Runnable {
             while (true) {
                 println("asd")
