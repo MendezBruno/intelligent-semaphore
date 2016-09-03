@@ -4,7 +4,7 @@ import com.thegrid.behavior.model.EntryNode
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
 import com.thegrid.behavior.platform.Orchestrator
-import com.thegrid.behavior.services.TimeDispatcher
+import com.thegrid.behavior.platform.TimeDispatcher
 import com.thegrid.communication.model.MapState
 import kotlin.properties.Delegates
 
