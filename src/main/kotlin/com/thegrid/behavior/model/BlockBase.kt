@@ -8,4 +8,6 @@ abstract class BlockBase {
     abstract var sendingCars: Observable<Block>
     var outgoingCrossingByCarsAmount = 0
     var outgoingTurningCarsAmount = 0
+    abstract fun setAsEntryBlock(node: NodeType)
+    abstract fun startObservation()
 }

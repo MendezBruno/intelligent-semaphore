@@ -16,7 +16,7 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         _vGreen = vGreen
     }
 
-    override fun executeEvent(): Double {
+    override fun executeEvent(time: Double): Double {
         val time = if (_vGreen) _hTime else _vTime
         _vGreen = !_vGreen
         fireListeners()

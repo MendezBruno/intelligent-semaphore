@@ -31,7 +31,7 @@ class TimeDispatcher() {
         val par = nextEvent
         if (par != null) {
             val dispatcheable = par.objectToDispatch
-            val transcurrido = dispatcheable.executeEvent()
+            val transcurrido = dispatcheable.executeEvent(par.time)
 
             dispatchOn(par.time + transcurrido, dispatcheable)
         } else {

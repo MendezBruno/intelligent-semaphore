@@ -10,10 +10,10 @@ import kotlin.properties.Delegates
 abstract class NodeType(val id: String){
 
 
-    abstract val crossingHorizontalOutgoingCars: Observable<BlockBase>
-    abstract val turningHorizontalOutgoingCars: Observable<BlockBase>
-    abstract val crossingVerticalOutgoingCars: Observable<BlockBase>
-    abstract val turningVerticalOutgoingCars: Observable<BlockBase>
+    abstract val crossingHorizontalOutgoingCars: Observable<Block>
+    abstract val turningHorizontalOutgoingCars: Observable<Block>
+    abstract val crossingVerticalOutgoingCars: Observable<Block>
+    abstract val turningVerticalOutgoingCars: Observable<Block>
     abstract var horizontalEntryBlock: BlockHorizontal
     abstract var verticalEntryBlock: BlockVertical
 

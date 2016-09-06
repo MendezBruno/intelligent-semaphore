@@ -27,16 +27,16 @@ class Simulation(map : Map) {
         dispatcher = TimeDispatcher()
         this.map = map
 
-        map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
         map.nodes.forEach {
             if (it is IDispatcheable)
                 dispatcher.dispatchOn(0.0, it)
         }
+        map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
 
         orquestador = Orchestrator(Runnable {
             while (true) {
                 dispatcher.processEvent()
-                Thread.sleep(5000)
+                Thread.sleep(1000)
             }
         })
     }

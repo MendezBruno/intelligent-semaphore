@@ -16,19 +16,19 @@ open class CornerNode : NodeType {
         (no tienen los mismos atributos)
      */
 
-    override val crossingHorizontalOutgoingCars = observable<BlockBase> { subscriber ->
+    override val crossingHorizontalOutgoingCars = observable<Block> { subscriber ->
         horizontalEntryBlock.sendingCars.subscribe { subscriber.onNext(it) }
     }
 
-    override val turningHorizontalOutgoingCars = observable<BlockBase> { subscriber ->
+    override val turningHorizontalOutgoingCars = observable<Block> { subscriber ->
         verticalEntryBlock.sendingCars.subscribe { subscriber.onNext(it) }
     }
 
-    override val crossingVerticalOutgoingCars = observable<BlockBase> { subscriber ->
+    override val crossingVerticalOutgoingCars = observable<Block> { subscriber ->
         verticalEntryBlock.sendingCars.subscribe { subscriber.onNext(it) }
     }
 
-    override val turningVerticalOutgoingCars = observable<BlockBase> { subscriber ->
+    override val turningVerticalOutgoingCars = observable<Block> { subscriber ->
         horizontalEntryBlock.sendingCars.subscribe { subscriber.onNext(it) }
     }
 }

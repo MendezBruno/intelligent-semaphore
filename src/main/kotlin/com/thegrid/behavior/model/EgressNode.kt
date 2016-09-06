@@ -32,13 +32,13 @@ class EgressNode : NodeType {
         _interval = interval;
     }
 
-    override val crossingHorizontalOutgoingCars: Observable<BlockBase>
+    override val crossingHorizontalOutgoingCars: Observable<Block>
         get() = throw UnsupportedOperationException()
-    override val turningHorizontalOutgoingCars: Observable<BlockBase>
+    override val turningHorizontalOutgoingCars: Observable<Block>
         get() = throw UnsupportedOperationException()
-    override val crossingVerticalOutgoingCars: Observable<BlockBase>
+    override val crossingVerticalOutgoingCars: Observable<Block>
         get() = throw UnsupportedOperationException()
-    override val turningVerticalOutgoingCars: Observable<BlockBase>
+    override val turningVerticalOutgoingCars: Observable<Block>
         get() = throw UnsupportedOperationException()
 
 }

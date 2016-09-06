@@ -1,7 +1,10 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.platform.IDispatcheable
 import rx.Observable
+import rx.lang.kotlin.ReplaySubject
 import rx.lang.kotlin.observable
+import java.util.*
 import kotlin.properties.Delegates
 
 /**
@@ -10,41 +13,42 @@ import kotlin.properties.Delegates
 
 //TODO EL NODO NO SE SUBSCRIBE MAS A LA CUADRA DE EGRESO SINO QUE TIENE QUE SER AL REVES
 
-class EntryNode : NodeType {
+class EntryNode : NodeType, IDispatcheable {
+
+    override fun executeEvent(time: Double): Double {
+        infiniteCarsBlock.outgoingCrossingByCarsAmount += Random().nextInt(_maxAmount)
+        infiniteCarsBlock.outgoingTurningCarsAmount += Random().nextInt(_maxAmount)
+        println("[Tiempo:$time] Nodo id:$id autosEnCola:${infiniteCarsBlock.getStk()}")
+        infiniteCarsBlock.fireReplay()
+        return _interval.toDouble()
+    }
+
     override var horizontalEntryBlock: BlockHorizontal
         set(value) = throw UnsupportedOperationException()
         get() = throw UnsupportedOperationException()
     override var verticalEntryBlock: BlockVertical
         set(value) = throw UnsupportedOperationException()
         get() = throw UnsupportedOperationException()
+
     private var _interval: Int
     private var _maxAmount: Int
-    val infiniteCarsBlock : BlockBase
-    val emitter = observable<BlockBase>{}
+    val infiniteCarsBlock : Block
+
     constructor(id:String, interval:Int, maxAmount:Int) : super(id) {
         _maxAmount = maxAmount
         _interval = interval
 
-        //ToDO dormirse cada cierto tiempo definido en la fdp
-        //ToDO y al despertarse agregar a la infiniteCarsBlock la
-        //ToDO cantidad especificada en la fdp
-
         //Calle ficticia
-        infiniteCarsBlock = object: BlockBase() {
-            override var sendingCars: Observable<Block>
-                get() = throw UnsupportedOperationException()
-                set(value) {
-                }
-        }
+        infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0),0,this)
     }
 
-    override val crossingHorizontalOutgoingCars: Observable<BlockBase>
-        get() = emitter
-    override val turningHorizontalOutgoingCars: Observable<BlockBase>
-        get() = emitter
-    override val crossingVerticalOutgoingCars: Observable<BlockBase>
-        get() = emitter
-    override val turningVerticalOutgoingCars: Observable<BlockBase>
-        get() = emitter
+    override val crossingHorizontalOutgoingCars: Observable<Block>
+        get() = infiniteCarsBlock.sendingCars
+    override val turningHorizontalOutgoingCars: Observable<Block>
+        get() = infiniteCarsBlock.sendingCars
+    override val crossingVerticalOutgoingCars: Observable<Block>
+        get() = infiniteCarsBlock.sendingCars
+    override val turningVerticalOutgoingCars: Observable<Block>
+        get() = infiniteCarsBlock.sendingCars
 
 }
