@@ -1,13 +1,7 @@
 package com.thegrid.behavior.platform
 
-import com.thegrid.behavior.model.Block
-import com.thegrid.behavior.model.NodeType
-import com.thegrid.behavior.model.SemaphoreNode
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
-import org.omg.CORBA.Object
-import java.sql.Timestamp
-import java.time.Duration
 
 /**
  * Created by CristianErik on 02/09/2016.
@@ -29,8 +23,8 @@ class TimeDispatcher() {
         processEvent()
     }
 
-    fun dispatchOn(timeStamp: Timestamp, dispatcheable : IDispatcheable) {
-        _futureEventsTable.add(PairDispatched(timeStamp, dispatcheable))
+    fun dispatchOn(instant: Double, dispatcheable : IDispatcheable) {
+        _futureEventsTable.add(PairDispatched(instant, dispatcheable))
     }
 
     fun processEvent() {
@@ -38,12 +32,10 @@ class TimeDispatcher() {
         if (par != null) {
             val dispatcheable = par.objectToDispatch
             val transcurrido = dispatcheable.executeEvent()
-            val proximoT = par.timeStamp.toInstant() +
-                    Duration.ofMinutes(transcurrido.toLong())
 
-            dispatchOn(Timestamp.from(proximoT),dispatcheable)
+            dispatchOn(par.time + transcurrido, dispatcheable)
         } else {
-            _futureEventsTable.addedObjectObserver.take(1).subscribe { processEvent() }
+//            _futureEventsTable.addedObjectObserver.take(1).subscribe { processEvent() }
         }
     }
 }
