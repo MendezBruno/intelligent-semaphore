@@ -6,6 +6,8 @@ import com.thegrid.behavior.model.Map
 import com.thegrid.behavior.platform.Orchestrator
 import com.thegrid.behavior.platform.TimeDispatcher
 import com.thegrid.communication.model.MapState
+import java.sql.Timestamp
+import java.time.Instant
 import kotlin.properties.Delegates
 
 class Simulation(map : Map) {
@@ -25,9 +27,15 @@ class Simulation(map : Map) {
         dispatcher = TimeDispatcher()
         this.map = map
 
+        map.blocks.forEach { dispatcher.dispatchOn(Timestamp.from(Instant.now()), it) }
+        map.nodes.forEach {
+            if (it is IDispatcheable)
+                dispatcher.dispatchOn(Timestamp.from(Instant.now()), it)
+        }
+
         orquestador = Orchestrator(Runnable {
             while (true) {
-                println("asd")
+                dispatcher.processEvent()
                 Thread.sleep(5000)
             }
         })

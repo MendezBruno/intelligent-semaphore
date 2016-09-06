@@ -32,7 +32,7 @@ class SimulationMock {
     public fun nextStatus() {
         val r = Random();
         _map.blocks.filter { r.nextBoolean() }
-                .forEach { it.setStock(r.nextInt(50)) }
+                .forEach { it.outgoingTurningCarsAmount = (r.nextInt(50)) }
         _map.semaphoreNodes.filter { r.nextBoolean() }
                 .forEach { it.setVGreen(r.nextBoolean()) }
     }

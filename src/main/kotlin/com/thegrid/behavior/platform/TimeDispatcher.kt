@@ -7,6 +7,7 @@ import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
 import org.omg.CORBA.Object
 import java.sql.Timestamp
+import java.time.Duration
 
 /**
  * Created by CristianErik on 02/09/2016.
@@ -14,10 +15,13 @@ import java.sql.Timestamp
 
 class TimeDispatcher() {
 
-    private val _futureEventsTable = EventList<PairDispatched<Any>>()
-    val nextEvent : PairDispatched<Any>?
+    private val _futureEventsTable = EventList<PairDispatched<IDispatcheable>>()
+    val nextEvent : PairDispatched<IDispatcheable>?
         get() {
-            if (_futureEventsTable.size > 0) return _futureEventsTable.sorted().first()
+            if (_futureEventsTable.isNotEmpty()) {
+                _futureEventsTable.sorted()
+                return _futureEventsTable.removeAt(0)
+            }
             else return null
         }
 
@@ -25,23 +29,21 @@ class TimeDispatcher() {
         processEvent()
     }
 
-    fun dispatchOn(timeStamp: Timestamp, dispatcheable : Any) {
+    fun dispatchOn(timeStamp: Timestamp, dispatcheable : IDispatcheable) {
         _futureEventsTable.add(PairDispatched(timeStamp, dispatcheable))
     }
 
-    private fun processEvent() {
-        val dispatcher = nextEvent
-        if (dispatcher != null) {
-            when(dispatcher) {
-                is Block -> return //TODO Aca deberiamos decirle un "dispatcher.doYourThing()"  
-                is NodeType -> return
-                //TODO- Probablemente deberiamos tener una sola interfaz de dispatcheable y nos evitamos el smart cast
-            }
+    fun processEvent() {
+        val par = nextEvent
+        if (par != null) {
+            val dispatcheable = par.objectToDispatch
+            val transcurrido = dispatcheable.executeEvent()
+            val proximoT = par.timeStamp.toInstant() +
+                    Duration.ofMinutes(transcurrido.toLong())
+
+            dispatchOn(Timestamp.from(proximoT),dispatcheable)
         } else {
             _futureEventsTable.addedObjectObserver.take(1).subscribe { processEvent() }
         }
     }
-
 }
-
-

@@ -17,7 +17,10 @@ class SemaphoreNode : CornerNode, IDispatcheable {
     }
 
     override fun executeEvent(): Double {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val time = if (_vGreen) _hTime else _vTime
+        _vGreen = !_vGreen
+        fireListeners()
+        return time
     }
 
     public fun getChangeListeners() : MutableList<SemaphoreListener> {

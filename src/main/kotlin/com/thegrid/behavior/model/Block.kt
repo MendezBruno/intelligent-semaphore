@@ -17,12 +17,11 @@ abstract class Block(
         val entryNode: NodeType) : BlockBase(), IDispatcheable {
 
     val colorStatus = RGBA(0,0,0,1)
-    val carCapacity: Int = 3 //TODO calcular segun length, algo como Int(length/"valor promedio de largo de vehiculos)
+    val carCapacity: Int;
     val changeListeners: MutableList<BlockListener> = mutableListOf()
 
     protected var _incomingCarsAmount: Int = 0
-    protected val _incomingCarsAvailability: Int = carCapacity / 2 - _incomingCarsAmount
-    protected val _outgoingCarsAvailability: Int = carCapacity / 2 - outgoingCrossingByCarsAmount - outgoingTurningCarsAmount
+    protected val _stk = _incomingCarsAmount + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount
     protected var _timer: Observable<Int> = observable {  }
     override var sendingCars = _timer.doOnEach {
         moveCarsToTheFront()
@@ -31,10 +30,12 @@ abstract class Block(
 
     init {
         street.addBlock(this)
+        carCapacity = (length/4).toInt() * street.lanes
     }
 
     override fun executeEvent(): Double {
         moveCarsToTheFront()
+        changeColor()
         fireListeners()
         return 5000-Random().nextDouble()
     }
@@ -52,14 +53,8 @@ abstract class Block(
     }
 
     private fun moveCarsToTheFront() {
-        val totalAmount: Int
-        if (_incomingCarsAmount <= _outgoingCarsAvailability) {
-            totalAmount = _incomingCarsAmount
-            _incomingCarsAmount = 0
-        } else {
-            _incomingCarsAmount -= _outgoingCarsAvailability
-            totalAmount = _outgoingCarsAvailability
-        }
+        val totalAmount = _incomingCarsAmount
+        _incomingCarsAmount = 0
         val leftAmount = (totalAmount * 0.5).toInt()
         outgoingCrossingByCarsAmount += leftAmount
         outgoingTurningCarsAmount += totalAmount - leftAmount
@@ -75,15 +70,8 @@ abstract class Block(
         return id.hashCode()
     }
 
-    //Metodo a mode de ejemplo, sin mucho sentido
-    fun setStock(stk:Int) {
-        outgoingCrossingByCarsAmount = stk
-        changeColor()
-        fireListeners()
-    }
-
     private fun changeColor() {
-        when (outgoingCrossingByCarsAmount) {
+        when (_stk) {
             in 1..10 -> colorStatus.set(189,210,195)
             in 11..20 -> colorStatus.set(184,189,142)
             in 21..30 -> colorStatus.set(189,210,195)

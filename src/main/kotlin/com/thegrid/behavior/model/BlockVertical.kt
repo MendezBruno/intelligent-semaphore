@@ -11,12 +11,12 @@ class BlockVertical(id: String, street: Street, length: Int, entryNode: NodeType
 
     override fun startObservation() {
         entryNode.crossingVerticalOutgoingCars.subscribe { previousBlock ->
-            val amount = minimo(_incomingCarsAvailability, previousBlock.outgoingCrossingByCarsAmount)
+            val amount = minimo(carCapacity-_stk, previousBlock.outgoingCrossingByCarsAmount)
             _incomingCarsAmount += amount
             previousBlock.outgoingCrossingByCarsAmount -= amount
         }
         entryNode.turningVerticalOutgoingCars.subscribe { previousBlock ->
-            val amount = minimo(_incomingCarsAvailability, previousBlock.outgoingTurningCarsAmount)
+            val amount = minimo(carCapacity-_stk, previousBlock.outgoingTurningCarsAmount)
             _incomingCarsAmount += amount
             previousBlock.outgoingTurningCarsAmount -= amount
         }

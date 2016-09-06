@@ -11,12 +11,12 @@ class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeTy
 
     override fun startObservation() {
         entryNode.crossingHorizontalOutgoingCars.subscribe { previousBlock ->
-            val amount = minimo(_incomingCarsAvailability, previousBlock.outgoingCrossingByCarsAmount)
+            val amount = minimo(carCapacity-_stk, previousBlock.outgoingCrossingByCarsAmount)
             _incomingCarsAmount += amount
             previousBlock.outgoingCrossingByCarsAmount -= amount
         }
         entryNode.turningHorizontalOutgoingCars.subscribe { previousBlock ->
-            val amount = minimo(_incomingCarsAvailability, previousBlock.outgoingTurningCarsAmount)
+            val amount = minimo(carCapacity-_stk, previousBlock.outgoingTurningCarsAmount)
             _incomingCarsAmount += amount
             previousBlock.outgoingTurningCarsAmount -= amount
         }
