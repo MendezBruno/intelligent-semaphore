@@ -7,8 +7,8 @@ class SemaphoreNode : CornerNode, IDispatcheable {
 
     private val _hTime: Double
     private var _vTime: Double
-    private var _vGreen: Boolean = true
-    private var _changeListeners : MutableList<SemaphoreListener> = mutableListOf()
+    private var _vGreen = true
+    private var _changeListeners = mutableListOf<SemaphoreListener>()
 
     constructor(id:String, hTime:Double, vTime:Double, vGreen: Boolean) : super(id){
         _hTime = hTime

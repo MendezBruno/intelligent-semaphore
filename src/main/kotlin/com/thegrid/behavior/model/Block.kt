@@ -3,10 +3,7 @@ package com.thegrid.behavior.model
 import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.communication.extension.RGBA
-import rx.Observable
 import rx.lang.kotlin.ReplaySubject
-import rx.lang.kotlin.observable
-import rx.subjects.PublishSubject
 import java.util.*
 
 /**Es la cuadra que tiene relación
@@ -27,13 +24,13 @@ open class Block(
     }
 
     val colorStatus = RGBA(0,0,0,1)
-    val carCapacity: Int;
-    val changeListeners: MutableList<BlockListener> = mutableListOf()
+    val carCapacity: Int
+    val changeListeners = mutableListOf<BlockListener>()
 
-    protected var _incomingCarsAmount: Int = 0
+    protected var _incomingCarsAmount = 0
     protected val _stk: Int
         get() = _incomingCarsAmount + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount
-    protected var _replayer = ReplaySubject<Integer>(50)
+    protected var _replayer = ReplaySubject<Int>(50)
     override var sendingCars = _replayer.map { this }
 
     init {
@@ -92,6 +89,6 @@ open class Block(
     }
 
     fun fireReplay() {
-        _replayer.onNext(Integer(1))
+        _replayer.onNext(1)
     }
 }

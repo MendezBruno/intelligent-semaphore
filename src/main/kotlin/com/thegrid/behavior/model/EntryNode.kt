@@ -2,10 +2,7 @@ package com.thegrid.behavior.model
 
 import com.thegrid.behavior.platform.IDispatcheable
 import rx.Observable
-import rx.lang.kotlin.ReplaySubject
-import rx.lang.kotlin.observable
 import java.util.*
-import kotlin.properties.Delegates
 
 /**
  * Created by Surakituaka on 05/08/2016.

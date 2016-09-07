@@ -1,7 +1,6 @@
 package com.thegrid.behavior.model
 
 import rx.Observable
-import kotlin.properties.Delegates
 
 /**
  * Created by Surakituaka on 05/08/2016.
