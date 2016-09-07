@@ -67,11 +67,11 @@ open class Block(
     }
 
     private fun moveCarsToTheFront() {
-        val totalAmount = _incomingCarsAmount
-        _incomingCarsAmount = 0
-        val leftAmount = (totalAmount * 0.5).toInt()
-        outgoingCrossingByCarsAmount += leftAmount
-        outgoingTurningCarsAmount += totalAmount - leftAmount
+        apply {
+            outgoingCrossingByCarsAmount += (_incomingCarsAmount * _crossingProbability).toInt()
+            outgoingTurningCarsAmount += (_incomingCarsAmount * _turningProbability).toInt()
+            _incomingCarsAmount = 0
+        }
     }
 
     override fun equals(other: Any?): Boolean {

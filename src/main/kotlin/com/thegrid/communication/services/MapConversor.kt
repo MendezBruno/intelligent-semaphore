@@ -41,6 +41,7 @@ class MapConversor {
                     val block = BlockHorizontal(kBlock.id, street, kBlock.longitud,
                             nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
                     egressNode.horizontalEntryBlock = block
+                    block.setProbabilities(egressNode.getProbabilities())
                 }
                 streets.add(street)
             }
@@ -56,6 +57,7 @@ class MapConversor {
                     val block = BlockVertical(kBlock.id, street, kBlock.longitud,
                             nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
                     egressNode.verticalEntryBlock = block
+                    block.setProbabilities(egressNode.getProbabilities())
                 }
                 streets.add(street)
             }
