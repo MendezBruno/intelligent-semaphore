@@ -48,7 +48,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 }
                 $scope.contador = 0;
         };
-
+        var nuevaEscala=1;
         update = function (){
                 // console.log("quiero update yeeeeeeeeeeah!");
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
@@ -56,8 +56,13 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 MapaUpdate.query(function(data) {
                         console.log(data);
                         logicaReproductor.actualizar(data);
+                        //dentro de logicaReproductor actualizo (CNV o cuadra posta a eleccion) dentro del modelo con (modelo, data)
+                        //dicDatos = Tamizar(usa el modelo global)   Congestion @return: dicDatosCuadra
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
+                        nuevaEscala = nuevaEscala - 0.1;
+                        stageReproductor.scaleX= nuevaEscala;
+                        stageReproductor.scaleY= nuevaEscala;
 
                 });
         };
