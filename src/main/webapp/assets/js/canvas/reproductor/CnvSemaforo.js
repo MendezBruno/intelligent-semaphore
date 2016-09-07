@@ -2,17 +2,18 @@
  * Created by Ezequiel on 11/08/2016.
  */
 
-function CnvSemaforo() {
+function CnvSemaforo(cvnInterseccion) {
     this.Container_constructor();
     this.background = new createjs.Shape();
     var ancho = CnvSemaforo.anchoOriginal;
     var bg = this.background;
-    bg.graphics.beginFill("black").drawRect(0,0,30,30);
+    // bg.graphics.beginFill("black").drawRect(0,0,30,30);
     this.left = new createjs.Shape();
     this.right = new createjs.Shape();
     this.top = new createjs.Shape();
     this.bottom = new createjs.Shape();
     this.centro = new createjs.Shape();
+    this.centro.graphics.beginFill("#979797").drawRect(7,7,16,16,10);
     this.addChild(this.background);
     this.addChild(this.top);
     this.addChild(this.bottom);
@@ -21,6 +22,7 @@ function CnvSemaforo() {
     this.addChild(this.centro);
     this.scaleX = 2;
     this.scaleY = 2;
+    this.cnvInterseccion = cvnInterseccion;
     this.verdeV();
     this.v = true;
     var self = this;
@@ -46,7 +48,10 @@ CnvSemaforo.prototype.verdeH = function () {
     this.bottom.graphics.beginFill("#ff0000").drawRect(7,25,16,5,10);
     this.left.graphics.beginFill("#0bff00").drawRect(0,7,5,16,10);
     this.right.graphics.beginFill("#0bff00").drawRect(25,7,5,16,10);
-    this.centro.graphics.beginFill("yellow").drawRect(7,7,16,16,10);
+    this.cnvInterseccion.izquierda.cambiarColorFlechaSalida(ColoresRGB.getGREEN());
+    this.cnvInterseccion.derecha.cambiarColorFlechaEntrada(ColoresRGB.getGREEN());
+    this.cnvInterseccion.arriba.cambiarColorFlechaSalida(ColoresRGB.getRED());
+    this.cnvInterseccion.abajo.cambiarColorFlechaEntrada(ColoresRGB.getRED());
 }
 
 CnvSemaforo.prototype.verdeV = function () {
@@ -54,6 +59,10 @@ CnvSemaforo.prototype.verdeV = function () {
     this.bottom.graphics.beginFill("#0bff00").drawRect(7,25,16,5,10);
     this.left.graphics.beginFill("#ff0000").drawRect(0,7,5,16,10);
     this.right.graphics.beginFill("#ff0000").drawRect(25,7,5,16,10);
-    this.centro.graphics.beginFill("yellow").drawRect(7,7,16,16,10);
+    if (!this.cnvInterseccion.izquierda) return;
+    this.cnvInterseccion.izquierda.cambiarColorFlechaSalida(ColoresRGB.getRED());
+    this.cnvInterseccion.derecha.cambiarColorFlechaEntrada(ColoresRGB.getRED());
+    this.cnvInterseccion.arriba.cambiarColorFlechaSalida(ColoresRGB.getGREEN());
+    this.cnvInterseccion.abajo.cambiarColorFlechaEntrada(ColoresRGB.getGREEN());
 }
 

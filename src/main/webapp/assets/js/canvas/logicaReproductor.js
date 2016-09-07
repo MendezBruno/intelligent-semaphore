@@ -26,6 +26,7 @@ ReproductorController.prototype.dibujar = function (){
     var modelo = this.modelo;
     var sla = 4;   //Separacino de la linea amarilla
     var ala = ancho/6    //ancho linea amarilla es una sexta parte del ancho de la calle
+    var nodos = [];
 
     //CONSTANTES
     var ENTRADA = "#66ff66";
@@ -43,6 +44,7 @@ ReproductorController.prototype.dibujar = function (){
         var calle = horizontales[i];
         var cantCarriles = calle.cantCarriles;
         var cuadras = calle.cuadras;
+        nodos.push([])
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
             var cnvCuadraReproductor = generarCuadra(HORIZONTAL,cantCarriles);
@@ -61,6 +63,7 @@ ReproductorController.prototype.dibujar = function (){
                 //(posx-ala- separador*cantCarrilesV)
                 //- (separador*cantCarriles +ala)
                 //-(separador*verticales[j].cantCarriles +ala)
+                nodos[i][j]=cnvInterseccion;
             }
         }
         actualizarPosY(cantCarriles);
@@ -85,6 +88,17 @@ ReproductorController.prototype.dibujar = function (){
         actualizarPosX(cantCarriles);
     }
     stage.canvas.height = posy + largo;
+
+    //Vincular nodos con cuadras aledañas
+    for(var i=0; i<nodos.length; i++) {
+        for(var j=0; j<nodos[i].length; j++) {
+            var nodo = nodos[i][j];
+            nodo.izquierda = horizontales[i][j];
+            nodo.derecha = horizontales[i][j+1];
+            nodo.arriba = verticales[j][i];
+            nodo.abajo = verticales[j][i+1];
+        }
+    }
 
     //Dibujar manzanas
     posx = posInicialX;

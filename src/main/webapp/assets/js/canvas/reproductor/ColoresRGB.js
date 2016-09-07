@@ -72,3 +72,7 @@ ColoresRGB.getYELLOW = function () {
 ColoresRGB.getPANEL_GRAY = function () {
     return new ColoresRGB(227,227,227);
 }
+
+ColoresRGB.getGREEN = function () {
+    return new ColoresRGB(11,255,0);
+}
