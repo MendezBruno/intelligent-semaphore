@@ -1,5 +1,6 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Probabilities
 import rx.Observable
 
 /**
@@ -7,7 +8,6 @@ import rx.Observable
  */
 
 abstract class NodeType(val id: String){
-
 
     abstract val crossingHorizontalOutgoingCars: Observable<Block>
     abstract val turningHorizontalOutgoingCars: Observable<Block>
@@ -23,6 +23,15 @@ abstract class NodeType(val id: String){
             }
 
     override fun hashCode(): Int {
-        return id.hashCode();
+        return id.hashCode()
     }
+
+    open fun getProbabilities(): Probabilities {
+        //TODO - Chequear que ambos valores esten seteados a la hora de usarlos
+        val vPopularity = verticalEntryBlock.street.popularity
+        val hPopularity = horizontalEntryBlock.street.popularity
+        val vProbability = (vPopularity / (vPopularity + hPopularity)).toDouble()
+        return Probabilities(vProbability, 1 - vProbability)
+    }
+
 }

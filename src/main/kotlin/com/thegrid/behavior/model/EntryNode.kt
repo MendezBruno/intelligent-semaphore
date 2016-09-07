@@ -1,5 +1,6 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.platform.IDispatcheable
 import rx.Observable
 import java.util.*
@@ -15,7 +16,7 @@ class EntryNode : NodeType, IDispatcheable {
     override fun executeEvent(time: Double): Double {
         infiniteCarsBlock.outgoingCrossingByCarsAmount += Random().nextInt(_maxAmount)
         infiniteCarsBlock.outgoingTurningCarsAmount += Random().nextInt(_maxAmount)
-        println("[Tiempo:$time] Nodo id:$id autosEnCola:${infiniteCarsBlock.getStk()}")
+        println("[Tiempo:$time] Nodo id:$id autosEnCola:${infiniteCarsBlock.stk}")
         infiniteCarsBlock.fireReplay()
         return _interval.toDouble()
     }

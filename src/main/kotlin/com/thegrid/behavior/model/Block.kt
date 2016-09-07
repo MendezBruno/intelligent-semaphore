@@ -1,9 +1,11 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.communication.extension.RGBA
 import rx.lang.kotlin.ReplaySubject
+import rx.subjects.ReplaySubject
 import java.util.*
 
 /**Es la cuadra que tiene relación
@@ -15,45 +17,49 @@ open class Block(
         val length: Int/*Double*/,
         val entryNode: NodeType) : BlockBase(), IDispatcheable {
 
-    override fun setAsEntryBlock(node: NodeType) {
-        throw UnsupportedOperationException()
-    }
-
-    override fun startObservation() {
-        throw UnsupportedOperationException()
-    }
+    protected open var _turningProbability: Double = 0.5 * TurningModifier       //Valor inicial
+    protected open var _crossingProbability: Double = 1 - _turningProbability    //Valor inicial
 
     val colorStatus = RGBA(0,0,0,1)
-    val carCapacity: Int
     val changeListeners = mutableListOf<BlockListener>()
-
-    protected var _incomingCarsAmount = 0
-    protected val _stk: Int
+    val stk: Int
         get() = _incomingCarsAmount + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount
-    protected var _replayer = ReplaySubject<Int>(50)
+
+    protected val _carCapacity: Int
+    protected var _incomingCarsAmount = 0
+    protected var _replayer: ReplaySubject<Int> = ReplaySubject(50)
+
     override var sendingCars = _replayer.map { this }
 
     init {
         street.addBlock(this)
-        carCapacity = (length/4).toInt() * street.lanes
+        _carCapacity = (length / LongVehicule).toInt() * street.lanes
+    }
+
+    override fun setAsEntryBlock(node: NodeType) {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun startObservation() {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun executeEvent(time: Double): Double {
         moveCarsToTheFront()
         changeColor()
-        println("[Tiempo:$time] Cuadra id:$id stk:$_stk")
+        println("[Tiempo:$time] Cuadra id:$id stk:$stk")
         fireReplay()
         fireListeners()
         return Random().nextInt(1000).toDouble()
     }
 
+    open fun setProbabilities(value: Probabilities) {
+        throw UnsupportedOperationException()
+    }
+
     private fun fireListeners() {
         var self = this
         changeListeners.forEach { listener -> listener.fire(self) }
-    }
-
-    fun getStk() : Int {
-        return _stk
     }
 
     fun hasVerticalDirection() : Boolean{
@@ -79,7 +85,7 @@ open class Block(
     }
 
     private fun changeColor() {
-        when (_stk) {
+        when (stk) {
             in 1..10 -> colorStatus.set(189,210,195)
             in 11..20 -> colorStatus.set(184,189,142)
             in 21..30 -> colorStatus.set(189,210,195)
