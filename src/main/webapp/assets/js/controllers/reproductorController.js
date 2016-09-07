@@ -60,9 +60,9 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                         //dicDatos = Tamizar(usa el modelo global)   Congestion @return: dicDatosCuadra
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
-                        nuevaEscala = nuevaEscala - 0.1;
-                        stageReproductor.scaleX= nuevaEscala;
-                        stageReproductor.scaleY= nuevaEscala;
+                        // nuevaEscala = nuevaEscala - 0.1;
+                        // stageReproductor.scaleX= nuevaEscala;
+                        // stageReproductor.scaleY= nuevaEscala;
 
                 });
         };
