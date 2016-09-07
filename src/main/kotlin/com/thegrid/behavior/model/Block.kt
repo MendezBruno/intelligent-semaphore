@@ -86,11 +86,11 @@ open class Block(
 
     private fun changeColor() {
         when (stk) {
-            in 1..10 -> colorStatus.set(189,210,195)
-            in 11..20 -> colorStatus.set(184,189,142)
-            in 21..30 -> colorStatus.set(189,210,195)
-            in 31..40 -> colorStatus.set(227,206,132)
-            in 41..50 -> colorStatus.set(234,95,95)
+            in 0.0..(_carCapacity * 0.2) -> colorStatus.set(0,255,0)
+            in (_carCapacity * 0.2)..(_carCapacity * 0.4) -> colorStatus.set(200,255,0)
+            in (_carCapacity * 0.4)..(_carCapacity * 0.6) -> colorStatus.set(255,255,0)
+            in (_carCapacity * 0.6)..(_carCapacity * 0.8) -> colorStatus.set(255,150,0)
+            in (_carCapacity * 0.8)..(_carCapacity * 1.00)  -> colorStatus.set(255,0,0)
         }
     }
 
