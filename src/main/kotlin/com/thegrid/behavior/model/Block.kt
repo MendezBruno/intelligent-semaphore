@@ -47,7 +47,7 @@ open class Block(
         println("[Tiempo:$time] Cuadra id:$id stk:$_stk")
         fireReplay()
         fireListeners()
-        return Random().nextInt(5000).toDouble()
+        return Random().nextInt(1000).toDouble()
     }
 
     private fun fireListeners() {

@@ -23,25 +23,24 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         return time
     }
 
-    public fun getChangeListeners() : MutableList<SemaphoreListener> {
-        return _changeListeners;
+    fun getChangeListeners() : MutableList<SemaphoreListener> {
+        return _changeListeners
     }
 
-    public fun getVGreen() : Boolean {
-        return _vGreen;
+    fun getVGreen() : Boolean {
+        return _vGreen
     }
 
-    public fun setVGreen(isGreen: Boolean) {
-        this._vGreen = isGreen;
-        fireListeners();
+    fun setVGreen(isGreen: Boolean) {
+        this._vGreen = isGreen
+        fireListeners()
     }
 
     private fun fireListeners() {
-        var self = this
-        _changeListeners.forEach { listener -> listener.fire(self) }
+        _changeListeners.forEach { listener -> listener.fire(this) }
     }
 
-    public fun equals(other: SemaphoreNode): Boolean {
+    fun equals(other: SemaphoreNode): Boolean {
         return this.id == other.id
     }
 

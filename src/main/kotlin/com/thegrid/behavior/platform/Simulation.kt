@@ -12,7 +12,7 @@ import kotlin.properties.Delegates
 
 class Simulation(map : Map) {
     companion object {
-        var SharedInstance : Simulation by Delegates.notNull<Simulation>()
+        var SharedInstance : Simulation? = null
     }
 
     val memory: MapStateMemory
@@ -36,7 +36,7 @@ class Simulation(map : Map) {
         orquestador = Orchestrator(Runnable {
             while (true) {
                 dispatcher.processEvent()
-                Thread.sleep(1000)
+                Thread.sleep(100)
             }
         })
     }

@@ -13,7 +13,7 @@ import com.thegrid.communication.model.MapState
 class MapStateController{
 
     @ApiMethod(name = "mapstate", path="mapState", httpMethod = ApiMethod.HttpMethod.GET)
-    fun getMapState(): MapState {
-        return Simulation.SharedInstance.memory.getStatus()
+    fun getMapState(): MapState? {
+        return Simulation.SharedInstance?.memory?.getStatus()
     }
 }
