@@ -3,6 +3,7 @@ package com.thegrid.communication.services
 import com.thegrid.behavior.model.*
 import com.thegrid.behavior.model.Map
 import com.thegrid.communication.model.dataMap
+import sun.rmi.runtime.Log
 
 class MapConversor {
     companion object {
@@ -41,7 +42,7 @@ class MapConversor {
                     val block = BlockHorizontal(kBlock.id, street, kBlock.longitud,
                             nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
                     egressNode.horizontalEntryBlock = block
-                    block.setProbabilities(egressNode.getProbabilities())
+//                    block.setProbabilities(egressNode.getProbabilities())
                 }
                 streets.add(street)
             }
@@ -57,9 +58,16 @@ class MapConversor {
                     val block = BlockVertical(kBlock.id, street, kBlock.longitud,
                             nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
                     egressNode.verticalEntryBlock = block
-                    block.setProbabilities(egressNode.getProbabilities())
+//                    block.setProbabilities(egressNode.getProbabilities())
                 }
                 streets.add(street)
+            }
+
+            for (node in nodes) {
+                if (node is SemaphoreNode || node is CornerNode) {
+                    node.verticalEntryBlock.setProbabilities(node.getProbabilities())
+                    node.horizontalEntryBlock.setProbabilities(node.getProbabilities())
+                }
             }
 
             return Map(map.nombre, nodes, streets, semaphoreNodes)

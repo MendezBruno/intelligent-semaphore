@@ -67,11 +67,11 @@ open class Block(
     }
 
     private fun moveCarsToTheFront() {
-        apply {
+//        apply {
             outgoingCrossingByCarsAmount += (_incomingCarsAmount * _crossingProbability).toInt()
             outgoingTurningCarsAmount += (_incomingCarsAmount * _turningProbability).toInt()
             _incomingCarsAmount = 0
-        }
+//        }
     }
 
     override fun equals(other: Any?): Boolean {

@@ -61,14 +61,6 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
         });
 });
 
-
-app.factory("Favorito", ['$resource', function($resource) {
-    return  $resource("/api_v1.0/favorites/:id", null,
-        {
-            'query': { method:'GET', isArray: false }
-        });
-}]);
-
 app.factory("Mapa", ["$resource",function($resource){
     return  $resource("/_ah/api/intelligentsemaphore/v1/map/:id", null,
         {

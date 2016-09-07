@@ -7,9 +7,6 @@ import kotlin.properties.Delegates
 class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeType)
 : Block(id, street, length, entryNode) {
 
-    override var _turningProbability: Double by Delegates.notNull<Double>()
-    override var _crossingProbability: Double by Delegates.notNull<Double>()
-
     override fun setAsEntryBlock(node: NodeType) {
         node.horizontalEntryBlock = this
     }
