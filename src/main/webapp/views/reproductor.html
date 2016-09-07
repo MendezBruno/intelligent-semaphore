@@ -25,6 +25,9 @@
             height: 50px;
             padding: 5px;
         }
+        #ex1Slider .slider-selection {
+            background: #BABABA;
+        }
     </style>
 </head>
 <body>
@@ -33,8 +36,7 @@
             <div class="col-sm-9">
                 <div class="tg-marco">
                     <div id="header">
-                        <input id="ex6" type="text" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
-                        <span id="ex6CurrentSliderValLabel">Current Slider Value: <span id="ex6SliderVal">3</span></span>
+                        <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
                     </div>
                     <div class="container-fluid" id="canvaspanel">
                         <canvas id="reproductor" width="1000px" height="1000px">
@@ -86,6 +88,11 @@
         };
         window.addEventListener("resize", resize);
         resize();
+        var slider = new Slider('#ex1', {
+            formatter: function(value) {
+                return 'Current value: ' + value;
+            }
+        });
     </script>
 </body>
 </html>
