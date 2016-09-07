@@ -6,8 +6,8 @@ package com.thegrid.communication.model
 
 class MapState() {
 
-    public val blockStatus : MutableList<dataBlockStatus> = mutableListOf()
-    public val semaphoreStatus : MutableList<dataSemaphoreStatus> = mutableListOf()
+    val blockStatus = mutableListOf<dataBlockStatus>()
+    val semaphoreStatus = mutableListOf<dataSemaphoreStatus>()
 }
 
 

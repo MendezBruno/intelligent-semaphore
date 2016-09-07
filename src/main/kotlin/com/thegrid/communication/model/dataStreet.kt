@@ -1,9 +1,9 @@
 package com.thegrid.communication.model
 
 class dataStreet {
-    public var cantCarriles:Int=1
-    public var preferencia:Int=0
-    public var sentido:String=""
-    public var sentidosPosibles: MutableList<String> = mutableListOf() //TODO para que sirve esto?
-    public var cuadras:MutableList<dataBlock> = mutableListOf()
+    var cantCarriles = 1
+    var preferencia = 0
+    var sentido = ""
+    var sentidosPosibles = mutableListOf<String>() //TODO para que sirve esto?
+    var cuadras = mutableListOf<dataBlock>()
 }

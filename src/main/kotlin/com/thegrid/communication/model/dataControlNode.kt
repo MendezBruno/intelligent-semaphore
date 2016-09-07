@@ -1,5 +1,5 @@
 package com.thegrid.communication.model
 
-class dataControlNode(id:String=""){
-    public var id:String=id;
-};
+class dataControlNode(id:String="") {
+    var id = id
+}

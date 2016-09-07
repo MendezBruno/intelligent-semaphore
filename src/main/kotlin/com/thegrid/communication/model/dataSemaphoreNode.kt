@@ -1,7 +1,7 @@
 package com.thegrid.communication.model
 
-class dataSemaphoreNode{
-    public var id:String="";
-    public var tiempoHorizontal:Double=150.0;
-    public var tiempoVertical:Double=150.0;
+class dataSemaphoreNode {
+    var id = ""
+    var tiempoHorizontal = 150.0
+    var tiempoVertical = 150.0
 }

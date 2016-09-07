@@ -1,7 +1,7 @@
 package com.thegrid.communication.model
 
-class dataEdgeNode{
-    public var id:String = "";
-    public var cantMaxima = 5;
-    public var intervalo = 3;
+class dataEdgeNode {
+    var id = ""
+    var cantMaxima = 5
+    var intervalo = 3
 }
