@@ -15,7 +15,12 @@ function CnvInterseccion(posX, posY, cantCarrilesH, cantCarrilesV,semaforo) {
     this.semaforo = semaforo;
     this.clickListeners = new Array();
     this.background = new createjs.Shape();
-    var self = this;
+
+    //Referencias a las cuadras aledañas
+    this.arriba = undefined;
+    this.abajo = undefined;
+    this.izquierda = undefined;
+    this.derecha = undefined;
 
     this.setup();
 };
@@ -34,7 +39,7 @@ CnvInterseccion.prototype.setup = function () {
     //    .drawRect(this.posX,this.posY,ancho,alto);
     //this.addChild(this.background);
     if (this.semaforo){
-        var cnvSemaforo = new CnvSemaforo();
+        var cnvSemaforo = new CnvSemaforo(this);
         cnvSemaforo.setSize(Carril.ancho * factorCarril);
         cnvSemaforo.x = this.posX +
             Carril.ancho*(this.cantCarrilesV - factorCarril) / 2;

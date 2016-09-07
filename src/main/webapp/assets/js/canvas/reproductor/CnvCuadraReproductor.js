@@ -232,4 +232,12 @@ CnvCuadraReproductor.prototype.cambiarColor = function (colorCuadra) {
         });
 }
 
+CnvCuadraReproductor.prototype.cambiarColorFlechaEntrada = function (colorRGB) {
+    //TBD
+}
+
+CnvCuadraReproductor.prototype.cambiarColorFlechaSalida = function (colorRGB) {
+    //TBD
+}
+
 window.CnvCuadraReproductor = createjs.promote(CnvCuadraReproductor, "Container");
