@@ -1,7 +1,3 @@
-app.controller('mainController', function($scope, Favorito) {
-$scope.variable= "funciono";
+app.controller('mainController', function($scope) {
 
-    Favorito.query(function(data) {
-        console.log(data);
-        });
 });
