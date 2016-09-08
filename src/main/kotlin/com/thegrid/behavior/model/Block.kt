@@ -37,20 +37,20 @@ open class Block(
     }
 
     override fun setAsEntryBlock(node: NodeType) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException("not implemented")
     }
 
     override fun startObservation() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw UnsupportedOperationException("not implemented")
     }
 
     override fun executeEvent(time: Double): Double {
         moveCarsToTheFront()
         changeColor()
-        println("[Tiempo:$time] Cuadra id:$id stk:$stk")
+        println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         fireReplay()
         fireListeners()
-        return Random().nextInt(1000).toDouble()
+        return Random().nextInt(500).toDouble()
     }
 
     open fun setProbabilities(value: Probabilities) {
@@ -85,13 +85,15 @@ open class Block(
     }
 
     private fun changeColor() {
-        when (stk) {
-            in 0.0..(_carCapacity * 0.2) -> colorStatus.set(0,255,0)
-            in (_carCapacity * 0.2)..(_carCapacity * 0.4) -> colorStatus.set(200,255,0)
-            in (_carCapacity * 0.4)..(_carCapacity * 0.6) -> colorStatus.set(255,255,0)
-            in (_carCapacity * 0.6)..(_carCapacity * 0.8) -> colorStatus.set(255,150,0)
-            in (_carCapacity * 0.8)..(_carCapacity * 1.00)  -> colorStatus.set(255,0,0)
-        }
+//        when (stk) {
+//            in 0.0..(_carCapacity * 0.2) -> colorStatus.set(0,255,0)
+//            in (_carCapacity * 0.2)..(_carCapacity * 0.4) -> colorStatus.set(200,255,0)
+//            in (_carCapacity * 0.4)..(_carCapacity * 0.6) -> colorStatus.set(255,255,0)
+//            in (_carCapacity * 0.6)..(_carCapacity * 0.8) -> colorStatus.set(255,150,0)
+//            in (_carCapacity * 0.8)..(_carCapacity * 1.00)  -> colorStatus.set(255,0,0)
+//        }
+        val density = stk / _carCapacity
+        colorStatus.set(density * 255,(1 - density) * 255,0)
     }
 
     fun fireReplay() {

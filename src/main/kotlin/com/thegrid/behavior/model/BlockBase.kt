@@ -15,7 +15,7 @@ abstract class BlockBase {
 
         // Modificador que afecta la tendencia de los autos para doblar.
         // De estar en 1 solo afectara la popularidad de los cruces.
-        val TurningModifier = 0.75
+        val TurningModifier = 0.80
     }
 
     abstract fun setAsEntryBlock(node: NodeType)
