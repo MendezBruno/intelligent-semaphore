@@ -9,6 +9,9 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     var largo = 30;
     var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
     var modelo1 = MapaEditor.desParsear(mapa);
+    $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
+    $scope.callesH= modelo1.callesVerticales[0].cuadras.length - 1;
+    $scope.nombre=modelo1.nombre;
     $scope.intervalo = 5; //se puede settear en el reproductor antes de arrancar
     $scope.callesH = 3;
     $scope.callesV = 3;
@@ -17,6 +20,8 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     createjs.Ticker.on("tick", stage);
     logica.setModelo(modelo1);
     logica.redibujar();
+    logica.seleccionarPrimerCuadra();
+
 
     $scope.$watch('callesH',function (newValue,oldValue){
         if (newValue===oldValue) {
@@ -46,12 +51,18 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     });
 
     $scope.generarMapa = function(){
-        console.log(JSON.stringify(logica.modelo));
-        //Mapa.save(JSON.stringify(logica.modelo));
-        //alert(JSON.stringify(logica.modelo))
-        $scope.modelo = logica.modelo;
-        mapas["moduloNuevo"] = JSON.stringify(logica.modelo);
-        $location.url("app/reproductor/moduloNuevo");
+        if ($scope.nombre != "") {
+            console.log(JSON.stringify(logica.modelo));
+            //Mapa.save(JSON.stringify(logica.modelo));
+            //alert(JSON.stringify(logica.modelo))
+            $scope.modelo = logica.modelo;
+            mapas["moduloNuevo"] = JSON.stringify(logica.modelo);
+            $location.url("app/reproductor/moduloNuevo");
+        }
+        else
+        {
+            alert("Debe ingresar un nombre al mapa para poder generarlo.");
+        }
     }
 
     $scope.actualizar = function (){

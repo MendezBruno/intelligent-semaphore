@@ -7,6 +7,8 @@ function GrillaController(filas, columnas, largo, stage, $scope){
     this.largo = largo;
     this.stage = stage;
     this.$scope = $scope;
+    this.callesVerticalesGlobales = new Array();
+    this.callesHorizontalesGlobales = new Array();
     this.nodos = [];
     var nodos = this.nodos;
     nodos[0]=[];
@@ -84,9 +86,9 @@ GrillaController.prototype.redibujar = function() {
     var PRIMER_COLUMNA = 0;
     var HORIZONTAL = true;
     var VERTICAL = false;
-
     //FUNCIONES LOCALES
     var onClick = function(cnvCalle,cnvCuadra){
+        console.log(this.cuadraSeleccionada);
         if(this.cuadraSeleccionada) {
             this.cuadraSeleccionada.desmarcar();
         };
@@ -117,6 +119,7 @@ GrillaController.prototype.redibujar = function() {
         stage.addChild(salida);
         var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
         var cuadras = new Array();
+        this.callesHorizontalesGlobales.push(cnvCalleHorizontal);
 
         for (var j = 0; j < verticales.length + 1; j++) {
             var cnvCuadra = generarCuadra(HORIZONTAL,cnvCalleHorizontal);
@@ -146,6 +149,7 @@ GrillaController.prototype.redibujar = function() {
             horizontales.length,i+1,posx+separador/2,
             posYNodoSalida-separador/2,separador/2,SALIDA,calle.sentido);
         var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
+        this.callesVerticalesGlobales.push(cnvCalleVertical);
         stage.addChild(entrada);
         stage.addChild(salida);
 
@@ -369,10 +373,10 @@ GrillaController.prototype.quitarCalleVertical = function() {
     nodos.forEach(function (fila) {
         fila.pop();
     })
-}
+};
 
 GrillaController.prototype.setModelo = function(modelo) {
-    this.modelo=modelo;
+        this.modelo=modelo;
     var nodo_bordes_aux = modelo.nodosEntrada;
     nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosSalida);
     nodo_bordes_aux=nodo_bordes_aux.concat(modelo.nodosNoSemaforo);
@@ -412,7 +416,39 @@ GrillaController.prototype.setModelo = function(modelo) {
     }
 
     loggearNodos(nodos);
+};
+
+GrillaController.prototype.seleccionarPrimerCuadra = function() {
+
+    var self = this;
+
+    this.callesHorizontalesGlobales[0].cuadras[0].marcar();
+
+    seleccionar(this.callesHorizontalesGlobales[0].calle,this.callesHorizontalesGlobales[0].cuadras[0].cuadra,this.callesHorizontalesGlobales[0].nodo1(),this.callesHorizontalesGlobales[0].nodo2());
+
+    function seleccionar(calle,cuadra, nodo1, nodo2) {
+        self.$scope.cuadra = cuadra;
+        self.$scope.calle = calle;
+        self.$scope.nodo1 = nodo1;
+        self.$scope.nodo2 = nodo2;
+        if (calle.sentido==Sentido.NORTE_SUR || calle.sentido==Sentido.OESTE_ESTE) {
+            self.$scope.nodoEntrada = nodo1.nodo;
+            self.$scope.nodoSalida = nodo2.nodo;
+        }
+        if (calle.sentido==Sentido.SUR_NORTE || calle.sentido==Sentido.ESTE_OESTE) {
+            self.$scope.nodoEntrada = nodo2.nodo;
+            self.$scope.nodoSalida = nodo1.nodo;
+        }
+    }
+
+
 }
+
+
+
+
+
+
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
