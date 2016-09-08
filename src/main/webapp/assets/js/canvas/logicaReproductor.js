@@ -47,7 +47,7 @@ ReproductorController.prototype.dibujar = function (){
         nodos.push([])
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            var cnvCuadraReproductor = generarCuadra(HORIZONTAL,cantCarriles);
+            var cnvCuadraReproductor = generarCuadra(HORIZONTAL,calle);
             stage.addChild(cnvCuadraReproductor);
             auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1){
@@ -79,7 +79,7 @@ ReproductorController.prototype.dibujar = function (){
         var cuadras = calle.cuadras;
         moverPosyAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            var cnvCuadraReproductor = generarCuadra(VERTICAL,cantCarriles);
+            var cnvCuadraReproductor = generarCuadra(VERTICAL,calle);
             stage.addChild(cnvCuadraReproductor);
             auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1)
@@ -124,8 +124,8 @@ ReproductorController.prototype.dibujar = function (){
         stage.addChild(interseccion);
     }
 
-    function generarCuadra(direccion,cantCarriles){
-        return new CnvCuadraReproductor(posx,posy,largo,cantCarriles,direccion);
+    function generarCuadra(direccion,calle){
+        return new CnvCuadraReproductor(posx,posy,largo,calle,direccion);
     }
 
     function actualizarPosX(cantCarriles){

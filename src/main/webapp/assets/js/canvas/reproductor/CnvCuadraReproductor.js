@@ -2,13 +2,14 @@
  * Created by bruno on 10/08/16.
  */
 
-function CnvCuadraReproductor(posX, posY,largo,cantCarriles,horizontal) {
+function CnvCuadraReproductor(posX, posY,largo,calle,horizontal) {
     this.Container_constructor();
 
     this.posX = posX;
     this.posY = posY;
     this.largo = largo;
-    this.cantCarriles=cantCarriles;
+    this.calle = calle;
+    this.cantCarriles=calle.cantCarriles;
     this.color = ColoresRGB.getGRAY();
     this.horizontal = horizontal;
     this.clickListeners = new Array();
@@ -47,7 +48,8 @@ CnvCuadraReproductor.prototype.setup = function() {
     var VERTICAL = false;
     var self = this;
     var avanceHastaOtraSenda = largoSenda + ses + anchoSenda*2 + ala*2; //lo pongo al final para dibujar la otra senda
-
+    var calle = this.calle;
+    var anchoFlecha = Carril.ancho;
 
     //UNA CALLE SOLA
     //this.background = new createjs.Shape();
@@ -64,10 +66,19 @@ CnvCuadraReproductor.prototype.setup = function() {
         this.colorPanel.graphics
             .beginFill(this.color)
             .drawRect(this.posX + CnvManzana.radioEsquina,this.posY,
-                largoCalle-2*CnvManzana.radioEsquina, anchoCuadra)
+                largoCalle-2*CnvManzana.radioEsquina, anchoCuadra);
 
         //LINEA LIMITE VEHICULAR
         crearLineaDeLimiteVehicular(VERTICAL,this.posX,this.posY);
+
+        var funcionFlecha = Sentido.OESTE_ESTE == calle.sentido ? flechaDerecha : flechaIzquierda;
+
+        funcionFlecha(this.posX + largoCalle/2 - anchoFlecha/2,
+            this.posY + (this.cantCarriles - 1) * Carril.ancho / 2, "white");
+        this.flechaInicio = funcionFlecha(this.posX + CnvManzana.radioEsquina - anchoFlecha - ala,
+            this.posY + (this.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getGREEN().toHexa());
+        this.flechaFin = funcionFlecha(this.posX + largoCalle - CnvManzana.radioEsquina + ala,
+            this.posY + (this.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getGREEN().toHexa());
 
         //AGREGO N SEPARACION DE CARRILES
        for (var numCarril=0; numCarril<this.cantCarriles; numCarril++) {
@@ -87,9 +98,6 @@ CnvCuadraReproductor.prototype.setup = function() {
             }
             this.posY += Carril.ancho;
         }
-
-
-
     }
     else {// CALLE VERTICAL
         //this.background.graphics
@@ -103,6 +111,16 @@ CnvCuadraReproductor.prototype.setup = function() {
 
         //LINEA LIMITE VEHICULAR
         crearLineaDeLimiteVehicular(HORIZONTAL,this.posX,this.posY);
+
+        var funcionFlecha = Sentido.OESTE_ESTE == calle.sentido ? flechaAbajo : flechaArriba;
+
+        funcionFlecha(this.posX + (this.cantCarriles - 1) * Carril.ancho / 2,
+            this.posY + largoCalle/2 - anchoFlecha/2, "white");
+        this.flechaInicio = funcionFlecha(this.posX + (this.cantCarriles - 1) * Carril.ancho / 2,
+            this.posY + CnvManzana.radioEsquina - anchoFlecha - ala, ColoresRGB.getGREEN().toHexa());
+        this.flechaFin = funcionFlecha(this.posX + (this.cantCarriles - 1) * Carril.ancho / 2,
+            this.posY + largoCalle - CnvManzana.radioEsquina + ala, ColoresRGB.getGREEN().toHexa());
+
         //AGREGO N CARRILES
         for (var numCarril=0; numCarril<this.cantCarriles; numCarril++) {
             var posinicialSendaX = this.posX+ala/2; //le restamos media ala
@@ -130,6 +148,50 @@ CnvCuadraReproductor.prototype.setup = function() {
     this.mouseChildren = true;
     this.offset = Math.random()*10;
     this.count = 0;
+
+    function flechaDerecha(posx,posy,color) {
+        var triangulo = new createjs.Shape();
+        triangulo.graphics.beginFill(color);
+        triangulo.graphics.moveTo(posx, posy)
+            .lineTo(posx, posy + Carril.ancho)
+            .lineTo(posx + anchoFlecha, posy + Carril.ancho / 2)
+            .lineTo(posx, posy);
+        self.addChild(triangulo);
+        return triangulo;
+    }
+
+    function flechaIzquierda(posx,posy,color) {
+        var triangulo = new createjs.Shape();
+        triangulo.graphics.beginFill(color);
+        triangulo.graphics.moveTo(posx + anchoFlecha, posy)
+            .lineTo(posx + anchoFlecha, posy + Carril.ancho)
+            .lineTo(posx, posy + Carril.ancho / 2)
+            .lineTo(posx + anchoFlecha, posy);
+        self.addChild(triangulo);
+        return triangulo;
+    }
+
+    function flechaAbajo(posx,posy,color) {
+        var triangulo = new createjs.Shape();
+        triangulo.graphics.beginFill(color);
+        triangulo.graphics.moveTo(posx, posy)
+            .lineTo(posx + Carril.ancho, posy)
+            .lineTo(posx + Carril.ancho/2, posy + anchoFlecha)
+            .lineTo(posx, posy);
+        self.addChild(triangulo);
+        return triangulo;
+    }
+
+    function flechaArriba(posx,posy,color) {
+        var triangulo = new createjs.Shape();
+        triangulo.graphics.beginFill(color);
+        triangulo.graphics.moveTo(posx, posy+anchoFlecha)
+            .lineTo(posx + Carril.ancho, posy+anchoFlecha)
+            .lineTo(posx + Carril.ancho/2, posy)
+            .lineTo(posx, posy+anchoFlecha);
+        self.addChild(triangulo);
+        return triangulo;
+    }
 
     function crearSendaPeatonal(direccion)
     {
