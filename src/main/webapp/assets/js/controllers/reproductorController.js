@@ -22,7 +22,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
 
         var dicDatosCuadras = {};
         var mapa = $routeParams.id? mapas[$routeParams.id]:mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
-        var modelo = JSON.parse(mapa);
+        var modelo = MapaEditor.desParsear(mapa)
         var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
         var stageReproductor = new createjs.Stage("reproductor");
         stageReproductor.canvas.setAttribute('style', 'background-color:'+ColoresRGB.getGRAY().toHexa());
