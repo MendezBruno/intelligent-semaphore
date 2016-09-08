@@ -87,9 +87,29 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 dic["1"]= randomEntre(10,80);
                 dic["2"]= randomEntre(10,50);
                 drawChartVelocimetro(dic);
-        }
+        };
 
+        var resize = function () {
+                var headerHeight = parseInt($("#header").height(),10);
+                var controlesHeight = parseInt($("#controles").height(),10);
+                $("#canvaspanel").css("height",tgngviewheight-80-headerHeight-controlesHeight);
+        };
 
+        window.addEventListener("resize", resize);
+        resize();
+        //var slider = new Slider('#ex1', {
+        //        formatter: function(value) {
+        //                return 'Current value: ' + value;
+        //        }
+        //});
+
+        // With JQuery
+        $("#ex6").slider();
+        $("#ex6").on("slide", function(slideEvt) {
+                $("#ex6SliderVal").text(slideEvt.value*100);
+                 stageReproductor.scaleX= slideEvt.value;
+                 stageReproductor.scaleY= slideEvt.value;
+        });
         //cargarMapa = function (unMapa){
                 //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
         //}
