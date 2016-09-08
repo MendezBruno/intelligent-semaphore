@@ -5,7 +5,7 @@
 app.directive('ngTouchSpin'['$timeout', '$interval',
     function($timeout, $interval) {}]);
 
-app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$location) {
+app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$location,$timeout) {
     var largo = 30;
     var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
     var modelo1 = MapaEditor.desParsear(mapa);
@@ -16,7 +16,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     $scope.callesH = 3;
     $scope.callesV = 3;
     var stage = new createjs.Stage("mapa");
-    var logica = new GrillaController(3,3,largo,stage,$scope);
+    var logica = new GrillaController(3,3,largo,stage,$scope,$timeout);
     createjs.Ticker.on("tick", stage);
     logica.setModelo(modelo1);
     logica.redibujar();

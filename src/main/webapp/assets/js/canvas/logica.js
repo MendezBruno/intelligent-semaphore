@@ -1,7 +1,7 @@
 /**
  * Created by bruno on 28/07/16.
  */
-function GrillaController(filas, columnas, largo, stage, $scope){
+function GrillaController(filas, columnas, largo, stage, $scope,$timeout){
 
     this.modelo = new MapaEditor();
     this.largo = largo;
@@ -10,6 +10,7 @@ function GrillaController(filas, columnas, largo, stage, $scope){
     this.callesVerticalesGlobales = new Array();
     this.callesHorizontalesGlobales = new Array();
     this.nodos = [];
+    this.timeout = $timeout;
     var nodos = this.nodos;
     nodos[0]=[];
     nodos[filas+1]=[];
@@ -88,12 +89,11 @@ GrillaController.prototype.redibujar = function() {
     var VERTICAL = false;
     //FUNCIONES LOCALES
     var onClick = function(cnvCalle,cnvCuadra){
-        console.log(this.cuadraSeleccionada);
-        if(this.cuadraSeleccionada) {
-            this.cuadraSeleccionada.desmarcar();
+        if(self.cuadraSeleccionada) {
+            self.cuadraSeleccionada.desmarcar();
         };
-        this.cuadraSeleccionada= cnvCuadra;
-        this.cuadraSeleccionada.marcar();
+        self.cuadraSeleccionada= cnvCuadra;
+        self.cuadraSeleccionada.marcar();
         seleccionar(cnvCalle.calle,cnvCuadra.cuadra,
             cnvCalle.nodo1(),cnvCalle.nodo2());
     };
@@ -216,7 +216,9 @@ GrillaController.prototype.redibujar = function() {
             self.$scope.nodoEntrada = nodo2.nodo;
             self.$scope.nodoSalida = nodo1.nodo;
         }
-        self.$scope.$apply();
+        self.timeout(function () {
+            self.$scope.$apply();
+        });
         // console.log(cuadra.id);
         // console.log(nodo1);
         // console.log(nodo2);
@@ -420,35 +422,11 @@ GrillaController.prototype.setModelo = function(modelo) {
 
 GrillaController.prototype.seleccionarPrimerCuadra = function() {
 
-    var self = this;
+    this.cuadraSeleccionada = this.callesHorizontalesGlobales[0].cuadras[0];
 
-    this.callesHorizontalesGlobales[0].cuadras[0].marcar();
-
-    seleccionar(this.callesHorizontalesGlobales[0].calle,this.callesHorizontalesGlobales[0].cuadras[0].cuadra,this.callesHorizontalesGlobales[0].nodo1(),this.callesHorizontalesGlobales[0].nodo2());
-
-    function seleccionar(calle,cuadra, nodo1, nodo2) {
-        self.$scope.cuadra = cuadra;
-        self.$scope.calle = calle;
-        self.$scope.nodo1 = nodo1;
-        self.$scope.nodo2 = nodo2;
-        if (calle.sentido==Sentido.NORTE_SUR || calle.sentido==Sentido.OESTE_ESTE) {
-            self.$scope.nodoEntrada = nodo1.nodo;
-            self.$scope.nodoSalida = nodo2.nodo;
-        }
-        if (calle.sentido==Sentido.SUR_NORTE || calle.sentido==Sentido.ESTE_OESTE) {
-            self.$scope.nodoEntrada = nodo2.nodo;
-            self.$scope.nodoSalida = nodo1.nodo;
-        }
-    }
-
+    this.cuadraSeleccionada.handleClick();
 
 }
-
-
-
-
-
-
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
