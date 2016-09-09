@@ -87,7 +87,10 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         logica.quitarCalleHorizontal();
         coordenadascalle=logica.coordCuadra();
         logica.redibujar();
+        if (logica.estaDentroDelMapa(coordenadascalle[3],coordenadascalle[0]) == true)
         logica.seleccionarCuadra(coordenadascalle);
+        else
+            logica.seleccionarPrimerCuadra();
     }
 
     $scope.quitarCalleV=function(newVal,oldVal){
@@ -95,6 +98,9 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         logica.quitarCalleVertical();
         coordenadascalle=logica.coordCuadra();
         logica.redibujar();
-        logica.seleccionarCuadra(coordenadascalle);
+        if (logica.estaDentroDelMapa(coordenadascalle[1],coordenadascalle[2]) == true)
+            logica.seleccionarCuadra(coordenadascalle);
+        else
+            logica.seleccionarPrimerCuadra();
     }
 });

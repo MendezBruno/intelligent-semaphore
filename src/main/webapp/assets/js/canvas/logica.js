@@ -446,17 +446,15 @@ GrillaController.prototype.coordCuadra = function() {
 
     coordenadas[3]= -1;
 
-    for(i=0;i<this.callesHorizontalesGlobales.length - 1;i++)
+    for(i=0;i<this.callesHorizontalesGlobales.length;i++)
     {
-        for(j=0;j<this.callesHorizontalesGlobales[i].cuadras.length -1;j++)
+        for(j=0;j<this.callesHorizontalesGlobales[i].cuadras.length;j++)
         {
             if (this.callesHorizontalesGlobales[i].cuadras[j].marcado == true)
             {
 
                 coordenadas[0]=i;
                 coordenadas[1]=j;
-                //      this.callesHorizontalesGlobalesn[i].cuadras[j].handleClick();
-
 
             }
 
@@ -473,8 +471,6 @@ GrillaController.prototype.coordCuadra = function() {
 
                 coordenadas[2]=i;
                 coordenadas[3]=j;
-                //      this.callesHorizontalesGlobalesn[i].cuadras[j].handleClick();
-
 
             }
 
@@ -487,13 +483,6 @@ GrillaController.prototype.coordCuadra = function() {
 }
 
 GrillaController.prototype.seleccionarCuadra = function(coordenadas) {
-
-
-    console.log(coordenadas[0]);
-
-    console.log(coordenadas[1]);
-    console.log(coordenadas[2]);
-    console.log(coordenadas[3]);
 
     if (coordenadas[0]!=-1 && coordenadas[1]!=-1) {
         this.cuadraSeleccionada = this.callesHorizontalesGlobales[coordenadas[0]].cuadras[coordenadas[1]];
@@ -508,6 +497,37 @@ GrillaController.prototype.seleccionarCuadra = function(coordenadas) {
         this.cuadraSeleccionada.handleClick();
 
     }
+
+
+}
+
+GrillaController.prototype.estaDentroDelMapa = function(coordx,coordy) {
+
+
+
+
+    if(coordx == -1) {
+        if (coordy == this.callesVerticalesGlobales.length) {
+            return false;
+        }
+        if (coordy == this.callesHorizontalesGlobales.length) {
+            return false;
+        }
+
+
+    }
+
+    if(coordx == this.callesHorizontalesGlobales[0].cuadras.length + 1)
+
+        return false;
+
+    if(coordx == this.callesVerticalesGlobales[0].cuadras.length + 1)
+        return false;
+
+
+        return true;
+
+
 
 
 }
