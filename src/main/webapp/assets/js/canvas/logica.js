@@ -76,6 +76,9 @@ GrillaController.prototype.redibujar = function() {
     var largo = this.largo;
     var nodos = this.nodos;
     var modelo = this.modelo;
+    this.callesHorizontalesGlobales.length = 0;
+    this.callesVerticalesGlobales.length = 0;
+
 
     var separador = 20;
     this.separador = separador;
@@ -427,6 +430,89 @@ GrillaController.prototype.seleccionarPrimerCuadra = function() {
     this.cuadraSeleccionada.handleClick();
 
 }
+
+GrillaController.prototype.coordCuadra = function() {
+
+
+    var coordenadas = new Array();
+
+    var i,j;
+
+    coordenadas[0]= -1;
+
+    coordenadas[1]= -1;
+
+    coordenadas[2]= -1;
+
+    coordenadas[3]= -1;
+
+    for(i=0;i<this.callesHorizontalesGlobales.length - 1;i++)
+    {
+        for(j=0;j<this.callesHorizontalesGlobales[i].cuadras.length -1;j++)
+        {
+            if (this.callesHorizontalesGlobales[i].cuadras[j].marcado == true)
+            {
+
+                coordenadas[0]=i;
+                coordenadas[1]=j;
+                //      this.callesHorizontalesGlobalesn[i].cuadras[j].handleClick();
+
+
+            }
+
+        }
+
+    }
+
+    for(i=0;i<this.callesVerticalesGlobales.length ;i++)
+    {
+        for(j=0;j<this.callesVerticalesGlobales[i].cuadras.length ;j++)
+        {
+            if (this.callesVerticalesGlobales[i].cuadras[j].marcado == true)
+            {
+
+                coordenadas[2]=i;
+                coordenadas[3]=j;
+                //      this.callesHorizontalesGlobalesn[i].cuadras[j].handleClick();
+
+
+            }
+
+        }
+
+    }
+
+    return coordenadas;
+
+}
+
+GrillaController.prototype.seleccionarCuadra = function(coordenadas) {
+
+
+    console.log(coordenadas[0]);
+
+    console.log(coordenadas[1]);
+    console.log(coordenadas[2]);
+    console.log(coordenadas[3]);
+
+    if (coordenadas[0]!=-1 && coordenadas[1]!=-1) {
+        this.cuadraSeleccionada = this.callesHorizontalesGlobales[coordenadas[0]].cuadras[coordenadas[1]];
+
+        this.cuadraSeleccionada.handleClick();
+
+    }
+
+    if (coordenadas[2]!=-1 && coordenadas[3]!=-1) {
+        this.cuadraSeleccionada = this.callesVerticalesGlobales[coordenadas[2]].cuadras[coordenadas[3]];
+
+        this.cuadraSeleccionada.handleClick();
+
+    }
+
+
+}
+
+
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));

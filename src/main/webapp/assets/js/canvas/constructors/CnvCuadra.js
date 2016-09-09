@@ -68,6 +68,7 @@ CnvCuadra.prototype.marcar= function(){
             .setStrokeStyle(1)
             .drawRect(this.posX,this.posY,this.width,this.largo,10);
     }
+    this.marcado = true;
 };
 
 CnvCuadra.prototype.desmarcar= function(){
