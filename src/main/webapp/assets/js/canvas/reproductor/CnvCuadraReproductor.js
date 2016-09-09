@@ -49,7 +49,7 @@ CnvCuadraReproductor.prototype.setup = function() {
     var self = this;
     var avanceHastaOtraSenda = largoSenda + ses + anchoSenda*2 + ala*2; //lo pongo al final para dibujar la otra senda
     var calle = this.calle;
-    var anchoFlecha = Carril.ancho;
+    var anchoFlecha = anchoSenda;
 
     //UNA CALLE SOLA
     //this.background = new createjs.Shape();
@@ -73,12 +73,18 @@ CnvCuadraReproductor.prototype.setup = function() {
 
         var funcionFlecha = Sentido.OESTE_ESTE == calle.sentido ? flechaDerecha : flechaIzquierda;
 
+        this.asentarFlechaEntrada = function() {
+            funcionFlecha(self.posX + CnvManzana.radioEsquina - anchoFlecha - ala,
+                    self.posY + (self.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getRED().toHexa());
+        }
+
+        this.asentarFlechaSalida = function() {
+            funcionFlecha(self.posX + largoCalle - CnvManzana.radioEsquina + ala,
+                        self.posY + (self.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getRED().toHexa());
+        }
+
         funcionFlecha(this.posX + largoCalle/2 - anchoFlecha/2,
             this.posY + (this.cantCarriles - 1) * Carril.ancho / 2, "white");
-        this.flechaInicio = funcionFlecha(this.posX + CnvManzana.radioEsquina - anchoFlecha - ala,
-            this.posY + (this.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getGREEN().toHexa());
-        this.flechaFin = funcionFlecha(this.posX + largoCalle - CnvManzana.radioEsquina + ala,
-            this.posY + (this.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getGREEN().toHexa());
 
         //AGREGO N SEPARACION DE CARRILES
        for (var numCarril=0; numCarril<this.cantCarriles; numCarril++) {
@@ -116,10 +122,16 @@ CnvCuadraReproductor.prototype.setup = function() {
 
         funcionFlecha(this.posX + (this.cantCarriles - 1) * Carril.ancho / 2,
             this.posY + largoCalle/2 - anchoFlecha/2, "white");
-        this.flechaInicio = funcionFlecha(this.posX + (this.cantCarriles - 1) * Carril.ancho / 2,
-            this.posY + CnvManzana.radioEsquina - anchoFlecha - ala, ColoresRGB.getGREEN().toHexa());
-        this.flechaFin = funcionFlecha(this.posX + (this.cantCarriles - 1) * Carril.ancho / 2,
-            this.posY + largoCalle - CnvManzana.radioEsquina + ala, ColoresRGB.getGREEN().toHexa());
+
+        this.asentarFlechaEntrada = function() {
+            funcionFlecha(self.posX + (self.cantCarriles - 1) * Carril.ancho / 2,
+                        self.posY + CnvManzana.radioEsquina - anchoFlecha - ala, ColoresRGB.getGREEN().toHexa());
+        }
+
+        this.asentarFlechaSalida = function() {
+            funcionFlecha(self.posX + (self.cantCarriles - 1) * Carril.ancho / 2,
+                        self.posY + largoCalle - CnvManzana.radioEsquina + ala, ColoresRGB.getGREEN().toHexa());
+        }
 
         //AGREGO N CARRILES
         for (var numCarril=0; numCarril<this.cantCarriles; numCarril++) {

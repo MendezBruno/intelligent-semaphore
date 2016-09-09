@@ -89,17 +89,6 @@ ReproductorController.prototype.dibujar = function (){
     }
     stage.canvas.height = posy + largo;
 
-    //Vincular nodos con cuadras aledañas
-    for(var i=0; i<nodos.length; i++) {
-        for(var j=0; j<nodos[i].length; j++) {
-            var nodo = nodos[i][j];
-            nodo.izquierda = horizontales[i][j];
-            nodo.derecha = horizontales[i][j+1];
-            nodo.arriba = verticales[j][i];
-            nodo.abajo = verticales[j][i+1];
-        }
-    }
-
     //Dibujar manzanas
     posx = posInicialX;
     posy = posInicialY;
@@ -116,6 +105,18 @@ ReproductorController.prototype.dibujar = function (){
         var calle = horizontales[i];
         if (calle) {
             posy += CnvManzana.largo + calle.cantCarriles * ancho;
+        }
+    }
+
+    //Vincular nodos con cuadras aledañas
+    for(var i=0; i<nodos.length; i++) {
+        for(var j=0; j<nodos[i].length; j++) {
+            var nodo = nodos[i][j];
+            nodo.izquierda = auxCnvModel[horizontales[i].cuadras[j].id];
+            nodo.derecha = auxCnvModel[horizontales[i].cuadras[j+1].id];
+            nodo.arriba = auxCnvModel[verticales[j].cuadras[i].id];
+            nodo.abajo = auxCnvModel[verticales[j].cuadras[i+1].id];
+            nodo.init();
         }
     }
 

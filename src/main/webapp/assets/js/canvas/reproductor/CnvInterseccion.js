@@ -52,4 +52,14 @@ CnvInterseccion.prototype.setup = function () {
     }
     
 };
+
+CnvInterseccion.prototype.init = function() {
+    if (this.semaforo) {
+        this.arriba.asentarFlechaSalida();
+        this.izquierda.asentarFlechaSalida();
+        this.derecha.asentarFlechaEntrada();
+        this.abajo.asentarFlechaEntrada();
+    }
+}
+
 window.CnvInterseccion = createjs.promote(CnvInterseccion, "Container");
