@@ -74,12 +74,12 @@ CnvCuadraReproductor.prototype.setup = function() {
         var funcionFlecha = Sentido.OESTE_ESTE == calle.sentido ? flechaDerecha : flechaIzquierda;
 
         this.asentarFlechaEntrada = function() {
-            funcionFlecha(self.posX + CnvManzana.radioEsquina - anchoFlecha - ala,
+            self.flechaEntrada = funcionFlecha(self.posX + CnvManzana.radioEsquina - anchoFlecha - ala,
                     self.posY + (self.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getRED().toHexa());
         }
 
         this.asentarFlechaSalida = function() {
-            funcionFlecha(self.posX + largoCalle - CnvManzana.radioEsquina + ala,
+            self.flechaSalida = funcionFlecha(self.posX + largoCalle - CnvManzana.radioEsquina + ala,
                         self.posY + (self.cantCarriles - 1) * Carril.ancho / 2, ColoresRGB.getRED().toHexa());
         }
 
@@ -125,12 +125,12 @@ CnvCuadraReproductor.prototype.setup = function() {
             this.posY + largoCalle/2 - anchoFlecha/2, "white");
 
         this.asentarFlechaEntrada = function() {
-            funcionFlecha(self.posX + (self.cantCarriles - 1) * Carril.ancho / 2,
+            self.flechaEntrada = funcionFlecha(self.posX + (self.cantCarriles - 1) * Carril.ancho / 2,
                         self.posY + CnvManzana.radioEsquina - anchoFlecha - ala, ColoresRGB.getGREEN().toHexa());
         }
 
         this.asentarFlechaSalida = function() {
-            funcionFlecha(self.posX + (self.cantCarriles - 1) * Carril.ancho / 2,
+            self.flechaSalida = funcionFlecha(self.posX + (self.cantCarriles - 1) * Carril.ancho / 2,
                         self.posY + largoCalle - CnvManzana.radioEsquina + ala, ColoresRGB.getGREEN().toHexa());
         }
 
@@ -309,11 +309,11 @@ CnvCuadraReproductor.prototype.cambiarColor = function (colorCuadra) {
 }
 
 CnvCuadraReproductor.prototype.cambiarColorFlechaEntrada = function (colorRGB) {
-    //TBD
+    this.flechaEntrada.graphics._fill.style = colorRGB.toString();
 }
 
 CnvCuadraReproductor.prototype.cambiarColorFlechaSalida = function (colorRGB) {
-    //TBD
+    this.flechaSalida.graphics._fill.style = colorRGB.toString();
 }
 
 window.CnvCuadraReproductor = createjs.promote(CnvCuadraReproductor, "Container");
