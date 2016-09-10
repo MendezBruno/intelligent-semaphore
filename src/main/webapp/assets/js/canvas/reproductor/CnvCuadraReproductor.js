@@ -87,9 +87,10 @@ CnvCuadraReproductor.prototype.setup = function() {
             this.posY + (this.cantCarriles - 1) * Carril.ancho / 2, "white");
 
         //AGREGO N SEPARACION DE CARRILES
+        var py = this.posY;
        for (var numCarril=0; numCarril<this.cantCarriles; numCarril++) {
             var posinicialSendaX = this.posX + CnvCuadraReproductor.radioManzana; //le restamos media ala
-            var posinicialSendaY = this.posY + ala/2;
+            var posinicialSendaY = py + ala/2;
             for (var numsenda=0; numsenda < sendasPorCarril; numsenda++) {
                 crearSendaPeatonal(HORIZONTAL);
                 posinicialSendaX += avanceHastaOtraSenda;
@@ -100,9 +101,9 @@ CnvCuadraReproductor.prototype.setup = function() {
 
             //LINEAS CARRIL
             if(numCarril != this.cantCarriles-1) {
-                creaLineasSeparaCarril(HORIZONTAL, this.posX + largoSenda * 2 + anchoSenda + ala, this.posY);
+                creaLineasSeparaCarril(HORIZONTAL, this.posX + largoSenda * 2 + anchoSenda + ala, py);
             }
-            this.posY += Carril.ancho;
+            py += Carril.ancho;
         }
     }
     else {// CALLE VERTICAL
@@ -118,7 +119,7 @@ CnvCuadraReproductor.prototype.setup = function() {
         //LINEA LIMITE VEHICULAR
         crearLineaDeLimiteVehicular(HORIZONTAL,this.posX,this.posY);
 
-        var funcionFlecha = Sentido.OESTE_ESTE == calle.sentido ? flechaAbajo : flechaArriba;
+        var funcionFlecha = Sentido.NORTE_SUR == calle.sentido ? flechaAbajo : flechaArriba;
 
         funcionFlecha(this.posX + (this.cantCarriles - 1) * Carril.ancho / 2,
             this.posY + largoCalle/2 - anchoFlecha/2, "white");
@@ -133,9 +134,10 @@ CnvCuadraReproductor.prototype.setup = function() {
                         self.posY + largoCalle - CnvManzana.radioEsquina + ala, ColoresRGB.getGREEN().toHexa());
         }
 
+        var px = this.posX;
         //AGREGO N CARRILES
         for (var numCarril=0; numCarril<this.cantCarriles; numCarril++) {
-            var posinicialSendaX = this.posX+ala/2; //le restamos media ala
+            var posinicialSendaX = px+ala/2; //le restamos media ala
             var posinicialSendaY = this.posY + CnvCuadraReproductor.radioManzana;
             for (var numsenda=0; numsenda < sendasPorCarril; numsenda++) {
                 crearSendaPeatonal(VERTICAL);
@@ -147,9 +149,9 @@ CnvCuadraReproductor.prototype.setup = function() {
 
             //LINEAS CARRIL
             if(numCarril != this.cantCarriles-1) {
-                creaLineasSeparaCarril(VERTICAL, this.posX, this.posY + largoSenda * 2 + anchoSenda + ala);
+                creaLineasSeparaCarril(VERTICAL, py, this.posY + largoSenda * 2 + anchoSenda + ala);
             }
-            this.posX += Carril.ancho;
+            px += Carril.ancho;
         }
 
     }
