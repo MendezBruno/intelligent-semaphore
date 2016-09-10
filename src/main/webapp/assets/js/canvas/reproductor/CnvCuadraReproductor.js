@@ -149,7 +149,7 @@ CnvCuadraReproductor.prototype.setup = function() {
 
             //LINEAS CARRIL
             if(numCarril != this.cantCarriles-1) {
-                creaLineasSeparaCarril(VERTICAL, py, this.posY + largoSenda * 2 + anchoSenda + ala);
+                creaLineasSeparaCarril(VERTICAL, px, this.posY + largoSenda * 2 + anchoSenda + ala);
             }
             px += Carril.ancho;
         }
