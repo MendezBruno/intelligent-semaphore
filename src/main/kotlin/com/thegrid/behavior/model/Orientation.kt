@@ -10,4 +10,12 @@ enum class Orientation(val way: String) {
     companion object {
         fun from(findWay: String): Orientation = values().first { it.way == findWay }
     }
+
+    fun itsRight(): Boolean {
+        return this == South || this == East
+    }
+
+    fun itsOppositte(): Boolean {
+        return this == North || this == West
+    }
 }

@@ -32,15 +32,23 @@ class MapConversor {
             val streets = mutableListOf<Street>()
 
             for (kStreet in map.callesHorizontales) {
+                val orientation = Orientation.from(kStreet.sentido)
                 val street = Street(kStreet.cantCarriles,
-                        Orientation.from(kStreet.sentido),
+                        orientation,
                         mutableListOf<Block>(),
                         kStreet.preferencia)
-
+                val right = orientation.itsRight()
                 for (kBlock in kStreet.cuadras) {
-                    val egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
-                    val block = BlockHorizontal(kBlock.id, street, kBlock.longitud,
-                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
+                    val entryNode: NodeType
+                    val egressNode: NodeType
+                    if (right) {
+                        entryNode = nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first()
+                        egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
+                    } else {
+                        entryNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
+                        egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first()
+                    }
+                    val block = BlockHorizontal(kBlock.id, street, kBlock.longitud, entryNode)
                     egressNode.horizontalEntryBlock = block
 //                    block.setProbabilities(egressNode.getProbabilities())
                 }
@@ -48,17 +56,25 @@ class MapConversor {
             }
 
             for (kStreet in map.callesVerticales) {
+                val orientation = Orientation.from(kStreet.sentido)
                 val street = Street(kStreet.cantCarriles,
-                        Orientation.from(kStreet.sentido),
+                        orientation,
                         mutableListOf<Block>(),
                         kStreet.preferencia)
 
+                val right = orientation.itsRight()
                 for (kBlock in kStreet.cuadras) {
-                    val egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
-                    val block = BlockVertical(kBlock.id, street, kBlock.longitud,
-                            nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first())
+                    val entryNode: NodeType
+                    val egressNode: NodeType
+                    if (right) {
+                        entryNode = nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first()
+                        egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
+                    } else {
+                        entryNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
+                        egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first()
+                    }
+                    val block = BlockVertical(kBlock.id, street, kBlock.longitud, entryNode)
                     egressNode.verticalEntryBlock = block
-//                    block.setProbabilities(egressNode.getProbabilities())
                 }
                 streets.add(street)
             }
