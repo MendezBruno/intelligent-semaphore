@@ -145,4 +145,27 @@ MapaEditor.prototype.cuadraPorID = function(id){
     return callesAux.find(function(cuadra){
         return cuadra.id == id;
     } );
+};
+
+
+MapaEditor.prototype.actualizarCongestion = function (datos, dicDatosCuadra){
+    datos.blockStatus.forEach (function (estadoCuadra){
+        var cuadra = cuadraPorID (estadoCuadra.idCuadra);
+        cuadra.congestion.tipo = estadoCuadra.tipo;
+        cuadra.restarValorActual (dicDatosCuadra);
+        cuadra.congestion.valor = estadoCuadra.congestion;
+
+    });
+
+
+
+MapaEditor.prototype.tamizarDatosCongestion = function (dicDatosCuadra) {
+    var callesAux = this.callesHorizontales;
+    callesAux.concat(this.callesVerticales);
+    callesAux.forEach (function (cuadra) {
+        cuadra.sumarValorDeCongestion(dicDatosCuadra);
+    })
+
+}
+
 }

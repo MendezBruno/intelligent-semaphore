@@ -20,7 +20,7 @@ updates = {
 
 app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,$routeParams) {
 
-        var dicDatosCuadras = {};
+        var dicDatosCuadras = inicilizarDicDatos();
         var mapa = $routeParams.id? mapas[$routeParams.id]:mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
         var modelo = MapaEditor.desParsear(mapa)
         var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
@@ -50,14 +50,14 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         };
         var nuevaEscala=1;
         update = function (){
-                // console.log("quiero update yeeeeeeeeeeah!");
+                //randomCongestion(dicDatosCuadras);
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
-                randomCongestion(dicDatosCuadras);
                 MapaUpdate.query(function(data) {
                         console.log(data);
                         logicaReproductor.actualizar(data);
                         //dentro de logicaReproductor actualizo (CNV o cuadra posta a eleccion) dentro del modelo con (modelo, data)
-                        //dicDatos = Tamizar(usa el modelo global)   Congestion @return: dicDatosCuadra
+                        modelo.actualizarCongestion (data);
+                        dicDatosCuadras = modelo.tamizarDatosCongestion(dicDatosCuadras);
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
                         // nuevaEscala = nuevaEscala - 0.1;
@@ -75,7 +75,6 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 dicDatos["muy"] = randomEntre(1,cantidadDeCuadras+1);
 
         }
-
 
         // Retorna un número aleatorio entre min (incluido) y max (excluido)
         randomEntre = function (min, max) {
@@ -113,6 +112,16 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         //cargarMapa = function (unMapa){
                 //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
         //}
+
+        inicilizarDicDatos = function (){
+                var dicDatos = {};
+                dicDatos["sin"] = 0;
+                dicDatos["leve"] = 0;
+                dicDatos["media"] = 0;
+                dicDatos["alta"] = 0;
+                dicDatos["muy"] = 0;
+                return dicDatos;
+        }
 
 });
 

@@ -29,7 +29,7 @@ function drawChart(dicDatos) {
             position: 'right',
             alignment: 'center',
             textStyle: {
-                fontSize:13
+                fontSize:18
             }
         }
     };
@@ -57,11 +57,8 @@ function drawChartVelocimetro(dicVel) {
     var options = {
         width: 400,
         height: 120,
-        //slice: {
-        //    0:{    color:"000000"       }
-        //},
-        //redFrom: 90,         redTo: 100,
-        //yellowFrom: 75,        yellowTo: 90,
+        redFrom: 90,         redTo: 100,
+        yellowFrom: 75,        yellowTo: 90,
         minorTicks: 5
     };
 
