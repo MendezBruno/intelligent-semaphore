@@ -207,12 +207,34 @@ GrillaController.prototype.redibujar = function() {
     }
 
     function seleccionar(calle,cuadra, nodo1, nodo2) {
+
+        if (calle.cantCarriles == undefined)
+            calle.cantCarriles=0;
+
+        if (calle.sentido == undefined)
+            calle.sentido=0;
+
+        if (nodo1.nodo.cantMaxima == undefined)
+            nodo1.nodo.cantMaxima=0;
+
+        if (nodo2.nodo.cantMaxima == undefined)
+            nodo2.nodo.cantMaxima=0;
+
+        if (nodo1.nodo.intervalo == undefined)
+            nodo1.nodo.intervalo=0;
+
+        if (nodo2.nodo.intervalo == undefined)
+            nodo2.nodo.intervalo=0;
+
+        if (calle.preferencia == undefined)
+            calle.preferencia=0;
+
         self.$scope.cuadra = cuadra;
         self.$scope.calle = calle;
         self.$scope.nodo1 = nodo1;
         self.$scope.nodo2 = nodo2;
         if (calle.sentido==Sentido.NORTE_SUR || calle.sentido==Sentido.OESTE_ESTE) {
-            self.$scope.nodoEntrada = nodo1.nodo;
+            self. $scope.nodoEntrada= nodo1.nodo;
             self.$scope.nodoSalida = nodo2.nodo;
         }
         if (calle.sentido==Sentido.SUR_NORTE || calle.sentido==Sentido.ESTE_OESTE) {
