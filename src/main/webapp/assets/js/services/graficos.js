@@ -9,10 +9,10 @@ function drawChart(dicDatos) {
 
     var data = google.visualization.arrayToDataTable([
         ['Rango congestion', 'Cantidad de cuadras'],
-        ['Sin Cogestion',     dicDatos["sin"]],
-        ['Congestion pesada',      dicDatos["alta"]],
-        ['Congestion media',  dicDatos["media"]],
+        ['Sin Cogestion', dicDatos["sin"]],
+        ['Congestion media', dicDatos["media"]],
         ['Congestion leve', dicDatos["leve"]],
+        ['Congestion pesada', dicDatos["alta"]],
         ['Intransitable',    dicDatos["muy"]]
     ]);
 
@@ -24,6 +24,7 @@ function drawChart(dicDatos) {
             width: '100%',
             height: '100%'
         },
+        colors: ['#b3b3b3', '#ffff80', '#ffb366', '#ff4d4d', '#cc0000'],
         legend: {
             position: 'right',
             alignment: 'center',
@@ -54,9 +55,13 @@ function drawChartVelocimetro(dicVel) {
     ]);
 
     var options = {
-        width: 400, height: 120,
-        redFrom: 90, redTo: 100,
-        yellowFrom: 75, yellowTo: 90,
+        width: 400,
+        height: 120,
+        //slice: {
+        //    0:{    color:"000000"       }
+        //},
+        //redFrom: 90,         redTo: 100,
+        //yellowFrom: 75,        yellowTo: 90,
         minorTicks: 5
     };
 
