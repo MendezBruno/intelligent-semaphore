@@ -78,6 +78,8 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         for(h=0;h<(newVal-oldVal);h++)
         logica.agregarCalleVertical();
         coordenadascalle=logica.coordCuadra();
+        console.log(coordenadascalle[0]);
+        console.log(coordenadascalle[1])
         logica.redibujar();
         logica.seleccionarCuadra(coordenadascalle);
     }
@@ -87,7 +89,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         logica.quitarCalleHorizontal();
         coordenadascalle=logica.coordCuadra();
         logica.redibujar();
-        if (logica.estaDentroDelMapa(coordenadascalle[3],coordenadascalle[0]) == true)
+        if (logica.estaDentroDelMapa(coordenadascalle[0],coordenadascalle[1]) == true)
         logica.seleccionarCuadra(coordenadascalle);
         else
             logica.seleccionarPrimerCuadra();
@@ -98,7 +100,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         logica.quitarCalleVertical();
         coordenadascalle=logica.coordCuadra();
         logica.redibujar();
-        if (logica.estaDentroDelMapa(coordenadascalle[1],coordenadascalle[2]) == true)
+        if (logica.estaDentroDelMapa(coordenadascalle[0],coordenadascalle[1]) == true)
             logica.seleccionarCuadra(coordenadascalle);
         else
             logica.seleccionarPrimerCuadra();

@@ -72,7 +72,7 @@ GrillaController.prototype.redibujar = function() {
     var posInicialY = 20;   //en un futuro se podria parametrizar
     var posx = posInicialX;
     var posy = this.largo+posInicialY;
-    var stage = this.stage;
+    var stage = self.stage;
     var largo = this.largo;
     var nodos = this.nodos;
     var modelo = this.modelo;
@@ -93,10 +93,10 @@ GrillaController.prototype.redibujar = function() {
     //FUNCIONES LOCALES
     var onClick = function(cnvCalle,cnvCuadra){
         if(self.cuadraSeleccionada) {
-            self.cuadraSeleccionada.desmarcar();
+            self.cuadraSeleccionada.desmarcar(stage);
         };
-        self.cuadraSeleccionada= cnvCuadra;
-        self.cuadraSeleccionada.marcar();
+        self.cuadraSeleccionada= cnvCalle;
+        self.cuadraSeleccionada.marcarCalle(stage);
         seleccionar(cnvCalle.calle,cnvCuadra.cuadra,
             cnvCalle.nodo1(),cnvCalle.nodo2());
     };
@@ -139,7 +139,9 @@ GrillaController.prototype.redibujar = function() {
         cnvCalleHorizontal.modelo = modelo;
         cnvCalleHorizontal.$scope = this.$scope;
         cnvCalleHorizontal.calle = horizontales[i];
+   //     cnvCalleHorizontal.pintarTodaLasCalles();
     }
+
     moverPosxAlOrigen();
     moverPosyAlOrigen();
     posx=posx + largo;
@@ -155,7 +157,6 @@ GrillaController.prototype.redibujar = function() {
         this.callesVerticalesGlobales.push(cnvCalleVertical);
         stage.addChild(entrada);
         stage.addChild(salida);
-
         for (var j = 0; j < horizontales.length+1; j++) {
             // actualizarPosY();
             //posx=posx + this.largo;
@@ -167,7 +168,7 @@ GrillaController.prototype.redibujar = function() {
         actualizarPosX();
         moverPosyAlOrigen();
         cnvCalleVertical.cuadras = cuadras;
-        cnvCalleVertical.modelo =modelo;
+        cnvCalleVertical.modelo = modelo;
         cnvCalleVertical.$scope = this.$scope;
         cnvCalleVertical.calle = verticales[i];
     }
@@ -464,39 +465,24 @@ GrillaController.prototype.coordCuadra = function() {
 
     coordenadas[1]= -1;
 
-    coordenadas[2]= -1;
-
-    coordenadas[3]= -1;
-
     for(i=0;i<this.callesHorizontalesGlobales.length;i++)
     {
-        for(j=0;j<this.callesHorizontalesGlobales[i].cuadras.length;j++)
-        {
-            if (this.callesHorizontalesGlobales[i].cuadras[j].marcado == true)
+            if (this.callesHorizontalesGlobales[i].marcado == true)
             {
-
                 coordenadas[0]=i;
-                coordenadas[1]=j;
-
             }
-
-        }
 
     }
 
     for(i=0;i<this.callesVerticalesGlobales.length ;i++)
     {
-        for(j=0;j<this.callesVerticalesGlobales[i].cuadras.length ;j++)
-        {
-            if (this.callesVerticalesGlobales[i].cuadras[j].marcado == true)
+
+            if (this.callesVerticalesGlobales[i].marcado == true)
             {
 
-                coordenadas[2]=i;
-                coordenadas[3]=j;
+                coordenadas[1]=i;
 
             }
-
-        }
 
     }
 
@@ -506,15 +492,15 @@ GrillaController.prototype.coordCuadra = function() {
 
 GrillaController.prototype.seleccionarCuadra = function(coordenadas) {
 
-    if (coordenadas[0]!=-1 && coordenadas[1]!=-1) {
-        this.cuadraSeleccionada = this.callesHorizontalesGlobales[coordenadas[0]].cuadras[coordenadas[1]];
+    if (coordenadas[0]!=-1) {
+        this.cuadraSeleccionada = this.callesHorizontalesGlobales[coordenadas[0]].cuadras[0];
 
         this.cuadraSeleccionada.handleClick();
 
     }
 
-    if (coordenadas[2]!=-1 && coordenadas[3]!=-1) {
-        this.cuadraSeleccionada = this.callesVerticalesGlobales[coordenadas[2]].cuadras[coordenadas[3]];
+    if (coordenadas[1]!=-1) {
+        this.cuadraSeleccionada = this.callesVerticalesGlobales[coordenadas[1]].cuadras[0];
 
         this.cuadraSeleccionada.handleClick();
 
@@ -527,33 +513,20 @@ GrillaController.prototype.estaDentroDelMapa = function(coordx,coordy) {
 
 
 
-
     if(coordx == -1) {
         if (coordy == this.callesVerticalesGlobales.length) {
             return false;
         }
-        if (coordy == this.callesHorizontalesGlobales.length) {
-            return false;
-        }
-
-
     }
 
-    if(coordx == this.callesHorizontalesGlobales[0].cuadras.length + 1)
-
-        return false;
-
-    if(coordx == this.callesVerticalesGlobales[0].cuadras.length + 1)
-        return false;
-
+    if(coordy == -1) {
+        if (coordx == this.callesHorizontalesGlobales.length) {
+            return false;
+        }
+    }
 
         return true;
-
-
-
-
 }
-
 
 
 Array.prototype.flatMap = function(lambda) {
