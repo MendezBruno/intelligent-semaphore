@@ -120,7 +120,7 @@ GrillaController.prototype.redibujar = function() {
             i+2, verticales.length+1, posXNodoSalida-separador/2,
             posy+separador/2, separador/2, SALIDA, calle.sentido);
         stage.addChild(salida);
-        var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida);
+        var cnvCalleHorizontal = new CnvCalleHorizontal(entrada,salida,self.timeout);
         var cuadras = new Array();
         this.callesHorizontalesGlobales.push(cnvCalleHorizontal);
 
@@ -152,7 +152,7 @@ GrillaController.prototype.redibujar = function() {
         var salida = new CnvNodoBorde(nodos[horizontales.length+1][i+1],
             horizontales.length,i+1,posx+separador/2,
             posYNodoSalida-separador/2,separador/2,SALIDA,calle.sentido);
-        var cnvCalleVertical = new CnvCalleVertical(entrada,salida);
+        var cnvCalleVertical = new CnvCalleVertical(entrada,salida,self.timeout);
         this.callesVerticalesGlobales.push(cnvCalleVertical);
         stage.addChild(entrada);
         stage.addChild(salida);
@@ -538,7 +538,7 @@ GrillaController.prototype.cambiarFlechas = function(coordenadas,newValue,oldVal
     if (coordenadas[1]!=-1) {
         this.nodoSeleccionado = this.callesVerticalesGlobales[coordenadas[1]];
     }
-    this.nodoSeleccionado.intercambiarColor();
+    this.nodoSeleccionado.nodo2().handleClick();
 }
 
 Array.prototype.flatMap = function(lambda) {

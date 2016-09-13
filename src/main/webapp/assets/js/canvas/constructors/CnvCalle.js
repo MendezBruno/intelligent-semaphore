@@ -44,7 +44,10 @@ function CnvCalle() {
             var entrada = self.$scope.nodoEntrada;
             self.$scope.nodoEntrada = self.$scope.nodoSalida;
             self.$scope.nodoSalida = entrada;
-            self.$scope.$apply();
+            self.timeout(function () {
+                self.$scope.$apply();
+            });
+
         }
     }
 }
@@ -111,8 +114,9 @@ CnvCalle.prototype.setup = function() { //Abstracta
 
 
 
-function CnvCalleHorizontal(nodoBordeD,nodoBordeI) {
+function CnvCalleHorizontal(nodoBordeD,nodoBordeI,$timeout) {
     CnvCalle.call(this); //super();
+    this.timeout=$timeout;
     this.nodoDerecho = nodoBordeD;
     this.nodoIzquierdo = nodoBordeI;
     this.nodo1 = function () { return this.nodoDerecho; };
@@ -122,8 +126,9 @@ function CnvCalleHorizontal(nodoBordeD,nodoBordeI) {
 }
 createjs.extend(CnvCalleHorizontal, CnvCalle);
 
-function CnvCalleVertical(nodoBordeS,nodoBordeI) {
+function CnvCalleVertical(nodoBordeS,nodoBordeI,$timeout) {
     CnvCalle.call(this); //super();
+    this.timeout=$timeout;
     this.nodoSuperior = nodoBordeS;
     this.nodoInferior = nodoBordeI;
     this.nodo1 = function () { return this.nodoSuperior; };

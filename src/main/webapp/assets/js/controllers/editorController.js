@@ -23,10 +23,14 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
 
     $scope.actualizarMapa = function() {
 
+        var valorSent = $scope.calle.sentido;
+
         coordenadascalle=logica.coordCuadra();
 
         logica.cambiarFlechas(coordenadascalle);
 
+        $scope.calle.sentido = valorSent;
+        
     };
 
     $scope.$watch('calle.sentido',function (newValue){
