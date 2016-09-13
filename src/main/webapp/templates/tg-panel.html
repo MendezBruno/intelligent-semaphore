@@ -29,7 +29,8 @@
             </div>
             <div class="col-sm-5">
                 <select class="form-control" ng-model="$parent.calle.sentido"
-                ng-options="option for option in $parent.calle.sentidosPosibles">
+                ng-options="option for option in $parent.calle.sentidosPosibles"
+                        ng-change="actualizarMapa()">
                 </select>
             </div>
         </div>
@@ -38,8 +39,9 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>
-                    FDP de vehículos de entrada
+                    Nodo de entrada
                 </label>
+                <img src="../assets/img/flechaDerecha.jpeg" alt="Smiley face" height="10" width="10" >
             </div>
         </div>
         <div class="row">
@@ -62,7 +64,8 @@
     <div class="panel-body container-fluid">
         <div class="row">
             <div class="col-sm-12">
-                <label>FDP de vehículos de salida</label>
+                <label>Nodo de salida</label>
+                <img src="../assets/img/flechaDerecha.jpeg" alt="Smiley face" height="10" width="10">
             </div>
         </div>
         <div class="row">

@@ -21,6 +21,14 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     logica.redibujar();
     logica.seleccionarPrimerCuadra();
 
+    $scope.actualizarMapa = function() {
+
+        coordenadascalle=logica.coordCuadra();
+
+        logica.cambiarFlechas(coordenadascalle);
+
+    };
+
     $scope.$watch('callesH',function (newValue,oldValue){
         if (newValue===oldValue) {
             return;
@@ -78,8 +86,6 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         for(h=0;h<(newVal-oldVal);h++)
         logica.agregarCalleVertical();
         coordenadascalle=logica.coordCuadra();
-        console.log(coordenadascalle[0]);
-        console.log(coordenadascalle[1])
         logica.redibujar();
         logica.seleccionarCuadra(coordenadascalle);
     }

@@ -100,19 +100,6 @@ CnvCalle.prototype.desmarcar= function(stage){
 
 };
 
-CnvCalle.prototype.pintarTodaLasCalles = function () {
-
-    var tamano = 0;
-    tamano = this.cuadras.length -5;
-
-    this.largo=this.cuadras[0].posX + this.cuadras[tamano].posX + 30;
-
-    this.cuadras[0].background.graphics.clear()
-        .beginFill(this.cuadras[0].color)
-        .drawRect(this.cuadras[0].posX,this.cuadras[0].posY,this.largo,this.width,10);
-
-}
-
 CnvCalle.prototype.setup = function() { //Abstracta
     this.on("click", this.handleClick);
     this.cursor = "pointer";
@@ -124,7 +111,7 @@ CnvCalle.prototype.setup = function() { //Abstracta
 
 
 
-function CnvCalleHorizontal(nodoBordeD,nodoBordeI,stage) {
+function CnvCalleHorizontal(nodoBordeD,nodoBordeI) {
     CnvCalle.call(this); //super();
     this.nodoDerecho = nodoBordeD;
     this.nodoIzquierdo = nodoBordeI;
@@ -135,7 +122,7 @@ function CnvCalleHorizontal(nodoBordeD,nodoBordeI,stage) {
 }
 createjs.extend(CnvCalleHorizontal, CnvCalle);
 
-function CnvCalleVertical(nodoBordeS,nodoBordeI,stage) {
+function CnvCalleVertical(nodoBordeS,nodoBordeI) {
     CnvCalle.call(this); //super();
     this.nodoSuperior = nodoBordeS;
     this.nodoInferior = nodoBordeI;

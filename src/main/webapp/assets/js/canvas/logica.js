@@ -139,7 +139,6 @@ GrillaController.prototype.redibujar = function() {
         cnvCalleHorizontal.modelo = modelo;
         cnvCalleHorizontal.$scope = this.$scope;
         cnvCalleHorizontal.calle = horizontales[i];
-   //     cnvCalleHorizontal.pintarTodaLasCalles();
     }
 
     moverPosxAlOrigen();
@@ -528,6 +527,19 @@ GrillaController.prototype.estaDentroDelMapa = function(coordx,coordy) {
         return true;
 }
 
+GrillaController.prototype.cambiarFlechas = function(coordenadas,newValue,oldValue) {
+
+
+
+    if (coordenadas[0]!=-1) {
+        this.nodoSeleccionado = this.callesHorizontalesGlobales[coordenadas[0]];
+    }
+
+    if (coordenadas[1]!=-1) {
+        this.nodoSeleccionado = this.callesVerticalesGlobales[coordenadas[1]];
+    }
+    this.nodoSeleccionado.intercambiarColor();
+}
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
