@@ -5,6 +5,17 @@
             height: 120px; / change according to your requirement/
         }
 
+        img {
+            width: 20px;
+            height: 20px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            padding: 0px;
+            line-height: 1px;
+            border: 1px solid #555
+        }
+
     </style>
 </head>
 
@@ -41,7 +52,7 @@
                 <label>
                     Nodo de entrada
                 </label>
-                <img src="../assets/img/flechaDerecha.jpeg" alt="Smiley face" height="10" width="10" >
+                <img ng-src="../assets/img/{{flecha1}}" alt="Smiley face" height="10" width="10">
             </div>
         </div>
         <div class="row">
@@ -65,7 +76,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>Nodo de salida</label>
-                <img src="../assets/img/flechaDerecha.jpeg" alt="Smiley face" height="10" width="10">
+                <img ng-src="../assets/img/{{flecha2}}" alt="Smiley face" height="10" width="10">
             </div>
         </div>
         <div class="row">
