@@ -25,7 +25,6 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         var modelo = MapaEditor.desParsear(mapa)
         var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
         var stageReproductor = new createjs.Stage("reproductor");
-        stageReproductor.canvas.setAttribute('style', 'background-color:'+ColoresRGB.getGRAY().toHexa());
         var logicaReproductor = new ReproductorController(modelo,stageReproductor,$scope);
         logicaReproductor.dibujar();
         createjs.Ticker.on("tick", stageReproductor);
@@ -103,17 +102,48 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         //        }
         //});
 
+        var redondear = function (nro) {
+                var s = nro.toString();
+                var r = s.substring(0,s.indexOf('.') + 3);
+                if (s.indexOf('.') == -1) r = r + ".00"
+                if (r.indexOf('.') == (r.length-2)) r = r + "0";
+                return r
+        }
+
+        var originalWidth = stageReproductor.canvas.width;
+        var originalHeight = stageReproductor.canvas.height;
+        var canvaspanel = $("#canvaspanel");
+        canvaspanel.css("background-color", ColoresRGB.getGRAY().toHexa());
+        var initZoom = canvaspanel[0].clientWidth / originalWidth;
+        var pendiente = (1-initZoom) / (200-100)
+        var ordenadaAlOrigen = (200*initZoom-100*1) / (200-100)
+
+        var aFactorEscala = function(zoom) {
+            return zoom * pendiente + ordenadaAlOrigen;
+        }
+
+        var aplicarZoom = function(value) {
+            var factor = aFactorEscala(value)
+            stageReproductor.canvas.width = originalWidth*factor;
+            stageReproductor.canvas.height = originalHeight*factor;
+            stageReproductor.update();
+            stageReproductor.scaleX= factor;
+            stageReproductor.scaleY= factor;
+        }
+
         // With JQuery
         $("#ex6").slider();
         $("#ex6").on("slide", function(slideEvt) {
-                $("#ex6SliderVal").text(slideEvt.value*100);
-                 stageReproductor.scaleX= slideEvt.value;
-                 stageReproductor.scaleY= slideEvt.value;
+            var value = slideEvt.value;
+            $("#ex6SliderVal").text(value+"%");
+            aplicarZoom(value);
         });
+
+        aplicarZoom(100)
+
         //cargarMapa = function (unMapa){
                 //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
         //}
-
 });
 
 
