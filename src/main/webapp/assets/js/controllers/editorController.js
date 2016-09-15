@@ -21,6 +21,10 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     logica.redibujar();
     logica.seleccionarPrimerCuadra();
 
+    $scope.setNombre = function() {
+        modelo1.nombre = $scope.nombre;
+    }
+
     $scope.actualizarMapa = function() {
 
         var valorSent = $scope.calle.sentido;
