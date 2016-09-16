@@ -9,17 +9,17 @@ function MapaEditor() {
     this.nodosSemaforo = new Array();
     this.nodosNoSemaforo = new Array();
     this.nombre = "";
-    self = this;
+    var self = this;
 
     self.nodoEntradaSegunId = function(idNodo){
-        console.log(this.nodosEntrada);
-        return this.nodosEntrada
+        console.log(self.nodosEntrada);
+        return self.nodosEntrada
             .filter(function(e){return e.id == idNodo});
     }
 
     self.nodoSalidaSegunId = function(idNodo){
-        console.log(this.nodosSalida);
-        return this.nodosSalida
+        console.log(self.nodosSalida);
+        return self.nodosSalida
             .filter(function(e){return e.id == idNodo});
     }
 
@@ -138,31 +138,44 @@ MapaEditor.prototype.nodoSemaforoPorID = function(id){
     } );
 };
 
-MapaEditor.prototype.cuadraPorID = function(id){
-    var callesAux = this.callesHorizontales;
-    callesAux.concat(this.callesVerticales);
+dameTusCuadras = function (calles){
+    var cuadras = new Array();
+    calles.forEach( function(calle){
+        cuadras = cuadras.concat(calle.cuadras);
+    })
+    return cuadras;
+}
 
-    return callesAux.find(function(cuadra){
+MapaEditor.prototype.cuadraPorID = function(id){
+    var cuadrasAux = dameTusCuadras(this.callesHorizontales);
+    cuadrasAux = cuadrasAux.concat(dameTusCuadras(this.callesVerticales));
+
+    return cuadrasAux.find(function(cuadra){
         return cuadra.id == id;
     } );
 };
 
 
 MapaEditor.prototype.actualizarCongestion = function (datos, dicDatosCuadra){
+    var self = this;
     datos.blockStatus.forEach (function (estadoCuadra){
-        var cuadra = cuadraPorID (estadoCuadra.idCuadra);
-        cuadra.congestion.tipo = estadoCuadra.tipo;
-        cuadra.restarValorActual (dicDatosCuadra);
-        cuadra.congestion.valor = estadoCuadra.congestion;
-
+        var cuadra = self.cuadraPorID(estadoCuadra.id);
+        console.log(datos);
+        console.log(cuadra);
+        console.log(dicDatosCuadra);
+        //cuadra.congestion.tipo = estadoCuadra.tipo;
+        if(cuadra.congestionValor) cuadra.restarValorActual (dicDatosCuadra);
+        cuadra.congestionValor = estadoCuadra.congestion;
+        cuadra.actualizarTipo();
     });
 
 
 
 MapaEditor.prototype.tamizarDatosCongestion = function (dicDatosCuadra) {
-    var callesAux = this.callesHorizontales;
-    callesAux.concat(this.callesVerticales);
-    callesAux.forEach (function (cuadra) {
+    var self = this;
+    var cuadrasAux = dameTusCuadras(this.callesHorizontales);
+    cuadrasAux = cuadrasAux.concat(dameTusCuadras(this.callesVerticales));
+    cuadrasAux.forEach (function (cuadra) {
         cuadra.sumarValorDeCongestion(dicDatosCuadra);
     })
 
