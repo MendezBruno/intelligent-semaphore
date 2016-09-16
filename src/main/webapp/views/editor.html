@@ -1,5 +1,6 @@
 <html>
     <head>
+        <title>Editor de Mapas</title>
         <style>
             .navbar-brand
             {
@@ -19,9 +20,9 @@
                 -webkit-border-radius: 10px;
                 -moz-border-radius: 10px;
                 border-radius: 10px;
-                background: #ff3333;
                 padding: 0px;
-                line-height: 10px;
+                line-height: 1px;
+                border: 1px solid #555
             }
 
             #circuloVerde {
@@ -72,7 +73,7 @@
                                 <div class="row">
                                     <div class="col-xs-3"><label>Nombre</label></div>
                                     <div class="col-xs-8">
-                                        <input type="text" class="form-control" ng-model="nombre">
+                                        <input type="text" class="form-control" ng-model="nombre" ng-change="setNombre()">
                                     </div>
                                 </div>
                                 <div class="row">

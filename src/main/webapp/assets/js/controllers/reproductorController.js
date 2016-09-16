@@ -20,12 +20,12 @@ updates = {
 
 app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,$routeParams) {
 
-        var dicDatosCuadras = inicilizarDicDatos();
+        var dicDatosCuadras = {};
         var mapa = $routeParams.id? mapas[$routeParams.id]:mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
         var modelo = MapaEditor.desParsear(mapa)
+        $scope.modelo = modelo
         var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
         var stageReproductor = new createjs.Stage("reproductor");
-        stageReproductor.canvas.setAttribute('style', 'background-color:'+ColoresRGB.getGRAY().toHexa());
         var logicaReproductor = new ReproductorController(modelo,stageReproductor,$scope);
         logicaReproductor.dibujar();
         createjs.Ticker.on("tick", stageReproductor);
@@ -50,14 +50,14 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         };
         var nuevaEscala=1;
         update = function (){
-                //randomCongestion(dicDatosCuadras);
+                // console.log("quiero update yeeeeeeeeeeah!");
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
+                randomCongestion(dicDatosCuadras);
                 MapaUpdate.query(function(data) {
                         console.log(data);
                         logicaReproductor.actualizar(data);
                         //dentro de logicaReproductor actualizo (CNV o cuadra posta a eleccion) dentro del modelo con (modelo, data)
-                        modelo.actualizarCongestion (data);
-                        dicDatosCuadras = modelo.tamizarDatosCongestion(dicDatosCuadras);
+                        //dicDatos = Tamizar(usa el modelo global)   Congestion @return: dicDatosCuadra
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
                         // nuevaEscala = nuevaEscala - 0.1;
@@ -75,6 +75,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 dicDatos["muy"] = randomEntre(1,cantidadDeCuadras+1);
 
         }
+
 
         // Retorna un número aleatorio entre min (incluido) y max (excluido)
         randomEntre = function (min, max) {
@@ -102,27 +103,48 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         //        }
         //});
 
+        var redondear = function (nro) {
+                var s = nro.toString();
+                var r = s.substring(0,s.indexOf('.') + 3);
+                if (s.indexOf('.') == -1) r = r + ".00"
+                if (r.indexOf('.') == (r.length-2)) r = r + "0";
+                return r
+        }
+
+        var originalWidth = stageReproductor.canvas.width;
+        var originalHeight = stageReproductor.canvas.height;
+        var canvaspanel = $("#canvaspanel");
+        canvaspanel.css("background-color", ColoresRGB.getGRAY().toHexa());
+        var initZoom = canvaspanel[0].clientWidth / originalWidth;
+        var pendiente = (1-initZoom) / (200-100)
+        var ordenadaAlOrigen = (200*initZoom-100*1) / (200-100)
+
+        var aFactorEscala = function(zoom) {
+            return zoom * pendiente + ordenadaAlOrigen;
+        }
+
+        var aplicarZoom = function(value) {
+            var factor = aFactorEscala(value)
+            stageReproductor.canvas.width = originalWidth*factor;
+            stageReproductor.canvas.height = originalHeight*factor;
+            stageReproductor.update();
+            stageReproductor.scaleX= factor;
+            stageReproductor.scaleY= factor;
+        }
+
         // With JQuery
         $("#ex6").slider();
         $("#ex6").on("slide", function(slideEvt) {
-                $("#ex6SliderVal").text(slideEvt.value*100);
-                 stageReproductor.scaleX= slideEvt.value;
-                 stageReproductor.scaleY= slideEvt.value;
+            var value = slideEvt.value;
+            $("#ex6SliderVal").text(value+"%");
+            aplicarZoom(value);
         });
+
+        aplicarZoom(100)
+
         //cargarMapa = function (unMapa){
                 //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
         //}
-
-        inicilizarDicDatos = function (){
-                var dicDatos = {};
-                dicDatos["sin"] = 0;
-                dicDatos["leve"] = 0;
-                dicDatos["media"] = 0;
-                dicDatos["alta"] = 0;
-                dicDatos["muy"] = 0;
-                return dicDatos;
-        }
-
 });
 
 

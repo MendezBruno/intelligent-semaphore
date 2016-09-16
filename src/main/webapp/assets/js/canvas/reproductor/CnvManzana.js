@@ -6,13 +6,26 @@ function CnvManzana(posX, posY) {
     this.Container_constructor();
     this.posX=posX;
     this.posY=posY;
+    this.textInferior = new createjs.Text("", "20px Arial", "#000000");
+    this.textInferior.x = this.posX + CnvManzana.largo/2 - this.textInferior.getMeasuredWidth();
+    this.textInferior.y = this.posY + CnvManzana.largo - CnvManzana.margenInferior;
+    this.textInferior.textBaseline = "alphabetic";
+    this.textDerecho = new createjs.Text("", "20px Arial", "#000000");
+    this.textDerecho.x = this.posX + CnvManzana.largo - CnvManzana.margenDerecho;
+    this.textDerecho.y = this.posY + CnvManzana.largo/2 ;
+    this.textDerecho.textBaseline = "alphabetic";
     this.setup();
+    this.addChild(this.textInferior);
+    this.addChild(this.textDerecho);
+
 };
 
 createjs.extend(CnvManzana, createjs.Container);
 
 CnvManzana.largo = 300;
 CnvManzana.radioEsquina = 40;
+CnvManzana.margenInferior = 10;
+CnvManzana.margenDerecho = 20;
 
 CnvManzana.prototype.setup = function () {
     //this.background = new createjs.Shape();
@@ -28,6 +41,16 @@ CnvManzana.prototype.setup = function () {
             CnvManzana.radioEsquina);
     //this.addChild(this.background);
     this.addChild(cordon);
+};
+
+CnvManzana.prototype.escribirInformacionAbajo = function (datos){
+   this.textInferior.text=datos.stock;
+
+}
+
+CnvManzana.prototype.escribirInformacionDerecha = function (datos){
+   this.textDerecho.text=datos.stock;
+
 }
 
 window.CnvManzana = createjs.promote(CnvManzana, "Container");

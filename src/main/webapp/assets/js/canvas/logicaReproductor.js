@@ -93,16 +93,21 @@ ReproductorController.prototype.dibujar = function (){
     posx = posInicialX;
     posy = posInicialY;
     for (var i=0; i<horizontales.length+1; i++) {
+        var calle = horizontales[i];
         for (var j=0; j<verticales.length+1; j++) {
-            stage.addChild(new CnvManzana(posx,posy));
+            var cnvManzana = new CnvManzana(posx,posy);
+            stage.addChild(cnvManzana);
             var cv = verticales[j];
             if (cv) {
                 posx += CnvManzana.largo + cv.cantCarriles * ancho;
+                auxCnvModel [ cv.cuadras[i].id ].cnvManzana = cnvManzana;
             } else {
                 posx = posInicialX;
             }
+            if (calle) {
+                auxCnvModel [ calle.cuadras[j].id ].cnvManzana = cnvManzana;
+            }
         }
-        var calle = horizontales[i];
         if (calle) {
             posy += CnvManzana.largo + calle.cantCarriles * ancho;
         }
@@ -161,6 +166,7 @@ ReproductorController.prototype.actualizar = function (datos){
 
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
+        self.auxCnvModel[datosCuadra.id].actualizarStock(datosCuadra);
         //var cuadra = modelo.cuadraPorID(datosCuadra.id);
         //cuadra.cuadraCnv.cambiarColor(datosCuadra.color);
         //cuadra.stock = datosCuadra.stock; no se hizo nada con este dato aun, es para probar el panel de referencia

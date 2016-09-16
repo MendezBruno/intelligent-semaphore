@@ -316,4 +316,12 @@ CnvCuadraReproductor.prototype.cambiarColorFlechaSalida = function (colorRGB) {
     this.flechaSalida.graphics._fill.style = colorRGB.toString();
 }
 
+CnvCuadraReproductor.prototype.actualizarStock = function (stock){
+    if (this.horizontal){
+        this.cnvManzana.escribirInformacionAbajo(stock);
+    }else{
+        this.cnvManzana.escribirInformacionDerecha(stock);
+    }
+}
+
 window.CnvCuadraReproductor = createjs.promote(CnvCuadraReproductor, "Container");

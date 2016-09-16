@@ -21,6 +21,48 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     logica.redibujar();
     logica.seleccionarPrimerCuadra();
 
+    $scope.setNombre = function() {
+        modelo1.nombre = $scope.nombre;
+    }
+
+    $scope.actualizarMapa = function() {
+
+        var valorSent = $scope.calle.sentido;
+
+        coordenadascalle=logica.coordCuadra();
+
+        logica.cambiarFlechas(coordenadascalle);
+
+        $scope.calle.sentido = valorSent;
+        
+    };
+
+    $scope.$watch('calle.sentido',function (newValue){
+
+        if(newValue=="Oeste-Este") {
+            $scope.flecha1 = "flechaDerecha.jpeg";
+            $scope.flecha2 = "flechaDerecha.jpeg";
+        }
+        if(newValue=="Este-Oeste")
+        {
+            $scope.flecha1 = "flechaIzquierda.jpeg";
+            $scope.flecha2 = "flechaIzquierda.jpeg";
+        }
+
+        if(newValue=="Norte-Sur")
+        {
+            $scope.flecha1 = "flechaAbajo.jpeg";
+            $scope.flecha2 = "flechaAbajo.jpeg";
+        }
+
+        if(newValue=="Sur-Norte")
+        {
+            $scope.flecha1 = "flechaArriba.jpeg";
+            $scope.flecha2 = "flechaArriba.jpeg";
+        }
+
+    });
+
     $scope.$watch('callesH',function (newValue,oldValue){
         if (newValue===oldValue) {
             return;
@@ -87,7 +129,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         logica.quitarCalleHorizontal();
         coordenadascalle=logica.coordCuadra();
         logica.redibujar();
-        if (logica.estaDentroDelMapa(coordenadascalle[3],coordenadascalle[0]) == true)
+        if (logica.estaDentroDelMapa(coordenadascalle[0],coordenadascalle[1]) == true)
         logica.seleccionarCuadra(coordenadascalle);
         else
             logica.seleccionarPrimerCuadra();
@@ -98,7 +140,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         logica.quitarCalleVertical();
         coordenadascalle=logica.coordCuadra();
         logica.redibujar();
-        if (logica.estaDentroDelMapa(coordenadascalle[1],coordenadascalle[2]) == true)
+        if (logica.estaDentroDelMapa(coordenadascalle[0],coordenadascalle[1]) == true)
             logica.seleccionarCuadra(coordenadascalle);
         else
             logica.seleccionarPrimerCuadra();
