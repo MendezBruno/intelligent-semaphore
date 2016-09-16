@@ -34,7 +34,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         logica.cambiarFlechas(coordenadascalle);
 
         $scope.calle.sentido = valorSent;
-        
+
     };
 
     $scope.$watch('calle.sentido',function (newValue){
@@ -125,6 +125,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     }
 
     $scope.quitarCalleH= function(newVal,oldVal){
+        logica.sacarSemaforoDeCalleSacadaHorizontal(oldVal);
         for(h=0;h<(oldVal-newVal);h++)
         logica.quitarCalleHorizontal();
         coordenadascalle=logica.coordCuadra();
@@ -136,6 +137,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     }
 
     $scope.quitarCalleV=function(newVal,oldVal){
+        logica.sacarSemaforoDeCalleSacadaVertical(oldVal);
         for(h=0;h<(oldVal-newVal);h++)
         logica.quitarCalleVertical();
         coordenadascalle=logica.coordCuadra();

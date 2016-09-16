@@ -9,9 +9,18 @@ function GrillaController(filas, columnas, largo, stage, $scope,$timeout){
     this.$scope = $scope;
     this.callesVerticalesGlobales = new Array();
     this.callesHorizontalesGlobales = new Array();
+    this.centrales = new Array();
+    this.centrales.length =0;
     this.nodos = [];
     this.timeout = $timeout;
     var nodos = this.nodos;
+
+    for (var n=0;n<10;n++) {
+        this.centrales[n]=new Array();
+        for (var l=0;l<10;l++) {
+            this.centrales[n][l]=0;
+        }
+    }
     nodos[0]=[];
     nodos[filas+1]=[];
     for (i=1; i < filas+1; i++) {
@@ -103,6 +112,7 @@ GrillaController.prototype.redibujar = function() {
 
     var onClickNodoCentral = function(cnvNodoControl){
         cnvNodoControl.cambiarTipoDeNodoCentral(self.modelo);
+        cnvNodoControl.esSemaforo=true;
 
     }
 
@@ -185,9 +195,22 @@ GrillaController.prototype.redibujar = function() {
     }
 
     function generarCnvNodoCentral(id,fila,columna) {
-        var nodoCentral = new CnvNodoControl(id,fila, columna, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
-        nodoCentral.clickListeners.push(onClickNodoCentral);
-        stage.addChild(nodoCentral);
+
+        var centrales = self.centrales;
+
+        if (centrales[fila][columna] == 0){
+            var nodoCentral = new CnvNodoControl(id, fila, columna, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
+            nodoCentral.clickListeners.push(onClickNodoCentral);
+            centrales[fila][columna]=nodoCentral;
+            stage.addChild(nodoCentral);
+    }
+        else {
+
+            stage.addChild(centrales[fila][columna]);
+
+        }
+
+
     }
 
     function actualizarPosX(){
@@ -540,6 +563,46 @@ GrillaController.prototype.cambiarFlechas = function(coordenadas,newValue,oldVal
     }
     this.nodoSeleccionado.nodo2().handleClick();
 }
+
+GrillaController.prototype.sacarSemaforoDeCalleSacadaVertical =function(columna)
+{
+
+    var centrales = this.centrales;
+
+
+    for(var p=0; p<this.callesHorizontalesGlobales.length+1;p++)
+    {
+
+        if(centrales[p][columna].esSemaforo==true)
+        {
+
+            centrales[p][columna].handleClick();
+            centrales[p][columna] = 0;
+
+        }
+
+    }
+};
+
+GrillaController.prototype.sacarSemaforoDeCalleSacadaHorizontal =function(fila)
+{
+
+    var centrales = this.centrales;
+
+
+    for(var p=0; p<this.callesVerticalesGlobales.length+1;p++)
+    {
+
+        if(centrales[fila][p].esSemaforo==true)
+        {
+
+            centrales[fila][p].handleClick();
+            centrales[fila][p] = 0;
+        }
+
+    }
+
+};
 
 Array.prototype.flatMap = function(lambda) {
     return Array.prototype.concat.apply([], this.map(lambda));
