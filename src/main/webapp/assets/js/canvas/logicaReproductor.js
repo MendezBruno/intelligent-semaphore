@@ -166,6 +166,7 @@ ReproductorController.prototype.actualizar = function (datos){
 
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
+        self.auxCnvModel[datosCuadra.id].actualizarStock(datosCuadra);
         //var cuadra = modelo.cuadraPorID(datosCuadra.id);
         //cuadra.cuadraCnv.cambiarColor(datosCuadra.color);
         //cuadra.stock = datosCuadra.stock; no se hizo nada con este dato aun, es para probar el panel de referencia
