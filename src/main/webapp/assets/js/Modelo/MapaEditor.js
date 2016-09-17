@@ -74,27 +74,29 @@ MapaEditor.prototype.cambiarSentido = function (nodo1,nodo2){
 }
 
 MapaEditor.prototype.noSemaforoTOsemaforo = function (id) {
-    var nodo = this.nodosNoSemaforo.find(function(nodo){
+    var self = this;
+    var nodoEncontrado = self.nodosNoSemaforo.find(function(nodo){
         return nodo.id == id;
     } );
-    this.nodosNoSemaforo.removeIf(function(nodoLista){
-        return nodoLista.id==nodo.id;
+    self.nodosNoSemaforo.removeIf(function(nodoLista){
+        return nodoLista.id==nodoEncontrado.id;
     })
-    nodo.tiempoHorizontal = 4;
-    nodo.tiempoVertical = 4;
-    this.nodosSemaforo.push(nodo);
+    nodoEncontrado.tiempoHorizontal = 4;
+    nodoEncontrado.tiempoVertical = 4;
+    this.nodosSemaforo.push(nodoEncontrado);
 };
 
 MapaEditor.prototype.semaforoTOnoSemaforo = function (id) {
-    var nodo = this.nodosSemaforo.find(function(nodo){
+    var self = this;
+    var nodoEncontrado = self.nodosSemaforo.find(function(nodo){
         return nodo.id == id;
     } );
-    this.nodosSemaforo.removeIf(function(nodoLista){
-        return nodoLista.id==nodo.id;
+    self.nodosSemaforo.removeIf(function(nodoLista){
+        return nodoLista.id==nodoEncontrado.id;
     })
-    nodo.tiempoHorizontal = undefined;
-    nodo.tiempoVertical = undefined;
-    this.nodosNoSemaforo.push(nodo);
+    nodoEncontrado.tiempoHorizontal = undefined;
+    nodoEncontrado.tiempoVertical = undefined;
+    this.nodosNoSemaforo.push(nodoEncontrado);
 };
 
 /**

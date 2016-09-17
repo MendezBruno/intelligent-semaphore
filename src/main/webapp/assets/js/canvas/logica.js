@@ -14,6 +14,7 @@ function GrillaController(filas, columnas, largo, stage, $scope,$timeout){
     this.nodos = [];
     this.timeout = $timeout;
     var nodos = this.nodos;
+    var i=0,j=0;
 
     for (var n=0;n<10;n++) {
         this.centrales[n]=new Array();
@@ -49,6 +50,9 @@ function GrillaController(filas, columnas, largo, stage, $scope,$timeout){
         }
         this.modelo.callesHorizontales.push(calle);
     }
+
+    i=0;
+    j=0;
     for (j=1; j < columnas+1; j++) {
         var calle = new CalleVertical();
         var entrada = new NodoBorde();
@@ -111,8 +115,8 @@ GrillaController.prototype.redibujar = function() {
     };
 
     var onClickNodoCentral = function(cnvNodoControl){
-        cnvNodoControl.cambiarTipoDeNodoCentral(self.modelo);
-        cnvNodoControl.esSemaforo=true;
+            cnvNodoControl.cambiarTipoDeNodoCentral(self.modelo);
+            cnvNodoControl.esSemaforo=true;
 
     }
 
@@ -288,6 +292,7 @@ GrillaController.prototype.agregarCalleHorizontal = function() {
     var nodos = this.nodos;
     var modelo = this.modelo;
     var ultima = nodos.length;
+    var i=0,j=0;
     nodos[ultima] = [];
     var cantCuadrasHorizontales = nodos[1].length-1;
     for(i=1;i<cantCuadrasHorizontales;i++){
@@ -337,6 +342,7 @@ GrillaController.prototype.quitarCalleHorizontal = function() {
     var nodos = this.nodos;
     var modelo = this.modelo;
     var ultima = nodos.length-1;
+    var i=0,j=0;
     var cantCuadrasHorizontales = nodos[1].length-1;
     for(i=1;i<cantCuadrasHorizontales;i++){
         var vertical = modelo.callesVerticales[i-1];
@@ -366,6 +372,7 @@ GrillaController.prototype.agregarCalleVertical = function() {
     var modelo = this.modelo;
     var ultima = nodos[1].length;
     var cantCuadrasVerticales = nodos.length-1;
+    var i=0,j=0;
     for(i=1;i<cantCuadrasVerticales;i++){
         var cuadras = modelo.callesHorizontales[i-1].cuadras;
         var borde=nodos[i][ultima-1];
@@ -425,8 +432,8 @@ GrillaController.prototype.quitarCalleVertical = function() {
             e.id == nodos[cantCuadrasVerticales][ultima-1].id;
     })
     modelo.nodosSalida.removeIf(function (e,idx) {
-        return e.id == nodos[0][ultima-1].id ||
-            e.id == nodos[cantCuadrasVerticales][ultima-1].id;
+        return e.id === nodos[0][ultima-1].id ||
+            e.id === nodos[cantCuadrasVerticales][ultima-1].id;
     })
     modelo.callesVerticales.pop();
     nodos.forEach(function (fila) {
@@ -586,9 +593,10 @@ GrillaController.prototype.sacarSemaforoDeCalleSacadaVertical =function(columna)
         {
 
             centrales[p][columna].handleClick();
-            centrales[p][columna] = 0;
+
 
         }
+        centrales[p][columna] = 0;
 
     }
 };
@@ -606,8 +614,9 @@ GrillaController.prototype.sacarSemaforoDeCalleSacadaHorizontal =function(fila)
         {
 
             centrales[fila][p].handleClick();
-            centrales[fila][p] = 0;
+
         }
+        centrales[fila][p] = 0;
 
     }
 
