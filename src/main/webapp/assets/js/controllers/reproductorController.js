@@ -20,7 +20,17 @@ updates = {
 
 app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,$routeParams) {
 
-        var dicDatosCuadras = {};
+        inicilizarDicDatos = function (){
+                var dicDatos = {};
+                dicDatos["sin"] = 0;
+                dicDatos["leve"] = 0;
+                dicDatos["media"] = 0;
+                dicDatos["alta"] = 0;
+                dicDatos["muy"] = 0;
+                return dicDatos;
+        };
+
+        var dicDatosCuadras = inicilizarDicDatos();
         var mapa = $routeParams.id? mapas[$routeParams.id]:mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
         var modelo = MapaEditor.desParsear(mapa)
         $scope.modelo = modelo
@@ -48,33 +58,23 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 }
                 $scope.contador = 0;
         };
-        var nuevaEscala=1;
+
         update = function (){
-                // console.log("quiero update yeeeeeeeeeeah!");
+
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
-                randomCongestion(dicDatosCuadras);
+
                 MapaUpdate.query(function(data) {
+                        console.log("blockstatus")
                         console.log(data);
+                        console.log(dicDatosCuadras);
                         logicaReproductor.actualizar(data);
-                        //dentro de logicaReproductor actualizo (CNV o cuadra posta a eleccion) dentro del modelo con (modelo, data)
-                        //dicDatos = Tamizar(usa el modelo global)   Congestion @return: dicDatosCuadra
+                        modelo.actualizarCongestion (data,dicDatosCuadras);
+                        modelo.tamizarDatosCongestion(dicDatosCuadras);
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
-                        // nuevaEscala = nuevaEscala - 0.1;
-                        // stageReproductor.scaleX= nuevaEscala;
-                        // stageReproductor.scaleY= nuevaEscala;
-
                 });
         };
 
-        randomCongestion = function(dicDatos){
-                dicDatos["sin"] = randomEntre(1,cantidadDeCuadras+1);
-                dicDatos["leve"] = randomEntre(1,cantidadDeCuadras+1);
-                dicDatos["media"] = randomEntre(1,cantidadDeCuadras+1);
-                dicDatos["alta"] = randomEntre(1,cantidadDeCuadras+1);
-                dicDatos["muy"] = randomEntre(1,cantidadDeCuadras+1);
-
-        }
 
 
         // Retorna un número aleatorio entre min (incluido) y max (excluido)
@@ -97,11 +97,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
 
         window.addEventListener("resize", resize);
         resize();
-        //var slider = new Slider('#ex1', {
-        //        formatter: function(value) {
-        //                return 'Current value: ' + value;
-        //        }
-        //});
+
 
         var redondear = function (nro) {
                 var s = nro.toString();
@@ -140,11 +136,14 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
             aplicarZoom(value);
         });
 
-        aplicarZoom(100)
+        aplicarZoom(100);
 
         //cargarMapa = function (unMapa){
                 //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
         //}
+
+
+
 });
 
 

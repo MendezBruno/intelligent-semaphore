@@ -46,7 +46,8 @@ class MapStateMemory {
             val dataBlock = dataBlockStatus(block.id,
                     block.outgoingCrossingByCarsAmount +
                             block.outgoingTurningCarsAmount,
-                    block.colorStatus)
+                    block.colorStatus,
+                    block.congestion)
             _mapState.blockStatus.add(dataBlock)
         }
 

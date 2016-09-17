@@ -21,6 +21,7 @@ open class Block(
     protected open var _crossingProbability: Double = 1 - _turningProbability    //Valor inicial
 
     val colorStatus = RGBA(0,0,0,1)
+    var congestion = 20
     val changeListeners = mutableListOf<BlockListener>()
     val stk: Int
         get() = _incomingCarsAmount + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount
@@ -50,11 +51,17 @@ open class Block(
 
     override fun executeEvent(time: Double): Double {
         moveCarsToTheFront()
+        calcularCongestion()
         changeColor()
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         fireReplay()
         fireListeners()
         return Random().nextInt(500).toDouble()
+    }
+
+    private fun calcularCongestion(){
+        val r = Random ()
+        congestion = r.nextInt(100)
     }
 
     open fun setProbabilities(value: Probabilities) {
