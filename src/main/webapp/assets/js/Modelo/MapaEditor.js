@@ -160,9 +160,6 @@ MapaEditor.prototype.actualizarCongestion = function (datos, dicDatosCuadra){
     var self = this;
     datos.blockStatus.forEach (function (estadoCuadra){
         var cuadra = self.cuadraPorID(estadoCuadra.id);
-        console.log(datos);
-        console.log(cuadra);
-        console.log(dicDatosCuadra);
         //cuadra.congestion.tipo = estadoCuadra.tipo;
         if(cuadra.congestionValor) cuadra.restarValorActual (dicDatosCuadra);
         cuadra.congestionValor = estadoCuadra.congestion;
@@ -173,8 +170,8 @@ MapaEditor.prototype.actualizarCongestion = function (datos, dicDatosCuadra){
 
 MapaEditor.prototype.tamizarDatosCongestion = function (dicDatosCuadra) {
     var self = this;
-    var cuadrasAux = dameTusCuadras(this.callesHorizontales);
-    cuadrasAux = cuadrasAux.concat(dameTusCuadras(this.callesVerticales));
+    var cuadrasAux = dameTusCuadras(self.callesHorizontales);
+    cuadrasAux = cuadrasAux.concat(dameTusCuadras(self.callesVerticales));
     cuadrasAux.forEach (function (cuadra) {
         cuadra.sumarValorDeCongestion(dicDatosCuadra);
     })

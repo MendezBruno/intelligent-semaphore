@@ -22,12 +22,12 @@ Cuadra.getNextId = function() {
 
 Cuadra.prototype.sumarValorDeCongestion = function (dicDatos){
 
-    dicDatos[this.congestionTipo] =+ 1;
+    dicDatos[this.congestionTipo] += 1;
 };
 
 Cuadra.prototype.restarValorActual = function (dicDatos){
 
-    dicDatos[this.congestionTipo] =- 1;
+    dicDatos[this.congestionTipo] -= 1;
 };
 
 Cuadra.prototype.actualizarTipo = function (){
@@ -35,6 +35,7 @@ Cuadra.prototype.actualizarTipo = function (){
     this.congestionTipo = tipo;
 };
 
+//TODO sacar esta negrada
 obtenerTipo = function (valor){
 
    if (valor < 10) {
@@ -54,31 +55,4 @@ obtenerTipo = function (valor){
            }
        }
    }
-
-
-
-
-
-    //switch(valor) {
-    //    case valor < 10:
-    //        return "sin";
-    //        break;
-    //    case (valor >= 10 &&  valor < 30):
-    //        return "leve";
-    //        break;
-    //    case (valor >= 30  && valor < 50):
-    //        return "media";
-    //        break;
-    //    case (valor >= 50 && valor < 75):
-    //        return "alta";
-    //        break;
-    //    case (valor >= 75 && valor < 100):
-    //        return "muy";
-    //        break;
-    //    default:
-    //        return "caca"
-    //};
-
-
-
 };

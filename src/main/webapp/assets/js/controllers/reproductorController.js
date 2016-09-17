@@ -58,34 +58,23 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 }
                 $scope.contador = 0;
         };
-        var nuevaEscala=1;
+
         update = function (){
-                // console.log("quiero update yeeeeeeeeeeah!");
+
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
-                //randomCongestion(dicDatosCuadras);
+
                 MapaUpdate.query(function(data) {
                         console.log("blockstatus")
                         console.log(data);
                         console.log(dicDatosCuadras);
                         logicaReproductor.actualizar(data);
                         modelo.actualizarCongestion (data,dicDatosCuadras);
-                        dicDatosCuadras = modelo.tamizarDatosCongestion(dicDatosCuadras);
+                        modelo.tamizarDatosCongestion(dicDatosCuadras);
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
-                        // stageReproductor.scaleX= nuevaEscala;
-                        // stageReproductor.scaleY= nuevaEscala;
-
                 });
         };
 
-        //randomCongestion = function(dicDatos){
-        //        dicDatos["sin"] = randomEntre(1,cantidadDeCuadras+1);
-        //        dicDatos["leve"] = randomEntre(1,cantidadDeCuadras+1);
-        //        dicDatos["media"] = randomEntre(1,cantidadDeCuadras+1);
-        //        dicDatos["alta"] = randomEntre(1,cantidadDeCuadras+1);
-        //        dicDatos["muy"] = randomEntre(1,cantidadDeCuadras+1);
-        //
-        //}
 
 
         // Retorna un número aleatorio entre min (incluido) y max (excluido)
@@ -108,11 +97,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
 
         window.addEventListener("resize", resize);
         resize();
-        //var slider = new Slider('#ex1', {
-        //        formatter: function(value) {
-        //                return 'Current value: ' + value;
-        //        }
-        //});
+
 
         var redondear = function (nro) {
                 var s = nro.toString();
