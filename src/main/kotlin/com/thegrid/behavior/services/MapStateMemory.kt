@@ -25,7 +25,7 @@ class MapStateMemory {
                     _nodosCache.add(sem)
                 }
             }
-            semaphore.getChangeListeners().add(semaphoreListener)
+            semaphore.changeListeners.add(semaphoreListener)
         }
 
         for (block in map.blocks){
@@ -51,13 +51,7 @@ class MapStateMemory {
         }
 
         for (semaphore in _nodosCache){
-            var status: String
-            if(semaphore.getVGreen()){
-                status = "VERTICAL"
-            }else{
-                status = "HORIZONTAL"
-            }
-
+            val status = semaphore.direction.text
             val dataSemaphoreStatus = dataSemaphoreStatus(semaphore.id, status)
             _mapState.semaphoreStatus.add(dataSemaphoreStatus)
         }

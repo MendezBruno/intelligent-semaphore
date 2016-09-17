@@ -3,6 +3,7 @@ package com.thegrid.behavior.model
 import com.github.salomonbrys.kotson.fromJson
 import com.google.appengine.repackaged.com.google.common.base.Randoms
 import com.google.gson.Gson
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
 import com.thegrid.communication.model.dataMap
@@ -21,20 +22,20 @@ class SimulationMock {
         _memory = MapStateMemory(map)
     }
 
-    public fun getMap(): Map {
+    fun getMap(): Map {
         return _map
     }
 
-    public fun getMemory(): MapStateMemory {
+    fun getMemory(): MapStateMemory {
         return _memory
     }
 
-    public fun nextStatus() {
+    fun nextStatus() {
         val r = Random()
         _map.blocks.filter { r.nextBoolean() }
                 .forEach { it.outgoingTurningCarsAmount = (r.nextInt(50)) }
         _map.semaphoreNodes.filter { r.nextBoolean() }
-                .forEach { it.setVGreen(r.nextBoolean()) }
+                .forEach { it.direction = r.nextDirection() }
     }
 
     companion object {
@@ -43,4 +44,8 @@ class SimulationMock {
             SharedInstance = SimulationMock(map)
         }
     }
+}
+
+private fun Random.nextDirection(): Direction {
+    if (this.nextBoolean()) return Direction.vertical() else return Direction.horizontal()
 }

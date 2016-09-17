@@ -27,6 +27,10 @@ open class Block(
 
     protected val _carCapacity: Int
     protected var _incomingCarsAmount = 0
+//        set(value) = if(value + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount < _carCapacity)
+//            field = value
+//            else field = _carCapacity - outgoingCrossingByCarsAmount - outgoingTurningCarsAmount
+
     protected var _replayer: ReplaySubject<Int> = ReplaySubject(50)
 
     override var sendingCars = _replayer.map { this }

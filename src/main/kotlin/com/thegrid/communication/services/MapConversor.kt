@@ -20,7 +20,7 @@ class MapConversor {
             }
 
             for (node in map.nodosSemaforo) {
-                val sem = SemaphoreNode(node.id, node.tiempoHorizontal, node.tiempoVertical, true)
+                val sem = SemaphoreNode(node.id, node.tiempoHorizontal, node.tiempoVertical)
                 nodes.add(sem)
                 semaphoreNodes.add(sem)
             }
