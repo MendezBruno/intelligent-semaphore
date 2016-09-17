@@ -11,6 +11,7 @@ function CnvNodoControl(id,fila,columna,posx, posy,radio,color) {
         this.clickListeners = new Array();
         this.background;
         this.semaforoCnv;
+        this.esSemaforo=false;
 
         var self =this;
 
@@ -59,6 +60,7 @@ CnvNodoControl.prototype.dibujarSemaforo = function(){
     semaforo.x = this.posx-9;
     semaforo.y = this.posy-9;
     this.semaforoCnv = this.addChild(semaforo);
+
 }
 CnvNodoControl.prototype.borrarSemaforo  = function(){
     this.removeChild(this.semaforoCnv);
