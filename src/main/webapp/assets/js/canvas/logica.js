@@ -197,19 +197,28 @@ GrillaController.prototype.redibujar = function() {
     function generarCnvNodoCentral(id,fila,columna) {
 
         var centrales = self.centrales;
+        var valorNodo;
 
         if (centrales[fila][columna] == 0){
             var nodoCentral = new CnvNodoControl(id, fila, columna, posx - separador / 2, posy + separador / 2, separador / 2, NEUTRAL);
             nodoCentral.clickListeners.push(onClickNodoCentral);
             centrales[fila][columna]=nodoCentral;
             stage.addChild(nodoCentral);
+            valorNodo = modelo.nodosSemaforo.find(function(nodo) {
+                return nodo.id === nodoCentral.id
+            });
+            if (valorNodo!=undefined)
+            {
+                modelo.semaforoTOnoSemaforo(nodoCentral.id);
+                nodoCentral.handleClick();
+            }
+
     }
         else {
 
             stage.addChild(centrales[fila][columna]);
 
         }
-
 
     }
 
