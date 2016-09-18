@@ -58,6 +58,15 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
         .when('/app/reproductor/', {
             templateUrl: 'views/reproductor.html',
             controller: 'reproductorController'
+        })
+        .when('/app/preview/:id', {
+            templateUrl: 'views/preview.html',
+            controller: 'previewController'
+        })
+
+        .when('/app/preview/', {
+            templateUrl: 'views/preview.html',
+            controller: 'previewController'
         });
 });
 

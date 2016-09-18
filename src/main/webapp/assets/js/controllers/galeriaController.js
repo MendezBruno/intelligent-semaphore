@@ -27,6 +27,9 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce) {
    // $scope.mapa=mapas;
 
     $scope.mis_mapas= mapas;
+    $scope.mainColWidth = function() {
+        return $scope.colorValue?'col-sm-7':'col-sm-12'
+    }
 
     $scope.addPics=function (i) {
 
@@ -80,13 +83,20 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce) {
         $scope.detailFrame = link;
     };
 
-    $scope.mostrarUrl  = function (title) {
-        return "/app/editor/" + title;
+    $scope.seleccionarMapa = function(accesorMapa) {
+        $scope.colorValue = accesorMapa;
+        $scope.previewSrc = $sce.trustAsResourceUrl("/app/preview/" + accesorMapa);
+    }
 
-    };
-
-
+    $scope.colorValue = undefined;
 
     //   $scope.nombres    = ['modelo1','modelo2'];
 
+    var resize = function () {
+            $("#mapasContainer").css("height",tgngviewheight-15);
+            $("#mapasContainer").css("margin-bottom",15);
+    };
+
+    window.addEventListener("resize", resize);
+    resize();
 });
