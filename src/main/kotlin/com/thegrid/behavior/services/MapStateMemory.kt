@@ -47,7 +47,7 @@ class MapStateMemory {
                     block.outgoingCrossingByCarsAmount +
                             block.outgoingTurningCarsAmount,
                     block.colorStatus,
-                    block.congestion)
+                    block.congestionLevel)
             _mapState.blockStatus.add(dataBlock)
         }
 

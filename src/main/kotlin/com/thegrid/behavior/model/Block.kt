@@ -22,7 +22,7 @@ open class Block(
 
     //Simulation vars
     val colorStatus = RGBA(0,0,0,1)
-    var congestion = 20
+    var congestion = 0.0
     var congestionLevel = CongestionLevel.SIN_CONGESTION
     var velocity = 0.0
     var q_carFlow = 0.0
@@ -65,12 +65,12 @@ open class Block(
     override fun executeEvent(time: Double): Double {
         t1_lastCarInputDuration = getLastCarInputDuration(previusEventTime, time)
         moveCarsToTheFront()
+        val nextTime = if (nextTime() < t_min) t_min else nextTime()
+        congestion = calcularCongestion(nextTime)
         changeColor()
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         fireReplay()
         fireListeners()
-        val nextTime = if (nextTime() < t_min) t_min else nextTime()
-        calcularCongestion(nextTime)
         a_lastCarsInput = 0
         return nextTime
     }
@@ -122,17 +122,10 @@ open class Block(
     }
 
     private fun changeColor() {
-//        when (stk) {
-//            in 0.0..(_carCapacity * 0.2) -> colorStatus.set(0,255,0)
-//            in (_carCapacity * 0.2)..(_carCapacity * 0.4) -> colorStatus.set(200,255,0)
-//            in (_carCapacity * 0.4)..(_carCapacity * 0.6) -> colorStatus.set(255,255,0)
-//            in (_carCapacity * 0.6)..(_carCapacity * 0.8) -> colorStatus.set(255,150,0)
-//            in (_carCapacity * 0.8)..(_carCapacity * 1.00)  -> colorStatus.set(255,0,0)
-//        }
         val density = stk.toDouble() / _carCapacity
         colorStatus.set((density * 255).toInt(),(1 - density).toInt() * 255,0)
 
-        congestionLevel = CongestionLevel.ofPercentage(density);
+        congestionLevel = CongestionLevel.ofPercentage(congestion);
     }
 
     fun fireReplay() {
