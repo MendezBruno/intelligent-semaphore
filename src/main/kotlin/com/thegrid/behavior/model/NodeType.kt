@@ -34,4 +34,11 @@ abstract class NodeType(val id: String){
         return Probabilities(vProbability, 1 - vProbability)
     }
 
+    open fun getOnlineTimeH(start:Double, end:Double): Double {
+        return start - end
+    }
+
+    open fun getOnlineTimeV(start:Double, end:Double): Double {
+        return start - end
+    }
 }

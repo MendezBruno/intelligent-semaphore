@@ -33,6 +33,7 @@ class EgressNode : NodeType {
     private var _entryBlock: Block? = null
         set(value) {
             //TODO - Deberia hacerse el minimo entre el random ese y la cantidad de vehiculos que pueden pasar segun el tiempo
+            println("maxAmount: "+_maxAmount)
             val removedCars = Random().nextInt(_maxAmount)
             value?.sendingCars?.subscribe {
                 it.outgoingCrossingByCarsAmount -= removedCars

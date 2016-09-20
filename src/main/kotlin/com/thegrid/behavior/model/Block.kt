@@ -11,7 +11,7 @@ import java.util.*
 /**Es la cuadra que tiene relación
  * directa con una cuadra del json
  */
-open class Block(
+abstract class Block(
         val id: String,
         val street: Street,
         val length: Int/*Double*/,
@@ -20,16 +20,29 @@ open class Block(
     protected open var _turningProbability: Double = 0.5 * TurningModifier       //Valor inicial
     protected open var _crossingProbability: Double = 1 - _turningProbability    //Valor inicial
 
+    //Simulation vars
     val colorStatus = RGBA(0,0,0,1)
     var congestion = 20
+    var congestionLevel = CongestionLevel.SIN_CONGESTION
+    var velocity = 0.0
+    var q_carFlow = 0.0
+    var k_density = 0.0
+    var a_lastCarsInput = 0
+    var v_max = 60 //Podria cambiar si es calle/avenida
+    var t1_lastCarInputDuration = 0.0
+    var t_min = 6.0 //Calcular desde los atributos de la calle
+    var previusEventTime = 0.0
+    val timeForMaxCongestion = 20.0 // Segundos que "delatan" que hay congestión
+
     val changeListeners = mutableListOf<BlockListener>()
+    //        set(value) = if(value + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount < _carCapacity)
+//            field = value
+
     val stk: Int
         get() = _incomingCarsAmount + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount
-
     protected val _carCapacity: Int
     protected var _incomingCarsAmount = 0
-//        set(value) = if(value + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount < _carCapacity)
-//            field = value
+
 //            else field = _carCapacity - outgoingCrossingByCarsAmount - outgoingTurningCarsAmount
 
     protected var _replayer: ReplaySubject<Int> = ReplaySubject(50)
@@ -50,18 +63,21 @@ open class Block(
     }
 
     override fun executeEvent(time: Double): Double {
+        t1_lastCarInputDuration = getLastCarInputDuration(previusEventTime, time)
         moveCarsToTheFront()
-        calcularCongestion()
         changeColor()
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         fireReplay()
         fireListeners()
-        return Random().nextInt(500).toDouble()
+        val nextTime = if (nextTime() < t_min) t_min else nextTime()
+        calcularCongestion(nextTime)
+        a_lastCarsInput = 0
+        return nextTime
     }
 
-    private fun calcularCongestion(){
-        val r = Random ()
-        congestion = r.nextInt(100)
+    private fun calcularCongestion(nextTime: Double): Double {
+        val congestion = (nextTime - t_min) / timeForMaxCongestion * 100
+        return if (congestion > 100) 100.0 else congestion
     }
 
     open fun setProbabilities(value: Probabilities) {
@@ -75,6 +91,16 @@ open class Block(
 
     fun hasVerticalDirection() : Boolean{
         return street.orientation == Orientation.South || street.orientation == Orientation.North
+    }
+
+    private fun nextTime(): Double {
+        if (a_lastCarsInput == 0) return 4000.0
+        return stk / a_lastCarsInput * t1_lastCarInputDuration / street.lanes
+    }
+
+    private fun update_q_flowCar() {
+        if (t1_lastCarInputDuration == 0.0) return
+        q_carFlow = a_lastCarsInput / t1_lastCarInputDuration
     }
 
     private fun moveCarsToTheFront() {
@@ -103,11 +129,15 @@ open class Block(
 //            in (_carCapacity * 0.6)..(_carCapacity * 0.8) -> colorStatus.set(255,150,0)
 //            in (_carCapacity * 0.8)..(_carCapacity * 1.00)  -> colorStatus.set(255,0,0)
 //        }
-        val density = stk / _carCapacity
-        colorStatus.set(density * 255,(1 - density) * 255,0)
+        val density = stk.toDouble() / _carCapacity
+        colorStatus.set((density * 255).toInt(),(1 - density).toInt() * 255,0)
+
+        congestionLevel = CongestionLevel.ofPercentage(density);
     }
 
     fun fireReplay() {
         _replayer.onNext(1)
     }
+
+    abstract fun getLastCarInputDuration(previusEventTime: Double, now: Double): Double
 }

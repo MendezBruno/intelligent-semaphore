@@ -1,6 +1,7 @@
 package com.thegrid.behavior.model
 
 import com.thegrid.behavior.extensions.Direction
+import com.thegrid.behavior.extensions.Queue
 import com.thegrid.behavior.freeFunctions.flip
 import com.thegrid.behavior.observer.SemaphoreListener
 import com.thegrid.behavior.platform.IDispatcheable
@@ -13,6 +14,8 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         field = value
         fireListeners()
     }
+    private val _hLogQueue = Queue<TimeLog>()
+    private val _vLogQueue = Queue<TimeLog>()
     private val _hTime: Double
     private var _vTime: Double
 
@@ -26,9 +29,43 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         direction = flip(direction)
         fireListeners()
         return when(direction) {
-            Direction.Vertical -> _vTime
-            Direction.Horizontal -> _hTime
+            Direction.Vertical -> {
+                _vLogQueue.push(TimeLog(time,_vTime))
+                _vTime
+            }
+            Direction.Horizontal -> {
+                _vLogQueue.push(TimeLog(time,_hTime))
+                _hTime
+            }
         }
+    }
+
+    private fun getOnlineTime(start:Double, end:Double, logQueue: Queue<TimeLog>): Double {
+        var time = 0.0
+        while (!logQueue.isEmpty) {
+            val log = logQueue.head()!!.data
+            if (log.endTime() < end) {
+                if (log.t <= start) time += log.endTime() - start
+                if (log.t > start) time += log.duration
+                logQueue.pop()
+                continue
+            }
+
+            //A partir de aca se que el evento dura más alla que 'end'
+            //Salgo del while
+            if (log.t <= start) time += end - start
+            else time += end - log.t
+            break
+        }
+        return time
+    }
+
+    override fun getOnlineTimeH(start:Double, end:Double): Double {
+        return getOnlineTime(start,end,_hLogQueue)
+    }
+
+    override fun getOnlineTimeV(start:Double, end:Double): Double {
+        return getOnlineTime(start,end,_vLogQueue)
     }
 
     override val crossingHorizontalOutgoingCars = observable<Block> { subscriber ->
@@ -56,3 +93,4 @@ class SemaphoreNode : CornerNode, IDispatcheable {
     }
 
 }
+
