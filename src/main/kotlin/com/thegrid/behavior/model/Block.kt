@@ -11,7 +11,7 @@ import java.util.*
 /**Es la cuadra que tiene relación
  * directa con una cuadra del json
  */
-abstract class Block(
+open class Block(
         val id: String,
         val street: Street,
         val length: Int/*Double*/,
@@ -139,5 +139,7 @@ abstract class Block(
         _replayer.onNext(1)
     }
 
-    abstract fun getLastCarInputDuration(previusEventTime: Double, now: Double): Double
+    open fun getLastCarInputDuration(previusEventTime: Double, now: Double): Double {
+        return 0.0
+    }
 }
