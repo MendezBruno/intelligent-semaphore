@@ -162,10 +162,10 @@ MapaEditor.prototype.actualizarCongestion = function (datos, dicDatosCuadra){
     var self = this;
     datos.blockStatus.forEach (function (estadoCuadra){
         var cuadra = self.cuadraPorID(estadoCuadra.id);
-        //cuadra.congestion.tipo = estadoCuadra.tipo;
-        if(cuadra.congestionValor) cuadra.restarValorActual (dicDatosCuadra);
-        cuadra.congestionValor = estadoCuadra.congestion;
-        cuadra.actualizarTipo();
+        cuadra.restarValorActual(dicDatosCuadra);
+        cuadra.congestionTipo = estadoCuadra.congestionLevel;
+        //cuadra.congestionValor = estadoCuadra.congestion;
+        //cuadra.actualizarTipo();
     });
 
 

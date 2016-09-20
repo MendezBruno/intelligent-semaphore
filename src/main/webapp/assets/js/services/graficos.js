@@ -9,11 +9,11 @@ function drawChart(dicDatos) {
 
     var data = google.visualization.arrayToDataTable([
         ['Rango congestion', 'Cantidad de cuadras'],
-        ['Sin Cogestion', dicDatos["sin"]],
-        ['Congestion media', dicDatos["media"]],
-        ['Congestion leve', dicDatos["leve"]],
-        ['Congestion pesada', dicDatos["alta"]],
-        ['Intransitable',    dicDatos["muy"]]
+        ['Sin Cogestion', dicDatos["SIN_CONGESTION"]],
+        ['Leve', dicDatos["MEDIANA"]],
+        ['Mediana', dicDatos["LEVE"]],
+        ['Pesada', dicDatos["PESADA"]],
+        ['Intransitable',    dicDatos["INTRANSITABLE"]]
     ]);
 
     var options = {

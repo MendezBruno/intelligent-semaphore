@@ -22,11 +22,11 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
 
         inicilizarDicDatos = function (){
                 var dicDatos = {};
-                dicDatos["sin"] = 0;
-                dicDatos["leve"] = 0;
-                dicDatos["media"] = 0;
-                dicDatos["alta"] = 0;
-                dicDatos["muy"] = 0;
+                dicDatos["SIN_CONGESTION"] = 0;
+                dicDatos["LEVE"] = 0;
+                dicDatos["MEDIANA"] = 0;
+                dicDatos["PESADA"] = 0;
+                dicDatos["INTRANSITABLE"] = 0;
                 return dicDatos;
         };
 

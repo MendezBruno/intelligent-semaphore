@@ -6,7 +6,6 @@ import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.communication.extension.RGBA
 import rx.lang.kotlin.ReplaySubject
 import rx.subjects.ReplaySubject
-import java.util.*
 
 /**Es la cuadra que tiene relación
  * directa con una cuadra del json
@@ -122,10 +121,16 @@ open class Block(
     }
 
     private fun changeColor() {
-        val density = stk.toDouble() / _carCapacity
-        colorStatus.set((density * 255).toInt(),(1 - density).toInt() * 255,0)
+//        val density = stk.toDouble() / _carCapacity
+//        (density * 255).toInt(),(1 - density).toInt() * 255,0)
+        congestionLevel = CongestionLevel.ofPercentage(congestion)
+        when(congestionLevel) {
+            CongestionLevel.SIN_CONGESTION -> colorStatus.set(179,179,179)
+            CongestionLevel.LEVE -> colorStatus.set(255,25,128 )
+            CongestionLevel.MEDIANA ->  colorStatus.set(255,179,102)
+            CongestionLevel.PESADA -> colorStatus.set(255,77,77)
+            else -> colorStatus.set (204,0,0 )}
 
-        congestionLevel = CongestionLevel.ofPercentage(congestion);
     }
 
     fun fireReplay() {

@@ -8,7 +8,7 @@ function Cuadra() {
     //    tipo: "sin",
     //    valor: 0,
     //}
-    this.congestionTipo="sin";
+    this.congestionTipo="SIN_CONGESTION";
     this.congestionValor=0;
     var self = this;
 }
@@ -27,7 +27,7 @@ Cuadra.prototype.sumarValorDeCongestion = function (dicDatos){
 
 Cuadra.prototype.restarValorActual = function (dicDatos){
 
-    dicDatos[this.congestionTipo] -= 1;
+    if (dicDatos[this.congestionTipo] != 0 ) dicDatos[this.congestionTipo] -= 1;
 };
 
 Cuadra.prototype.actualizarTipo = function (){
