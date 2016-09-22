@@ -89,7 +89,7 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         };
         cargarScopeConNodoBorde();
 
-        actualizarNodoBorde = function () {
+        $scope.actualizarNodoBorde = function () {
                 var uNodoBorde = {}
                 uNodoBorde["id"] = $scope.nodoBorde;
                 uNodoBorde["cantMaxima"] = $scope.cantVehiculos;

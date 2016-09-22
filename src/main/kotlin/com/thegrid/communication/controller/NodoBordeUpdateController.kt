@@ -16,8 +16,12 @@ import com.thegrid.communication.model.dataEdgeNode
 class NodoBordeUpdateController {
         @ApiMethod(name = "nodoBorde", path = "nodoBorde", httpMethod = ApiMethod.HttpMethod.POST)
         fun postUpdateNodoBorde(nodoBordeUpdate: dataEdgeNode) {
-            return Simulation.SharedInstance?.map!!.setFdpValue(nodoBordeUpdate)
-
+            println("+++++++++++++++++++++++++++++++++++++++++++++++++++++")
+            println("Se cambia el nodo ${nodoBordeUpdate.id} " +
+                    "intervalo: ${nodoBordeUpdate.intervalo} " +
+                    "cant: ${nodoBordeUpdate.cantMaxima}")
+            println("+++++++++++++++++++++++++++++++++++++++++++++++++++++")
+            Simulation.SharedInstance?.map?.setFdpValue(nodoBordeUpdate)
         }
     }
 

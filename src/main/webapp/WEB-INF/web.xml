@@ -16,7 +16,8 @@
 				<!--Aca van clases que contienen endpoints,
 				tanto java como kotlin-->
 				com.thegrid.communication.controller.MapController,
-				com.thegrid.communication.controller.MapStateController
+				com.thegrid.communication.controller.MapStateController,
+				com.thegrid.communication.controller.NodoBordeUpdateController
 			</param-value>
 		</init-param>
 	</servlet>

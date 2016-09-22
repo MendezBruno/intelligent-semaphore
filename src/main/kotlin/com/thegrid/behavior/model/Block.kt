@@ -33,11 +33,11 @@ open class Block(
     val colorStatus = RGBA(0,0,0,1)
     var congestion = 0.0
     var congestionLevel = CongestionLevel.SIN_CONGESTION
-    var velocity = 0.0
     var q_carFlow = 0.0
     var k_density = 0.0
     var a_lastCarsInput = 0
-    var v_max = 60 //Podria cambiar si es calle/avenida
+    var v_max = 60.0 //Podria cambiar si es calle/avenida
+    var velocity = v_max
     var t1_lastCarInputDuration = 0.0
     var t_min = 6.0 //Calcular desde los atributos de la calle
     var previusEventTime = 0.0
@@ -80,27 +80,30 @@ open class Block(
         val autosSalida = (stkAnterior - stk).toDouble()
         val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
         val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
-        q_carFlow = (q_entrada + q_salida) / 2
-        velocity = (q_carFlow * length * street.lanes) / stk
+        q_carFlow = Math.abs(q_entrada + q_salida) / 2
+        velocity = if (stk == 0) v_max else (q_carFlow * length * street.lanes) / stk
         val dispC = futureEventsTable.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
         val dispT = futureEventsTable.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
         val TEFtime = (if (dispC < dispT) dispC else dispT) + 1
         //congestion = calcularCongestion(nextTime)
-//        changeColor()
-        println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion");
+
+        fireListeners()
+        lastDurationExitCar = TEFtime - time
+        congestion = calcularCongestion()
+        changeColor()
+
+        println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         println("Tiempo: $time")
         println("*************************************************************************")
-        fireListeners()
-        lastDurationExitCar = TEFtime - time
-        congestion = calcularCongestion(lastDurationExitCar)
-        changeColor()
+
         a_lastCarsInput = 0
         return TEFtime
     }
 
-    private fun calcularCongestion(nextTime: Double): Double {
-        val numCon = (nextTime - t_min) / timeForMaxCongestion * 100
+    private fun calcularCongestion(): Double {
+        val new_t = if (velocity > 0.0) length / velocity else (timeForMaxCongestion + t_min)
+        val numCon = (new_t - t_min) / timeForMaxCongestion * 100
         val congestion = if (numCon < 0) 0.0 else numCon
         return if (congestion > 100) 100.0 else congestion
     }
@@ -155,11 +158,10 @@ open class Block(
         congestionLevel = CongestionLevel.ofPercentage(congestion)
         when(congestionLevel) {
             CongestionLevel.SIN_CONGESTION -> colorStatus.set(179,179,179)
-            CongestionLevel.LEVE -> colorStatus.set(255,25,128 )
+            CongestionLevel.LEVE -> colorStatus.set(248,255,25 )
             CongestionLevel.MEDIANA ->  colorStatus.set(255,179,102)
             CongestionLevel.PESADA -> colorStatus.set(255,77,77)
             else -> colorStatus.set (204,0,0 )}
-
     }
 
     fun fireReplay() {
