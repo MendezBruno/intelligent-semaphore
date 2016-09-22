@@ -86,28 +86,27 @@
                         <!--</tbody>-->
                     <!--</table>-->
                     <div class="container">
+                        <div class="col-sm-3">
                         <h2>Dynamic Tabs</h2>
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#home">Estado cuadra</a></li>
                             <li><a data-toggle="tab" href="#menu1">otra 1</a></li>
-                            <li><a data-toggle="tab" href="#menu2">otra 2</a></li>
-                            <li><a data-toggle="tab" href="#menu3">otra 3</a></li>
                         </ul>
 
                         <div class="tab-content">
                             <div id="home" class="tab-pane fade in active">
                                 <h3>Estado Cuadras</h3>
                                 <table class="table table-striped">
-                                <thead>
+                                    <thead>
                                 <tr>
                                 <th>Cuadra</th>
-                                <th>% Congestion</th>
+                                <th>stock</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                 <td>cuadra 1</td>
-                                <td>10%</td>
+                                <td ng-model="stock">{{stock}}</td>
                                 </tr>
                                 </tbody>
                                 </table>
@@ -125,6 +124,7 @@
                                 <p>sunt explicabo.</p>
                             </div>
                         </div>
+                    </div>
                     </div>
                     <!--<div class="container">-->
                         <!---->

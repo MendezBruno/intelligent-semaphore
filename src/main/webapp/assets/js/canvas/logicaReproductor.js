@@ -10,6 +10,9 @@ function ReproductorController(modelo, stage, $scope){
     this.modelo = modelo;
     this.auxCnvModel = {};
     this.stage = stage;
+    this.$scope = $scope;
+    this.cuadraFueSeleccionada;
+    this.blockStatus;
 }
 
 ReproductorController.prototype.dibujar = function (){
@@ -37,6 +40,13 @@ ReproductorController.prototype.dibujar = function (){
     var HORIZONTAL = true;
     var VERTICAL = false;
 
+    var onClickCuadraReproductor = function (cnvCuadraReproductor) {
+
+        self.cuadraFueSeleccionada = cnvCuadraReproductor;
+        self.actualizarValorCalle();
+
+    };
+
     console.log(this.modelo);
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
@@ -48,6 +58,9 @@ ReproductorController.prototype.dibujar = function (){
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
             var cnvCuadraReproductor = generarCuadra(HORIZONTAL,calle);
+            if(j==0)
+                self.cuadraFueSeleccionada = cnvCuadraReproductor;
+            cnvCuadraReproductor.clickListeners.push(onClickCuadraReproductor);
             stage.addChild(cnvCuadraReproductor);
             auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1){
@@ -80,6 +93,7 @@ ReproductorController.prototype.dibujar = function (){
         moverPosyAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
             var cnvCuadraReproductor = generarCuadra(VERTICAL,calle);
+            cnvCuadraReproductor.clickListeners.push(onClickCuadraReproductor);
             stage.addChild(cnvCuadraReproductor);
             auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1)
@@ -151,6 +165,24 @@ ReproductorController.prototype.dibujar = function (){
     }
 };
 
+ReproductorController.prototype.actualizarValorCalle = function (){
+
+
+    var self = this;
+    var elblockStatus = self.blockStatus;
+
+    var valorCuadra = elblockStatus.find(function(elblockStatus) {
+        return self.auxCnvModel[elblockStatus.id] === self.cuadraFueSeleccionada;
+    });
+    self.$scope.stock = valorCuadra.stock;
+    console.log(valorCuadra.stock);
+
+
+};
+
+
+
+
 ReproductorController.prototype.actualizar = function (datos){
 
     var self = this;
@@ -159,10 +191,22 @@ ReproductorController.prototype.actualizar = function (datos){
     console.log(self);
     console.log(auxCnvModel);
 
+
+
     var blockStatus = datos.blockStatus;
     var semaphoreStatus = datos.semaphoreStatus;
     if (blockStatus) blockStatus.forEach(actualizarCuadra);
     if (semaphoreStatus) semaphoreStatus.forEach(actualizarSemaforo);
+
+    self.blockStatus= blockStatus;
+
+    var valorCuadra = blockStatus.find(function(blockStatus) {
+        return self.auxCnvModel[blockStatus.id] === self.cuadraFueSeleccionada;
+    });
+
+    self.$scope.stock = valorCuadra.stock;
+
+    console.log(valorCuadra.id);
 
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
