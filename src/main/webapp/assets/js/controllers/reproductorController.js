@@ -18,7 +18,7 @@ updates = {
 
 
 
-app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,$routeParams) {
+app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,NodoBorde,$routeParams) {
 
         inicilizarDicDatos = function (){
                 var dicDatos = {};
@@ -73,6 +73,28 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
                 });
+        };
+
+        cargarScopeConNodoBorde = function (){
+                var nodosBorde = new Array();
+                modelo.nodosEntrada.forEach(function(nodo){
+                            nodosBorde.push(nodo.id)
+                    });
+                modelo.nodosSalida.forEach(function(nodo){
+                            nodosBorde.push(nodo.id)
+                    });
+                $scope.nodosBordes = nodosBorde;
+
+
+        };
+        cargarScopeConNodoBorde();
+
+        actualizarNodoBorde = function () {
+                var uNodoBorde = {}
+                uNodoBorde["id"] = $scope.nodoBorde;
+                uNodoBorde["cantMaxima"] = $scope.cantVehiculos;
+                uNodoBorde["intervalo"] = $scope.tIntervalo;
+                NodoBorde.save(JSON.stringify(uNodoBorde));
         };
 
 

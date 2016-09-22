@@ -1,0 +1,23 @@
+package com.thegrid.communication.controller
+
+/**
+ * Created by bruno on 22/09/16.
+ */
+import com.google.api.server.spi.config.Api
+import com.google.api.server.spi.config.ApiMethod
+import com.google.api.server.spi.config.ApiNamespace
+import com.thegrid.behavior.model.NodeType
+import com.thegrid.behavior.platform.Simulation
+import com.thegrid.communication.model.dataEdgeNode
+
+@Api(name = "intelligentsemaphore", version = "v1",
+        namespace = ApiNamespace(ownerDomain = "com.thegrid.intelligentsemaphore",
+                ownerName = "com.thegrid.intelligentsemaphore", packagePath = ""))
+class NodoBordeUpdateController {
+        @ApiMethod(name = "nodoBorde", path = "nodoBorde", httpMethod = ApiMethod.HttpMethod.POST)
+        fun postUpdateNodoBorde(nodoBordeUpdate: dataEdgeNode) {
+            return Simulation.SharedInstance?.map!!.setFdpValue(nodoBordeUpdate)
+
+        }
+    }
+

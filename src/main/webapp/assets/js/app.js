@@ -84,3 +84,10 @@ app.factory("MapaUpdate", ["$resource",function($resource){
         });
 }]);
 
+app.factory("NodoBorde", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/nodoBorde", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+

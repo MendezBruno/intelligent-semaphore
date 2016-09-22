@@ -12,11 +12,11 @@ class MapConversor {
             val semaphoreNodes = mutableListOf<SemaphoreNode>()
 
             for (node in map.nodosEntrada) {
-                nodes.add(EntryNode(node.id, node.intervalo, node.cantMaxima));
+                nodes.add(EntryNode(node.id, node.intervalo.toInt(), node.cantMaxima));
             }
 
             for (node in map.nodosSalida) {
-                nodes.add(EgressNode(node.id, node.intervalo, node.cantMaxima))
+                nodes.add(EgressNode(node.id, node.intervalo.toInt(), node.cantMaxima))
             }
 
             for (node in map.nodosSemaforo) {

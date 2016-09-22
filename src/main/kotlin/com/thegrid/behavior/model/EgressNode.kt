@@ -44,9 +44,11 @@ class EgressNode : NodeType, IDispatcheable {
     override val turningVerticalOutgoingCars: Observable<Block>
         get() = throw UnsupportedOperationException()
 
-    private var _interval: Double
-    private var _maxAmount: Int
-    private var _entryBlock by Delegates.notNull<Block>()
+    var _interval: Double
+
+    var _maxAmount: Int
+
+    var _entryBlock by Delegates.notNull<Block>()
 
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
         println("maxAmount: "+_maxAmount)

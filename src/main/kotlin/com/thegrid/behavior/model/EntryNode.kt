@@ -42,8 +42,8 @@ class EntryNode : NodeType, IDispatcheable {
     override val turningVerticalOutgoingCars: Observable<Block>
         get() = infiniteCarsBlock.sendingCars
 
-    private var _interval: Int
-    private var _maxAmount: Int
+    var _interval: Int
+    var _maxAmount: Int
     val infiniteCarsBlock : Block
 
     constructor(id:String, interval:Int, maxAmount:Int) : super(id) {
