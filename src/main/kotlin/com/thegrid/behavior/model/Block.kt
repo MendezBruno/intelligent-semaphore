@@ -86,19 +86,22 @@ open class Block(
         val dispT = futureEventsTable.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
         val TEFtime = (if (dispC < dispT) dispC else dispT) + 1
         //congestion = calcularCongestion(nextTime)
-        changeColor()
+//        changeColor()
         println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion");
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         println("Tiempo: $time")
         println("*************************************************************************")
         fireListeners()
         lastDurationExitCar = TEFtime - time
+        congestion = calcularCongestion(lastDurationExitCar)
+        changeColor()
         a_lastCarsInput = 0
         return TEFtime
     }
 
     private fun calcularCongestion(nextTime: Double): Double {
-        val congestion = (nextTime - t_min) / timeForMaxCongestion * 100
+        val numCon = (nextTime - t_min) / timeForMaxCongestion * 100
+        val congestion = if (numCon < 0) 0.0 else numCon
         return if (congestion > 100) 100.0 else congestion
     }
 
