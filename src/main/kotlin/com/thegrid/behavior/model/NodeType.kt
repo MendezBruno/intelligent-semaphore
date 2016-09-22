@@ -1,6 +1,7 @@
 package com.thegrid.behavior.model
 
 import com.thegrid.behavior.extensions.Probabilities
+import com.thegrid.behavior.platform.IDispatcheable
 import rx.Observable
 
 /**
@@ -15,6 +16,8 @@ abstract class NodeType(val id: String){
     abstract val turningVerticalOutgoingCars: Observable<Block>
     abstract var horizontalEntryBlock: BlockHorizontal
     abstract var verticalEntryBlock: BlockVertical
+    abstract var horizontalEgressBlock: IDispatcheable
+    abstract var verticalEgressBlock: IDispatcheable
 
     override operator fun equals(other: Any?) =
             when(other) {

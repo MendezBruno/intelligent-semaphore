@@ -3,9 +3,12 @@ package com.thegrid.behavior.model
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.services.EventList
+import com.thegrid.behavior.services.model.PairDispatched
 import com.thegrid.communication.extension.RGBA
 import rx.lang.kotlin.ReplaySubject
 import rx.subjects.ReplaySubject
+import kotlin.properties.Delegates
 
 /**Es la cuadra que tiene relación
  * directa con una cuadra del json
@@ -13,11 +16,18 @@ import rx.subjects.ReplaySubject
 open class Block(
         val id: String,
         val street: Street,
-        val length: Int/*Double*/,
-        val entryNode: NodeType) : BlockBase(), IDispatcheable {
+        val length: Int,
+        val entryNode: NodeType,
+        val egressNode: NodeType) : BlockBase(), IDispatcheable {
 
+    protected var crossingBlock by Delegates.notNull<IDispatcheable>()
+    protected var turningBlock by Delegates.notNull<IDispatcheable>()
     protected open var _turningProbability: Double = 0.5 * TurningModifier       //Valor inicial
     protected open var _crossingProbability: Double = 1 - _turningProbability    //Valor inicial
+
+    override fun id(): String {
+        return id
+    }
 
     //Simulation vars
     val colorStatus = RGBA(0,0,0,1)
@@ -51,27 +61,40 @@ open class Block(
     init {
         street.addBlock(this)
         _carCapacity = (length / LongVehicule).toInt() * street.lanes
+        relateNodes()
     }
 
-    override fun setAsEntryBlock(node: NodeType) {
-        throw UnsupportedOperationException("not implemented")
-    }
+    override fun relateNodes() { }
 
     override fun startObservation() {
         throw UnsupportedOperationException("not implemented")
     }
 
-    override fun executeEvent(time: Double): Double {
+    private var lastDurationExitCar: Double = 0.0
+
+    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+        val stkAnterior = stk
         t1_lastCarInputDuration = getLastCarInputDuration(previusEventTime, time)
         moveCarsToTheFront()
-        val nextTime = if (nextTime() < t_min) t_min else nextTime()
-        congestion = calcularCongestion(nextTime)
-        changeColor()
-        println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         fireReplay()
+        val autosSalida = (stkAnterior - stk).toDouble()
+        val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
+        val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
+        q_carFlow = (q_entrada + q_salida) / 2
+        velocity = (q_carFlow * length * street.lanes) / stk
+        val dispC = futureEventsTable.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
+        val dispT = futureEventsTable.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
+        val TEFtime = (if (dispC < dispT) dispC else dispT) + 1
+        //congestion = calcularCongestion(nextTime)
+        changeColor()
+        println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion");
+        println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
+        println("Tiempo: $time")
+        println("*************************************************************************")
         fireListeners()
+        lastDurationExitCar = TEFtime - time
         a_lastCarsInput = 0
-        return nextTime
+        return TEFtime
     }
 
     private fun calcularCongestion(nextTime: Double): Double {
@@ -93,7 +116,10 @@ open class Block(
     }
 
     private fun nextTime(): Double {
-        if (a_lastCarsInput == 0) return 4000.0
+        //ve = ble
+        //if(ve > vmax) t = tmin
+
+        if (a_lastCarsInput == 0) return t_min
         return stk / a_lastCarsInput * t1_lastCarInputDuration / street.lanes
     }
 
@@ -140,4 +166,6 @@ open class Block(
     open fun getLastCarInputDuration(previusEventTime: Double, now: Double): Double {
         return 0.0
     }
+
+    open fun relateOutgoingBlocks() { }
 }

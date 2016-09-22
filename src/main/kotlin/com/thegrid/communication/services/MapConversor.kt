@@ -48,8 +48,7 @@ class MapConversor {
                         entryNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
                         egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first()
                     }
-                    val block = BlockHorizontal(kBlock.id, street, kBlock.longitud, entryNode)
-                    egressNode.horizontalEntryBlock = block
+                    BlockHorizontal(kBlock.id, street, kBlock.longitud, entryNode,egressNode)
 //                    block.setProbabilities(egressNode.getProbabilities())
                 }
                 streets.add(street)
@@ -73,8 +72,7 @@ class MapConversor {
                         entryNode = nodes.filter { node -> node.id.equals(kBlock.nodoDestino) }.first()
                         egressNode = nodes.filter { node -> node.id.equals(kBlock.nodoOrigen) }.first()
                     }
-                    val block = BlockVertical(kBlock.id, street, kBlock.longitud, entryNode)
-                    egressNode.verticalEntryBlock = block
+                    BlockVertical(kBlock.id, street, kBlock.longitud, entryNode,egressNode)
                 }
                 streets.add(street)
             }
@@ -83,6 +81,11 @@ class MapConversor {
                 if (node is SemaphoreNode || node is CornerNode) {
                     node.verticalEntryBlock.setProbabilities(node.getProbabilities())
                     node.horizontalEntryBlock.setProbabilities(node.getProbabilities())
+                }
+            }
+            for (str in streets) {
+                for(blk in str.blocks) {
+                    blk.relateOutgoingBlocks()
                 }
             }
 

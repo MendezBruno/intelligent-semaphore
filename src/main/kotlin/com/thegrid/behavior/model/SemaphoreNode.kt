@@ -5,9 +5,16 @@ import com.thegrid.behavior.extensions.Queue
 import com.thegrid.behavior.freeFunctions.flip
 import com.thegrid.behavior.observer.SemaphoreListener
 import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.services.EventList
+import com.thegrid.behavior.services.model.PairDispatched
 import rx.lang.kotlin.observable
 
 class SemaphoreNode : CornerNode, IDispatcheable {
+
+    override fun id(): String {
+        return id
+    }
+
     var changeListeners = mutableListOf<SemaphoreListener>()
     var direction: Direction = Direction.vertical()
     set(value) {
@@ -25,7 +32,7 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         this.direction = direction
     }
 
-    override fun executeEvent(time: Double): Double {
+    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
         direction = flip(direction)
         fireListeners()
         return when(direction) {

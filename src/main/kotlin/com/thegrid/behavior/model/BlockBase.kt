@@ -20,6 +20,6 @@ abstract class BlockBase {
         val TurningModifier = 0.80
     }
 
-    abstract fun setAsEntryBlock(node: NodeType)
+    abstract fun relateNodes()
     abstract fun startObservation()
 }
