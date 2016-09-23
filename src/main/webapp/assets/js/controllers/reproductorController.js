@@ -18,7 +18,7 @@ updates = {
 
 
 
-app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,NodoBorde,$routeParams) {
+app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,NodoBorde,Simulacion,$routeParams) {
 
         inicilizarDicDatos = function (){
                 var dicDatos = {};
@@ -51,12 +51,18 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                         $scope.contador = $scope.contador + 1
                         if ( !($scope.contador % $scope.intervalo)){update()}
                 }, 1000);
+
         };
         $scope.detener = function(){
                 if (angular.isDefined($scope.Timer)) {
                         $interval.cancel($scope.Timer);
                 }
                 $scope.contador = 0;
+
+                var simulacionUpdate = {}
+                simulacionUpdate["nuevoTiempo"] = 0;
+                simulacionUpdate["operacion"] = "DETENER";
+                Simulacion.save(JSON.stringify(simulacionUpdate));
         };
 
         update = function (){
@@ -96,6 +102,30 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 uNodoBorde["intervalo"] = $scope.tIntervalo;
                 NodoBorde.save(JSON.stringify(uNodoBorde));
         };
+        $scope.avanzarEvento = function (){
+                var simulacionUpdate = {}
+                simulacionUpdate["nuevoTiempo"] = 0;
+                simulacionUpdate["operacion"] = "AVANZAR";
+                Simulacion.save(JSON.stringify(simulacionUpdate));
+        };
+        $scope.reanudar = function (){
+                var simulacionUpdate = {}
+                simulacionUpdate["nuevoTiempo"] = 0;
+                simulacionUpdate["operacion"] = "REANUDAR";
+                Simulacion.save(JSON.stringify(simulacionUpdate));
+        };
+        $scope.masTiempo = function (){
+                var simulacionUpdate = {}
+                simulacionUpdate["nuevoTiempo"] = 1000;
+                simulacionUpdate["operacion"] = "BAJAR";
+                Simulacion.save(JSON.stringify(simulacionUpdate));
+        };
+        $scope.menosTiempo = function (){
+                var simulacionUpdate = {}
+                simulacionUpdate["nuevoTiempo"] = 1000;
+                simulacionUpdate["operacion"] = "SUBIR";
+                Simulacion.save(JSON.stringify(simulacionUpdate));
+        }
 
 
 

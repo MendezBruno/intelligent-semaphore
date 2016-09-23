@@ -6,7 +6,6 @@ package com.thegrid.communication.controller
 import com.google.api.server.spi.config.Api
 import com.google.api.server.spi.config.ApiMethod
 import com.google.api.server.spi.config.ApiNamespace
-import com.thegrid.behavior.model.NodeType
 import com.thegrid.behavior.platform.Simulation
 import com.thegrid.communication.model.dataEdgeNode
 

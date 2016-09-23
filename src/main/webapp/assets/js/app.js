@@ -91,3 +91,10 @@ app.factory("NodoBorde", ["$resource",function($resource){
         });
 }]);
 
+app.factory("Simulacion", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/simulacionUpdate", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+

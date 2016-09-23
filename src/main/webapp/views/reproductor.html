@@ -55,12 +55,20 @@
                         </canvas>
                     </div>
                     <div class="row" id="controles">
-                            <div class="col-xs-8"><p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p></div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-6"><p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p></div>
+                            <div class="col-xs-6">
                                 <button class="btn btn-default" type="button" ng-click="iniciar()" style="float: right">
                                     <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Iniciar </button>
                                 <button class="btn btn-default" type="button" ng-click="detener()" style="float: right" >
                                     <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Detener</button>
+                                <button class="btn btn-default" type="button" ng-click="avanzarEvento()" style="float: right" >
+                                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> A.Evento</button>
+                                <button class="btn btn-default" type="button" ng-click="reanudar()" style="float: right" >
+                                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> reanudar</button>
+                                <button class="btn btn-default" type="button" ng-click="masTiempo()" style="float: right" >
+                                    <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>+</button>
+                                <button class="btn btn-default" type="button" ng-click="menosTiempo()" style="float: right" >
+                                    <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>-</button>
                             </div>
                      </div>
                 </div>

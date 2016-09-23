@@ -20,6 +20,7 @@ class Simulation(map : Map) {
     val orquestador: Orchestrator
     val AG: Object = Object()
     val dispatcher: TimeDispatcher
+    var timeSleep: Long = 1000
 
     init {
         SharedInstance = this
@@ -36,10 +37,11 @@ class Simulation(map : Map) {
         orquestador = Orchestrator(Runnable {
             while (true) {
                 dispatcher.processEvent()
-                Thread.sleep(100)
+                Thread.sleep(timeSleep)
             }
         })
     }
+
 
     fun simulate() {
         //TBD
@@ -47,5 +49,15 @@ class Simulation(map : Map) {
 
     fun getStatus(): MapState {
         return memory.getStatus()
+    }
+
+    fun restarTiempo(i: Int) {
+        if (timeSleep - i < 0  ) timeSleep = 100  else timeSleep -= i
+        println("el tiempo de sleep es: ${timeSleep} " )
+    }
+
+    fun sumarTiempo(i: Int) {
+        timeSleep += i
+        println("el tiempo de sleep es: ${timeSleep} " )
     }
 }
