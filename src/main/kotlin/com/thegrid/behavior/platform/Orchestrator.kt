@@ -15,8 +15,10 @@ class Orchestrator(r:Runnable) {
         hilo.start()
     }
 
-    fun pausar() = hilo.interrupt()
+    fun pausar(){
 
-    fun reanudar() = hilo.run()
+    }
+
+    fun reanudar() = hilo.resume()
     
 }

@@ -21,6 +21,8 @@ class Simulation(map : Map) {
     val AG: Object = Object()
     val dispatcher: TimeDispatcher
     var timeSleep: Long = 1000
+    var correr: Boolean = true
+    var estoyInterrumpido : Boolean = false
 
     init {
         SharedInstance = this
@@ -28,17 +30,34 @@ class Simulation(map : Map) {
         dispatcher = TimeDispatcher()
         this.map = map
 
+
         map.nodes.forEach {
             if (it is IDispatcheable)
                 dispatcher.dispatchOn(0.0, it)
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
 
-        orquestador = Orchestrator(Runnable {
-            while (true) {
-                dispatcher.processEvent()
-                Thread.sleep(timeSleep)
-            }
+        orquestador = iniciarSimulacion()
+    }
+
+    private fun iniciarSimulacion(): Orchestrator {
+        return Orchestrator(Runnable {
+
+                while (true) {
+                    try {
+                        dispatcher.processEvent()
+                        Thread.sleep(timeSleep);
+
+                        synchronized(this) {
+                            while (estoyInterrumpido)
+                                (this as java.lang.Object).wait();
+                        }
+                    } catch (e: InterruptedException){
+                    }
+
+                }
+
+
         })
     }
 
@@ -59,5 +78,15 @@ class Simulation(map : Map) {
     fun sumarTiempo(i: Int) {
         timeSleep += i
         println("el tiempo de sleep es: ${timeSleep} " )
+    }
+
+    fun reanudar() {
+        println("me reanudaron")
+        estoyInterrumpido = false
+    }
+
+    fun pausar() {
+        println("me interrumpieron")
+        estoyInterrumpido = true
     }
 }
