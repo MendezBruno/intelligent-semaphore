@@ -74,6 +74,7 @@ open class Block(
 
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
         val stkAnterior = stk
+        //*TODO* revisar: Da negativo porque los eventos se ejecutan en el orden que se les cantan.
         t1_lastCarInputDuration = getLastCarInputDuration(previusEventTime, time)
         moveCarsToTheFront()
         fireReplay()
@@ -95,6 +96,9 @@ open class Block(
         println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         println("Tiempo: $time")
+        println("Q entrada: $q_entrada")
+        println("Q salida: $q_salida")
+        println("flujo promedio: $q_carFlow")
         println("*************************************************************************")
 
         a_lastCarsInput = 0

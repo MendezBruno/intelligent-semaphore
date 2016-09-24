@@ -94,7 +94,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
         if ($scope.nombre != "") {
             console.log(JSON.stringify(logica.modelo));
             //Mapa.save(JSON.stringify(logica.modelo));
-            //alert(JSON.stringify(logica.modelo))
+            alert(JSON.stringify(logica.modelo));
             $scope.modelo = logica.modelo;
             mapas["moduloNuevo"] = JSON.stringify(logica.modelo);
             $location.url("app/reproductor/moduloNuevo");

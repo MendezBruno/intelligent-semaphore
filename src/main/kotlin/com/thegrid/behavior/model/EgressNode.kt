@@ -51,9 +51,12 @@ class EgressNode : NodeType, IDispatcheable {
     var _entryBlock by Delegates.notNull<Block>()
 
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
-        println("maxAmount: "+_maxAmount)
+//        println("maxAmount: "+_maxAmount)
         var removedCars = Random().nextInt(_maxAmount)
-        println("Cruce OUT - STK-OUT:$removedCars")
+        println("****************")
+        println("soy el nodo de salida:$id")
+        println("voy a sacar:$removedCars")
+        println("mi tiempo: $time")
         val crossing = _entryBlock.outgoingCrossingByCarsAmount
         val turning = _entryBlock.outgoingTurningCarsAmount
         if (crossing < removedCars) {
@@ -65,7 +68,7 @@ class EgressNode : NodeType, IDispatcheable {
         }
         if (turning < removedCars) {
             _entryBlock.outgoingTurningCarsAmount = 0
-            removedCars -= crossing
+            removedCars -= crossing  //Todo ver este calculo
         } else {
             _entryBlock.outgoingTurningCarsAmount -= removedCars
             return _interval

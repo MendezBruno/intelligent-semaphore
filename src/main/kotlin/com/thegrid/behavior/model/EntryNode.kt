@@ -57,9 +57,14 @@ class EntryNode : NodeType, IDispatcheable {
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
         val crossingCars = Random().nextInt(_maxAmount)
         val turningCars = Random().nextInt(_maxAmount)
+        println("****************")
+        println("soy el nodo de entrada:$id")
+        println("autos que siguen derecho:$crossingCars")
+        println("autos que siguen doblan: $turningCars")
+        println("mi tiempo es:$time")
         infiniteCarsBlock.outgoingCrossingByCarsAmount += crossingCars
         infiniteCarsBlock.outgoingTurningCarsAmount += turningCars
-        println("Cruce IN - STK-IN:${crossingCars + turningCars}")
+//        println("Cruce IN - STK-IN:${crossingCars + turningCars}")
         infiniteCarsBlock.fireReplay()
         return _interval.toDouble()
     }
