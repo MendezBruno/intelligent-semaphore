@@ -27,13 +27,16 @@ class TimeDispatcher() {
         _futureEventsTable.add(PairDispatched(instant, dispatcheable))
     }
 
+    var  time: Double = 0.0
+
     fun processEvent() {
         val par = nextEvent
         if (par != null) {
             val dispatcheable = par.objectToDispatch
             val transcurrido = dispatcheable.executeEvent(par.time, _futureEventsTable)
 
-            dispatchOn(par.time + transcurrido, dispatcheable)
+            time = par.time + transcurrido
+            dispatchOn(time, dispatcheable)
         } else {
 //            _futureEventsTable.addedObjectObserver.take(1).subscribe { processEvent() }
         }
