@@ -77,6 +77,8 @@ open class Block(
         //*TODO* revisar: Da negativo porque los eventos se ejecutan en el orden que se les cantan.
         t1_lastCarInputDuration = getLastCarInputDuration(previusEventTime, time)
         moveCarsToTheFront()
+        println("tiempo dormido y que hubo ingreso de autos: $t1_lastCarInputDuration")
+        println("autos que entraron mientras yo estaba dormido: $a_lastCarsInput")
         fireReplay()
         val autosSalida = (stkAnterior - stk).toDouble()
         val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
