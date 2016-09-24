@@ -15,6 +15,7 @@ class Simulation(map : Map) {
         var SharedInstance : Simulation? = null
     }
 
+    val lock : java.lang.Object = Object()
     val memory: MapStateMemory
     val map: Map
     val orquestador: Orchestrator
@@ -43,14 +44,16 @@ class Simulation(map : Map) {
     private fun iniciarSimulacion(): Orchestrator {
         return Orchestrator(Runnable {
 
-                while (true) {
+                while (correr) {
                     try {
                         dispatcher.processEvent()
                         Thread.sleep(timeSleep);
 
-                        synchronized(this) {
-                            while (estoyInterrumpido)
-                                (this as java.lang.Object).wait();
+                        synchronized(lock) {
+                            while (estoyInterrumpido){
+                                println("estoy en el wait")
+                                lock.wait()
+                            }
                         }
                     } catch (e: InterruptedException){
                     }
@@ -81,12 +84,18 @@ class Simulation(map : Map) {
     }
 
     fun reanudar() {
-        println("me reanudaron")
-        estoyInterrumpido = false
+
+        synchronized (lock) {
+            println("me reanudaron")
+            estoyInterrumpido = false
+            lock.notify()
+        }
     }
 
     fun pausar() {
         println("me interrumpieron")
         estoyInterrumpido = true
     }
+
+
 }
