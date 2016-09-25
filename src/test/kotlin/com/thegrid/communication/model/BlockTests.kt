@@ -43,9 +43,9 @@ class BlockTests: Spek({
                 blockHorizontal.turningBlock = turningBlock
                 blockHorizontal.sendingCars.subscribe {
                     if (it.outgoingCrossingByCarsAmount > 1)
-                        it.outgoingCrossingByCarsAmount = 1
+                        it.outgoingCrossingByCarsAmount -= 1
                     if (it.outgoingTurningCarsAmount > 1)
-                        it.outgoingTurningCarsAmount = 1
+                        it.outgoingTurningCarsAmount -= 1
                 }
 
                 val par1 = PairDispatched(0.0,turningBlock)
@@ -56,23 +56,24 @@ class BlockTests: Spek({
                 TEF.add(par1)
                 TEF.add(par2)
 
-                blockHorizontal.executeEvent(0.0, TEF)
+                var tiempo = 0.0
+                tiempo += blockHorizontal.executeEvent(tiempo, TEF)
                 semaphoreNode.executeEvent(2.0, TEF)
                 semaphoreNode.executeEvent(5.0, TEF)
                 semaphoreNode.executeEvent(7.0, TEF)
                 semaphoreNode.executeEvent(10.0, TEF)
                 par1.time = 12.0
                 par2.time = 13.0
-                injectCarsblock.outgoingCrossingByCarsAmount = 15
+                injectCarsblock.outgoingCrossingByCarsAmount = 150
                 blockHorizontal.processCrossingHorizontalOutgoingCars(injectCarsblock)
-                blockHorizontal.executeEvent(10.0, TEF)
+                tiempo += blockHorizontal.executeEvent(tiempo, TEF)
                 semaphoreNode.executeEvent(12.0, TEF)
                 semaphoreNode.executeEvent(15.0, TEF)
                 par1.time = 18.0
                 par2.time = 20.0
                 injectCarsblock.outgoingCrossingByCarsAmount = 11
                 blockHorizontal.processCrossingHorizontalOutgoingCars(injectCarsblock)
-                blockHorizontal.executeEvent(16.0, TEF)
+                blockHorizontal.executeEvent(tiempo, TEF)
                 semaphoreNode.executeEvent(17.0, TEF)
             }
         }

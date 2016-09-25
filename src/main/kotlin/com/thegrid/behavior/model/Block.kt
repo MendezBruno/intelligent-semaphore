@@ -36,7 +36,7 @@ open class Block(
     var q_carFlow = 0.0
     var k_density = 0.0
     var a_lastCarsInput = 0
-    var v_max = 60.0 //Podria cambiar si es calle/avenida
+    var v_max = 60.0 / 3.6 //Podria cambiar si es calle/avenida
     var velocity = v_max
     var t1_lastCarInputDuration = 0.0
     var t_min = 6.0 //Calcular desde los atributos de la calle
@@ -76,39 +76,48 @@ open class Block(
         //*TODO* revisar: Da negativo porque los eventos se ejecutan en el orden que se les cantan.
         t1_lastCarInputDuration = time - previusEventTime
         previusEventTime = time
+        val prevStk = stk
         moveCarsToTheFront()
         println("tiempo dormido: $t1_lastCarInputDuration")
         println("autos que entraron mientras yo estaba dormido: $a_lastCarsInput")
-        var prevCrossing = outgoingCrossingByCarsAmount
-        val prevTurning = outgoingTurningCarsAmount
         fireReplay()
-        var autosSalida = 0.0
-        autosSalida += (prevCrossing - outgoingCrossingByCarsAmount).toDouble()
-        autosSalida += (prevTurning - outgoingTurningCarsAmount).toDouble()
+        var autosSalida = prevStk - stk
+//        autosSalida += Math.abs(autosQuePasaronACruzar - outgoingCrossingByCarsAmount).toDouble()
+//        autosSalida += Math.abs(autosQuePasaronADoblar - outgoingTurningCarsAmount).toDouble()
         val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
         val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
         q_carFlow = Math.abs(q_entrada + q_salida) / 2
         velocity = if (stk == 0) v_max else (q_carFlow * length * street.lanes) / stk
-        val dispC = futureEventsTable.list.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
-        val dispT = futureEventsTable.list.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
-        val TEFtime = (if (dispC < dispT) dispC else dispT) + 1
+        val eventDuration: Double
+        if (outgoingCrossingByCarsAmount + outgoingTurningCarsAmount > 0) {
+            val dispC = futureEventsTable.list.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
+            val dispT = futureEventsTable.list.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
+            var nextTime = (if (dispC < dispT) dispC else dispT) + 1
+            if (nextTime < time) {
+                nextTime = time + 50
+                println("## WARN: Tiempo de otra cuadra menor al actual")
+            }
+            eventDuration = nextTime - time
+        } else {
+            eventDuration = length / velocity
+        }
         //congestion = calcularCongestion(nextTime)
 
         fireListeners()
-        lastDurationExitCar = TEFtime - time
+        lastDurationExitCar = eventDuration
         congestion = calcularCongestion()
         changeColor()
 
         println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
-        println("Tiempo: $time")
+        println("Tiempo: $time Proximo tiempo: ${time+eventDuration}")
         println("Q entrada: $q_entrada")
-        println("Q salida: $q_salida")
+        println("Q salida: $q_salida autosSalida: $autosSalida")
         println("flujo promedio: $q_carFlow")
         println("*************************************************************************")
 
         a_lastCarsInput = 0
-        return TEFtime
+        return eventDuration
     }
 
     private fun calcularCongestion(): Double {
@@ -145,11 +154,10 @@ open class Block(
     }
 
     private fun moveCarsToTheFront() {
-//        apply {
-            outgoingCrossingByCarsAmount += (_incomingCarsAmount * _crossingProbability).toInt()
-            outgoingTurningCarsAmount += (_incomingCarsAmount * _turningProbability).toInt()
-            _incomingCarsAmount = 0
-//        }
+        val crossing = (_incomingCarsAmount * _crossingProbability).toInt()
+        outgoingCrossingByCarsAmount += crossing
+        outgoingTurningCarsAmount += _incomingCarsAmount - crossing
+        _incomingCarsAmount = 0
     }
 
     override fun equals(other: Any?): Boolean {
