@@ -19,9 +19,9 @@ updates = {
 
 
 
-app.controller('reproductorController',function($scope,$interval,$location,Mapa,MapaUpdate,NodoBorde,Simulacion,$routeParams) {
+app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,$routeParams) {
 
-        inicilizarDicDatos = function (){
+        inicilizarDicDatos = function () {
                 var dicDatos = {};
                 dicDatos["SIN_CONGESTION"] = 0;
                 dicDatos["LEVE"] = 0;
@@ -32,12 +32,12 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         };
 
         var dicDatosCuadras = inicilizarDicDatos();
-        var mapa = $routeParams.id? mapas[$routeParams.id]:mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
+        var mapa = $routeParams.id ? mapas[$routeParams.id] : mapas["modulo1"];   //*TODO* sacarlo o cambiarlo no funciona acceder al un ID inexistente del json
         var modelo = MapaEditor.desParsear(mapa)
         $scope.modelo = modelo
         var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
         var stageReproductor = new createjs.Stage("reproductor");
-        var logicaReproductor = new ReproductorController(modelo,stageReproductor,$scope);
+        var logicaReproductor = new ReproductorController(modelo, stageReproductor, $scope);
         logicaReproductor.dibujar();
         createjs.Ticker.on("tick", stageReproductor);
         $scope.contador = 0;
@@ -50,11 +50,13 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 $scope.Timer = $interval(function () {
                         //Display the current time.
                         $scope.contador = $scope.contador + 1
-                        if ( !($scope.contador % $scope.intervalo)){update()}
+                        if (!($scope.contador % $scope.intervalo)) {
+                                update()
+                        }
                 }, 1000);
 
         };
-        $scope.detener = function(){
+        $scope.detener = function () {
                 if (angular.isDefined($scope.Timer)) {
                         $interval.cancel($scope.Timer);
                 }
@@ -66,30 +68,30 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 Simulacion.save(JSON.stringify(simulacionUpdate));
         };
 
-        update = function (){
+        update = function () {
 
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
 
-                MapaUpdate.query(function(data) {
+                MapaUpdate.query(function (data) {
                         console.log("blockstatus")
                         console.log(data);
                         console.log(dicDatosCuadras);
                         logicaReproductor.actualizar(data);
-                        modelo.actualizarCongestion (data,dicDatosCuadras);
+                        modelo.actualizarCongestion(data, dicDatosCuadras);
                         modelo.tamizarDatosCongestion(dicDatosCuadras);
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
                 });
         };
 
-        cargarScopeConNodoBorde = function (){
+        cargarScopeConNodoBorde = function () {
                 var nodosBorde = new Array();
-                modelo.nodosEntrada.forEach(function(nodo){
-                            nodosBorde.push(nodo.id)
-                    });
-                modelo.nodosSalida.forEach(function(nodo){
-                            nodosBorde.push(nodo.id)
-                    });
+                modelo.nodosEntrada.forEach(function (nodo) {
+                        nodosBorde.push(nodo.id)
+                });
+                modelo.nodosSalida.forEach(function (nodo) {
+                        nodosBorde.push(nodo.id)
+                });
                 $scope.nodosBordes = nodosBorde;
 
 
@@ -103,25 +105,25 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
                 uNodoBorde["intervalo"] = $scope.tIntervalo;
                 NodoBorde.save(JSON.stringify(uNodoBorde));
         };
-        $scope.avanzarEvento = function (){
+        $scope.avanzarEvento = function () {
                 var simulacionUpdate = {}
                 simulacionUpdate["nuevoTiempo"] = 0;
                 simulacionUpdate["operacion"] = "AVANZAR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
         };
-        $scope.reanudar = function (){
+        $scope.reanudar = function () {
                 var simulacionUpdate = {}
                 simulacionUpdate["nuevoTiempo"] = 0;
                 simulacionUpdate["operacion"] = "REANUDAR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
         };
-        $scope.masTiempo = function (){
+        $scope.masTiempo = function () {
                 var simulacionUpdate = {}
                 simulacionUpdate["nuevoTiempo"] = 1000;
                 simulacionUpdate["operacion"] = "BAJAR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
         };
-        $scope.menosTiempo = function (){
+        $scope.menosTiempo = function () {
                 var simulacionUpdate = {}
                 simulacionUpdate["nuevoTiempo"] = 1000;
                 simulacionUpdate["operacion"] = "SUBIR";
@@ -129,23 +131,22 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         }
 
 
-
         // Retorna un número aleatorio entre min (incluido) y max (excluido)
         randomEntre = function (min, max) {
                 return Math.random() * (max - min) + min;
         };
 
-        actualizarVelocimetro = function(){
+        actualizarVelocimetro = function () {
                 var dic = {};
-                dic["1"]= randomEntre(10,80);
-                dic["2"]= randomEntre(10,50);
+                dic["1"] = randomEntre(10, 80);
+                dic["2"] = randomEntre(10, 50);
                 drawChartVelocimetro(dic);
         };
 
         var resize = function () {
-                var headerHeight = parseInt($("#header").height(),10);
-                var controlesHeight = parseInt($("#controles").height(),10);
-                $("#canvaspanel").css("height",tgngviewheight-80-headerHeight-controlesHeight);
+                var headerHeight = parseInt($("#header").height(), 10);
+                var controlesHeight = parseInt($("#controles").height(), 10);
+                $("#canvaspanel").css("height", tgngviewheight - 80 - headerHeight - controlesHeight);
         };
 
         window.addEventListener("resize", resize);
@@ -154,9 +155,9 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
 
         var redondear = function (nro) {
                 var s = nro.toString();
-                var r = s.substring(0,s.indexOf('.') + 3);
+                var r = s.substring(0, s.indexOf('.') + 3);
                 if (s.indexOf('.') == -1) r = r + ".00"
-                if (r.indexOf('.') == (r.length-2)) r = r + "0";
+                if (r.indexOf('.') == (r.length - 2)) r = r + "0";
                 return r
         }
 
@@ -165,38 +166,56 @@ app.controller('reproductorController',function($scope,$interval,$location,Mapa,
         var canvaspanel = $("#canvaspanel");
         canvaspanel.css("background-color", ColoresRGB.getGRAY().toHexa());
         var initZoom = canvaspanel[0].clientWidth / originalWidth;
-        var pendiente = (1-initZoom) / (200-100)
-        var ordenadaAlOrigen = (200*initZoom-100*1) / (200-100)
+        var pendiente = (1 - initZoom) / (200 - 100)
+        var ordenadaAlOrigen = (200 * initZoom - 100 * 1) / (200 - 100)
 
-        var aFactorEscala = function(zoom) {
-            return zoom * pendiente + ordenadaAlOrigen;
+        var aFactorEscala = function (zoom) {
+                return zoom * pendiente + ordenadaAlOrigen;
         }
 
-        var aplicarZoom = function(value) {
-            var factor = aFactorEscala(value)
-            stageReproductor.canvas.width = originalWidth*factor;
-            stageReproductor.canvas.height = originalHeight*factor;
-            stageReproductor.update();
-            stageReproductor.scaleX= factor;
-            stageReproductor.scaleY= factor;
+        var aplicarZoom = function (value) {
+                var factor = aFactorEscala(value)
+                stageReproductor.canvas.width = originalWidth * factor;
+                stageReproductor.canvas.height = originalHeight * factor;
+                stageReproductor.update();
+                stageReproductor.scaleX = factor;
+                stageReproductor.scaleY = factor;
         }
 
         // With JQuery
         $("#ex6").slider();
-        $("#ex6").on("slide", function(slideEvt) {
-            var value = slideEvt.value;
-            $("#ex6SliderVal").text(value+"%");
-            aplicarZoom(value);
+        $("#ex6").on("slide", function (slideEvt) {
+                var value = slideEvt.value;
+                $("#ex6SliderVal").text(value + "%");
+                aplicarZoom(value);
         });
 
         aplicarZoom(100);
 
         //cargarMapa = function (unMapa){
-                //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
+        //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
         //}
+     //   $scope.abrir = function () {
+       //         open('views/tef.html', '', 'top=300,left=300,width=300,height=300');
+              // Tef.query(function(data){
+                //        $scope.laTef = data;
+                   //     alert(JSON.stringify(data));
+               // });
+    //    };
+        $scope.abrir = function () {
+                console.log('opening pop up');
+                 Tef.query(function(data){
+                        $scope.laTef = JSON.stringify(data);
+                  //   alert(JSON.stringify(data));
+                 });
 
+                var modalInstance = $uibModal.open({
+                        templateUrl: 'views/tef.html',
+                        controller: 'tefController',
+                        ariaLabelledBy: 'modal-title',
+                        ariaDescribedBy: 'modal-body',
+                });
+        }
 
 
 });
-
-
