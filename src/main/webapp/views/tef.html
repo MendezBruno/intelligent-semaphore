@@ -1,14 +1,19 @@
-<div class="modal-body" id="modal-body">
-<table>
-    <tr>
-    <th>Id</th>
-    <th>Tiempo</th>
-    </tr>
-        <tr ng-repeat="item in laTef">
-            <td> {{item.id}} </td>
-            <td> {{item.tiempo}} </td>
-        </tr>
-    </table>
-<button class="btn btn-default" type="button" ng-click="actualizar()" style="float: right" >
-    <span aria-hidden="true"></span>actulizar</button>
+<div class="modal-body" id="modal-body" style="">
+    <div style="overflow-x: hidden; padding: 15px;" id="tg-modal-container"
+        ng-style="estilo">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Tiempo</th>
+            </tr>
+            <tr ng-repeat="item in laTef | orderBy:'tiempo':false">
+                <td> {{item.id}} </td>
+                <td> {{item.tiempo}} </td>
+            </tr>
+        </table>
+    </div>
+    <button class="btn btn-default" type="button" ng-click="actualizar()"
+            style="width:100%" >
+        <span aria-hidden="true"></span>actulizar
+    </button>
 </div>

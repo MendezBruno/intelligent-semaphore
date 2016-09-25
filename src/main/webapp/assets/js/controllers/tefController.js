@@ -4,6 +4,8 @@
 
 app.controller('tefController',function($scope,$location,$routeParams,Tef) {
 
+        $scope.laTef = [];
+
         Tef.query(function(data){
             $scope.laTef = data.items;
         });
@@ -14,6 +16,16 @@ app.controller('tefController',function($scope,$location,$routeParams,Tef) {
             });
             console.log("me actualice");
         }
+
+        var resize = function() {
+                //$("#tg-modal-container").height($(window).height()-120);
+                $scope.altura = $(window).height()-120
+                $scope.estilo = {
+                    "height" : $scope.altura + 'px'
+                }
+        }
+        window.addEventListener("resize", resize);
+        resize();
     }
 
 );
