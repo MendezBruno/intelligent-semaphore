@@ -14,21 +14,66 @@ class BlockTests: Spek({
         on("block executes its event") {
 
             it("should algo") {
-                val street = Street(0, Orientation.West, mutableListOf(), 0)
-                val semaphoreNode = SemaphoreNode("sem1", 1.0, 1.0)
+                val street = Street(1, Orientation.West, mutableListOf(), 0)
+                val semaphoreNode = SemaphoreNode("sem1", 2.0, 3.0)
                 val fin = EgressNode("nodox",10,5)
-                val block = Block("", street, 0, semaphoreNode, fin)
+                val injectCarsblock = Block("", street, 0, semaphoreNode, fin)
+                val blockHorizontal = BlockHorizontal("", street, 100, semaphoreNode, fin)
 
+                val crossingBlock : IDispatcheable = object : IDispatcheable {
+                    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+                        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun id(): String {
+                        return "crossing-id"
+                    }
+                }
+
+                val turningBlock : IDispatcheable = object : IDispatcheable {
+                    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+                        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun id(): String {
+                        return "turning-id"
+                    }
+                }
+                blockHorizontal.crossingBlock = crossingBlock
+                blockHorizontal.turningBlock = turningBlock
+                blockHorizontal.sendingCars.subscribe {
+                    if (it.outgoingCrossingByCarsAmount > 1)
+                        it.outgoingCrossingByCarsAmount = 1
+                    if (it.outgoingTurningCarsAmount > 1)
+                        it.outgoingTurningCarsAmount = 1
+                }
+
+                val par1 = PairDispatched(0.0,turningBlock)
+                val par2 = PairDispatched(0.0,crossingBlock)
                 val TEF = EventList<PairDispatched<IDispatcheable>>()
-                TEF.add(PairDispatched(0.0,block))
+                TEF.add(PairDispatched(0.0,blockHorizontal))
                 TEF.add(PairDispatched(0.0,semaphoreNode))
+                TEF.add(par1)
+                TEF.add(par2)
 
-                block.executeEvent(0.0, TEF)
+                blockHorizontal.executeEvent(0.0, TEF)
+                semaphoreNode.executeEvent(2.0, TEF)
                 semaphoreNode.executeEvent(5.0, TEF)
-                block.executeEvent(10.0, TEF)
+                semaphoreNode.executeEvent(7.0, TEF)
+                semaphoreNode.executeEvent(10.0, TEF)
+                par1.time = 12.0
+                par2.time = 13.0
+                injectCarsblock.outgoingCrossingByCarsAmount = 15
+                blockHorizontal.processCrossingHorizontalOutgoingCars(injectCarsblock)
+                blockHorizontal.executeEvent(10.0, TEF)
                 semaphoreNode.executeEvent(12.0, TEF)
-                semaphoreNode.executeEvent(14.0, TEF)
-                block.executeEvent(16.0, TEF)
+                semaphoreNode.executeEvent(15.0, TEF)
+                par1.time = 18.0
+                par2.time = 20.0
+                injectCarsblock.outgoingCrossingByCarsAmount = 11
+                blockHorizontal.processCrossingHorizontalOutgoingCars(injectCarsblock)
+                blockHorizontal.executeEvent(16.0, TEF)
+                semaphoreNode.executeEvent(17.0, TEF)
             }
         }
     }

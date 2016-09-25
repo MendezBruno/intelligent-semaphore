@@ -41,7 +41,7 @@ class SemaphoreNode : CornerNode, IDispatcheable {
                 _vTime
             }
             Direction.Horizontal -> {
-                _vLogQueue.push(TimeLog(time,_hTime))
+                _hLogQueue.push(TimeLog(time,_hTime))
                 _hTime
             }
         }

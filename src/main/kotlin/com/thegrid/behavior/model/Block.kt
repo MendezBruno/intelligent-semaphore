@@ -20,8 +20,8 @@ open class Block(
         val entryNode: NodeType,
         val egressNode: NodeType) : BlockBase(), IDispatcheable {
 
-    protected var crossingBlock by Delegates.notNull<IDispatcheable>()
-    protected var turningBlock by Delegates.notNull<IDispatcheable>()
+    var crossingBlock by Delegates.notNull<IDispatcheable>()
+    var turningBlock by Delegates.notNull<IDispatcheable>()
     protected open var _turningProbability: Double = 0.5 * TurningModifier       //Valor inicial
     protected open var _crossingProbability: Double = 1 - _turningProbability    //Valor inicial
 
@@ -50,7 +50,7 @@ open class Block(
     val stk: Int
         get() = _incomingCarsAmount + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount
     protected val _carCapacity: Int
-    protected var _incomingCarsAmount = 0
+    var _incomingCarsAmount = 0
 
 //            else field = _carCapacity - outgoingCrossingByCarsAmount - outgoingTurningCarsAmount
 
@@ -73,20 +73,24 @@ open class Block(
     private var lastDurationExitCar: Double = 0.0
 
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
-        val stkAnterior = stk
         //*TODO* revisar: Da negativo porque los eventos se ejecutan en el orden que se les cantan.
-        t1_lastCarInputDuration = getLastCarInputDuration(previusEventTime, time)
+        t1_lastCarInputDuration = time - previusEventTime
+        previusEventTime = time
         moveCarsToTheFront()
-        println("tiempo dormido y que hubo ingreso de autos: $t1_lastCarInputDuration")
+        println("tiempo dormido: $t1_lastCarInputDuration")
         println("autos que entraron mientras yo estaba dormido: $a_lastCarsInput")
+        var prevCrossing = outgoingCrossingByCarsAmount
+        val prevTurning = outgoingTurningCarsAmount
         fireReplay()
-        val autosSalida = (stkAnterior - stk).toDouble()
+        var autosSalida = 0.0
+        autosSalida += (prevCrossing - outgoingCrossingByCarsAmount).toDouble()
+        autosSalida += (prevTurning - outgoingTurningCarsAmount).toDouble()
         val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
         val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
         q_carFlow = Math.abs(q_entrada + q_salida) / 2
         velocity = if (stk == 0) v_max else (q_carFlow * length * street.lanes) / stk
-        val dispC = futureEventsTable.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
-        val dispT = futureEventsTable.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
+        val dispC = futureEventsTable.list.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
+        val dispT = futureEventsTable.list.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
         val TEFtime = (if (dispC < dispT) dispC else dispT) + 1
         //congestion = calcularCongestion(nextTime)
 
