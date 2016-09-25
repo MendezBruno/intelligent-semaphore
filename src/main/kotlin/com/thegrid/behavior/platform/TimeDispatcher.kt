@@ -2,6 +2,7 @@ package com.thegrid.behavior.platform
 
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.communication.model.tefRow
 
 /**
  * Created by CristianErik on 02/09/2016.
@@ -40,5 +41,13 @@ class TimeDispatcher() {
         } else {
 //            _futureEventsTable.addedObjectObserver.take(1).subscribe { processEvent() }
         }
+    }
+
+    fun getSummary(): MutableList<tefRow> {
+        val summary = mutableListOf<tefRow>()
+        _futureEventsTable.list.forEach {
+            summary.add(tefRow(it.time, it.objectToDispatch.id()))
+        }
+        return summary
     }
 }
