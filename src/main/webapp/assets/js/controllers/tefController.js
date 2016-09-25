@@ -19,7 +19,7 @@ app.controller('tefController',function($scope,$location,$routeParams,Tef) {
 
         var resize = function() {
                 //$("#tg-modal-container").height($(window).height()-120);
-                $scope.altura = $(window).height()-120
+                $scope.altura = $(window).height()-160
                 $scope.estilo = {
                     "height" : $scope.altura + 'px'
                 }

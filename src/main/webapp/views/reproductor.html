@@ -37,6 +37,9 @@
                 <div class="tg-marco">
                     <div class="row">
                         <div class="col-sm-12">
+                            <div style="width: 250px; float: left; margin: 0px;">
+                                <p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p>
+                            </div>
                             <div id="header">
                                 <input id="ex6" type="text"
                                        data-slider-min="1"
@@ -54,25 +57,24 @@
                         <canvas id="reproductor" width="1000px" height="1000px">
                         </canvas>
                     </div>
-                    <div class="row" id="controles">
-                            <div class="col-xs-6"><p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p></div>
-                            <div class="col-xs-6">
-                                <button class="btn btn-default" type="button" ng-click="iniciar()" style="float: right">
-                                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Iniciar </button>
-                                <button class="btn btn-default" type="button" ng-click="detener()" style="float: right" >
-                                    <span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Detener</button>
-                                <button class="btn btn-default" type="button" ng-click="avanzarEvento()" style="float: right" >
-                                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> A.Evento</button>
-                                <button class="btn btn-default" type="button" ng-click="reanudar()" style="float: right" >
-                                    <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> reanudar</button>
-                                <button class="btn btn-default" type="button" ng-click="masTiempo()" style="float: right" >
-                                    <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>+</button>
-                                <button class="btn btn-default" type="button" ng-click="menosTiempo()" style="float: right" >
-                                    <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>-</button>
-                                <button class="btn btn-default" type="button" ng-click="abrir()" style="float: right" >
-                                    <span aria-hidden="true"></span>TEF</button>
-                            </div>
-                     </div>
+                    <div class="container-fluid">
+                        <div class="row" id="controles">
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="iniciar()" style="float: right">
+                                <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Iniciar </button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="detener()" style="float: right" >
+                                <span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Pausar</button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="avanzarEvento()" style="float: right" >
+                                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> A.Evento</button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="reanudar()" style="float: right" >
+                                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Reanudar</button>
+                            <button class="btn btn-default col-xs-1" type="button" ng-click="masTiempo()" style="float: right" >
+                                <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> +</button>
+                            <button class="btn btn-default col-xs-1" type="button" ng-click="menosTiempo()" style="float: right" >
+                                <span class="glyphicon glyphicon-backward" aria-hidden="true"></span> -</button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="abrir()" style="float: right" >
+                                <span aria-hidden="true"></span>TEF</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-3">
