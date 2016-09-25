@@ -13,7 +13,7 @@ class TimeDispatcher() {
     val nextEvent : PairDispatched<IDispatcheable>?
         get() {
             if (_futureEventsTable.isNotEmpty()) {
-                _futureEventsTable.sorted()
+                _futureEventsTable.list.sort()
                 return _futureEventsTable.removeAt(0)
             }
             else return null
@@ -35,8 +35,8 @@ class TimeDispatcher() {
             val dispatcheable = par.objectToDispatch
             val transcurrido = dispatcheable.executeEvent(par.time, _futureEventsTable)
 
-            time = par.time + transcurrido
-            dispatchOn(time, dispatcheable)
+            time = par.time
+            dispatchOn(time + transcurrido, dispatcheable)
         } else {
 //            _futureEventsTable.addedObjectObserver.take(1).subscribe { processEvent() }
         }
