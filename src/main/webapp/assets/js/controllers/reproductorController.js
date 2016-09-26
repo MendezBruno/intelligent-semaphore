@@ -147,11 +147,17 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 var headerHeight = parseInt($("#header").height(), 10);
                 var controlesHeight = parseInt($("#controles").height(), 10);
                 $("#canvaspanel").css("height", tgngviewheight - 80 - headerHeight - controlesHeight);
+                $("#info").height($("#player").height())
+                $(".panel-body").height(
+                    $("#info").height() - $("#titulo-modulo").height() - 150 -
+                    $(".tgpanelbutton").length * $(".tgpanelbutton").height()
+                )
         };
+
+        $(".tgpanelbutton").click(resize)
 
         window.addEventListener("resize", resize);
         resize();
-
 
         var redondear = function (nro) {
                 var s = nro.toString();
@@ -190,7 +196,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 aplicarZoom(value);
         });
 
-        aplicarZoom(100);
+        aplicarZoom(100)
 
         //cargarMapa = function (unMapa){
         //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
@@ -216,6 +222,4 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                         ariaDescribedBy: 'modal-body',
                 });
         }
-
-
 });
