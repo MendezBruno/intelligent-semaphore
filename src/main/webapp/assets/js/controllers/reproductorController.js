@@ -149,7 +149,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 $("#canvaspanel").css("height", tgngviewheight - 80 - headerHeight - controlesHeight);
                 $("#info").height($("#player").height())
                 $(".panel-body").height(
-                    $("#info").height() - $("#titulo-modulo").height() - 150 -
+                    $("#info").height() - $("#titulo-modulo").height() - 130 -
                     $(".tgpanelbutton").length * $(".tgpanelbutton").height()
                 )
         };
