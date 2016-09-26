@@ -5,7 +5,27 @@
 
 app.controller("registroController", function($scope){
 
-    console.log("hola");
+    $scope.registro = function () {
+
+        try {
+
+
+            const email = $scope.email;
+
+            const pass = $scope.contra;
+
+            const auth = firebase.auth();
+
+            const promise = auth.createUserWithEmailAndPassword(email, pass);
+
+        }
+
+        catch(err) {
+
+            console.log(err);
+        }
+
+    }
 
 
 });
