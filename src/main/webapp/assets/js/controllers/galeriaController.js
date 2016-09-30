@@ -34,16 +34,28 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce) {
 
         firebase.database().ref('/' + 'pepe' ).once('value', function(snapshot) {
             //  updateStarCount(postElement, snapshot.val());
-            snapshot.forEach(function (childSnapshot) {
-                mis_map.push(childSnapshot.val().mapas);
+            for (var mapa in snapshot.val().mapas) {
+                mis_map.push(mapa);
+            }
 
-            })
+            //No entiendo
             mismapas2= snapshot.val().mapas;
+
+            //Esta negrada no se que hace
             $scope.mis_mapas = Object.keys(mismapas2).map(function (key) { return mismapas2[key]; });
+
+            //$scope.mis_mapas no esta definido
             console.log($scope.mis_mapas);
 
         });
 
+    }
+
+    $scope.mostrarDB = function() {
+        console.log(mis_map);
+        mis_map.forEach(function(map){
+            console.log(map);
+        })
     }
 
     var misMapas;
