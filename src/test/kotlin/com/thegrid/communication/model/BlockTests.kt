@@ -17,8 +17,8 @@ class BlockTests: Spek({
                 val street = Street(1, Orientation.West, mutableListOf(), 0)
                 val semaphoreNode = SemaphoreNode("sem1", 2.0, 3.0)
                 val fin = EgressNode("nodox",10,5)
-                val injectCarsblock = Block("", street, 0, semaphoreNode, fin)
-                val blockHorizontal = BlockHorizontal("", street, 100, semaphoreNode, fin)
+                val injectCarsblock = Block("", street, 0, semaphoreNode, fin, null)
+                val blockHorizontal = BlockHorizontal("", street, 100, semaphoreNode, fin, )
 
                 val crossingBlock : IDispatcheable = object : IDispatcheable {
                     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {

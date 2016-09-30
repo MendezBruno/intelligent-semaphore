@@ -4,6 +4,8 @@ import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CaudalNormalState
 import rx.Observable
 import java.util.*
 
@@ -51,17 +53,19 @@ class EntryNode : NodeType, IDispatcheable {
         _interval = interval
 
         //Calle ficticia
-        infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0), 0, this, this)
+        val blockState : BlockState = CaudalNormalState()
+        infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0), 0, this, this, blockState)
     }
 
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
         val crossingCars = Random().nextInt(_maxAmount)
         val turningCars = Random().nextInt(_maxAmount)
-        println("****************")
+        println("**************************")
         println("soy el nodo de entrada:$id")
         println("autos que siguen derecho:$crossingCars")
         println("autos que siguen doblan: $turningCars")
         println("mi tiempo es:$time")
+        println("**************************")
         infiniteCarsBlock.outgoingCrossingByCarsAmount += crossingCars
         infiniteCarsBlock.outgoingTurningCarsAmount += turningCars
 //        println("Cruce IN - STK-IN:${crossingCars + turningCars}")

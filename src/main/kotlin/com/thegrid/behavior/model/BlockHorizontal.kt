@@ -1,11 +1,12 @@
 package com.thegrid.behavior.model
 
 import com.thegrid.behavior.extensions.Probabilities
+import com.thegrid.behavior.state.BlockState
 import freeFunctions.minimo
 import kotlin.properties.Delegates
 
-class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeType, egressNode:NodeType)
-: Block(id, street, length, entryNode, egressNode) {
+class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeType, egressNode: NodeType, blockState: BlockState)
+: Block(id, street, length, entryNode, egressNode, blockState) {
 
     override fun relateOutgoingBlocks() {
         crossingBlock = egressNode.horizontalEgressBlock

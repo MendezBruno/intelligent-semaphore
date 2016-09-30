@@ -5,6 +5,7 @@ import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.state.BlockState
 import com.thegrid.communication.extension.RGBA
 import rx.lang.kotlin.ReplaySubject
 import rx.subjects.ReplaySubject
@@ -18,7 +19,8 @@ open class Block(
         val street: Street,
         val length: Int,
         val entryNode: NodeType,
-        val egressNode: NodeType) : BlockBase(), IDispatcheable {
+        val egressNode: NodeType,
+        var blockState: BlockState) : BlockBase(), IDispatcheable {
 
     var crossingBlock by Delegates.notNull<IDispatcheable>()
     var turningBlock by Delegates.notNull<IDispatcheable>()
@@ -29,7 +31,6 @@ open class Block(
         return id
     }
 
-    //Simulation vars
     val colorStatus = RGBA(0,0,0,1)
     var congestion = 0.0
     var congestionLevel = CongestionLevel.SIN_CONGESTION
@@ -41,7 +42,8 @@ open class Block(
     var t1_lastCarInputDuration = 0.0
     var t_min = 6.0 //Calcular desde los atributos de la calle
     var previusEventTime = 0.0
-    val timeForMaxCongestion = 20.0 // Segundos que "delatan" que hay congestión
+    var capacidad = (length / 5)*street.lanes
+    val timeForMaxCongestion = 70.0 // Segundos que "delatan" que hay congestión
 
     val changeListeners = mutableListOf<BlockListener>()
     //        set(value) = if(value + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount < _carCapacity)
@@ -73,7 +75,6 @@ open class Block(
     private var lastDurationExitCar: Double = 0.0
 
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
-        //*TODO* revisar: Da negativo porque los eventos se ejecutan en el orden que se les cantan.
         t1_lastCarInputDuration = time - previusEventTime
         previusEventTime = time
         val prevStk = stk
@@ -84,10 +85,13 @@ open class Block(
         var autosSalida = prevStk - stk
 //        autosSalida += Math.abs(autosQuePasaronACruzar - outgoingCrossingByCarsAmount).toDouble()
 //        autosSalida += Math.abs(autosQuePasaronADoblar - outgoingTurningCarsAmount).toDouble()
-        val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
-        val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
+      //  val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
+        val q_salida = blockState.calcularFlujoSalida(autosSalida, t1_lastCarInputDuration,capacidad,stk,v_max)
+        val q_entrada = blockState.calcularFlujoEntrada(a_lastCarsInput, t1_lastCarInputDuration,capacidad,stk,v_max)
+      //  val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
         q_carFlow = Math.abs(q_entrada + q_salida) / 2
-        velocity = if (stk == 0) v_max else (q_carFlow * length * street.lanes) / stk
+       // velocity = if (stk == 0) v_max else (q_carFlow * length * street.lanes) / stk
+        velocity = blockState.calcularVelocidad(q_carFlow,stk,capacidad,street,v_max)
         val eventDuration: Double
         if (outgoingCrossingByCarsAmount + outgoingTurningCarsAmount > 0) {
             val dispC = futureEventsTable.list.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
@@ -101,7 +105,6 @@ open class Block(
         } else {
             eventDuration = length / velocity
         }
-        //congestion = calcularCongestion(nextTime)
 
         fireListeners()
         lastDurationExitCar = eventDuration
@@ -192,3 +195,5 @@ open class Block(
 
     open fun relateOutgoingBlocks() { }
 }
+
+
