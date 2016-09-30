@@ -3,6 +3,7 @@ var app = angular.module('app', ['ngRoute','ngResource']);
 app.run(['$rootScope','$interval',
     function($rootScope,$interval) {
         $rootScope.cargandoHttp=true;
+        $rootScope.uid={};
         //$rootScope.splashes = splashes;
     }]);
 

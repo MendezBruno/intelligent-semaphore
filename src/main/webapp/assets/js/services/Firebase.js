@@ -10,6 +10,9 @@ function Firebase () {
         storageBucket: "mi-proyecto-c72af.appspot.com",
         messagingSenderId: "150312729443"
     };
-    firebase.initializeApp(config);
+        console.log('firebase:' + firebase.initializeApp(config));
+        //firebase.initializeApp(config);
+        var database = firebase.database();
+
 
 };
