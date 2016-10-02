@@ -6,6 +6,7 @@ import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
 import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CaudalNormalState
 import com.thegrid.communication.extension.RGBA
 import rx.lang.kotlin.ReplaySubject
 import rx.subjects.ReplaySubject
@@ -19,9 +20,9 @@ open class Block(
         val street: Street,
         val length: Int,
         val entryNode: NodeType,
-        val egressNode: NodeType,
-        var blockState: BlockState) : BlockBase(), IDispatcheable {
+        val egressNode: NodeType) : BlockBase(), IDispatcheable {
 
+    var blockState: BlockState = CaudalNormalState()
     var crossingBlock by Delegates.notNull<IDispatcheable>()
     var turningBlock by Delegates.notNull<IDispatcheable>()
     protected open var _turningProbability: Double = 0.5 * TurningModifier       //Valor inicial

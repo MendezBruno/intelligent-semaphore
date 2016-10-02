@@ -4,8 +4,8 @@ import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.state.BlockState
 import freeFunctions.minimo
 
-class BlockVertical(id: String, street: Street, length: Int, entryNode: NodeType, egressNode: NodeType, blockState: BlockState)
-: Block(id, street, length, entryNode, egressNode, blockState) {
+class BlockVertical(id: String, street: Street, length: Int, entryNode: NodeType, egressNode: NodeType)
+: Block(id, street, length, entryNode, egressNode) {
 
     override fun relateOutgoingBlocks() {
         crossingBlock = egressNode.verticalEgressBlock
