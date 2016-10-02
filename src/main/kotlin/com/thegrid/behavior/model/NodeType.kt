@@ -1,7 +1,10 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CaudalNormalState
 import rx.Observable
 
 /**
@@ -43,5 +46,9 @@ abstract class NodeType(val id: String){
 
     open fun getOnlineTimeV(start:Double, end:Double): Double {
         return start - end
+    }
+
+    open fun getBlockState(direccion: Direction): BlockState {
+        return CaudalNormalState()
     }
 }

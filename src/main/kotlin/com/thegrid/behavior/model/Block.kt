@@ -80,6 +80,10 @@ open class Block(
         previusEventTime = time
         val prevStk = stk
         moveCarsToTheFront()
+
+        //recalcular la velocidad
+
+
         println("tiempo dormido: $t1_lastCarInputDuration")
         println("autos que entraron mientras yo estaba dormido: $a_lastCarsInput")
         fireReplay()
@@ -87,12 +91,15 @@ open class Block(
 //        autosSalida += Math.abs(autosQuePasaronACruzar - outgoingCrossingByCarsAmount).toDouble()
 //        autosSalida += Math.abs(autosQuePasaronADoblar - outgoingTurningCarsAmount).toDouble()
       //  val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
-        val q_salida = blockState.calcularFlujoSalida(autosSalida, t1_lastCarInputDuration,capacidad,stk,v_max)
-        val q_entrada = blockState.calcularFlujoEntrada(a_lastCarsInput, t1_lastCarInputDuration,capacidad,stk,v_max)
+        //val q_salida = blockState.calcularFlujoSalida(autosSalida, t1_lastCarInputDuration,capacidad,stk,v_max)
+        //val q_entrada = blockState.calcularFlujoEntrada(a_lastCarsInput, t1_lastCarInputDuration,capacidad,stk,v_max)
       //  val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
-        q_carFlow = Math.abs(q_entrada + q_salida) / 2
+        //q_carFlow = Math.abs(q_entrada + q_salida) / 2
        // velocity = if (stk == 0) v_max else (q_carFlow * length * street.lanes) / stk
         velocity = blockState.calcularVelocidad(q_carFlow,stk,capacidad,street,v_max)
+        k_density = stk.toDouble() / capacidad
+        q_carFlow = velocity * k_density
+
         val eventDuration: Double
         if (outgoingCrossingByCarsAmount + outgoingTurningCarsAmount > 0) {
             val dispC = futureEventsTable.list.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
@@ -115,8 +122,7 @@ open class Block(
         println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         println("Tiempo: $time Proximo tiempo: ${time+eventDuration}")
-        println("Q entrada: $q_entrada")
-        println("Q salida: $q_salida autosSalida: $autosSalida")
+        println("AutosSalida: $autosSalida")
         println("flujo promedio: $q_carFlow")
         println("*************************************************************************")
 

@@ -54,7 +54,7 @@ class EntryNode : NodeType, IDispatcheable {
 
         //Calle ficticia
         val blockState : BlockState = CaudalNormalState()
-        infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0), 0, this, this, blockState)
+        infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0), 0, this, this)
     }
 
     override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {

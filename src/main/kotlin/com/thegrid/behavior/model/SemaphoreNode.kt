@@ -7,6 +7,9 @@ import com.thegrid.behavior.observer.SemaphoreListener
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CuadraEnRojo
+import com.thegrid.behavior.state.CuadraEnVerde
 import rx.lang.kotlin.observable
 
 class SemaphoreNode : CornerNode, IDispatcheable {
@@ -99,5 +102,10 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         changeListeners.forEach { listener -> listener.fire(this) }
     }
 
+    override fun getBlockState(direccion : Direction): BlockState {
+        return if (direccion == this.direction)
+            CuadraEnVerde()
+        else CuadraEnRojo()
+    }
 }
 

@@ -1,20 +1,12 @@
 package com.thegrid.behavior.state
 
+import com.thegrid.behavior.extensions.Direction
+import com.thegrid.behavior.model.Block
 import com.thegrid.behavior.model.IngenieriaTransito
+import com.thegrid.behavior.model.Orientation
 import com.thegrid.behavior.model.Street
 
-/**
- * Created by bruno on 29/09/16.
- */
 class CaudalNormalState: BlockState(ingeniriaTransito = IngenieriaTransito()) {
-    override fun calcularFlujoSalida(autosSalida: Int, t1_lastCarInputDuration: Double, capacidad: Int, stk: Int, v_max: Double): Double {
-        throw UnsupportedOperationException()
-    }
-
-    override fun calcularFlujoEntrada(a_lastCarsInput: Int, t1_lastCarInputDuration: Double, capacidad: Int, stk: Int, v_max: Double): Double {
-        throw UnsupportedOperationException()
-    }
-
 
     override fun calcularVelocidad(q_carFlow: Double, stk: Int, capacidad: Int, street: Street, v_max: Double):Double {
         val velOfCap = ingeniriaTransito.calcularVelocidadRespectoDensidad(v_max,capacidad,stk)
@@ -26,7 +18,13 @@ class CaudalNormalState: BlockState(ingeniriaTransito = IngenieriaTransito()) {
         return velOfCuca
     }
 
-    override fun cambiarEstado(nuevoEstado: BlockState) :BlockState{
-        throw UnsupportedOperationException()
+    override fun cambiarEstado(block : Block) :BlockState{
+        val orientation = block.street.orientation
+        var direccion = Direction.Horizontal
+
+        if (orientation == Orientation.North || orientation == Orientation.South) {
+            direccion = Direction.Vertical
+        }
+        return block.egressNode.getBlockState(direccion)
     }
 }
