@@ -10,7 +10,6 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     var coordenadascalle;
     var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
     var modelo1 = MapaEditor.desParsear(mapa);
-
  //   new Firebase();
     $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
     $scope.callesH= modelo1.callesVerticales[0].cuadras.length - 1;

@@ -1,5 +1,7 @@
-app.controller('previewController', function($scope,Mapa,MyService,$routeParams,$location,$timeout) {
+app.controller('previewController', function($scope,Mapa,MyService,$routeParams,$location,$timeout,$rootScope) {
     var largo = 30;
+    console.log("hola");
+    console.log($rootScope.mapeos);
     var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
     var modelo1 = MapaEditor.desParsear(mapa);
     $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
