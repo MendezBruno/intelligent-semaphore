@@ -10,7 +10,7 @@ import java.sql.Timestamp
 import java.time.Instant
 import kotlin.properties.Delegates
 
-class Simulation(map : Map) {
+class Simulation(map : Map, val debugMode : Boolean = false) {
     companion object {
         var SharedInstance : Simulation? = null
     }
@@ -38,6 +38,7 @@ class Simulation(map : Map) {
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
 
+        if (debugMode) timeSleep = 0
         orquestador = iniciarSimulacion()
     }
 
@@ -61,7 +62,7 @@ class Simulation(map : Map) {
                 }
 
 
-        })
+        }, debugMode)
     }
 
 

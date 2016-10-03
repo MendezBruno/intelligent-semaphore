@@ -59,7 +59,7 @@ class EntryNode : NodeType, IDispatcheable {
 
     override fun executeEvent(time: Double, tef: Tef): Double {
         val crossingCars = Random().nextInt(_maxAmount)
-        val turningCars = Random().nextInt(_maxAmount)
+        val turningCars = 0
         println("**************************")
         println("soy el nodo de entrada:$id")
         println("autos que siguen derecho:$crossingCars")
