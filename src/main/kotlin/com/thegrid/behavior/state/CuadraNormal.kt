@@ -5,7 +5,7 @@ import com.thegrid.behavior.model.IngenieriaTransito
 import com.thegrid.behavior.model.Street
 import com.thegrid.behavior.services.Tef
 
-class CuadraNormal : BlockState(ingeniriaTransito = IngenieriaTransito()) {
+open class CuadraNormal : BlockState(ingeniriaTransito = IngenieriaTransito()) {
 
     override fun calcularVelocidad(q_carFlow: Double, stk: Int, capacidad: Int, street: Street, v_max: Double):Double {
         val velOfCap = ingeniriaTransito.calcularVelocidadRespectoDensidad(v_max,capacidad,stk)
@@ -14,7 +14,7 @@ class CuadraNormal : BlockState(ingeniriaTransito = IngenieriaTransito()) {
         println("Estoy calculando velocidad en caudal normal" )
         println("la velocidad respecto a la capacidad es:  $velOfCap" )
         println("la velocidad respecto a cuca es:  $velOfCuca" )
-        return velOfCuca
+        return velOfCap
     }
 
     override fun cambiarEstado(block : Block) :BlockState{

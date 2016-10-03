@@ -1,9 +1,12 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
 import com.thegrid.behavior.services.Tef
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CuadraDelFinal
 import freeFunctions.minimo
 import rx.Observable
 import java.util.*
@@ -84,5 +87,9 @@ class EgressNode : NodeType, IDispatcheable {
 
     override fun getNextTefTime(tef: Tef): Double {
         return tef.list.find { it.objectToDispatch.id() == id }!!.time
+    }
+
+    override fun getBlockState(direccion: Direction): BlockState {
+        return CuadraDelFinal()
     }
 }
