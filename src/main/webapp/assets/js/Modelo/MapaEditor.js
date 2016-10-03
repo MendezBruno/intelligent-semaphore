@@ -112,11 +112,17 @@ MapaEditor.desParsear = function (json) {
         .forEach(function (n) {
             n.__proto__ = NodoBorde.prototype;
         });
-    modelo.nodosSemaforo
+    if(modelo.nodosSemaforo){
+        modelo.nodosSemaforo
         .concat(modelo.nodosNoSemaforo)
         .forEach(function (n) {
             n.__proto__ = NodoControl.prototype;
-        });
+        });}
+    else{
+        modelo.nodosSemaforo = new Array();
+        modelo.nodosNoSemaforo.forEach(function (n) {
+            n.__proto__ = NodoControl.prototype;})
+    }
     modelo.callesHorizontales
         .forEach(function (calle) {
             calle.__proto__ = CalleHorizontal.prototype;
