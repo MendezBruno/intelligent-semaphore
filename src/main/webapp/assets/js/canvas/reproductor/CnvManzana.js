@@ -43,13 +43,13 @@ CnvManzana.prototype.setup = function () {
     this.addChild(cordon);
 };
 
-CnvManzana.prototype.escribirInformacionAbajo = function (datos){
-   this.textInferior.text=datos.stock;
+CnvManzana.prototype.escribirInformacionAbajo = function (id,datos){
+   this.textInferior.text=datos.stock+" "+id;
 
 }
 
-CnvManzana.prototype.escribirInformacionDerecha = function (datos){
-   this.textDerecho.text=datos.stock;
+CnvManzana.prototype.escribirInformacionDerecha = function (id,datos){
+   this.textDerecho.text=datos.stock +" " +id;
 
 }
 
