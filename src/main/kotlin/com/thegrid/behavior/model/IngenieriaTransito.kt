@@ -5,8 +5,7 @@ package com.thegrid.behavior.model
  */
 class IngenieriaTransito {
     fun calcularVelocidadRespectoDensidad(v_max: Double, capacidad: Int, stk: Int): Double {
-        return v_max - (v_max/stk)*capacidad
-
+        return v_max * ( 1 - stk/capacidad )
     }
 
     fun velocidadRespectoFlujo(q_carFlow: Double, v_max: Double, capacidad: Int, stk: Int): Double {

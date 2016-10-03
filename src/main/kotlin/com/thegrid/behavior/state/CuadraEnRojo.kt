@@ -7,7 +7,10 @@ import com.thegrid.behavior.services.Tef
 
 class CuadraEnRojo(ingeniriaTransito: IngenieriaTransito = IngenieriaTransito()) : BlockState(ingeniriaTransito) {
     override fun calcularVelocidad(q_carFlow: Double, stk: Int, capacidad: Int, street: Street, v_max: Double): Double {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("=====================================")
+        println("*** Estoy en ROJO ***")
+        println("=====================================")
+        return 0.0
     }
 
     override fun cambiarEstado(block: Block): BlockState {

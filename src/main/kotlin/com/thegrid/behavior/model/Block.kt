@@ -4,8 +4,6 @@ import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.platform.IDispatcheable
-import com.thegrid.behavior.services.EventList
-import com.thegrid.behavior.services.model.PairDispatched
 import com.thegrid.behavior.services.Tef
 import com.thegrid.behavior.state.BlockState
 import com.thegrid.behavior.state.CuadraNormal
@@ -87,6 +85,7 @@ open class Block(
         t1_lastCarInputDuration = time - previusEventTime
         previusEventTime = time
         val prevStk = stk
+        fireListeners()
         moveCarsToTheFront()
 
         println("tiempo dormido: $t1_lastCarInputDuration")
@@ -100,11 +99,10 @@ open class Block(
         k_density = stk.toDouble() / capacidad
         q_carFlow = velocity * k_density
 
-        eventDurationByVelocity = velocity / length;
+        eventDurationByVelocity = length / velocity;
         currentTime = time
         val eventDuration = blockState.getEventDuration(this, tef)
 
-        fireListeners()
         lastDurationExitCar = eventDuration
         congestion = calcularCongestion()
         changeColor()
@@ -112,8 +110,9 @@ open class Block(
         println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
         println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
         println("Tiempo: $time Proximo tiempo: ${time+eventDuration}")
+        println("Duracion del evento ${eventDuration}")
         println("AutosSalida: $autosSalida")
-        println("flujo promedio: $q_carFlow")
+        println("flujo: $q_carFlow")
         println("*************************************************************************")
 
         blockState = blockState.cambiarEstado(this)
