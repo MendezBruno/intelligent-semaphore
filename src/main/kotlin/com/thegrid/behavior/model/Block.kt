@@ -1,12 +1,14 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
 import com.thegrid.behavior.state.BlockState
-import com.thegrid.behavior.state.CaudalNormalState
+import com.thegrid.behavior.state.CuadraNormal
 import com.thegrid.communication.extension.RGBA
 import rx.lang.kotlin.ReplaySubject
 import rx.subjects.ReplaySubject
@@ -22,7 +24,7 @@ open class Block(
         val entryNode: NodeType,
         val egressNode: NodeType) : BlockBase(), IDispatcheable {
 
-    var blockState: BlockState = CaudalNormalState()
+    var blockState: BlockState = CuadraNormal()
     var crossingBlock by Delegates.notNull<IDispatcheable>()
     var turningBlock by Delegates.notNull<IDispatcheable>()
     protected open var _turningProbability: Double = 0.5 * TurningModifier       //Valor inicial
@@ -30,6 +32,10 @@ open class Block(
 
     override fun id(): String {
         return id
+    }
+
+    open fun getDirection(): Direction {
+        return Direction.Horizontal
     }
 
     val colorStatus = RGBA(0,0,0,1)
@@ -74,45 +80,29 @@ open class Block(
     }
 
     private var lastDurationExitCar: Double = 0.0
+    private var eventDurationByVelocity: Double = 0.0
+    private var  currentTime: Double = 0.0
 
-    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+    override fun executeEvent(time: Double, tef: Tef): Double {
         t1_lastCarInputDuration = time - previusEventTime
         previusEventTime = time
         val prevStk = stk
         moveCarsToTheFront()
 
-        //recalcular la velocidad
-
-
         println("tiempo dormido: $t1_lastCarInputDuration")
         println("autos que entraron mientras yo estaba dormido: $a_lastCarsInput")
-        fireReplay()
+        if (blockState.autosPuedenPasar()) {
+            fireReplay()
+        }
         var autosSalida = prevStk - stk
-//        autosSalida += Math.abs(autosQuePasaronACruzar - outgoingCrossingByCarsAmount).toDouble()
-//        autosSalida += Math.abs(autosQuePasaronADoblar - outgoingTurningCarsAmount).toDouble()
-      //  val q_salida = if(lastDurationExitCar==0.0) 0.0 else autosSalida / lastDurationExitCar
-        //val q_salida = blockState.calcularFlujoSalida(autosSalida, t1_lastCarInputDuration,capacidad,stk,v_max)
-        //val q_entrada = blockState.calcularFlujoEntrada(a_lastCarsInput, t1_lastCarInputDuration,capacidad,stk,v_max)
-      //  val q_entrada = if(t1_lastCarInputDuration==0.0) 0.0 else a_lastCarsInput / t1_lastCarInputDuration
-        //q_carFlow = Math.abs(q_entrada + q_salida) / 2
-       // velocity = if (stk == 0) v_max else (q_carFlow * length * street.lanes) / stk
+
         velocity = blockState.calcularVelocidad(q_carFlow,stk,capacidad,street,v_max)
         k_density = stk.toDouble() / capacidad
         q_carFlow = velocity * k_density
 
-        val eventDuration: Double
-        if (outgoingCrossingByCarsAmount + outgoingTurningCarsAmount > 0) {
-            val dispC = futureEventsTable.list.find { it.objectToDispatch.id() == crossingBlock.id() }!!.time
-            val dispT = futureEventsTable.list.find { it.objectToDispatch.id() == turningBlock.id() }!!.time
-            var nextTime = (if (dispC < dispT) dispC else dispT) + 1
-            if (nextTime < time) {
-                nextTime = time + 50
-                println("## WARN: Tiempo de otra cuadra menor al actual")
-            }
-            eventDuration = nextTime - time
-        } else {
-            eventDuration = length / velocity
-        }
+        eventDurationByVelocity = velocity / length;
+        currentTime = time
+        val eventDuration = blockState.getEventDuration(this, tef)
 
         fireListeners()
         lastDurationExitCar = eventDuration
@@ -126,8 +116,28 @@ open class Block(
         println("flujo promedio: $q_carFlow")
         println("*************************************************************************")
 
+        blockState = blockState.cambiarEstado(this)
+
         a_lastCarsInput = 0
         return eventDuration
+    }
+
+    fun eventDurationifSemaphoreNode(tef: Tef): Double {
+        val nextTefTime = egressNode.getNextTefTime(tef)
+        return if (nextTefTime <= currentTime) {
+            println("## WARN: Tiempo del semaforo menor al actual")
+            eventDurationByVelocity
+        } else nextTefTime
+    }
+
+    fun eventDurationifCornerNode(tef: Tef): Double {
+        if (outgoingCrossingByCarsAmount + outgoingTurningCarsAmount > 0) {
+            //Congestionado
+            val nextTefTime = egressNode.getNextTefTime(tef)
+            return if (currentTime + eventDurationByVelocity < nextTefTime)
+                eventDurationByVelocity else nextTefTime
+        }
+        return eventDurationByVelocity
     }
 
     private fun calcularCongestion(): Double {

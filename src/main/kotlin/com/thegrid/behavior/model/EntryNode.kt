@@ -4,8 +4,9 @@ import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
 import com.thegrid.behavior.state.BlockState
-import com.thegrid.behavior.state.CaudalNormalState
+import com.thegrid.behavior.state.CuadraNormal
 import rx.Observable
 import java.util.*
 
@@ -53,11 +54,10 @@ class EntryNode : NodeType, IDispatcheable {
         _interval = interval
 
         //Calle ficticia
-        val blockState : BlockState = CaudalNormalState()
         infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0), 0, this, this)
     }
 
-    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+    override fun executeEvent(time: Double, tef: Tef): Double {
         val crossingCars = Random().nextInt(_maxAmount)
         val turningCars = Random().nextInt(_maxAmount)
         println("**************************")
@@ -71,5 +71,9 @@ class EntryNode : NodeType, IDispatcheable {
 //        println("Cruce IN - STK-IN:${crossingCars + turningCars}")
         infiniteCarsBlock.fireReplay()
         return _interval.toDouble()
+    }
+
+    override fun getNextTefTime(tef: Tef): Double {
+        return tef.list.find { it.objectToDispatch.id() == id }!!.time
     }
 }

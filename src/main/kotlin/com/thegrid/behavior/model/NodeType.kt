@@ -3,8 +3,9 @@ package com.thegrid.behavior.model
 import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.services.Tef
 import com.thegrid.behavior.state.BlockState
-import com.thegrid.behavior.state.CaudalNormalState
+import com.thegrid.behavior.state.CuadraNormal
 import rx.Observable
 
 /**
@@ -49,6 +50,8 @@ abstract class NodeType(val id: String){
     }
 
     open fun getBlockState(direccion: Direction): BlockState {
-        return CaudalNormalState()
+        return CuadraNormal()
     }
+
+    abstract fun getNextTefTime(tef: Tef): Double
 }

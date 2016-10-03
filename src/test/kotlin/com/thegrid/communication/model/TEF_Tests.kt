@@ -5,6 +5,7 @@ import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.platform.TimeDispatcher
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
 import org.jetbrains.spek.api.Spek
 
 class TEF_Tests: Spek({
@@ -13,7 +14,7 @@ class TEF_Tests: Spek({
 
             it("debe ordenarse de menor a mayor") {
                 val dispatcheable1 : IDispatcheable = object : IDispatcheable {
-                    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+                    override fun executeEvent(time: Double, tef: Tef): Double {
                         return 50.0
                     }
 
@@ -22,7 +23,7 @@ class TEF_Tests: Spek({
                     }
                 }
                 val dispatcheable2 : IDispatcheable = object : IDispatcheable {
-                    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+                    override fun executeEvent(time: Double, tef: Tef): Double {
                         return 50.0
                     }
 
@@ -31,7 +32,7 @@ class TEF_Tests: Spek({
                     }
                 }
                 val dispatcheable3 : IDispatcheable = object : IDispatcheable {
-                    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+                    override fun executeEvent(time: Double, tef: Tef): Double {
                         return 50.0
                     }
 

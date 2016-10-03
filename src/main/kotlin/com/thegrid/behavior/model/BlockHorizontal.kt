@@ -1,5 +1,6 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.state.BlockState
 import freeFunctions.minimo
@@ -50,4 +51,7 @@ class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeTy
         _crossingProbability = 1 - _turningProbability
     }
 
+    override fun getDirection(): Direction {
+        return Direction.Horizontal
+    }
 }

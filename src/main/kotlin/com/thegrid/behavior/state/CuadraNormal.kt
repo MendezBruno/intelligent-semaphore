@@ -1,12 +1,11 @@
 package com.thegrid.behavior.state
 
-import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.model.Block
 import com.thegrid.behavior.model.IngenieriaTransito
-import com.thegrid.behavior.model.Orientation
 import com.thegrid.behavior.model.Street
+import com.thegrid.behavior.services.Tef
 
-class CaudalNormalState: BlockState(ingeniriaTransito = IngenieriaTransito()) {
+class CuadraNormal : BlockState(ingeniriaTransito = IngenieriaTransito()) {
 
     override fun calcularVelocidad(q_carFlow: Double, stk: Int, capacidad: Int, street: Street, v_max: Double):Double {
         val velOfCap = ingeniriaTransito.calcularVelocidadRespectoDensidad(v_max,capacidad,stk)
@@ -19,12 +18,14 @@ class CaudalNormalState: BlockState(ingeniriaTransito = IngenieriaTransito()) {
     }
 
     override fun cambiarEstado(block : Block) :BlockState{
-        val orientation = block.street.orientation
-        var direccion = Direction.Horizontal
+        return block.egressNode.getBlockState(block.getDirection())
+    }
 
-        if (orientation == Orientation.North || orientation == Orientation.South) {
-            direccion = Direction.Vertical
-        }
-        return block.egressNode.getBlockState(direccion)
+    override fun autosPuedenPasar(): Boolean {
+        return true;
+    }
+
+    override fun getEventDuration(block :Block, tef: Tef): Double {
+        return block.eventDurationifCornerNode(tef)
     }
 }

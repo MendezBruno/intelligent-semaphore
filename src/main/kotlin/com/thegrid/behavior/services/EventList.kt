@@ -11,7 +11,7 @@ import rx.subjects.ReplaySubject
 //TODO- Tiene mucho potencial y capaz podriamos lograr que se aproveche por completo el bufer de los subjects,
 //TODO- en vez de hacer un take(1) en TimeDispatcher
 
-class EventList<E>(override val size: Int = 0) : MutableList<E> {
+open class EventList<E>(override val size: Int = 0) : MutableList<E> {
 
     val addedObjectObserver: Observable<E>
         get() = _addedObjectSubject

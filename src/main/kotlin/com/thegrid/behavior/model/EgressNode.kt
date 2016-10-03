@@ -3,6 +3,7 @@ package com.thegrid.behavior.model
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
 import freeFunctions.minimo
 import rx.Observable
 import java.util.*
@@ -50,7 +51,7 @@ class EgressNode : NodeType, IDispatcheable {
 
     var _entryBlock by Delegates.notNull<Block>()
 
-    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+    override fun executeEvent(time: Double, tef: Tef): Double {
 //        println("maxAmount: "+_maxAmount)
         var removedCars = Random().nextInt(_maxAmount)
         println("****************")
@@ -79,5 +80,9 @@ class EgressNode : NodeType, IDispatcheable {
     constructor(id:String, interval:Int, maxAmount:Int) : super(id) {
         _maxAmount = maxAmount
         _interval = interval.toDouble()
+    }
+
+    override fun getNextTefTime(tef: Tef): Double {
+        return tef.list.find { it.objectToDispatch.id() == id }!!.time
     }
 }

@@ -7,6 +7,7 @@ import com.thegrid.behavior.observer.SemaphoreListener
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
 import com.thegrid.behavior.state.BlockState
 import com.thegrid.behavior.state.CuadraEnRojo
 import com.thegrid.behavior.state.CuadraEnVerde
@@ -35,7 +36,7 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         this.direction = direction
     }
 
-    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+    override fun executeEvent(time: Double, tef: Tef): Double {
         direction = flip(direction)
         fireListeners()
         return when(direction) {
@@ -106,6 +107,10 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         return if (direccion == this.direction)
             CuadraEnVerde()
         else CuadraEnRojo()
+    }
+
+    override fun getNextTefTime(tef: Tef): Double {
+        return tef.list.find { it.objectToDispatch.id() == id }!!.time
     }
 }
 

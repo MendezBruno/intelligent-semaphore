@@ -2,6 +2,7 @@ package com.thegrid.behavior.platform
 
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
 import com.thegrid.communication.model.tefRow
 
 /**
@@ -10,7 +11,7 @@ import com.thegrid.communication.model.tefRow
 
 class TimeDispatcher() {
 
-    private val _futureEventsTable = EventList<PairDispatched<IDispatcheable>>()
+    private val _futureEventsTable = Tef()
     val nextEvent : PairDispatched<IDispatcheable>?
         get() {
             if (_futureEventsTable.isNotEmpty()) {

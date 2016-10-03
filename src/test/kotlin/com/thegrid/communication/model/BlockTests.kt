@@ -6,6 +6,7 @@ import com.thegrid.behavior.model.*
 import com.thegrid.behavior.platform.IDispatcheable
 import com.thegrid.behavior.services.EventList
 import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
 import com.thegrid.communication.services.MapConversor
 import org.jetbrains.spek.api.Spek
 
@@ -21,7 +22,7 @@ class BlockTests: Spek({
                 val blockHorizontal = BlockHorizontal("", street, 100, semaphoreNode, fin )
 
                 val crossingBlock : IDispatcheable = object : IDispatcheable {
-                    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+                    override fun executeEvent(time: Double, tef: Tef): Double {
                         throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
@@ -31,7 +32,7 @@ class BlockTests: Spek({
                 }
 
                 val turningBlock : IDispatcheable = object : IDispatcheable {
-                    override fun executeEvent(time: Double, futureEventsTable: EventList<PairDispatched<IDispatcheable>>): Double {
+                    override fun executeEvent(time: Double, tef: Tef): Double {
                         throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
@@ -50,9 +51,10 @@ class BlockTests: Spek({
 
                 val par1 = PairDispatched(0.0,turningBlock)
                 val par2 = PairDispatched(0.0,crossingBlock)
-                val TEF = EventList<PairDispatched<IDispatcheable>>()
+                val TEF = Tef()
                 TEF.add(PairDispatched(0.0,blockHorizontal))
                 TEF.add(PairDispatched(0.0,semaphoreNode))
+                TEF.add(PairDispatched(0.0,fin))
                 TEF.add(par1)
                 TEF.add(par2)
 
