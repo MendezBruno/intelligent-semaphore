@@ -10,6 +10,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
     var coordenadascalle;
     var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
     var modelo1 = MapaEditor.desParsear(mapa);
+ //   new Firebase();
     $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
     $scope.callesH= modelo1.callesVerticales[0].cuadras.length - 1;
     $scope.nombre=modelo1.nombre;
@@ -92,11 +93,16 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
 
     $scope.generarMapa = function(){
         if ($scope.nombre != "") {
-            console.log(JSON.stringify(logica.modelo));
+            var newPostKey = firebase.database().ref().child('mapas').push().key;
+            var updates = {};
             //Mapa.save(JSON.stringify(logica.modelo));
             alert(JSON.stringify(logica.modelo));
             $scope.modelo = logica.modelo;
+            updates['/' + 'pepe' +'/mapas/' + newPostKey] = $scope.modelo;
+            console.log(JSON.stringify(logica.modelo));
             mapas["moduloNuevo"] = JSON.stringify(logica.modelo);
+  //          firebase.database().ref().push($scope.modelo);
+            firebase.database().ref().update(updates);
             $location.url("app/reproductor/moduloNuevo");
         }
         else

@@ -8,6 +8,4 @@ app.factory("MyService", function() {
 
     return data;
 
-
-
 });

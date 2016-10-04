@@ -1,7 +1,23 @@
-app.controller('previewController', function($scope,Mapa,MyService,$routeParams,$location,$timeout) {
+app.controller('previewController', function($scope,Mapa,MyService,$routeParams,$location,$timeout,$rootScope) {
+
+
+    pedirMapasFirebase = function () {
+        var mapasPreview = {};
+        firebase.database().ref('/' + 'pepe/mapas' ).once('value', function(snapshot) {
+
+            var json_mapas= snapshot.val();
+
+            for (var mapa1 in json_mapas) {
+                mapasPreview[json_mapas[mapa1].nombre]=json_mapas[mapa1];
+            }
+
+
     var largo = 30;
-    var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
-    var modelo1 = MapaEditor.desParsear(mapa);
+    console.log("hola");
+    console.log($rootScope.mapeos);
+    console.log($scope.algo);
+    // var mapa = $routeParams.id ? mapasPreview[$routeParams.id]:mapas["modulo1"];
+    var modelo1 = MapaEditor.desParsear(JSON.stringify(mapasPreview[$routeParams.id]));
     $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
     $scope.callesH= modelo1.callesVerticales[0].cuadras.length - 1;
     $scope.nombre=modelo1.nombre;
@@ -15,4 +31,16 @@ app.controller('previewController', function($scope,Mapa,MyService,$routeParams,
     document.getElementById("preview").style.width = "100%"
     document.getElementById("preview").style.top = "0px"
     document.getElementById("preview").style.left = "0px"
+
+        });
+
+    };
+
+    pedirMapasFirebase();
+
+
+
+
+
+
 });

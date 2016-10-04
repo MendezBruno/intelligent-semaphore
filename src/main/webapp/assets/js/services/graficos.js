@@ -8,16 +8,15 @@ function drawChart(dicDatos) {
     if(dicDatos == undefined) {dicDatos=2}
 
     var data = google.visualization.arrayToDataTable([
-        ['Rango congestion', 'Cantidad de cuadras'],
-        ['Sin Cogestion', dicDatos["SIN_CONGESTION"]],
-        ['Leve', dicDatos["MEDIANA"]],
-        ['Mediana', dicDatos["LEVE"]],
-        ['Pesada', dicDatos["PESADA"]],
-        ['Intransitable',    dicDatos["INTRANSITABLE"]]
+        ["Tipo de congestion", "Cantidad de cuadras"],
+        ['', dicDatos["SIN_CONGESTION"]],
+        ['', dicDatos["LEVE"]],
+        ['', dicDatos["MEDIANA"]],
+        ['', dicDatos["PESADA"]],
+        ['', dicDatos["INTRANSITABLE"]]
     ]);
 
     var options = {
-        backgroundColor: ColoresRGB.getPANEL_GRAY().toHexa(),
         chartArea: {
             left: 5,
             top: 5,
@@ -25,12 +24,10 @@ function drawChart(dicDatos) {
             height: '100%'
         },
         colors: ['#b3b3b3', '#ffff80', '#ffb366', '#ff4d4d', '#cc0000'],
-        legend: {
-            position: 'right',
-            alignment: 'center',
-            textStyle: {
-                fontSize:18
-            }
+        legend: 'none',
+        pieSliceTextStyle: {
+            color: 'black',
+            fontName: 'Segoe UI Black'
         }
     };
 

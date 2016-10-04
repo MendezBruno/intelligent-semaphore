@@ -30,22 +30,22 @@
                 <div class="row-featurette">
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" placeholder="Ingresar email">
+                        <input type="email" class="form-control" id="email" placeholder="Ingresar email" ng-model="email">
                     </div>
                     <div class="form-group">
                         <label for="remail">Repite Email:</label>
-                        <input type="password" class="form-control" id="remail" placeholder="Ingresar Password ">
+                        <input type="password" class="form-control" id="remail" placeholder="Ingresar Password" ng-model="remail">
                     </div>
                     <div class="form-group">
                         <label for="contra">Contrase&ntildea:</label>
-                        <input type="password" class="form-control" id="contra" placeholder="Ingresar Password ">
+                        <input type="password" class="form-control" id="contra" placeholder="Ingresar Password" ng-model="contra">
                     </div>
                     <div class="form-group">
                         <label for="rcontra">Repite Contrase&ntildea:</label>
-                        <input type="password" class="form-control" id="rcontra" placeholder="Ingresar Password ">
+                        <input type="password" class="form-control" id="rcontra" placeholder="Ingresar Password " ng-model="rcontra">
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-default"> Crear
+                        <button type="button" ng-click="registro()" class="btn btn-default"> Crear
                         </button>
 
                     </div>

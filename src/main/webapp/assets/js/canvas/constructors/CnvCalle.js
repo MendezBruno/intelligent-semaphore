@@ -112,8 +112,6 @@ CnvCalle.prototype.setup = function() { //Abstracta
 };
 
 
-
-
 function CnvCalleHorizontal(nodoBordeD,nodoBordeI,$timeout) {
     CnvCalle.call(this); //super();
     this.timeout=$timeout;

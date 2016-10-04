@@ -6,10 +6,14 @@
 //ReproductorController.prototype.ancho = 20;
 //ReproductorController.prototype.separador = 20;
 
-function ReproductorController(modelo, stage, $scope){
+function ReproductorController(modelo, stage, $scope, $timeout){
     this.modelo = modelo;
     this.auxCnvModel = {};
     this.stage = stage;
+    this.$scope = $scope;
+    this.cuadraFueSeleccionada;
+    this.blockStatus;
+    this.timeout = $timeout;
 }
 
 ReproductorController.prototype.dibujar = function (){
@@ -37,6 +41,13 @@ ReproductorController.prototype.dibujar = function (){
     var HORIZONTAL = true;
     var VERTICAL = false;
 
+    var onClickCuadraReproductor = function (cnvCuadraReproductor) {
+
+        self.cuadraFueSeleccionada = cnvCuadraReproductor;
+        self.actualizarValorCalle();
+
+    };
+
     console.log(this.modelo);
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
@@ -48,6 +59,9 @@ ReproductorController.prototype.dibujar = function (){
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
             var cnvCuadraReproductor = generarCuadra(HORIZONTAL,calle);
+            if(j==0)
+                self.cuadraFueSeleccionada = cnvCuadraReproductor;
+            cnvCuadraReproductor.clickListeners.push(onClickCuadraReproductor);
             stage.addChild(cnvCuadraReproductor);
             auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1){
@@ -80,6 +94,7 @@ ReproductorController.prototype.dibujar = function (){
         moverPosyAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
             var cnvCuadraReproductor = generarCuadra(VERTICAL,calle);
+            cnvCuadraReproductor.clickListeners.push(onClickCuadraReproductor);
             stage.addChild(cnvCuadraReproductor);
             auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
             if(j!=cuadras.length-1)
@@ -151,6 +166,43 @@ ReproductorController.prototype.dibujar = function (){
     }
 };
 
+ReproductorController.prototype.actualizarValorCalle = function (){
+    var self = this;
+    self.$scope.cuadraSeleccionada = self.cuadraFueSeleccionada;
+
+    var calle = self.cuadraFueSeleccionada.calle;
+    var primeraCuadra = calle.cuadras[0];
+    var ultimaCuadra = calle.cuadras[calle.cuadras.length-1];
+
+    var nodoSalida;
+    var nodoEntrada = self.modelo.nodosEntrada.find(function(nodo){
+        return nodo.id == primeraCuadra.nodoOrigen
+    })
+
+    if (nodoEntrada) {
+        nodoSalida = self.modelo.nodosSalida.find(function(nodo){
+            return nodo.id == ultimaCuadra.nodoDestino
+        })
+    } else {
+        nodoEntrada = self.modelo.nodosEntrada.find(function(nodo){
+            return nodo.id == ultimaCuadra.nodoDestino
+        })
+        nodoSalida = self.modelo.nodosSalida.find(function(nodo){
+            return nodo.id == primeraCuadra.nodoOrigen
+        })
+    }
+
+    self.$scope.nodoEntrada = nodoEntrada;
+    self.$scope.nodoSalida = nodoSalida;
+
+    self.timeout(function () {
+        self.$scope.$apply();
+    });
+};
+
+
+
+
 ReproductorController.prototype.actualizar = function (datos){
 
     var self = this;
@@ -159,10 +211,22 @@ ReproductorController.prototype.actualizar = function (datos){
     console.log(self);
     console.log(auxCnvModel);
 
+
+
     var blockStatus = datos.blockStatus;
     var semaphoreStatus = datos.semaphoreStatus;
     if (blockStatus) blockStatus.forEach(actualizarCuadra);
     if (semaphoreStatus) semaphoreStatus.forEach(actualizarSemaforo);
+
+    self.blockStatus= blockStatus;
+
+    var valorCuadra = blockStatus.find(function(blockStatus) {
+        return self.auxCnvModel[blockStatus.id] === self.cuadraFueSeleccionada;
+    });
+
+    self.$scope.stock = valorCuadra.stock;
+
+    console.log(valorCuadra.id);
 
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
