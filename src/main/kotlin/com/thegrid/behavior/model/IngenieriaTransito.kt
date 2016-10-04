@@ -5,7 +5,7 @@ package com.thegrid.behavior.model
  */
 class IngenieriaTransito {
     fun calcularVelocidadRespectoDensidad(v_max: Double, capacidad: Int, stk: Int): Double {
-        return v_max * ( 1 - stk/capacidad )
+        return v_max * ( 1 - stk.toDouble()/capacidad.toDouble())
     }
 
     fun velocidadRespectoFlujo(q_carFlow: Double, v_max: Double, capacidad: Int, stk: Int): Double {
@@ -16,6 +16,13 @@ class IngenieriaTransito {
 
     private fun flujoMaximo(v_max: Double, capacidad: Int): Double {
         return v_max*capacidad/4
+    }
+
+    fun calcularCongestion(velocity: Double, length: Int, timeForMaxCongestion: Double, t_min: Double): Double {
+        val new_t = if (velocity > 0.0) length / velocity else (timeForMaxCongestion + t_min)
+        val numCon = (new_t - t_min) / timeForMaxCongestion * 100.0
+        val congestion = if (numCon < 0) 0.0 else numCon
+        return if (congestion > 100) 100.0 else congestion
     }
 
 }

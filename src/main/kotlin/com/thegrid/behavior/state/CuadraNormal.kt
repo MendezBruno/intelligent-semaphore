@@ -6,6 +6,9 @@ import com.thegrid.behavior.model.Street
 import com.thegrid.behavior.services.Tef
 
 open class CuadraNormal : BlockState(ingeniriaTransito = IngenieriaTransito()) {
+    override fun calcularCongestion(block: Block): Double {
+        return ingeniriaTransito.calcularCongestion(block.velocity,block.length,block.timeForMaxCongestion,block.t_min)
+    }
 
     override fun calcularVelocidad(q_carFlow: Double, stk: Int, capacidad: Int, street: Street, v_max: Double):Double {
         val velOfCap = ingeniriaTransito.calcularVelocidadRespectoDensidad(v_max,capacidad,stk)

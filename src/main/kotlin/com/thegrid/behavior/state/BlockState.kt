@@ -15,4 +15,5 @@ abstract class BlockState(
     abstract fun cambiarEstado(block: Block): BlockState
     abstract fun autosPuedenPasar(): Boolean
     abstract fun getEventDuration(block: Block, tef: Tef): Double
+    abstract fun calcularCongestion(block: Block): Double
 }

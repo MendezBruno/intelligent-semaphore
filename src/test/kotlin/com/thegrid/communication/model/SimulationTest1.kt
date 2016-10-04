@@ -16,7 +16,7 @@ class SimulationTest1 : Spek({
                             "{'longitud':100,'id':'cuadra-2','nodoOrigen':'nodo-3','nodoDestino':'nodo-2'}],'preferencia':1,'sentidosPosibles':['Este-Oeste','Oeste-Este']}]," +
                         "'callesVerticales':[{'cantCarriles':2,'sentido':'Norte-Sur','cuadras':[" +
                             "{'longitud':100,'id':'cuadra-13','nodoOrigen':'nodo-16','nodoDestino':'nodo-3'}," +
-                            "{'longitud':100,'id':'cuadra-14','nodoOrigen':'nodo-3','nodoDestino':'nodo-17'}],'preferencia':1,'sentidosPosibles':['Norte-Sur','Sur-Norte']}]," +
+                            "{'longitud':100,'id':'cuadra-14','nodoOrigen':'nodo-3','nodoDestino':'nodo-17'}],'preferencia':4,'sentidosPosibles':['Norte-Sur','Sur-Norte']}]," +
                         "'nodosEntrada':[" +
                                 "{'id':'nodo-1','cantMaxima':'10','intervalo':'1'}," +
                                 "{'id':'nodo-16','cantMaxima':'4','intervalo':'1'}]," +

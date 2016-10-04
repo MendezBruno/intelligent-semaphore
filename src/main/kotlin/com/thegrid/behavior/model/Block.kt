@@ -108,7 +108,7 @@ open class Block(
         val eventDuration = blockState.getEventDuration(this, tef)
 
         lastDurationExitCar = eventDuration
-        congestion = calcularCongestion()
+        congestion = blockState.calcularCongestion(this)
         changeColor()
 
         println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
