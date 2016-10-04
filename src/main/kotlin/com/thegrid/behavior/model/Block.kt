@@ -88,6 +88,10 @@ open class Block(
         fireListeners()
         moveCarsToTheFront()
 
+        if (id == "cuadra-14") {
+            2+2
+        }
+
         println("tiempo dormido: $t1_lastCarInputDuration")
         println("autos que entraron mientras yo estaba dormido: $a_lastCarsInput")
         if (blockState.autosPuedenPasar()) {
@@ -108,7 +112,8 @@ open class Block(
         changeColor()
 
         println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
-        println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
+        println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability")
+        println("Habian: $prevStk - Quedaron(STK):$stk")
         println("Tiempo: $time Proximo tiempo: ${time+eventDuration}")
         println("Duracion del evento ${eventDuration}")
         println("AutosSalida: $autosSalida")
@@ -126,7 +131,7 @@ open class Block(
         return if (nextTefTime <= currentTime) {
             println("## WARN: Tiempo del semaforo menor al actual")
             eventDurationByVelocity
-        } else nextTefTime
+        } else nextTefTime - currentTime
     }
 
     fun eventDurationifCornerNode(tef: Tef): Double {
@@ -134,7 +139,7 @@ open class Block(
             //Congestionado
             val nextTefTime = egressNode.getNextTefTime(tef)
             return if (currentTime + eventDurationByVelocity < nextTefTime)
-                eventDurationByVelocity else nextTefTime
+                eventDurationByVelocity else nextTefTime - currentTime
         }
         return eventDurationByVelocity
     }
