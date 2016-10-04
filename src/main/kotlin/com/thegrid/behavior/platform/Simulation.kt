@@ -38,7 +38,7 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
 
-        if (debugMode) timeSleep = 0
+        if (debugMode) timeSleep = 500
         orquestador = iniciarSimulacion()
     }
 
