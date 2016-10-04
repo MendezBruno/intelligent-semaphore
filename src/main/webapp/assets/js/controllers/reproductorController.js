@@ -20,7 +20,7 @@ updates = {
 
 
 
-app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,$routeParams) {
+app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,$routeParams,$timeout) {
 
         inicilizarDicDatos = function () {
                 var dicDatos = {};
@@ -38,7 +38,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         $scope.modelo = modelo
         var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
         var stageReproductor = new createjs.Stage("reproductor");
-        var logicaReproductor = new ReproductorController(modelo, stageReproductor, $scope);
+        var logicaReproductor = new ReproductorController(modelo, stageReproductor, $scope, $timeout);
         logicaReproductor.dibujar();
         createjs.Ticker.on("tick", stageReproductor);
         $scope.contador = 0;

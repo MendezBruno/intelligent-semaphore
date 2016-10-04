@@ -6,13 +6,14 @@
 //ReproductorController.prototype.ancho = 20;
 //ReproductorController.prototype.separador = 20;
 
-function ReproductorController(modelo, stage, $scope){
+function ReproductorController(modelo, stage, $scope, $timeout){
     this.modelo = modelo;
     this.auxCnvModel = {};
     this.stage = stage;
     this.$scope = $scope;
     this.cuadraFueSeleccionada;
     this.blockStatus;
+    this.timeout = $timeout;
 }
 
 ReproductorController.prototype.dibujar = function (){
@@ -166,18 +167,37 @@ ReproductorController.prototype.dibujar = function (){
 };
 
 ReproductorController.prototype.actualizarValorCalle = function (){
-
-
     var self = this;
-    var elblockStatus = self.blockStatus;
+    self.$scope.cuadraSeleccionada = self.cuadraFueSeleccionada;
 
-    var valorCuadra = elblockStatus.find(function(elblockStatus) {
-        return self.auxCnvModel[elblockStatus.id] === self.cuadraFueSeleccionada;
+    var calle = self.cuadraFueSeleccionada.calle;
+    var primeraCuadra = calle.cuadras[0];
+    var ultimaCuadra = calle.cuadras[calle.cuadras.length-1];
+
+    var nodoSalida;
+    var nodoEntrada = self.modelo.nodosEntrada.find(function(nodo){
+        return nodo.id == primeraCuadra.nodoOrigen
+    })
+
+    if (nodoEntrada) {
+        nodoSalida = self.modelo.nodosSalida.find(function(nodo){
+            return nodo.id == ultimaCuadra.nodoDestino
+        })
+    } else {
+        nodoEntrada = self.modelo.nodosEntrada.find(function(nodo){
+            return nodo.id == ultimaCuadra.nodoDestino
+        })
+        nodoSalida = self.modelo.nodosSalida.find(function(nodo){
+            return nodo.id == primeraCuadra.nodoOrigen
+        })
+    }
+
+    self.$scope.nodoEntrada = nodoEntrada;
+    self.$scope.nodoSalida = nodoSalida;
+
+    self.timeout(function () {
+        self.$scope.$apply();
     });
-    self.$scope.stock = valorCuadra.stock;
-    console.log(valorCuadra.stock);
-
-
 };
 
 
