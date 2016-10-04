@@ -79,22 +79,6 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         return getOnlineTime(start,end,_vLogQueue)
     }
 
-    override val crossingHorizontalOutgoingCars = observable<Block> { subscriber ->
-        horizontalEntryBlock.sendingCars.subscribe { if(direction == Direction.Horizontal) subscriber.onNext(it) }
-    }
-
-    override val turningHorizontalOutgoingCars = observable<Block> { subscriber ->
-        verticalEntryBlock.sendingCars.subscribe { if(direction == Direction.Horizontal) subscriber.onNext(it) }
-    }
-
-    override val crossingVerticalOutgoingCars = observable<Block> { subscriber ->
-        verticalEntryBlock.sendingCars.subscribe { if(direction == Direction.Vertical) subscriber.onNext(it) }
-    }
-
-    override val turningVerticalOutgoingCars = observable<Block> { subscriber ->
-        horizontalEntryBlock.sendingCars.subscribe { if(direction == Direction.Vertical) subscriber.onNext(it) }
-    }
-
     fun equals(other: SemaphoreNode): Boolean {
         return this.id == other.id
     }
