@@ -1,16 +1,25 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
+import com.thegrid.behavior.state.BlockState
 import freeFunctions.minimo
 
-class BlockVertical(id: String, street: Street, length: Int, entryNode: NodeType)
-: Block(id, street, length, entryNode) {
+class BlockVertical(id: String, street: Street, length: Int, entryNode: NodeType, egressNode: NodeType)
+: Block(id, street, length, entryNode, egressNode) {
+
+    override fun relateOutgoingBlocks() {
+        crossingBlock = egressNode.verticalEgressBlock
+        turningBlock = egressNode.horizontalEgressBlock
+    }
+
     override fun getLastCarInputDuration(previusEventTime: Double, now: Double): Double {
         return entryNode.getOnlineTimeV(previusEventTime, now)
     }
 
-    override fun setAsEntryBlock(node: NodeType) {
-        node.verticalEntryBlock = this
+    override fun relateNodes() {
+        entryNode.verticalEgressBlock = this
+        egressNode.verticalEntryBlock = this
     }
 
     override fun startObservation() {
@@ -34,4 +43,7 @@ class BlockVertical(id: String, street: Street, length: Int, entryNode: NodeType
         _crossingProbability = 1 - _turningProbability
     }
 
+    override fun getDirection(): Direction {
+        return Direction.Vertical
+    }
 }

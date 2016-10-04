@@ -2,6 +2,11 @@ package com.thegrid.behavior.model
 
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.services.EventList
+import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CuadraNormal
 import rx.Observable
 import java.util.*
 
@@ -10,6 +15,19 @@ import java.util.*
  */
 
 class EntryNode : NodeType, IDispatcheable {
+
+    override fun id(): String {
+        return id
+    }
+
+    override var horizontalEgressBlock: IDispatcheable
+        get() = throw UnsupportedOperationException()
+        set(value) {
+        }
+    override var verticalEgressBlock: IDispatcheable
+        get() = throw UnsupportedOperationException()
+        set(value) {
+        }
 
     override var horizontalEntryBlock: BlockHorizontal
         set(value) = throw UnsupportedOperationException()
@@ -27,8 +45,8 @@ class EntryNode : NodeType, IDispatcheable {
     override val turningVerticalOutgoingCars: Observable<Block>
         get() = infiniteCarsBlock.sendingCars
 
-    private var _interval: Int
-    private var _maxAmount: Int
+    var _interval: Int
+    var _maxAmount: Int
     val infiniteCarsBlock : Block
 
     constructor(id:String, interval:Int, maxAmount:Int) : super(id) {
@@ -36,16 +54,26 @@ class EntryNode : NodeType, IDispatcheable {
         _interval = interval
 
         //Calle ficticia
-        infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0),0,this)
+        infiniteCarsBlock = Block("", Street(0, Orientation.West,mutableListOf(),0), 0, this, this)
     }
 
-    override fun executeEvent(time: Double): Double {
+    override fun executeEvent(time: Double, tef: Tef): Double {
         val crossingCars = Random().nextInt(_maxAmount)
-        val turningCars = Random().nextInt(_maxAmount)
+        val turningCars = 0
+        println("**************************")
+        println("soy el nodo de entrada:$id")
+        println("autos que siguen derecho:$crossingCars")
+        println("autos que siguen doblan: $turningCars")
+        println("mi tiempo es:$time")
+        println("**************************")
         infiniteCarsBlock.outgoingCrossingByCarsAmount += crossingCars
         infiniteCarsBlock.outgoingTurningCarsAmount += turningCars
-        println("Cruce IN - STK-IN:${crossingCars + turningCars}")
+//        println("Cruce IN - STK-IN:${crossingCars + turningCars}")
         infiniteCarsBlock.fireReplay()
         return _interval.toDouble()
+    }
+
+    override fun getNextTefTime(tef: Tef): Double {
+        return tef.list.find { it.objectToDispatch.id() == id }!!.time
     }
 }

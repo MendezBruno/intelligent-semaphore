@@ -28,15 +28,107 @@
         #ex1Slider .slider-selection {
             background: #BABABA;
         }
+
+        .tgpanelbutton {
+            border: 0;
+            width: 100%;
+            height: 35px;
+        }
+
+        .tg-panel-group .panel {
+            margin:0px
+        }
+
+        #circuloGris {
+            width: 20px;
+            height: 20px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            background: #b3b3b3;
+            padding: 0px;
+            line-height: 10px;
+            float: left;
+        }
+
+        #circuloAmarillo {
+            width: 20px;
+            height: 20px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            background: #ffff80;
+            padding: 0px;
+            line-height: 10px;
+            float: left;
+        }
+
+        #circuloNaranja {
+            width: 20px;
+            height: 20px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            background: #ffb366;
+            padding: 0px;
+            line-height: 10px;
+            float: left;
+        }
+
+        #circuloRojo {
+            width: 20px;
+            height: 20px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            background: #ff4d4d;
+            padding: 0px;
+            line-height: 10px;
+            float: left;
+        }
+
+        #circuloRojizo {
+            width: 20px;
+            height: 20px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            background: #cc0000;
+            padding: 0px;
+            line-height: 10px;
+            float: left;
+        }
+
+        .espacio {
+            width: 5px;
+            height: 5px;
+            -webkit-border-radius: 2.5px;
+            -moz-border-radius: 2.5px;
+            border-radius: 0px;
+            background: #ffffff;
+            padding: 0px;
+            line-height: 2.5px;
+            float: left;
+        }
+
+        p{
+
+            margin: 0 30px 5px;
+        }
+
+
     </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row tg-row">
             <div class="col-sm-9">
-                <div class="tg-marco">
+                <div class="tg-marco" id="player">
                     <div class="row">
                         <div class="col-sm-12">
+                            <div style="width: 250px; float: left; margin: 0px;">
+                                <p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p>
+                            </div>
                             <div id="header">
                                 <input id="ex6" type="text"
                                        data-slider-min="1"
@@ -54,94 +146,181 @@
                         <canvas id="reproductor" width="1000px" height="1000px">
                         </canvas>
                     </div>
-                    <div class="row" id="controles">
-                            <div class="col-xs-8"><p>Simulacion en curso tiempo: <span class="badge">{{contador}}</span></p></div>
-                            <div class="col-xs-4">
-                                <button class="btn btn-default" type="button" ng-click="iniciar()" style="float: right">
-                                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Iniciar </button>
-                                <button class="btn btn-default" type="button" ng-click="detener()" style="float: right" >
-                                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Detener</button>
-                            </div>
-                     </div>
+                    <div class="container-fluid">
+                        <div class="row" id="controles">
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="iniciar()" style="float: right">
+                                <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Iniciar </button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="detener()" style="float: right" >
+                                <span class="glyphicon glyphicon-pause" aria-hidden="true"></span> Pausar</button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="avanzarEvento()" style="float: right" >
+                                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> A.Evento</button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="reanudar()" style="float: right" >
+                                <span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> Reanudar</button>
+                            <button class="btn btn-default col-xs-1" type="button" ng-click="masTiempo()" style="float: right" >
+                                <span class="glyphicon glyphicon-forward" aria-hidden="true"></span> +</button>
+                            <button class="btn btn-default col-xs-1" type="button" ng-click="menosTiempo()" style="float: right" >
+                                <span class="glyphicon glyphicon-backward" aria-hidden="true"></span> -</button>
+                            <button class="btn btn-default col-xs-2" type="button" ng-click="abrir()" style="float: right" >
+                                <span aria-hidden="true"></span>TEF</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="tg-marco">
-                    <h2><i>{{modelo.nombre}}</i></h2>
-                    <h2>Congestión</h2>
-                    <div id="piechart" style="width: 100%; height: 200px;">Congestion</div>
-                    <h2>Estado de Cuadras</h2>
-                    <!--<table class="table table-striped">-->
-                        <!--<thead>-->
-                        <!--<tr>-->
-                            <!--<th>Cuadra</th>-->
-                            <!--<th>% Congestion</th>-->
-                        <!--</tr>-->
-                        <!--</thead>-->
-                        <!--<tbody>-->
-                        <!--<tr>-->
-                            <!--<td>cuadra 1</td>-->
-                            <!--<td>10%</td>-->
-                        <!--</tr>-->
-                        <!--</tbody>-->
-                    <!--</table>-->
-                    <div class="container">
-                        <div class="col-sm-3">
-                        <h2>Dynamic Tabs</h2>
-                        <ul class="nav nav-tabs">
-                            <li class="active">
-                                <button class="tgpanelbutton" data-toggle="tab" data-target="#home">
-                                    Estado cuadra
-                                </button>
-                            </li>
-                            <li>
-                                <button class="tgpanelbutton" data-toggle="tab" data-target="#menu1">
-                                    Otra 1
-                                </button>
-                            </li>
-                        </ul>
+                <div class="tg-marco" id="info">
+                    <h2 id="titulo-modulo"><i>{{modelo.nombre}}</i></h2>
+                    <div class="tg-panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <button class="panel-heading tgpanelbutton" data-toggle="collapse"
+                                    data-parent="#accordion" data-target="#collapse1"">
+                                Congestión
+                            </button>
+                            <div id="collapse1" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div id="piechart" style="width: 100%; height: 150px;">Congestion</div>
+                                    <p></p>
+                                    <div>
+                                        <div id ="circuloGris"></div>
+                                        <p> SIN CONGESTIÓN</p>
+                                    </div>
+                                    <div>
+                                        <div id ="circuloAmarillo"></div>
+                                        <p> CONGESTIÓN MEDIANA</p>
+                                    </div>
+                                    <div>
+                                        <div id ="circuloNaranja"></div>
+                                        <p> CONGESTIÓN LEVE</p>
+                                    </div>
+                                    <div>
+                                        <div id ="circuloRojo"></div>
+                                        <p> CONGESTIÓN PESADA</p>
+                                    </div>
+                                    <div>
+                                        <div id ="circuloRojizo"></div>
+                                        <p> INTRANSITABLE</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <button class="panel-heading tgpanelbutton" data-toggle="collapse"
+                                    data-parent="#accordion" data-target="#collapse2">
+                                Estado de las cuadras
+                            </button>
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Cuadra</th>
+                                            <th>% Congestion</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>cuadra 1</td>
+                                            <td>10%</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <button class="panel-heading tgpanelbutton" data-toggle="collapse"
+                                    data-parent="#accordion" data-target="#collapse3">
+                                Flujos entrada/salida
+                            </button>
+                            <div id="collapse3" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div>
+                                        <label for="mySelect">Nodo Borde ID:</label>
+                                        <select name="mySelect" id="mySelect"
+                                                ng-options="nodo for nodo in nodosBordes track by nodo"
+                                                ng-model="nodoBorde"></select>
+                                    </div>
 
-                        <div class="tab-content">
-                            <div id="home" class="tab-pane fade in active">
-                                <h3>Estado Cuadras</h3>
-                                <table class="table table-striped">
-                                    <thead>
-                                <tr>
-                                <th>Cuadra</th>
-                                <th>stock</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                <td>cuadra 1</td>
-                                <td ng-model="stock">{{stock}}</td>
-                                </tr>
-                                </tbody>
-                                </table>
+                                    <div>
+                                        <label class="col-xs-3 control-label">Cantidad Autos</label>
+                                        <div class="col-xs-3 inputGroupContainer">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" ng-model="cantVehiculos" name="cantVehiculos" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="col-xs-3 control-label">Intervalo de tiempo</label>
+                                        <div class="col-xs-3 inputGroupContainer">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" ng-model="tIntervalo" name="tIntervalo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button ng-click="actualizarNodoBorde()">Actualizar Nodo</button>
+                                </div>
                             </div>
-                            <div id="menu1" class="tab-pane fade">
-                                <h3>velocimetro</h3>
-                                <div id="velocidad" style="width: 100%; height: 120px;">velocidades</div>
-                            </div>
-                            <div id="menu2" class="tab-pane fade">
-                                <h3>otra 2</h3>
-                                <p>otro info para mostrar</p>
-                            </div>
-                            <div id="menu3" class="tab-pane fade">
-                                <h3>otra 3</h3>
-                                <p>sunt explicabo.</p>
+                        </div>
+                        <div class="panel panel-default">
+                            <button class="panel-heading tgpanelbutton" data-toggle="collapse"
+                                    data-parent="#accordion" data-target="#collapse4">
+                                Tabs
+                            </button>
+                            <div id="collapse4" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <h2>Dynamic Tabs</h2>
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <button class="tgpanelbutton" data-toggle="tab" data-target="#home">
+                                                Estado cuadra
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="tgpanelbutton" data-toggle="tab" data-target="#menu1">
+                                                Otra 1
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="home" class="tab-pane fade in active">
+                                            <h3>Estado Cuadras</h3>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Cuadra</th>
+                                                    <th>stock</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>cuadra 1</td>
+                                                    <td ng-model="stock">{{stock}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="menu1" class="tab-pane fade">
+                                            <h3>velocimetro</h3>
+                                            <div id="velocidad" style="width: 100%; height: 120px;">velocidades</div>
+                                        </div>
+                                        <div id="menu2" class="tab-pane fade">
+                                            <h3>otra 2</h3>
+                                            <p>otro info para mostrar</p>
+                                        </div>
+                                        <div id="menu3" class="tab-pane fade">
+                                            <h3>otra 3</h3>
+                                            <p>sunt explicabo.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <!--<div class="container">-->
-                        <!---->
-                    <!--</div>-->
-                    <!--<div id="velocidad" style="width: 100%; height: 120px;">velocidades</div>-->
                 </div>
             </div>
         </div>
     </div>
+
     <script>
 
     </script>

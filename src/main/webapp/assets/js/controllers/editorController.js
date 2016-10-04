@@ -96,7 +96,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
             var newPostKey = firebase.database().ref().child('mapas').push().key;
             var updates = {};
             //Mapa.save(JSON.stringify(logica.modelo));
-            //alert(JSON.stringify(logica.modelo))
+            alert(JSON.stringify(logica.modelo));
             $scope.modelo = logica.modelo;
             updates['/' + 'pepe' +'/mapas/' + newPostKey] = $scope.modelo;
             console.log(JSON.stringify(logica.modelo));

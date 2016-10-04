@@ -5,9 +5,20 @@ import com.thegrid.behavior.extensions.Queue
 import com.thegrid.behavior.freeFunctions.flip
 import com.thegrid.behavior.observer.SemaphoreListener
 import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.services.EventList
+import com.thegrid.behavior.services.model.PairDispatched
+import com.thegrid.behavior.services.Tef
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CuadraEnRojo
+import com.thegrid.behavior.state.CuadraEnVerde
 import rx.lang.kotlin.observable
 
 class SemaphoreNode : CornerNode, IDispatcheable {
+
+    override fun id(): String {
+        return id
+    }
+
     var changeListeners = mutableListOf<SemaphoreListener>()
     var direction: Direction = Direction.vertical()
     set(value) {
@@ -25,7 +36,7 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         this.direction = direction
     }
 
-    override fun executeEvent(time: Double): Double {
+    override fun executeEvent(time: Double, tef: Tef): Double {
         direction = flip(direction)
         fireListeners()
         return when(direction) {
@@ -34,7 +45,7 @@ class SemaphoreNode : CornerNode, IDispatcheable {
                 _vTime
             }
             Direction.Horizontal -> {
-                _vLogQueue.push(TimeLog(time,_hTime))
+                _hLogQueue.push(TimeLog(time,_hTime))
                 _hTime
             }
         }
@@ -68,22 +79,6 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         return getOnlineTime(start,end,_vLogQueue)
     }
 
-    override val crossingHorizontalOutgoingCars = observable<Block> { subscriber ->
-        horizontalEntryBlock.sendingCars.subscribe { if(direction == Direction.Horizontal) subscriber.onNext(it) }
-    }
-
-    override val turningHorizontalOutgoingCars = observable<Block> { subscriber ->
-        verticalEntryBlock.sendingCars.subscribe { if(direction == Direction.Horizontal) subscriber.onNext(it) }
-    }
-
-    override val crossingVerticalOutgoingCars = observable<Block> { subscriber ->
-        verticalEntryBlock.sendingCars.subscribe { if(direction == Direction.Vertical) subscriber.onNext(it) }
-    }
-
-    override val turningVerticalOutgoingCars = observable<Block> { subscriber ->
-        horizontalEntryBlock.sendingCars.subscribe { if(direction == Direction.Vertical) subscriber.onNext(it) }
-    }
-
     fun equals(other: SemaphoreNode): Boolean {
         return this.id == other.id
     }
@@ -92,5 +87,14 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         changeListeners.forEach { listener -> listener.fire(this) }
     }
 
+    override fun getBlockState(direccion : Direction): BlockState {
+        return if (direccion == this.direction)
+            CuadraEnVerde()
+        else CuadraEnRojo()
+    }
+
+    override fun getNextTefTime(tef: Tef): Double {
+        return tef.list.find { it.objectToDispatch.id() == id }!!.time
+    }
 }
 
