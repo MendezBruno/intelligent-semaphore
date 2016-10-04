@@ -232,31 +232,38 @@
                             </button>
                             <div id="collapse3" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <div>
-                                        <label for="mySelect">Nodo Borde ID:</label>
-                                        <select name="mySelect" id="mySelect"
-                                                ng-options="nodo for nodo in nodosBordes track by nodo"
-                                                ng-model="nodoBorde"></select>
-                                    </div>
-
-                                    <div>
-                                        <label class="col-xs-3 control-label">Cantidad Autos</label>
-                                        <div class="col-xs-3 inputGroupContainer">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" ng-model="cantVehiculos" name="cantVehiculos" />
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <label for="mySelect">Nodo Borde ID:</label>
+                                            <select name="mySelect" id="mySelect"
+                                                    ng-options="nodo for nodo in nodosBordes track by nodo"
+                                                    ng-model="nodoBorde"></select>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-12 control-label">Cantidad Autos</label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 inputGroupContainer">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" ng-model="nodoEntrada.cantMaxima" name="cantVehiculos" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div>
-                                        <label class="col-xs-3 control-label">Intervalo de tiempo</label>
-                                        <div class="col-xs-3 inputGroupContainer">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" ng-model="tIntervalo" name="tIntervalo" />
+                                        <div class="row">
+                                            <label class="col-lg-12 control-label">Intervalo de tiempo</label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 inputGroupContainer">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" ng-model="nodoEntrada.intervalo" name="tIntervalo" />
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <button  class="col-lg-12 control-label"
+                                                     ng-click="actualizarNodoBorde()">Actualizar Nodo</button>
+                                        </div>
                                     </div>
-                                    <button ng-click="actualizarNodoBorde()">Actualizar Nodo</button>
                                 </div>
                             </div>
                         </div>
