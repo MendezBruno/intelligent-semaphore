@@ -180,6 +180,13 @@ MapaEditor.prototype.actualizarCongestion = function (datos, dicDatosCuadra){
 
 MapaEditor.prototype.tamizarDatosCongestion = function (dicDatosCuadra) {
     var self = this;
+
+    dicDatosCuadra["SIN_CONGESTION"] = 0;
+    dicDatosCuadra["LEVE"] = 0;
+    dicDatosCuadra["MEDIANA"] = 0;
+    dicDatosCuadra["PESADA"] = 0;
+    dicDatosCuadra["INTRANSITABLE"] = 0;
+
     var cuadrasAux = dameTusCuadras(self.callesHorizontales);
     cuadrasAux = cuadrasAux.concat(dameTusCuadras(self.callesVerticales));
     cuadrasAux.forEach (function (cuadra) {
