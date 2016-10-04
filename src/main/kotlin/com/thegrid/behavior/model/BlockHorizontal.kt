@@ -1,32 +1,49 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
+import com.thegrid.behavior.state.BlockState
 import freeFunctions.minimo
 import kotlin.properties.Delegates
 
-class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeType)
-: Block(id, street, length, entryNode) {
+class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeType, egressNode: NodeType)
+: Block(id, street, length, entryNode, egressNode) {
+
+    override fun relateOutgoingBlocks() {
+        crossingBlock = egressNode.horizontalEgressBlock
+        turningBlock = egressNode.verticalEgressBlock
+    }
+
     override fun getLastCarInputDuration(previusEventTime: Double, now:Double): Double {
         return entryNode.getOnlineTimeH(previusEventTime, now)
     }
 
-    override fun setAsEntryBlock(node: NodeType) {
-        node.horizontalEntryBlock = this
+    override fun relateNodes() {
+        entryNode.horizontalEgressBlock = this
+        egressNode.horizontalEntryBlock = this
     }
 
     override fun startObservation() {
         entryNode.crossingHorizontalOutgoingCars.subscribe { previousBlock ->
-            val amount = minimo(_carCapacity - stk, previousBlock.outgoingCrossingByCarsAmount)
-            _incomingCarsAmount += amount
-            a_lastCarsInput += amount
-            previousBlock.outgoingCrossingByCarsAmount -= amount
+            processCrossingHorizontalOutgoingCars(previousBlock)
         }
         entryNode.turningHorizontalOutgoingCars.subscribe { previousBlock ->
-            val amount = minimo(_carCapacity - stk, previousBlock.outgoingTurningCarsAmount)
-            _incomingCarsAmount += amount
-            a_lastCarsInput += amount
-            previousBlock.outgoingTurningCarsAmount -= amount
+            processTurningHorizontalOutgoingCars(previousBlock)
         }
+    }
+
+    fun  processTurningHorizontalOutgoingCars(previousBlock: Block) {
+        val amount = minimo(_carCapacity - stk, previousBlock.outgoingTurningCarsAmount)
+        _incomingCarsAmount += amount
+        a_lastCarsInput += amount
+        previousBlock.outgoingTurningCarsAmount -= amount
+    }
+
+    fun processCrossingHorizontalOutgoingCars(previousBlock: Block) {
+        val amount = minimo(_carCapacity - stk, previousBlock.outgoingCrossingByCarsAmount)
+        _incomingCarsAmount += amount
+        a_lastCarsInput += amount
+        previousBlock.outgoingCrossingByCarsAmount -= amount
     }
 
     override fun setProbabilities(value: Probabilities) {
@@ -34,4 +51,7 @@ class BlockHorizontal(id: String, street: Street, length: Int, entryNode: NodeTy
         _crossingProbability = 1 - _turningProbability
     }
 
+    override fun getDirection(): Direction {
+        return Direction.Horizontal
+    }
 }

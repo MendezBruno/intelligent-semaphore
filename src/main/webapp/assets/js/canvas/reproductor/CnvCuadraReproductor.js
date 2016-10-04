@@ -316,11 +316,11 @@ CnvCuadraReproductor.prototype.cambiarColorFlechaSalida = function (colorRGB) {
     this.flechaSalida.graphics._fill.style = colorRGB.toString();
 }
 
-CnvCuadraReproductor.prototype.actualizarStock = function (stock){
+CnvCuadraReproductor.prototype.actualizarStock = function (id,stock){
     if (this.horizontal){
-        this.cnvManzana.escribirInformacionAbajo(stock);
+        this.cnvManzana.escribirInformacionAbajo(id,stock);
     }else{
-        this.cnvManzana.escribirInformacionDerecha(stock);
+        this.cnvManzana.escribirInformacionDerecha(id,stock);
     }
 }
 

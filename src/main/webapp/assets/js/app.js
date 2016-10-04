@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute','ngResource']);
+var app = angular.module('app', ['ngRoute','ngResource','ui.bootstrap']);
 
 app.run(['$rootScope','$interval',
     function($rootScope,$interval) {
@@ -6,7 +6,7 @@ app.run(['$rootScope','$interval',
         //$rootScope.splashes = splashes;
     }]);
 
-app.config(function($routeProvider, $locationProvider, $httpProvider) {
+app.config(function($routeProvider, $locationProvider, $httpProvider ) {
     $locationProvider.html5Mode(true);
     $routeProvider
 
@@ -64,6 +64,7 @@ app.config(function($routeProvider, $locationProvider, $httpProvider) {
             controller: 'previewController'
         })
 
+
         .when('/app/preview/', {
             templateUrl: 'views/preview.html',
             controller: 'previewController'
@@ -84,3 +85,23 @@ app.factory("MapaUpdate", ["$resource",function($resource){
         });
 }]);
 
+app.factory("NodoBorde", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/nodoBorde", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+
+app.factory("Simulacion", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/simulacionUpdate", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+
+app.factory("Tef", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/tef", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);

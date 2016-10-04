@@ -2,14 +2,19 @@ package com.thegrid.behavior.platform
 
 import com.google.appengine.api.ThreadManager
 
-class Orchestrator(r:Runnable) {
-    val hilo: Thread = ThreadManager.createBackgroundThread(r)
-
-    init {
-        hilo.start()
+class Orchestrator(r: Runnable, val debugMode: Boolean) {
+    companion object {
+        var SharedInstance : Orchestrator? = null
     }
 
-    fun pausar() = hilo.suspend()
+    val hilo: Thread
 
-    fun reanudar() = hilo.resume()
+    init {
+        SharedInstance = this
+        if (debugMode)
+            hilo = Thread(r)
+        else
+            hilo = ThreadManager.createBackgroundThread(r)
+        hilo.start()
+    }
 }

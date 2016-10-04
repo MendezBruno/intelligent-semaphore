@@ -1,11 +1,16 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
 import com.thegrid.behavior.observer.BlockListener
 import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.services.Tef
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CuadraNormal
 import com.thegrid.communication.extension.RGBA
 import rx.lang.kotlin.ReplaySubject
 import rx.subjects.ReplaySubject
+import kotlin.properties.Delegates
 
 /**Es la cuadra que tiene relación
  * directa con una cuadra del json
@@ -13,25 +18,37 @@ import rx.subjects.ReplaySubject
 open class Block(
         val id: String,
         val street: Street,
-        val length: Int/*Double*/,
-        val entryNode: NodeType) : BlockBase(), IDispatcheable {
+        val length: Int,
+        val entryNode: NodeType,
+        val egressNode: NodeType) : BlockBase(), IDispatcheable {
 
+    var blockState: BlockState = CuadraNormal()
+    var crossingBlock by Delegates.notNull<IDispatcheable>()
+    var turningBlock by Delegates.notNull<IDispatcheable>()
     protected open var _turningProbability: Double = 0.5 * TurningModifier       //Valor inicial
     protected open var _crossingProbability: Double = 1 - _turningProbability    //Valor inicial
 
-    //Simulation vars
+    override fun id(): String {
+        return id
+    }
+
+    open fun getDirection(): Direction {
+        return Direction.Horizontal
+    }
+
     val colorStatus = RGBA(0,0,0,1)
     var congestion = 0.0
     var congestionLevel = CongestionLevel.SIN_CONGESTION
-    var velocity = 0.0
     var q_carFlow = 0.0
     var k_density = 0.0
     var a_lastCarsInput = 0
-    var v_max = 60 //Podria cambiar si es calle/avenida
+    var v_max = 60.0 / 3.6 //Podria cambiar si es calle/avenida
+    var velocity = v_max
     var t1_lastCarInputDuration = 0.0
     var t_min = 6.0 //Calcular desde los atributos de la calle
     var previusEventTime = 0.0
-    val timeForMaxCongestion = 20.0 // Segundos que "delatan" que hay congestión
+    var capacidad = (length / 5)*street.lanes
+    val timeForMaxCongestion = 70.0 // Segundos que "delatan" que hay congestión
 
     val changeListeners = mutableListOf<BlockListener>()
     //        set(value) = if(value + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount < _carCapacity)
@@ -40,7 +57,7 @@ open class Block(
     val stk: Int
         get() = _incomingCarsAmount + outgoingTurningCarsAmount + outgoingCrossingByCarsAmount
     protected val _carCapacity: Int
-    protected var _incomingCarsAmount = 0
+    var _incomingCarsAmount = 0
 
 //            else field = _carCapacity - outgoingCrossingByCarsAmount - outgoingTurningCarsAmount
 
@@ -51,31 +68,86 @@ open class Block(
     init {
         street.addBlock(this)
         _carCapacity = (length / LongVehicule).toInt() * street.lanes
+        relateNodes()
     }
 
-    override fun setAsEntryBlock(node: NodeType) {
-        throw UnsupportedOperationException("not implemented")
-    }
+    override fun relateNodes() { }
 
     override fun startObservation() {
         throw UnsupportedOperationException("not implemented")
     }
 
-    override fun executeEvent(time: Double): Double {
-        t1_lastCarInputDuration = getLastCarInputDuration(previusEventTime, time)
-        moveCarsToTheFront()
-        val nextTime = if (nextTime() < t_min) t_min else nextTime()
-        congestion = calcularCongestion(nextTime)
-        changeColor()
-        println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability - STK:$stk")
-        fireReplay()
+    private var lastDurationExitCar: Double = 0.0
+    private var eventDurationByVelocity: Double = 0.0
+    private var  currentTime: Double = 0.0
+
+    override fun executeEvent(time: Double, tef: Tef): Double {
+        t1_lastCarInputDuration = time - previusEventTime
+        previusEventTime = time
+        val prevStk = stk
         fireListeners()
+        moveCarsToTheFront()
+
+        if (id == "cuadra-14") {
+            2+2
+        }
+
+        println("tiempo dormido: $t1_lastCarInputDuration")
+        println("autos que entraron mientras yo estaba dormido: $a_lastCarsInput")
+        if (blockState.autosPuedenPasar()) {
+            fireReplay()
+        }
+        var autosSalida = prevStk - stk
+
+        velocity = blockState.calcularVelocidad(q_carFlow,stk,capacidad,street,v_max)
+        k_density = stk.toDouble() / capacidad
+        q_carFlow = velocity * k_density
+
+        eventDurationByVelocity = length / velocity;
+        currentTime = time
+        val eventDuration = blockState.getEventDuration(this, tef)
+
+        lastDurationExitCar = eventDuration
+        congestion = calcularCongestion()
+        changeColor()
+
+        println("Cuadra: $id nivel de congestion: $congestionLevel congestion: $congestion vel:$velocity");
+        println("Cuadra MID - CrossProb: $_crossingProbability - TurnProb: $_turningProbability")
+        println("Habian: $prevStk - Quedaron(STK):$stk")
+        println("Tiempo: $time Proximo tiempo: ${time+eventDuration}")
+        println("Duracion del evento ${eventDuration}")
+        println("AutosSalida: $autosSalida")
+        println("flujo: $q_carFlow")
+        println("*************************************************************************")
+
+        blockState = blockState.cambiarEstado(this)
+
         a_lastCarsInput = 0
-        return nextTime
+        return eventDuration
     }
 
-    private fun calcularCongestion(nextTime: Double): Double {
-        val congestion = (nextTime - t_min) / timeForMaxCongestion * 100
+    fun eventDurationifSemaphoreNode(tef: Tef): Double {
+        val nextTefTime = egressNode.getNextTefTime(tef)
+        return if (nextTefTime <= currentTime) {
+            println("## WARN: Tiempo del semaforo menor al actual")
+            eventDurationByVelocity
+        } else nextTefTime - currentTime
+    }
+
+    fun eventDurationifCornerNode(tef: Tef): Double {
+        if (outgoingCrossingByCarsAmount + outgoingTurningCarsAmount > 0) {
+            //Congestionado
+            val nextTefTime = egressNode.getNextTefTime(tef)
+            return if (currentTime + eventDurationByVelocity < nextTefTime)
+                eventDurationByVelocity else nextTefTime - currentTime
+        }
+        return eventDurationByVelocity
+    }
+
+    private fun calcularCongestion(): Double {
+        val new_t = if (velocity > 0.0) length / velocity else (timeForMaxCongestion + t_min)
+        val numCon = (new_t - t_min) / timeForMaxCongestion * 100
+        val congestion = if (numCon < 0) 0.0 else numCon
         return if (congestion > 100) 100.0 else congestion
     }
 
@@ -93,7 +165,10 @@ open class Block(
     }
 
     private fun nextTime(): Double {
-        if (a_lastCarsInput == 0) return 4000.0
+        //ve = ble
+        //if(ve > vmax) t = tmin
+
+        if (a_lastCarsInput == 0) return t_min
         return stk / a_lastCarsInput * t1_lastCarInputDuration / street.lanes
     }
 
@@ -103,11 +178,10 @@ open class Block(
     }
 
     private fun moveCarsToTheFront() {
-//        apply {
-            outgoingCrossingByCarsAmount += (_incomingCarsAmount * _crossingProbability).toInt()
-            outgoingTurningCarsAmount += (_incomingCarsAmount * _turningProbability).toInt()
-            _incomingCarsAmount = 0
-//        }
+        val crossing = (_incomingCarsAmount * _crossingProbability).toInt()
+        outgoingCrossingByCarsAmount += crossing
+        outgoingTurningCarsAmount += _incomingCarsAmount - crossing
+        _incomingCarsAmount = 0
     }
 
     override fun equals(other: Any?): Boolean {
@@ -126,11 +200,10 @@ open class Block(
         congestionLevel = CongestionLevel.ofPercentage(congestion)
         when(congestionLevel) {
             CongestionLevel.SIN_CONGESTION -> colorStatus.set(179,179,179)
-            CongestionLevel.LEVE -> colorStatus.set(255,25,128 )
+            CongestionLevel.LEVE -> colorStatus.set(248,255,25 )
             CongestionLevel.MEDIANA ->  colorStatus.set(255,179,102)
             CongestionLevel.PESADA -> colorStatus.set(255,77,77)
             else -> colorStatus.set (204,0,0 )}
-
     }
 
     fun fireReplay() {
@@ -140,4 +213,8 @@ open class Block(
     open fun getLastCarInputDuration(previusEventTime: Double, now: Double): Double {
         return 0.0
     }
+
+    open fun relateOutgoingBlocks() { }
 }
+
+

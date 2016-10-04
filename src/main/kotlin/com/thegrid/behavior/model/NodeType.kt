@@ -1,6 +1,11 @@
 package com.thegrid.behavior.model
 
+import com.thegrid.behavior.extensions.Direction
 import com.thegrid.behavior.extensions.Probabilities
+import com.thegrid.behavior.platform.IDispatcheable
+import com.thegrid.behavior.services.Tef
+import com.thegrid.behavior.state.BlockState
+import com.thegrid.behavior.state.CuadraNormal
 import rx.Observable
 
 /**
@@ -15,6 +20,8 @@ abstract class NodeType(val id: String){
     abstract val turningVerticalOutgoingCars: Observable<Block>
     abstract var horizontalEntryBlock: BlockHorizontal
     abstract var verticalEntryBlock: BlockVertical
+    abstract var horizontalEgressBlock: IDispatcheable
+    abstract var verticalEgressBlock: IDispatcheable
 
     override operator fun equals(other: Any?) =
             when(other) {
@@ -41,4 +48,10 @@ abstract class NodeType(val id: String){
     open fun getOnlineTimeV(start:Double, end:Double): Double {
         return start - end
     }
+
+    open fun getBlockState(direccion: Direction): BlockState {
+        return CuadraNormal()
+    }
+
+    abstract fun getNextTefTime(tef: Tef): Double
 }

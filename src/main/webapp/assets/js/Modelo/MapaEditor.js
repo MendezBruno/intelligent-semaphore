@@ -160,14 +160,16 @@ MapaEditor.prototype.cuadraPorID = function(id){
 
 MapaEditor.prototype.actualizarCongestion = function (datos, dicDatosCuadra){
     var self = this;
-    datos.blockStatus.forEach (function (estadoCuadra){
-        var cuadra = self.cuadraPorID(estadoCuadra.id);
-        cuadra.restarValorActual(dicDatosCuadra);
-        cuadra.congestionTipo = estadoCuadra.congestionLevel;
-        //cuadra.congestionValor = estadoCuadra.congestion;
-        //cuadra.actualizarTipo();
-    });
+    if(datos.blockStatus){
+        datos.blockStatus.forEach (function (estadoCuadra){
+            var cuadra = self.cuadraPorID(estadoCuadra.id);
+            cuadra.restarValorActual(dicDatosCuadra);
+            cuadra.congestionTipo = estadoCuadra.congestionLevel;
+            //cuadra.congestionValor = estadoCuadra.congestion;
+            //cuadra.actualizarTipo();
 
+        });
+    }
 
 
 MapaEditor.prototype.tamizarDatosCongestion = function (dicDatosCuadra) {
