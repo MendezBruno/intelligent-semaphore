@@ -74,6 +74,9 @@ dependencies {
     compile group: 'org.tuckey', name: 'urlrewritefilter', version: '3.2.0'
     compile 'com.github.salomonbrys.kotson:kotson:2.3.0'
     compile "io.reactivex:rxkotlin:0.60.0"
+    // https://mvnrepository.com/artifact/org.beykery/neuroph
+    compile group: 'org.beykery', name: 'neuroph', version: '2.92'
+
 }
 
 jacocoTestReport {
