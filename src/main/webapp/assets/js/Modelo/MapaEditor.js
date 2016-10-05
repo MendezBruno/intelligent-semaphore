@@ -106,23 +106,19 @@ MapaEditor.prototype.semaforoTOnoSemaforo = function (id) {
  */
 MapaEditor.desParsear = function (json) {
     var modelo = JSON.parse(json);
+    if (!modelo.nodosSemaforo) modelo.nodosSemaforo = new Array();
+    if (!modelo.nodosNoSemaforo) modelo.nodosNoSemaforo = new Array();
     modelo.__proto__ = MapaEditor.prototype;
     modelo.nodosEntrada
         .concat(modelo.nodosSalida)
         .forEach(function (n) {
             n.__proto__ = NodoBorde.prototype;
         });
-    if(modelo.nodosSemaforo){
-        modelo.nodosSemaforo
+    modelo.nodosSemaforo
         .concat(modelo.nodosNoSemaforo)
         .forEach(function (n) {
             n.__proto__ = NodoControl.prototype;
-        });}
-    else{
-        modelo.nodosSemaforo = new Array();
-        modelo.nodosNoSemaforo.forEach(function (n) {
-            n.__proto__ = NodoControl.prototype;})
-    }
+        });
     modelo.callesHorizontales
         .forEach(function (calle) {
             calle.__proto__ = CalleHorizontal.prototype;

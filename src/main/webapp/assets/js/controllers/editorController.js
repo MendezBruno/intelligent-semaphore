@@ -8,19 +8,34 @@ app.directive('ngTouchSpin'['$timeout', '$interval',
 app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$location,$timeout) {
     var largo = 30;
     var coordenadascalle;
-    var mapa = $routeParams.id ? mapas[$routeParams.id]:mapas["modulo1"];
-    var modelo1 = MapaEditor.desParsear(mapa);
- //   new Firebase();
-    $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
-    $scope.callesH= modelo1.callesVerticales[0].cuadras.length - 1;
-    $scope.nombre=modelo1.nombre;
-    $scope.intervalo = 5; //se puede settear en el reproductor antes de arrancar
-    var stage = new createjs.Stage("mapa");
-    var logica = new GrillaController(3,3,largo,stage,$scope,$timeout);
-    createjs.Ticker.on("tick", stage);
-    logica.setModelo(modelo1);
-    logica.redibujar();
-    logica.seleccionarPrimerCuadra();
+
+    var iniciar = function() {
+        var modelo1;
+        if ($routeParams.id && json_mapas[$routeParams.id]) {
+            modelo1 = json_mapas[$routeParams.id]
+        } else {
+            modelo1 = json_mapas["modulo1"]
+        }
+
+        $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
+        $scope.callesH= modelo1.callesVerticales[0].cuadras.length - 1;
+        $scope.nombre=modelo1.nombre;
+        $scope.intervalo = 5; //se puede settear en el reproductor antes de arrancar
+        var stage = new createjs.Stage("mapa");
+        var logica = new GrillaController(3,3,largo,stage,$scope,$timeout);
+        createjs.Ticker.on("tick", stage);
+        logica.setModelo(modelo1);
+        logica.redibujar();
+        logica.seleccionarPrimerCuadra();
+        $timeout(function() {
+            $scope.$apply();
+        });
+    }
+
+    if(window.json_mapas)
+        iniciar();
+    else
+        updateMapasFirebase(iniciar);
 
     $scope.setNombre = function() {
         modelo1.nombre = $scope.nombre;

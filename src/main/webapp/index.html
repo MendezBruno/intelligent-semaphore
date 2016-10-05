@@ -37,15 +37,16 @@
         .moverboton{
             float: left;
             margin-left: 20px;
+            cursor: pointer;
         }
         .tgmenubutton {
+            cursor: pointer;
             float:right;
             width:20px;
             height:100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -60,8 +61,8 @@
     </div>
 
     <div class="vFlotante" ng-class="{'desplegado':desplegado}">
-        <a href="/app/galeria" class="moverboton">Galería</a>
-        <a href="#" class="moverboton">Cerrar sesión</a>
+        <a ng-click="location.url('app/galeria')" class="moverboton">Galería</a>
+        <a ng-click="" class="moverboton">Cerrar sesión</a>
         <a ng-click="desplegado = !desplegado" class="tgmenubutton">
             <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
         </a>

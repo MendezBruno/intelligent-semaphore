@@ -13,6 +13,17 @@ function Firebase () {
         console.log('firebase:' + firebase.initializeApp(config));
         //firebase.initializeApp(config);
         var database = firebase.database();
+};
 
-
+updateMapasFirebase = function (callback) {
+    firebase.database().ref('/' + 'pepe/mapas' ).once('value', function(snapshot) {
+        json_mapas = snapshot.val();
+        for (var claveBD in json_mapas) {
+            json_mapas[claveBD] = MapaEditor.desParsear(JSON.stringify(json_mapas[claveBD]))
+        }
+        for (var nombreMapa in mapas) { json_mapas[nombreMapa] = MapaEditor.desParsear(mapas[nombreMapa]) }
+        if (callback) callback();
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
 };
