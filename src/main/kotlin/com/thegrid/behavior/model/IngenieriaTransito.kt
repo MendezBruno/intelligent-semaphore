@@ -25,4 +25,12 @@ class IngenieriaTransito {
         return if (congestion > 100) 100.0 else congestion
     }
 
+    fun tiempoCiclo (tCiclo: Double, maxValSaturacion: Double): Int{
+        return ((1.5*tCiclo + 5) / (1 - maxValSaturacion)).toInt()
+    }
+
+    fun tiempoVerde (ciclo: Int, distanciaEntreIntersecciones: Int) : Int {
+        return (3.6*distanciaEntreIntersecciones / ciclo).toInt()
+    }
+
 }
