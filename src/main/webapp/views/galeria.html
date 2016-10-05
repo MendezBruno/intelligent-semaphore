@@ -59,18 +59,12 @@
 
         .box { visibility: visible; top: 100px; left: 0px; }
 
-
-        p {margin:20px 0;}
-
         label {font-weight:bold;}
 
         .orange {
             color: orange;
         }
 
-
-
-        body { font-family:calibri; }
         /*
           Hide radio button (the round disc)
           we will use just the label to create pushbutton effect
@@ -167,14 +161,14 @@
                             <input type="radio" id="{{ 'radio-' + $index }}" ng-model="$parent.colorValue" name="colorValue" value="{{pic.title}}">
 
                             <label for="{{ 'radio-' + $index }}" style="width:100%; margin: 5px"
-                                ng-click="seleccionarMapa(pic.title)">
+                                ng-click="seleccionarMapa(pic)">
 
                                 <a style="float:left">
 
                                     <img alt="Imagen Semaforo" src="{{pic.url}}"
                                          class="img-responsive img-thumbnail img-check"
                                          width="150" height="100"
-                                         ng-click="seleccionarMapa(pic.title)" />
+                                         ng-click="seleccionarMapa(pic)" />
 
                                     <!--<input type="checkbox" name="chk1" id="{{ 'object-' + $index }}" value="val1" class="hidden" autocomplete="off"> -->
                                 </a>
