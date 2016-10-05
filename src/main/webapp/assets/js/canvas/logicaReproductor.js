@@ -53,12 +53,13 @@ ReproductorController.prototype.dibujar = function (){
     var verticales = this.modelo.callesVerticales;
     for (var i=0; i < horizontales.length; i++) {
         var calle = horizontales[i];
+        calle.nombre = "Calle H-"+i;
         var cantCarriles = calle.cantCarriles;
         var cuadras = calle.cuadras;
         nodos.push([])
         moverPosxAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            var cnvCuadraReproductor = generarCuadra(HORIZONTAL,calle);
+            var cnvCuadraReproductor = generarCuadra(HORIZONTAL,calle,cuadras[j]);
             if(j==0)
                 self.cuadraFueSeleccionada = cnvCuadraReproductor;
             cnvCuadraReproductor.clickListeners.push(onClickCuadraReproductor);
@@ -89,11 +90,12 @@ ReproductorController.prototype.dibujar = function (){
     posx=posx + largo;
     for (var i = 0; i < verticales.length; i++) {
         var calle = verticales[i];
+        calle.nombre = "Calle V-"+i;
         var cantCarriles = calle.cantCarriles;
         var cuadras = calle.cuadras;
         moverPosyAlOrigen();
         for (var j = 0; j < cuadras.length; j++) {
-            var cnvCuadraReproductor = generarCuadra(VERTICAL,calle);
+            var cnvCuadraReproductor = generarCuadra(VERTICAL,calle,cuadras[j]);
             cnvCuadraReproductor.clickListeners.push(onClickCuadraReproductor);
             stage.addChild(cnvCuadraReproductor);
             auxCnvModel [cuadras[j].id] = cnvCuadraReproductor;
@@ -145,8 +147,10 @@ ReproductorController.prototype.dibujar = function (){
         stage.addChild(interseccion);
     }
 
-    function generarCuadra(direccion,calle){
-        return new CnvCuadraReproductor(posx,posy,largo,calle,direccion);
+    function generarCuadra(direccion,calle,cuadra){
+        var cnvCuadra = new CnvCuadraReproductor(posx,posy,largo,calle,direccion)
+        cnvCuadra.cuadra = cuadra;
+        return cnvCuadra;
     }
 
     function actualizarPosX(cantCarriles){
@@ -168,7 +172,8 @@ ReproductorController.prototype.dibujar = function (){
 
 ReproductorController.prototype.actualizarValorCalle = function (){
     var self = this;
-    self.$scope.cuadraSeleccionada = self.cuadraFueSeleccionada;
+    self.$scope.cuadraSeleccionada = self.cuadraFueSeleccionada.cuadra;
+    self.$scope.calleSeleccionada = self.cuadraFueSeleccionada.calle;
 
     var calle = self.cuadraFueSeleccionada.calle;
     var primeraCuadra = calle.cuadras[0];

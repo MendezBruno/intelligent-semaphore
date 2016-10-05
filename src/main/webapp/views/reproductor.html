@@ -114,6 +114,10 @@
         .referencias p{
             margin: 0 30px 5px;
         }
+
+        .active > button {
+            border-bottom: 3px gray solid;
+        }
     </style>
 </head>
 <body>
@@ -169,7 +173,7 @@
                     <div class="tg-panel-group" id="accordion">
                         <div class="panel panel-default">
                             <button class="panel-heading tgpanelbutton" data-toggle="collapse"
-                                    data-parent="#accordion" data-target="#collapse1"">
+                                    data-parent="#accordion" data-target="#collapse1">
                                 Congestión
                             </button>
                             <div id="collapse1" class="panel-collapse collapse in">
@@ -227,94 +231,89 @@
                         </div>
                         <div class="panel panel-default">
                             <button class="panel-heading tgpanelbutton" data-toggle="collapse"
-                                    data-parent="#accordion" data-target="#collapse3">
-                                Flujos entrada/salida
-                            </button>
-                            <div id="collapse3" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <label for="mySelect">Nodo Borde ID:</label>
-                                            <select name="mySelect" id="mySelect"
-                                                    ng-options="nodo for nodo in nodosBordes track by nodo"
-                                                    ng-model="nodoBorde"></select>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-12 control-label">Cantidad Autos</label>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" ng-model="nodoEntrada.cantMaxima" name="cantVehiculos" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label class="col-lg-12 control-label">Intervalo de tiempo</label>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" ng-model="nodoEntrada.intervalo" name="tIntervalo" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <button  class="col-lg-12 control-label"
-                                                     ng-click="actualizarNodoBorde()">Actualizar Nodo</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <button class="panel-heading tgpanelbutton" data-toggle="collapse"
                                     data-parent="#accordion" data-target="#collapse4">
-                                Calle seleccionada
+                                Selección {{calleSeleccionada.nombre}}
                             </button>
                             <div id="collapse4" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <ul class="nav nav-tabs">
                                         <li class="active">
-                                            <button class="tgpanelbutton" data-toggle="tab" data-target="#home">
-                                                Cuadra
+                                            <button class="tgpanelbutton" data-toggle="tab" data-target="#entrada">
+                                                Entrada
                                             </button>
                                         </li>
                                         <li>
-                                            <button class="tgpanelbutton" data-toggle="tab" data-target="#menu1">
-                                                Calle
+                                            <button class="tgpanelbutton" data-toggle="tab" data-target="#salida">
+                                                Salida
                                             </button>
                                         </li>
                                     </ul>
                                     <div class="tab-content">
-                                        <div id="home" class="tab-pane fade in active">
-                                            <h3>Estado Cuadras</h3>
-                                            <table class="table table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th>Cuadra</th>
-                                                    <th>stock</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>cuadra 1</td>
-                                                    <td ng-model="stock">{{stock}}</td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                        <div id="entrada" class="tab-pane fade in active">
+                                            <div class="container-fluid">
+                                                <!--<div class="row">-->
+                                                    <!--<label for="mySelect">Nodo Borde ID:</label>-->
+                                                    <!--<select name="mySelect" id="mySelect"-->
+                                                            <!--ng-options="nodo for nodo in nodosBordes track by nodo"-->
+                                                            <!--ng-model="nodoBorde"></select>-->
+                                                <!--</div>-->
+                                                <br>
+                                                <div class="row">
+                                                    <label class="col-lg-12 control-label">ENTRADA DE AUTOS</label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-lg-12 control-label">Cantidad máxima autos</label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <input type="text" class="touch-spinner" ng-model="nodoEntrada.cantMaxima" ng-touch-spin>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-lg-12 control-label">Intervalo de tiempo</label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <input type="text" class="touch-spinner" ng-model="nodoEntrada.intervalo" ng-touch-spin>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div id="menu1" class="tab-pane fade">
+                                        <div id="salida" class="tab-pane fade">
+                                            <div class="container-fluid">
+                                                <br>
+                                                <div class="row">
+                                                    <label class="col-lg-12 control-label">SALIDA DE AUTOS</label>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-lg-12 control-label">Cantidad máxima autos</label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <input type="text" class="touch-spinner" ng-model="nodoSalida.cantMaxima" ng-touch-spin>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <label class="col-lg-12 control-label">Intervalo de tiempo</label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <input type="text" class="touch-spinner" ng-model="nodoSalida.intervalo" ng-touch-spin>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="home" class="tab-pane fade">
                                             <h3>velocimetro</h3>
                                             <div id="velocidad" style="width: 100%; height: 120px;">velocidades</div>
                                         </div>
-                                        <div id="menu2" class="tab-pane fade">
-                                            <h3>otra 2</h3>
-                                            <p>otro info para mostrar</p>
-                                        </div>
-                                        <div id="menu3" class="tab-pane fade">
-                                            <h3>otra 3</h3>
-                                            <p>sunt explicabo.</p>
+                                    </div>
+                                    <hr style="border-color:gray">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <button ng-click="actualizarNodoBorde()" class="form-control">
+                                                Actualizar flujos
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +326,14 @@
     </div>
 
     <script>
-
+    $("input[class='touch-spinner']").TouchSpin({
+        maxboostedstep: 10,
+        min: 0,
+        max: 10,
+        step: 1,
+        boostat: 5
+    });
     </script>
+
 </body>
 </html>

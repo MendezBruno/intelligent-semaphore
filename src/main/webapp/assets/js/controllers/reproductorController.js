@@ -100,10 +100,15 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         cargarScopeConNodoBorde();
 
         $scope.actualizarNodoBorde = function () {
+                if(!$scope.cuadraSeleccionada) return;
                 var uNodoBorde = {}
-                uNodoBorde["id"] = $scope.nodoBorde;
-                uNodoBorde["cantMaxima"] = $scope.cantVehiculos;
-                uNodoBorde["intervalo"] = $scope.tIntervalo;
+                uNodoBorde["id"] = $scope.nodoEntrada.id;
+                uNodoBorde["cantMaxima"] = $scope.nodoEntrada.cantMaxima;
+                uNodoBorde["intervalo"] = $scope.nodoEntrada.intervalo;
+                NodoBorde.save(JSON.stringify(uNodoBorde));
+                uNodoBorde["id"] = $scope.nodoSalida.id;
+                uNodoBorde["cantMaxima"] = $scope.nodoSalida.cantMaxima;
+                uNodoBorde["intervalo"] = $scope.nodoSalida.intervalo;
                 NodoBorde.save(JSON.stringify(uNodoBorde));
         };
         $scope.avanzarEvento = function () {
