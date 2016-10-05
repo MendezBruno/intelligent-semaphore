@@ -51,6 +51,37 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 $scope.$apply();
             });
             cargarScopeConNodoBorde();
+
+            var originalWidth = stageReproductor.canvas.width;
+            var originalHeight = stageReproductor.canvas.height;
+            var canvaspanel = $("#canvaspanel");
+            canvaspanel.css("background-color", ColoresRGB.getGRAY().toHexa());
+            var initZoom = canvaspanel[0].clientWidth / originalWidth;
+            var pendiente = (1 - initZoom) / (200 - 100)
+            var ordenadaAlOrigen = (200 * initZoom - 100 * 1) / (200 - 100)
+
+            var aFactorEscala = function (zoom) {
+                return zoom * pendiente + ordenadaAlOrigen;
+            }
+
+            var aplicarZoom = function (value) {
+                var factor = aFactorEscala(value)
+                stageReproductor.canvas.width = originalWidth * factor;
+                stageReproductor.canvas.height = originalHeight * factor;
+                stageReproductor.update();
+                stageReproductor.scaleX = factor;
+                stageReproductor.scaleY = factor;
+            }
+
+            // With JQuery
+            $("#ex6").slider();
+            $("#ex6").on("slide", function (slideEvt) {
+                var value = slideEvt.value;
+                $("#ex6SliderVal").text(value + "%");
+                aplicarZoom(value);
+            });
+
+            aplicarZoom(100)
         }
 
         if(window.json_mapas)
@@ -189,37 +220,6 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 if (r.indexOf('.') == (r.length - 2)) r = r + "0";
                 return r
         }
-
-        var originalWidth = stageReproductor.canvas.width;
-        var originalHeight = stageReproductor.canvas.height;
-        var canvaspanel = $("#canvaspanel");
-        canvaspanel.css("background-color", ColoresRGB.getGRAY().toHexa());
-        var initZoom = canvaspanel[0].clientWidth / originalWidth;
-        var pendiente = (1 - initZoom) / (200 - 100)
-        var ordenadaAlOrigen = (200 * initZoom - 100 * 1) / (200 - 100)
-
-        var aFactorEscala = function (zoom) {
-                return zoom * pendiente + ordenadaAlOrigen;
-        }
-
-        var aplicarZoom = function (value) {
-                var factor = aFactorEscala(value)
-                stageReproductor.canvas.width = originalWidth * factor;
-                stageReproductor.canvas.height = originalHeight * factor;
-                stageReproductor.update();
-                stageReproductor.scaleX = factor;
-                stageReproductor.scaleY = factor;
-        }
-
-        // With JQuery
-        $("#ex6").slider();
-        $("#ex6").on("slide", function (slideEvt) {
-                var value = slideEvt.value;
-                $("#ex6SliderVal").text(value + "%");
-                aplicarZoom(value);
-        });
-
-        aplicarZoom(100)
 
         //cargarMapa = function (unMapa){
         //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
