@@ -25,6 +25,7 @@ class IngenieriaTransito {
         return if (congestion > 100) 100.0 else congestion
     }
 
+      /* @param maxValSaturacion es un tiempo entre 0 y 1  */
     fun tiempoCiclo (tCiclo: Double, maxValSaturacion: Double): Int{
         return ((1.5*tCiclo + 5) / (1 - maxValSaturacion)).toInt()
     }
