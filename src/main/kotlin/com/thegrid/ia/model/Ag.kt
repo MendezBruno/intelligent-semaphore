@@ -14,6 +14,7 @@ class Ag {
     var poblacionGlobal = mutableListOf<Cromosoma>()
     var poblacionInicial = mutableListOf<Cromosoma>()
     var cruzaStrategy: CruzaSimpleStrategy = CruzaSimpleStrategy()
+    var seleccionStrategy: SeleccionStrategy = SeleccionRanking()
 
 
     fun generarPoblacionGlobal (cantSemaforos: Int, cantCromosomas: Int){
