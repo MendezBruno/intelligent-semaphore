@@ -1,7 +1,7 @@
 package com.thegrid.communication.model
 
-import com.thegrid.ia.Ag
-import com.thegrid.ia.Cromosoma
+import com.thegrid.ia.model.Ag
+import com.thegrid.ia.model.Cromosoma
 import org.jetbrains.spek.api.Spek
 
 /**
@@ -38,11 +38,11 @@ class AgTests: Spek({
                 cromosoma.genes.add(2.0)
                 cromosoma2.genes.add(3.0)
                 cromosoma2.genes.add(4.0)
-                cromosoma.cruzaSimple(cromosoma2)
+                ag.cruzaStrategy.cruzar(cromosoma,cromosoma2)
                 assert(cromosoma.genes.contains(4.0))
-                assert(cromosoma.genes.contains(2.0))
+                assert(cromosoma.genes.contains(1.0))
+                assert(cromosoma2.genes.contains(2.0))
                 assert(cromosoma2.genes.contains(3.0))
-                assert(cromosoma2.genes.contains(1.0))
                 assert(cromosoma.genes.size == 2)
                 assert(cromosoma2.genes.size == 2)
 

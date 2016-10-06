@@ -1,5 +1,7 @@
-package com.thegrid.ia
+package com.thegrid.ia.model
 
+import com.thegrid.ia.model.Cromosoma
+import com.thegrid.ia.model.cruzaStrategy.CruzaSimpleStrategy
 import java.util.*
 import org.jetbrains.spek.api.Spek
 /**
@@ -11,6 +13,7 @@ class Ag {
     final val cromosomasPordefault = 6
     var poblacionGlobal = mutableListOf<Cromosoma>()
     var poblacionInicial = mutableListOf<Cromosoma>()
+    var cruzaStrategy: CruzaSimpleStrategy = CruzaSimpleStrategy()
 
 
     fun generarPoblacionGlobal (cantSemaforos: Int, cantCromosomas: Int){
