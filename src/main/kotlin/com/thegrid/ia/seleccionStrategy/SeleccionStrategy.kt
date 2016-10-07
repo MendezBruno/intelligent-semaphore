@@ -1,4 +1,4 @@
-package com.thegrid.ia.model.seleccionStrategy
+package com.thegrid.ia.seleccionStrategy
 
 import com.thegrid.ia.model.Cromosoma
 

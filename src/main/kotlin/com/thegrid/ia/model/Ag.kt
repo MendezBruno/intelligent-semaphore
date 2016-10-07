@@ -1,7 +1,9 @@
 package com.thegrid.ia.model
 
 import com.thegrid.ia.model.Cromosoma
-import com.thegrid.ia.model.cruzaStrategy.CruzaSimpleStrategy
+import com.thegrid.ia.cruzaStrategy.CruzaSimpleStrategy
+import com.thegrid.ia.seleccionStrategy.SeleccionRankingStrategy
+import com.thegrid.ia.seleccionStrategy.SeleccionStrategy
 import java.util.*
 import org.jetbrains.spek.api.Spek
 /**
@@ -14,7 +16,7 @@ class Ag {
     var poblacionGlobal = mutableListOf<Cromosoma>()
     var poblacionInicial = mutableListOf<Cromosoma>()
     var cruzaStrategy: CruzaSimpleStrategy = CruzaSimpleStrategy()
-    var seleccionStrategy: SeleccionStrategy = SeleccionRanking()
+    var seleccionStrategy: SeleccionStrategy = SeleccionRankingStrategy()
 
 
     fun generarPoblacionGlobal (cantSemaforos: Int, cantCromosomas: Int){
@@ -43,6 +45,10 @@ class Ag {
     fun generarPoblacionInicial (cantCromosomas: Int){
         for(i in 1..cantCromosomas) poblacionInicial.add(poblacionGlobal.get(Random().nextInt(poblacionGlobal.size)) )
 
+    }
+
+    fun seleccionarIndividuosDePoblacionInicial() :List<Cromosoma>{
+        return seleccionStrategy.seleccionar(poblacionInicial)
     }
 
 }

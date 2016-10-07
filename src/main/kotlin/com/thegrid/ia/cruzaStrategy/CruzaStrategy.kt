@@ -1,4 +1,4 @@
-package com.thegrid.ia.model.cruzaStrategy
+package com.thegrid.ia.cruzaStrategy
 
 import com.thegrid.ia.model.Cromosoma
 

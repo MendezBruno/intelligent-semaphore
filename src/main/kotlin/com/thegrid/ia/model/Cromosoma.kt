@@ -7,6 +7,7 @@ package com.thegrid.ia.model
  */
 class Cromosoma {
     var genes = mutableListOf<Double>()
+    val aptitud = 0.0
 
 }
 
