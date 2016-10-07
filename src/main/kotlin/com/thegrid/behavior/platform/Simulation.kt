@@ -20,6 +20,7 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
     var timeSleep: Long = 1000
     var correr: Boolean = true
     var estoyInterrumpido : Boolean = false
+    val seUsaIA = true;
 
     init {
         SharedInstance = this
@@ -43,7 +44,8 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
 
                 while (correr) {
                     try {
-                        dispatcher.processEvent()
+                        evaluarCromosomas(AG.poblacionInicial,20)
+                        if (seUsaIA) AG.iterar()
                         Thread.sleep(timeSleep);
 
                         synchronized(lock) {
@@ -95,7 +97,7 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
     }
 
     fun evaluarCromosomas(cromosomas: MutableList<Cromosoma>, iteraciones: Int) {
-        for (cromosoma in AG.poblacionInicial) {
+        for (cromosoma in cromosomas) {
             if (cromosoma.aptitud > 0.0) continue
             val tiempos = cromosoma.genes
             for((index,semaforo) in map.semaphoreNodes.withIndex()) {
@@ -106,6 +108,5 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
             //Evaluar el estado del mapa con sus atributos y setearlo en el cromosoma
             cromosoma.aptitud = 5.0
         }
-        AG.iterar()
     }
 }
