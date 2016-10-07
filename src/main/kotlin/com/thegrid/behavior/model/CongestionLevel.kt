@@ -1,7 +1,7 @@
 package com.thegrid.behavior.model
 
-enum class CongestionLevel {
-    SIN_CONGESTION, LEVE, MEDIANA, PESADA, INTRANSITABLE;
+enum class CongestionLevel(val ponderacion: Int) {
+    SIN_CONGESTION(500), LEVE(100), MEDIANA(-100), PESADA(-200), INTRANSITABLE(-500);
 
     companion object {
         fun ofPercentage(percentage: Double) : CongestionLevel {
