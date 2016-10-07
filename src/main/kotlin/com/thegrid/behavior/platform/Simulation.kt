@@ -1,14 +1,9 @@
 package com.thegrid.behavior.platform
 
-import com.thegrid.behavior.model.EntryNode
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
-import com.thegrid.behavior.platform.Orchestrator
-import com.thegrid.behavior.platform.TimeDispatcher
 import com.thegrid.communication.model.MapState
-import java.sql.Timestamp
-import java.time.Instant
-import kotlin.properties.Delegates
+import com.thegrid.ia.model.Cromosoma
 
 class Simulation(map : Map, val debugMode : Boolean = false) {
     companion object {
@@ -98,5 +93,17 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
         estoyInterrumpido = true
     }
 
+    fun evaluarCromosomas(cromosomas: MutableList<Cromosoma>, iteraciones: Int) {
+        for (cromosoma in cromosomas) {
+            if (cromosoma.aptitud > 0.0) continue
+            val tiempos = cromosoma.genes
+            for((index,semaforo) in map.semaphoreNodes.withIndex()) {
+                semaforo.setTimes(tiempos.get(index), tiempos.get(index))
+            }
+            for (i in 0..iteraciones) dispatcher.processEvent()
 
+            //Evaluar el estado del mapa con sus atributos y setearlo en el cromosoma
+            cromosoma.aptitud = 5.0
+        }
+    }
 }

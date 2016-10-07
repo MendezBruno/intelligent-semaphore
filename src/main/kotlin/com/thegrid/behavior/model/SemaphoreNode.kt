@@ -27,7 +27,7 @@ class SemaphoreNode : CornerNode, IDispatcheable {
     }
     private val _hLogQueue = Queue<TimeLog>()
     private val _vLogQueue = Queue<TimeLog>()
-    private val _hTime: Double
+    private var _hTime: Double
     private var _vTime: Double
 
     constructor(id:String, hTime:Double, vTime:Double, direction: Direction = Direction.vertical()) : super(id){
@@ -95,6 +95,11 @@ class SemaphoreNode : CornerNode, IDispatcheable {
 
     override fun getNextTefTime(tef: Tef): Double {
         return tef.list.find { it.objectToDispatch.id() == id }!!.time
+    }
+
+    fun setTimes(vTime: Double, hTime: Double) {
+        _vTime = vTime
+        _hTime = hTime
     }
 }
 
