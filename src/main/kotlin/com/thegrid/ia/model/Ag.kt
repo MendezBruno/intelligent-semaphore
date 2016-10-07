@@ -15,9 +15,10 @@ class Ag {
     final val cromosomasPordefault = 6
     var poblacionGlobal = mutableListOf<Cromosoma>()
     var poblacionInicial = mutableListOf<Cromosoma>()
+    var poblacionCruzada = mutableListOf<Cromosoma>()
     var cruzaStrategy: CruzaSimpleStrategy = CruzaSimpleStrategy()
     var seleccionStrategy: SeleccionStrategy = SeleccionRankingStrategy()
-
+    var coeficienteMutacion = 30
 
     fun generarPoblacionGlobal (cantSemaforos: Int, cantCromosomas: Int){
         var i = 0
@@ -47,8 +48,24 @@ class Ag {
 
     }
 
-    fun seleccionarIndividuosDePoblacionInicial() :List<Cromosoma>{
-        return seleccionStrategy.seleccionar(poblacionInicial)
+    fun seleccionarIndividuosDePoblacionInicial():MutableList<Cromosoma>{
+        return seleccionStrategy.seleccionar(poblacionInicial,poblacionCruzada)
+    }
+    /*
+    Suponemos que las aptitudes fueron calculadas y actualizadas en la simulacion antes de iterar.
+    */
+    fun iterar (){
+        poblacionCruzada.addAll( cruzaStrategy.cruzarSeleccion(seleccionarIndividuosDePoblacionInicial())  )
+        if (coeficienteMutacion > Random().nextInt(100)) mutar(poblacionCruzada)
+        poblacionInicial = poblacionCruzada
+        poblacionCruzada.clear()
+
+    }
+
+    private fun  mutar(poblacion: MutableList<Cromosoma>) {
+        val cromosomaRandom = Random().nextInt(poblacion.size)
+        val genRandom = Random().nextInt(poblacion[1].genes.size)
+        poblacion[cromosomaRandom].genes[genRandom]= Random().nextInt(cotaSuperior.toInt()).toDouble()
     }
 
 }

@@ -7,4 +7,6 @@ import com.thegrid.ia.model.Cromosoma
  */
 interface CruzaStrategy {
         fun cruzar (cromosomaPadre1: Cromosoma, cromosomaPadre2: Cromosoma)
+
+        fun cruzarSeleccion(dePoblacionInicial: MutableList<Cromosoma>): Collection<Cromosoma>
 }

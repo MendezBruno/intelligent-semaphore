@@ -6,6 +6,16 @@ import com.thegrid.ia.model.Cromosoma
  * Created by Bruno on 06/10/16.
  */
 class CruzaSimpleStrategy: CruzaStrategy {
+    override fun cruzarSeleccion(dePoblacionInicial: MutableList<Cromosoma>): Collection<Cromosoma> {
+    var num = 0
+    var pMax = dePoblacionInicial.size
+        while (num != pMax) {
+            cruzar(dePoblacionInicial[num],dePoblacionInicial[pMax])
+            num++
+            pMax--
+        }
+        return dePoblacionInicial
+    }
 
 
     override fun cruzar (cromosomaPadre1: Cromosoma, cromosomaPadre2: Cromosoma) {
