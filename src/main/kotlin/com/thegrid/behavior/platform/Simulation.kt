@@ -3,6 +3,7 @@ package com.thegrid.behavior.platform
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
 import com.thegrid.communication.model.MapState
+import com.thegrid.ia.model.Ag
 import com.thegrid.ia.model.Cromosoma
 
 class Simulation(map : Map, val debugMode : Boolean = false) {
@@ -14,7 +15,7 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
     val memory: MapStateMemory
     val map: Map
     val orquestador: Orchestrator
-    val AG: Object = Object()
+    val AG: Ag = Ag()
     val dispatcher: TimeDispatcher
     var timeSleep: Long = 1000
     var correr: Boolean = true
@@ -94,7 +95,7 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
     }
 
     fun evaluarCromosomas(cromosomas: MutableList<Cromosoma>, iteraciones: Int) {
-        for (cromosoma in cromosomas) {
+        for (cromosoma in AG.poblacionInicial) {
             if (cromosoma.aptitud > 0.0) continue
             val tiempos = cromosoma.genes
             for((index,semaforo) in map.semaphoreNodes.withIndex()) {
@@ -105,5 +106,6 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
             //Evaluar el estado del mapa con sus atributos y setearlo en el cromosoma
             cromosoma.aptitud = 5.0
         }
+        AG.iterar()
     }
 }
