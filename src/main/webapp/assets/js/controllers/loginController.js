@@ -5,8 +5,6 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
     var jsa={a:'pppp',b:'fffff',c:{d:'eeeeee',e:'fdsfsdf'}};
 
-    new Firebase();
-
     $scope.entro=function () {
 
             const email = $scope.mail;
@@ -15,22 +13,48 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
             const auth = firebase.auth();
 
-            const promise = auth.signInWithEmailAndPassword(email, pass).catch(function(error){console.log(error);});
+            if(email!=undefined) {
 
-            console.log("hola");
+                const promise = auth.signInWithEmailAndPassword(email, pass).catch(function (error) {
 
-            console.log(auth.currentUser);
+                    var errorCode = error.code;
 
+                    console.log(errorCode);
+
+                    if(errorCode=="auth/user-not-found") {
+                        alert("Usuario o contraseña mal ingresados");
+                        return;
+                    }
+
+                    if(errorCode=="auth/wrong-password") {
+                        alert("Usuario o contraseña mal ingresados");
+                        return;
+                    }
+
+                    return;
+
+                });
+                $location.url("/app/galeria");
+            }
+
+            else
+            {
+
+                alert("Usuario o contraseña mal ingresados");
+
+            }
+
+/*
             firebase.auth().onAuthStateChanged(function (user) {
                 console.log('authStateChanged', user);
                 if (user) {
                     $rootScope.uid = user.uid;
                     writeUserData(user.uid,'pepe','pepe@kkkerkc.com','libro1');
-                    var up={};
-                    up['/UserId/libros/2/']='libro2';
-                    up['/UserId/libros/3/']='libro3';
-                    firebase.database().ref().update(up);
-                    firebase.database().ref().push(jsa);
+                 //   var up={};
+                 //   up['/UserId/libros/2/']='libro2';
+                 //   up['/UserId/libros/3/']='libro3';
+                 //   firebase.database().ref().update(up);
+                 //   firebase.database().ref().push(jsa);
                 }
             },function(error) {
                 // Handle Errors here.
@@ -38,7 +62,10 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
                 var errorMessage = error.message;
          //       console.log(error);
             }
-        );
+
+
+
+        ); */
 
     }
 
