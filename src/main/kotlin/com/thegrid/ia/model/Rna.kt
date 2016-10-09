@@ -7,6 +7,7 @@ import org.neuroph.core.NeuralNetwork
 import org.neuroph.core.data.DataSet
 import org.neuroph.nnet.MultiLayerPerceptron
 import org.neuroph.util.TransferFunctionType
+import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
 
@@ -14,7 +15,6 @@ import java.util.*
  * Created by bruno on 08/10/16.
  */
 class Rna(val map: Map) {
-    val backPropagation = BackPropagation()
     var setDeEntrenamiento: DataSet
     var iteracionesDeAprendizaje = 50
     var porcetajeDeCapasIntermedias = 0.70
@@ -22,29 +22,37 @@ class Rna(val map: Map) {
     val datosEntrada: Int
     val capaOculta: Int
     var neuralNetwork: NeuralNetwork<BackPropagation>
-
+    val backPropagation = BackPropagation()
     init{
         datosEntrada = CongestionLevel.values().size + map.streets.size * 4   //cuatro por son dos nodos (Entrada , salida) y dos valores interval y max amount
         datosDeSalida = map.semaphoreNodes.size * 2
         setDeEntrenamiento = DataSet(datosEntrada, datosDeSalida)
         capaOculta = ((datosEntrada+datosDeSalida)*porcetajeDeCapasIntermedias).toInt()
         neuralNetwork = MultiLayerPerceptron(TransferFunctionType.SIGMOID, datosEntrada, capaOculta, datosDeSalida)
-        try{
-            importarDatoDeEntrenamiento()
-        }catch(fnfE: FileNotFoundException){
-            exportarDataSet()
+
+        val carpetaRna = File("rna")
+
+        if (carpetaRna.exists()) {
+            if (!carpetaRna.isDirectory) carpetaRna.mkdir()
+        } else {
+            carpetaRna.mkdir()
         }
 
+        try{
+            importarDatoDeEntrenamiento()
+        }catch(fnfE: Exception){
+            exportarDataSet()
+        }
     }
 
 
 
     fun exportarListaDeDatos(){
-        setDeEntrenamiento.saveAsTxt(map.name+".txt", ",  ,")
+        setDeEntrenamiento.saveAsTxt("rna/${map.name}.txt", ",  ,")
     }
 
     fun exportarDataSet(){
-        setDeEntrenamiento.save(map.name+".xml")
+        setDeEntrenamiento.save("rna/${map.name}.xml")
     }
 
     fun persistirDatos(){
