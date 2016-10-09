@@ -228,7 +228,6 @@ ReproductorController.prototype.actualizarValorSemaforo = function (){
         }
     }
 
-
     self.$scope.calleSemaforo = semaforo;
     self.$scope.$apply();
 };
