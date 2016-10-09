@@ -35,12 +35,12 @@ class RnaTest : Spek({
 
         on("Rna") {
             it("debe crear un Red a partir de un mapa, crear un path si no exite para persistir el modelo") {
-                var rna: Rna = Rna(map, debugMode)
+                var rna: Rna = Rna(map, true)
                 assert(!rna.equals(null))
 
             }
             it("de guardar 2 valores "){
-                var rna: Rna = Rna(map, debugMode)
+                var rna: Rna = Rna(map, true)
                 val random: Random = Random()
                 val datosEntrada: DoubleArray = DoubleArray(rna.datosEntrada,{Math.abs(random.nextDouble())})
                 val datosSalida: DoubleArray = DoubleArray(rna.datosDeSalida,{Math.abs(random.nextDouble())})
@@ -57,7 +57,7 @@ class RnaTest : Spek({
                 assert(rna.setDeEntrenamiento.size() == 4)
             }
             it("se debe entrenar y devolver un valor posible con un Array de double con un tamaño de datos salida"){
-                var rna: Rna = Rna(map, debugMode)
+                var rna: Rna = Rna(map, true)
                 val random: Random = Random()
                 val datosEntrada: DoubleArray = DoubleArray(rna.datosEntrada,{Math.abs(random.nextDouble())})
                 val datosSalida: DoubleArray = DoubleArray(rna.datosDeSalida,{Math.abs(random.nextDouble())})
@@ -72,7 +72,7 @@ class RnaTest : Spek({
                 rna.agregarValorDeEntrenamiento(datosEntrada2,datosSalida2)
                 rna.agregarValorDeEntrenamiento(datosEntrada3,datosSalida3)
                 rna.entrenarRed()
-                rna.exportarListaDeDatos()
+                rna.exportarDataSet()
                 assert(rna.haztumagia(datosEntrada)?.size == rna.datosDeSalida)
                 println(rna.backPropagation.maxError)
                 println(rna.backPropagation.learningRate)
