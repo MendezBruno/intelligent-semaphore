@@ -63,6 +63,10 @@ class Rna(val map: Map) {
         setDeEntrenamiento = DataSet.load(map.name+".xml")
     }
 
+    fun borrarMemoria(){
+        setDeEntrenamiento.clear()
+    }
+
     fun agregarValorDeEntrenamiento(datosEntrada: DoubleArray, datosSalida: DoubleArray){
         setDeEntrenamiento.addRow(datosEntrada, datosSalida);
         persistirDatos()
@@ -78,7 +82,6 @@ class Rna(val map: Map) {
         neuralNetwork.calculate();
         return neuralNetwork.getOutput();
     }
-
 
 
 
