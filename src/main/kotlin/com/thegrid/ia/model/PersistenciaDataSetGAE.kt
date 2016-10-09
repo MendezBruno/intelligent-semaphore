@@ -2,16 +2,17 @@ package com.thegrid.ia.model
 
 import ar.org.neuroph.core.data.DataSet
 
-class PersistenciaDataSetGAE(rna:Rna) : PersDataSet {
+class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
     override fun persistir() {
-        throw UnsupportedOperationException()
+        //TBD
     }
 
     override fun cargarRecuperar(): DataSet? {
-        throw UnsupportedOperationException()
+        //TBD
+        return DataSet(rna.datosEntrada, rna.datosDeSalida)
     }
 
     override fun eliminar() {
-        throw UnsupportedOperationException()
+        //TBD
     }
 }
