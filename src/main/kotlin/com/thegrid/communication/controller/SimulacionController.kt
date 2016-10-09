@@ -33,7 +33,12 @@ class SimulacionController {
     }
     @ApiMethod(name = "putModo", path = "modoUpdate", httpMethod = ApiMethod.HttpMethod.PUT)
     fun putModo(@Named("modo") modoUpdate: TipoEjecucion) {
-         Simulation.SharedInstance?.tipoEjecucion = modoUpdate
+        val sharedInstance = Simulation.SharedInstance
+        if (sharedInstance != null){
+            println("Modo de ejecucion cambiado a $modoUpdate")
+            sharedInstance.tipoEjecucion = modoUpdate
+        } else
+            println("Cambiar tipoEjecucion: No hay simulacion en ejecucion")
     }
 }
 
