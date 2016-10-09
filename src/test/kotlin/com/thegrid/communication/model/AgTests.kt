@@ -1,5 +1,8 @@
 package com.thegrid.communication.model
 
+import com.github.salomonbrys.kotson.fromJson
+import com.google.gson.Gson
+import com.thegrid.communication.services.MapConversor
 import com.thegrid.ia.model.Ag
 import com.thegrid.ia.model.Cromosoma
 import org.jetbrains.spek.api.Spek
@@ -10,9 +13,26 @@ import org.jetbrains.spek.api.Spek
 class AgTests: Spek({
 
     given("Un AG") {
-        val ag = Ag()
-        on("El mismo ag") {
+        val jsonMap =
+                "{'callesHorizontales':[{'cantCarriles':3,'sentido':'Oeste-Este','cuadras':[" +
+                        "{'longitud':100,'id':'cuadra-1','nodoOrigen':'nodo-1','nodoDestino':'nodo-3'}," +
+                        "{'longitud':100,'id':'cuadra-2','nodoOrigen':'nodo-3','nodoDestino':'nodo-2'}],'preferencia':1,'sentidosPosibles':['Este-Oeste','Oeste-Este']}]," +
+                        "'callesVerticales':[{'cantCarriles':2,'sentido':'Norte-Sur','cuadras':[" +
+                        "{'longitud':100,'id':'cuadra-13','nodoOrigen':'nodo-16','nodoDestino':'nodo-3'}," +
+                        "{'longitud':100,'id':'cuadra-14','nodoOrigen':'nodo-3','nodoDestino':'nodo-17'}],'preferencia':4,'sentidosPosibles':['Norte-Sur','Sur-Norte']}]," +
+                        "'nodosEntrada':[" +
+                        "{'id':'nodo-1','cantMaxima':'10','intervalo':'1'}," +
+                        "{'id':'nodo-16','cantMaxima':'4','intervalo':'1'}]," +
+                        "'nodosSalida':[" +
+                        "{'id':'nodo-2','cantMaxima':'3','intervalo':'3'}," +
+                        "{'id':'nodo-17','cantMaxima':'1','intervalo':'1'}]," +
+                        "'nodosSemaforo':[{'id':'nodo-3','tiempoHorizontal':4,'tiempoVertical':4}]," +
+                        "'nodosNoSemaforo':[],'nombre':'Prueba 1x1'}"
 
+        val frontendMap = Gson().fromJson<dataMap>(jsonMap);
+        var map = MapConversor.convert(frontendMap)
+        val ag = Ag(map)
+        on("El mismo ag") {
             it("Debe crear una poblacion global con n Cromosomas donde cada cromosoma tiene un size de cant semaforos por 2") {
                 val cantSemaforos = 4
                 val cantCromosomas = 5
@@ -22,12 +42,12 @@ class AgTests: Spek({
             }
             it("Debe crear una poblacion incial con los cromosomas por defecto que son 6 actualmente "){
                 ag.generarPoblacionInicial()
-                assert(ag.poblacionInicial.size == 6 )
-                ag.poblacionInicial.removeAll { true }
+                assert(ag.poblacion.size == 6 )
+                ag.poblacion.removeAll { true }
             }
             it("Debe crear una poblacion incial con una cantidad n de cromosomas definidas por parametro"){
                 ag.generarPoblacionInicial(8)
-                assert(ag.poblacionInicial.size == 8 )
+                assert(ag.poblacion.size == 8 )
             }
         }
         on("un Cromosoma"){
@@ -46,6 +66,11 @@ class AgTests: Spek({
                 assert(cromosoma.genes.size == 2)
                 assert(cromosoma2.genes.size == 2)
 
+            }
+            it("Debe mutar") {
+                ag.generarPoblacionInicial()
+                ag.mutarPoblacion()
+                assert(true)
             }
         }
     }

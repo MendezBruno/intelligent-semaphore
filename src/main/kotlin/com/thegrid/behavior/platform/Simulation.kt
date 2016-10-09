@@ -1,73 +1,96 @@
 package com.thegrid.behavior.platform
 
+import com.thegrid.behavior.model.CongestionLevel
+import com.thegrid.behavior.model.EgressNode
+import com.thegrid.behavior.model.EntryNode
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
 import com.thegrid.behavior.model.Resultado
 import com.thegrid.communication.model.MapState
 import com.thegrid.ia.model.Ag
 import com.thegrid.ia.model.Cromosoma
+import com.thegrid.ia.model.Rna
 
-class Simulation(map : Map, val debugMode : Boolean = false) {
+class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime : Long = 1000) {
+
     companion object {
         var SharedInstance : Simulation? = null
         var resultados: Resultado = Resultado()
+        val DEFAULT_TIME_SLEEP: Long = 1000
+        val ITERACIONES_AG = 20
+        val ITERACIONES_RNA = 20
+        val APTITUD_ACEPTABLE = 1500
     }
 
     val lock : java.lang.Object = Object()
-    val memory: MapStateMemory
-    val map: Map
+    val memory: MapStateMemory = MapStateMemory(map)
     val orquestador: Orchestrator
-    val AG: Ag = Ag()
-    val dispatcher: TimeDispatcher
-    var timeSleep: Long = 1000
+    val AG = Ag(map)
+    val rna = Rna(map)
+    val dispatcher: TimeDispatcher = TimeDispatcher()
     var correr: Boolean = true
     var estoyInterrumpido : Boolean = false
-    val seUsaIA = true;
+    var tipoEjecucion = TipoEjecucion.SIM
+    var timeSleep = if (debugMode) debugSleepTime else DEFAULT_TIME_SLEEP
 
     init {
         SharedInstance = this
-        memory = MapStateMemory(map)
-        dispatcher = TimeDispatcher()
-        this.map = map
-
 
         map.nodes.forEach {
             if (it is IDispatcheable)
                 dispatcher.dispatchOn(0.0, it)
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
-
-        if (debugMode) timeSleep = 500
         orquestador = iniciarSimulacion()
     }
 
     private fun iniciarSimulacion(): Orchestrator {
         return Orchestrator(Runnable {
-
-                while (correr) {
-                    try {
-                        evaluarCromosomas(AG.poblacionInicial,20)
-                        if (seUsaIA) AG.iterar()
-                        Thread.sleep(timeSleep);
-
-                        synchronized(lock) {
-                            while (estoyInterrumpido){
-                                println("estoy en el wait")
-                                lock.wait()
-                            }
-                        }
-                    } catch (e: InterruptedException){
+            while (correr) {
+                try {
+                    when(tipoEjecucion) {
+                        TipoEjecucion.SIM -> procesar()
+                        TipoEjecucion.AG -> procesarAG()
+                        TipoEjecucion.RNA -> procesarRNA()
                     }
-
+                } catch (e: InterruptedException){
                 }
-
-
+            }
         }, debugMode)
     }
 
+    private fun procesarRNA() {
+        for (i in 0..ITERACIONES_RNA) procesar()
+        if (calcularAptitudMapa() < 1000) {
+            val estadoMapa = calcularEstadoMapa()
+            val tiempos = rna.haztumagia(estadoMapa)!!
+            for((index,semaforo) in map.semaphoreNodes.withIndex()) {
+                semaforo.setTimes(tiempos[index], tiempos[index+1])
+            }
+        }
+    }
 
-    fun simulate() {
-        //TBD
+    fun calcularEstadoMapa(): DoubleArray {
+        val estadoCongestion = CongestionLevel.values().map { 0.0 }.toDoubleArray()
+        for (cuadra in map.blocks) {
+            estadoCongestion[CongestionLevel.values().indexOf(cuadra.congestionLevel)]++
+        }
+        val estadoFlujos = DoubleArray(map.streets.size * 4)
+        var i = 0
+        for (nodo in map.nodes) {
+            if (nodo is EntryNode) {
+                estadoFlujos[i] = nodo._interval.toDouble()
+                estadoFlujos[i + 1] = nodo._maxAmount.toDouble()
+                i += 2
+            }
+            if (nodo is EgressNode) {
+                estadoFlujos[i] = nodo._interval.toDouble()
+                estadoFlujos[i + 1] = nodo._maxAmount.toDouble()
+                i += 2
+            }
+        }
+        val estadoMapa = estadoCongestion + estadoFlujos
+        return estadoMapa
     }
 
     fun getStatus(): MapState {
@@ -85,7 +108,6 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
     }
 
     fun reanudar() {
-
         synchronized (lock) {
             println("me reanudaron")
             estoyInterrumpido = false
@@ -94,22 +116,47 @@ class Simulation(map : Map, val debugMode : Boolean = false) {
     }
 
     fun pausar() {
-        println("me interrumpieron")
+//        println("me interrumpieron")
         estoyInterrumpido = true
     }
 
-    fun evaluarCromosomas(cromosomas: MutableList<Cromosoma>, iteraciones: Int) {
-        for (cromosoma in cromosomas) {
+    fun procesarAG() {
+        for (cromosoma in AG.poblacion) {
             if (cromosoma.aptitud != 0.0) continue
             val tiempos = cromosoma.genes
             for((index,semaforo) in map.semaphoreNodes.withIndex()) {
-                semaforo.setTimes(tiempos.get(index), tiempos.get(index))
+                semaforo.setTimes(tiempos[index], tiempos[index+1])
             }
-            for (i in 0..iteraciones) dispatcher.processEvent()
+            for (i in 0..ITERACIONES_AG) {
+                procesar()
+            }
 
-            //Evaluar el estado del mapa con sus atributos y setearlo en el cromosoma
-            for (cuadra in map.blocks)
-                cromosoma.aptitud += cuadra.congestionLevel.ponderacion
+            cromosoma.aptitud = calcularAptitudMapa()
+
+            if (cromosoma.aptitud >= APTITUD_ACEPTABLE) {
+                rna.agregarValorDeEntrenamiento(calcularEstadoMapa(),cromosoma.genes.toDoubleArray())
+            }
         }
+        AG.iterar()
+    }
+
+    fun calcularAptitudMapa(): Double {
+        //Evaluar el estado del mapa con sus atributos y setearlo en el cromosoma
+        var aptitud = 0.0
+        for (cuadra in map.blocks)
+            aptitud += cuadra.congestionLevel.ponderacion
+        return aptitud
+    }
+
+    fun procesar() {
+        synchronized(lock) {
+            while (estoyInterrumpido) {
+                println("Me interrumpieron ")
+                lock.wait()
+            }
+        }
+
+        dispatcher.processEvent()
+        Thread.sleep(timeSleep)
     }
 }

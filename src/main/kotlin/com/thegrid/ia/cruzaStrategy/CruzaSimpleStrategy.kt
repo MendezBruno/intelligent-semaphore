@@ -5,19 +5,7 @@ import com.thegrid.ia.model.Cromosoma
 /**
  * Created by Bruno on 06/10/16.
  */
-class CruzaSimpleStrategy: CruzaStrategy {
-    override fun cruzarSeleccion(dePoblacionInicial: MutableList<Cromosoma>): Collection<Cromosoma> {
-    var num = 0
-    var pMax = dePoblacionInicial.size
-        while (num != pMax) {
-            cruzar(dePoblacionInicial[num],dePoblacionInicial[pMax])
-            num++
-            pMax--
-        }
-        return dePoblacionInicial
-    }
-
-
+class CruzaSimpleStrategy: CruzaStrategy() {
     override fun cruzar (cromosomaPadre1: Cromosoma, cromosomaPadre2: Cromosoma) {
         val mitadGenes = cromosomaPadre1.genes.size / 2
         val otramitad = cromosomaPadre1.genes.size - mitadGenes
@@ -31,6 +19,5 @@ class CruzaSimpleStrategy: CruzaStrategy {
 //        cromosoma.genes.addAll(auxList)
         cromosomaPadre1.genes = hijo2
         cromosomaPadre2.genes = hijo1
-
     }
 }

@@ -1,24 +1,33 @@
 package com.thegrid.ia.model
 
-import com.thegrid.ia.model.Cromosoma
+import com.thegrid.behavior.model.Map
 import com.thegrid.ia.cruzaStrategy.CruzaSimpleStrategy
 import com.thegrid.ia.seleccionStrategy.SeleccionRankingStrategy
 import com.thegrid.ia.seleccionStrategy.SeleccionStrategy
 import java.util.*
-import org.jetbrains.spek.api.Spek
 /**
  * Created by Bruno on 05/10/16.
  */
-class Ag {
+class Ag(val map : Map) {
+    companion object {
+        val CANT_MAX_CROMOSOMAS = 500
+    }
+
     val cotaInferior = 22.0
     val cotaSuperior = 60.0
-    final val cromosomasPordefault = 6
+    val cromosomasPordefault = 6
     var poblacionGlobal = mutableListOf<Cromosoma>()
-    var poblacionInicial = mutableListOf<Cromosoma>()
-    var poblacionCruzada = mutableListOf<Cromosoma>()
+    var poblacion = mutableListOf<Cromosoma>()
     var cruzaStrategy: CruzaSimpleStrategy = CruzaSimpleStrategy()
     var seleccionStrategy: SeleccionStrategy = SeleccionRankingStrategy()
     var coeficienteMutacion = 30
+
+    private val i1 = 200
+
+    init {
+        generarPoblacionGlobal(map.semaphoreNodes.size, CANT_MAX_CROMOSOMAS)
+        generarPoblacionInicial()
+    }
 
     fun generarPoblacionGlobal (cantSemaforos: Int, cantCromosomas: Int){
         var i = 0
@@ -26,8 +35,8 @@ class Ag {
         do {
             var nuevoCromosoma = Cromosoma()
             do {
-                var verdeH = cotaSuperior - Random().nextInt(cotaInferior.toInt())
-                var verdeV = cotaSuperior - Random().nextInt(cotaInferior.toInt())
+                var verdeH = cotaSuperior - Random().nextInt((cotaSuperior - cotaInferior).toInt())
+                var verdeV = cotaSuperior - Random().nextInt((cotaSuperior - cotaInferior).toInt())
                 nuevoCromosoma.genes.add(verdeH)
                 nuevoCromosoma.genes.add(verdeV)
                 i++
@@ -39,33 +48,32 @@ class Ag {
     }
 
     fun generarPoblacionInicial (){
-      for(i in 1..cromosomasPordefault) poblacionInicial.add(poblacionGlobal.get(Random().nextInt(poblacionGlobal.size)) )
+        generarPoblacionInicial(cromosomasPordefault)
     }
 
-
     fun generarPoblacionInicial (cantCromosomas: Int){
-        for(i in 1..cantCromosomas) poblacionInicial.add(poblacionGlobal.get(Random().nextInt(poblacionGlobal.size)) )
-
+        val random = Random()
+        for(i in 1..cantCromosomas) {
+            poblacion.add(poblacionGlobal.get(random.nextInt(poblacionGlobal.size)) )
+        }
     }
 
     fun seleccionarIndividuosDePoblacionInicial():MutableList<Cromosoma>{
-        return seleccionStrategy.seleccionar(poblacionInicial,poblacionCruzada)
+        return seleccionStrategy.seleccionar(poblacion)
     }
     /*
     Suponemos que las aptitudes fueron calculadas y actualizadas en la simulacion antes de iterar.
     */
     fun iterar (){
-        poblacionCruzada.addAll( cruzaStrategy.cruzarSeleccion(seleccionarIndividuosDePoblacionInicial())  )
-        if (coeficienteMutacion > Random().nextInt(100)) mutar(poblacionCruzada)
-        poblacionInicial = poblacionCruzada
-        poblacionCruzada.clear()
-
+        cruzaStrategy.cruzarSeleccion(seleccionarIndividuosDePoblacionInicial())
+        if (coeficienteMutacion > Random().nextInt(100))
+            mutarPoblacion()
     }
 
-    private fun  mutar(poblacion: MutableList<Cromosoma>) {
-        val cromosomaRandom = Random().nextInt(poblacion.size)
-        val genRandom = Random().nextInt(poblacion[1].genes.size)
-        poblacion[cromosomaRandom].genes[genRandom]= Random().nextInt(cotaSuperior.toInt()).toDouble()
+    fun mutarPoblacion() {
+        val random = Random()
+        val cromosomaRandom = poblacion[random.nextInt(poblacion.size)]
+        val genes = cromosomaRandom.genes
+        genes[random.nextInt(genes.size)] = cotaSuperior - random.nextInt((cotaSuperior - cotaInferior).toInt())
     }
-
 }
