@@ -76,7 +76,8 @@ dependencies {
     compile "io.reactivex:rxkotlin:0.60.0"
     // https://mvnrepository.com/artifact/org.beykery/neuroph
     compile group: 'org.beykery', name: 'neuroph', version: '2.92'
-
+    // https://mvnrepository.com/artifact/com.googlecode.objectify/objectify
+    compile group: 'com.googlecode.objectify', name: 'objectify', version: '5.1.13'
 }
 
 jacocoTestReport {
