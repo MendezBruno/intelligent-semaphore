@@ -2,6 +2,7 @@ package com.thegrid.behavior.platform
 
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
+import com.thegrid.behavior.model.Resultado
 import com.thegrid.communication.model.MapState
 import com.thegrid.ia.model.Ag
 import com.thegrid.ia.model.Cromosoma
@@ -9,6 +10,7 @@ import com.thegrid.ia.model.Cromosoma
 class Simulation(map : Map, val debugMode : Boolean = false) {
     companion object {
         var SharedInstance : Simulation? = null
+        var resultados: Resultado = Resultado()
     }
 
     val lock : java.lang.Object = Object()

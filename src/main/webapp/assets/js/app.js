@@ -100,6 +100,15 @@ app.factory("Simulacion", ["$resource",function($resource){
         });
 }]);
 
+app.factory("ModoUpdate", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/modoUpdate", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+
+
+
 app.factory("Tef", ["$resource",function($resource){
     return  $resource("/_ah/api/intelligentsemaphore/v1/tef", null,
         {

@@ -20,7 +20,7 @@ updates = {
 
 
 
-app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,$routeParams,$timeout) {
+app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,ModoUpdate,$routeParams,$timeout) {
 
         inicilizarDicDatos = function () {
                 var dicDatos = {};
@@ -43,7 +43,8 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 modelo = json_mapas["modulo1"]
             }
 
-            $scope.modelo = modelo
+            $scope.modelo = modelo;
+            $scope.tipoEjecucion = "SIM";
             var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
             var logicaReproductor = new ReproductorController(modelo, stageReproductor, $scope, $timeout);
             logicaReproductor.dibujar();
@@ -182,6 +183,10 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 simulacionUpdate["nuevoTiempo"] = 1000;
                 simulacionUpdate["operacion"] = "SUBIR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
+        }
+
+        $scope.cambiarModo = function (){
+            ModoUpdate.put($scope.tipoEjecucion)
         }
 
 
