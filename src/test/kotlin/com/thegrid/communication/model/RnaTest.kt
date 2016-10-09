@@ -35,12 +35,12 @@ class RnaTest : Spek({
 
         on("Rna") {
             it("debe crear un Red a partir de un mapa, crear un path si no exite para persistir el modelo") {
-                var rna: Rna = Rna(map)
+                var rna: Rna = Rna(map, debugMode)
                 assert(!rna.equals(null))
 
             }
             it("de guardar 2 valores "){
-                var rna: Rna = Rna(map)
+                var rna: Rna = Rna(map, debugMode)
                 val random: Random = Random()
                 val datosEntrada: DoubleArray = DoubleArray(rna.datosEntrada,{Math.abs(random.nextDouble())})
                 val datosSalida: DoubleArray = DoubleArray(rna.datosDeSalida,{Math.abs(random.nextDouble())})
@@ -57,7 +57,7 @@ class RnaTest : Spek({
                 assert(rna.setDeEntrenamiento.size() == 4)
             }
             it("se debe entrenar y devolver un valor posible con un Array de double con un tamaño de datos salida"){
-                var rna: Rna = Rna(map)
+                var rna: Rna = Rna(map, debugMode)
                 val random: Random = Random()
                 val datosEntrada: DoubleArray = DoubleArray(rna.datosEntrada,{Math.abs(random.nextDouble())})
                 val datosSalida: DoubleArray = DoubleArray(rna.datosDeSalida,{Math.abs(random.nextDouble())})

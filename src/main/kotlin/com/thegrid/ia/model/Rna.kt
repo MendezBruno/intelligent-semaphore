@@ -1,20 +1,17 @@
 package com.thegrid.ia.model
 
 import com.thegrid.behavior.model.CongestionLevel
-import org.neuroph.nnet.learning.BackPropagation
 import com.thegrid.behavior.model.Map
-import org.neuroph.core.NeuralNetwork
-import org.neuroph.core.data.DataSet
-import org.neuroph.nnet.MultiLayerPerceptron
-import org.neuroph.util.TransferFunctionType
-import java.io.File
-import java.io.FileNotFoundException
-import java.util.*
+import ar.org.neuroph.nnet.learning.BackPropagation
+import ar.org.neuroph.core.NeuralNetwork
+import ar.org.neuroph.core.data.DataSet
+import ar.org.neuroph.nnet.MultiLayerPerceptron
+import ar.org.neuroph.util.TransferFunctionType
 
 /**
  * Created by bruno on 08/10/16.
  */
-class Rna(val map: Map) {
+class Rna(val map: Map, debugMode: Boolean = false) {
     var setDeEntrenamiento: DataSet
     var iteracionesDeAprendizaje = 50
     var porcetajeDeCapasIntermedias = 0.70
@@ -23,6 +20,8 @@ class Rna(val map: Map) {
     val capaOculta: Int
     var neuralNetwork: NeuralNetwork<BackPropagation>
     val backPropagation = BackPropagation()
+    val pers: PersDataSet
+
     init{
         datosEntrada = CongestionLevel.values().size + map.streets.size * 4   //cuatro por son dos nodos (Entrada , salida) y dos valores interval y max amount
         datosDeSalida = map.semaphoreNodes.size * 2
@@ -30,13 +29,10 @@ class Rna(val map: Map) {
         capaOculta = ((datosEntrada+datosDeSalida)*porcetajeDeCapasIntermedias).toInt()
         neuralNetwork = MultiLayerPerceptron(TransferFunctionType.SIGMOID, datosEntrada, capaOculta, datosDeSalida)
 
-        val carpetaRna = File("rna")
-
-        if (carpetaRna.exists()) {
-            if (!carpetaRna.isDirectory) carpetaRna.mkdir()
-        } else {
-            carpetaRna.mkdir()
-        }
+        if(debugMode)
+            pers = PersistenciaDataSetNormal(this)
+        else
+            pers = PersistenciaDataSetGAE(this)
 
         try{
             importarDatoDeEntrenamiento()
@@ -45,22 +41,15 @@ class Rna(val map: Map) {
         }
     }
 
-
-
-    fun exportarListaDeDatos(){
-        setDeEntrenamiento.saveAsTxt("rna/${map.name}.txt", ",  ,")
-    }
-
     fun exportarDataSet(){
-        setDeEntrenamiento.save("rna/${map.name}.xml")
-    }
-
-    fun persistirDatos(){
-        setDeEntrenamiento.save()
+        pers.persistir()
     }
 
     fun importarDatoDeEntrenamiento(){
-        setDeEntrenamiento = DataSet.load(map.name+".xml")
+        val data = pers.cargarRecuperar()
+        if (data != null) {
+            setDeEntrenamiento = data
+        }
     }
 
     fun borrarMemoria(){
@@ -68,8 +57,8 @@ class Rna(val map: Map) {
     }
 
     fun agregarValorDeEntrenamiento(datosEntrada: DoubleArray, datosSalida: DoubleArray){
-        setDeEntrenamiento.addRow(datosEntrada, datosSalida);
-        persistirDatos()
+        setDeEntrenamiento.addRow(datosEntrada, datosSalida)
+        exportarDataSet()
     }
 
     fun entrenarRed(){
@@ -82,8 +71,6 @@ class Rna(val map: Map) {
         neuralNetwork.calculate();
         return neuralNetwork.getOutput();
     }
-
-
 
     fun setaerFuncionDeTransferencia(funcion:String) {
         when (funcion) {
@@ -105,3 +92,4 @@ class Rna(val map: Map) {
 
 
 }
+

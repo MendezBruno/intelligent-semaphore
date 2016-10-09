@@ -8,7 +8,6 @@ import com.thegrid.behavior.model.Map
 import com.thegrid.behavior.model.Resultado
 import com.thegrid.communication.model.MapState
 import com.thegrid.ia.model.Ag
-import com.thegrid.ia.model.Cromosoma
 import com.thegrid.ia.model.Rna
 
 class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime : Long = 1000) {
@@ -26,7 +25,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     val memory: MapStateMemory = MapStateMemory(map)
     val orquestador: Orchestrator
     val AG = Ag(map)
-    val rna = Rna(map)
+    val rna : Rna
     val dispatcher: TimeDispatcher = TimeDispatcher()
     var correr: Boolean = true
     var estoyInterrumpido : Boolean = false
@@ -42,6 +41,12 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
         orquestador = iniciarSimulacion()
+
+//        val builder = ProcessBuilder("rmiregistry");
+//        builder.directory(File("rnaServer"))
+//        builder.start()
+
+        rna = Rna(map, debugMode)
     }
 
     private fun iniciarSimulacion(): Orchestrator {
