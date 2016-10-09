@@ -24,7 +24,6 @@ class SimulationTest3 : Spek({
                 sim.reanudar()
                 Thread.sleep(10000)
                 sim.pausar()
-                sim.rna.exportarListaDeDatos()
                 sim.tipoEjecucion = TipoEjecucion.RNA
                 println("Ahora voy a usar la RNA")
                 Thread.sleep(4000)
