@@ -3,7 +3,7 @@ package com.thegrid.behavior.model
 import com.thegrid.communication.model.dataEdgeNode
 import com.thegrid.communication.model.dataMap
 
-data class Map(val name: String,
+data class Map(var name: String,
                val nodes: MutableList<NodeType>,
                val streets: MutableList<Street>,
                val semaphoreNodes: MutableList<SemaphoreNode>) {

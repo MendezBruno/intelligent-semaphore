@@ -19,7 +19,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         val DEFAULT_TIME_SLEEP: Long = 1000
         val ITERACIONES_AG = 20
         val ITERACIONES_RNA = 20
-        val APTITUD_ACEPTABLE = 1500
+        val APTITUD_ACEPTABLE = 400
     }
 
     val lock : java.lang.Object = Object()
