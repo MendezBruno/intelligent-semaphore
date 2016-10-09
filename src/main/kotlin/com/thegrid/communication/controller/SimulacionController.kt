@@ -3,6 +3,7 @@ package com.thegrid.communication.controller
 import com.google.api.server.spi.config.Api
 import com.google.api.server.spi.config.ApiMethod
 import com.google.api.server.spi.config.ApiNamespace
+import com.google.api.server.spi.config.Named
 import com.thegrid.communication.model.SimulacionUpdate
 import com.thegrid.behavior.platform.Simulation
 import com.thegrid.behavior.platform.Orchestrator
@@ -31,7 +32,7 @@ class SimulacionController {
         return Simulation.SharedInstance?.dispatcher?.getSummary()
     }
     @ApiMethod(name = "putModo", path = "modoUpdate", httpMethod = ApiMethod.HttpMethod.PUT)
-    fun putModo(modoUpdate: TipoEjecucion) {
+    fun putModo(@Named("modo") modoUpdate: TipoEjecucion) {
          Simulation.SharedInstance?.tipoEjecucion = modoUpdate
     }
 }
