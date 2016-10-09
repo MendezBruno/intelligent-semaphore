@@ -12,6 +12,7 @@ function ReproductorController(modelo, stage, $scope, $timeout){
     this.stage = stage;
     this.$scope = $scope;
     this.cuadraFueSeleccionada;
+    this.semaforoSeleccionado;
     this.blockStatus;
     this.timeout = $timeout;
 }
@@ -47,6 +48,11 @@ ReproductorController.prototype.dibujar = function (){
         self.actualizarValorCalle();
 
     };
+    var onClickSemaforoReproductor = function (cnvIntseccion) {
+
+        self.semaforoSeleccionado=cnvIntseccion;
+        self.actualizarValorSemaforo();
+    };
 
     console.log(this.modelo);
     var horizontales = this.modelo.callesHorizontales;
@@ -73,7 +79,10 @@ ReproductorController.prototype.dibujar = function (){
                     });
                 var cnvInterseccion = new CnvInterseccion(posx+largo ,posy ,cantCarriles,cantCarrilesV,semaforo != undefined);
                 stage.addChild(cnvInterseccion);
-                if (semaforo) {auxCnvModel [semaforo.id] = cnvInterseccion};
+                if (semaforo) {
+                    cnvInterseccion.clickListeners.push(onClickSemaforoReproductor);
+                    auxCnvModel [semaforo.id] = cnvInterseccion;
+                };
                 actualizarPosX(cantCarrilesV);
                 //(posx-ala- separador*cantCarrilesV)
                 //- (separador*cantCarriles +ala)
@@ -205,8 +214,24 @@ ReproductorController.prototype.actualizarValorCalle = function (){
     });
 };
 
+ReproductorController.prototype.actualizarValorSemaforo = function (){
+    var self = this;
+
+    var semaforo;
+
+    for(var i=0;i<this.modelo.nodosSemaforo.length;i++)
+    {
+        if(self.auxCnvModel[this.modelo.nodosSemaforo[i].id]== self.semaforoSeleccionado)
+        {
+            semaforo= this.modelo.nodosSemaforo[i].id;
+
+        }
+    }
 
 
+    self.$scope.calleSemaforo = semaforo;
+    self.$scope.$apply();
+};
 
 ReproductorController.prototype.actualizar = function (datos){
 
@@ -215,8 +240,6 @@ ReproductorController.prototype.actualizar = function (datos){
     console.log(this.auxCnvModel);
     console.log(self);
     console.log(auxCnvModel);
-
-
 
     var blockStatus = datos.blockStatus;
     var semaphoreStatus = datos.semaphoreStatus;

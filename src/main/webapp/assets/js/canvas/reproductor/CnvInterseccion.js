@@ -22,6 +22,13 @@ function CnvInterseccion(posX, posY, cantCarrilesH, cantCarrilesV,semaforo) {
     this.izquierda = undefined;
     this.derecha = undefined;
 
+    var self = this;
+
+    this.handleClick = function (event) {
+            this.clickListeners.forEach(function(l){
+                l(self);
+            });
+    };
     this.setup();
 };
 
@@ -50,6 +57,8 @@ CnvInterseccion.prototype.setup = function () {
     }else{
         //agregar interseccion vacia si es una avenida grande
     }
+
+    this.on("click", this.handleClick);
     
 };
 
