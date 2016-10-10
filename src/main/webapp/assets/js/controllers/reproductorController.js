@@ -187,7 +187,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         }
 
         $scope.cambiarModo = function (){
-            ModoUpdate.put($scope.tipoEjecucion)
+            ModoUpdate.put({modo: $scope.tipoEjecucion})
         }
 
 

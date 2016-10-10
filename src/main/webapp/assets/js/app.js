@@ -103,7 +103,8 @@ app.factory("Simulacion", ["$resource",function($resource){
 app.factory("ModoUpdate", ["$resource",function($resource){
     return  $resource("/_ah/api/intelligentsemaphore/v1/modoUpdate", null,
         {
-            'query': { method:'GET', isArray: false }
+            'query': { method:'GET', isArray: false },
+            'put':{ method:'PUT' }
         });
 }]);
 
