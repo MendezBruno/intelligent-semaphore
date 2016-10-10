@@ -1,5 +1,7 @@
 package com.thegrid.behavior.platform
 
+import com.googlecode.objectify.Objectify
+import com.googlecode.objectify.ObjectifyService
 import com.thegrid.behavior.model.CongestionLevel
 import com.thegrid.behavior.model.EgressNode
 import com.thegrid.behavior.model.EntryNode
@@ -8,6 +10,8 @@ import com.thegrid.behavior.model.Map
 import com.thegrid.behavior.model.Resultado
 import com.thegrid.communication.model.MapState
 import com.thegrid.ia.model.Ag
+import com.thegrid.ia.model.DataSetEntity
+import com.thegrid.ia.model.DataSetRowEntity
 import com.thegrid.ia.model.Rna
 
 class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime : Long = 1000) {
@@ -31,10 +35,10 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     var estoyInterrumpido : Boolean = false
     var tipoEjecucion = TipoEjecucion.SIM
     var timeSleep = if (debugMode) debugSleepTime else DEFAULT_TIME_SLEEP
+    val ofy: Objectify
 
     init {
         SharedInstance = this
-
         map.nodes.forEach {
             if (it is IDispatcheable)
                 dispatcher.dispatchOn(0.0, it)
@@ -42,16 +46,22 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
         orquestador = iniciarSimulacion()
 
-//        val builder = ProcessBuilder("rmiregistry");
-//        builder.directory(File("rnaServer"))
-//        builder.start()
+        val dataSetRowEntity = DataSetRowEntity()
+        dataSetRowEntity.entradas.addAll(listOf(2.0,20.1))
+        dataSetRowEntity.salidas.addAll(listOf(2.0,20.1))
+        val dataSetEntity = DataSetEntity()
+        dataSetEntity.filas.add(dataSetRowEntity)
+        dataSetEntity.id = "soy_uno_de_esos_hashes_complicados"
 
+        ofy = ObjectifyService.ofy()!!
+        ofy.save().entity(dataSetEntity).now()
         rna = Rna(map, debugMode)
     }
 
     private fun iniciarSimulacion(): Orchestrator {
         return Orchestrator(Runnable {
             while (correr) {
+                println("La rna es $rna")
                 try {
                     when(tipoEjecucion) {
                         TipoEjecucion.SIM -> procesar()
@@ -139,6 +149,9 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             cromosoma.aptitud = calcularAptitudMapa()
 
             if (cromosoma.aptitud >= APTITUD_ACEPTABLE) {
+                if (rna == null) println("rna es null")
+                if (cromosoma == null) println("cromosoma es null")
+                if (cromosoma.genes == null) println("genes es null")
                 rna.agregarValorDeEntrenamiento(calcularEstadoMapa(),cromosoma.genes.toDoubleArray())
             }
         }
