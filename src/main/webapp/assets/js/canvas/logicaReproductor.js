@@ -236,24 +236,30 @@ ReproductorController.prototype.actualizar = function (datos){
 
     var self = this;
     var auxCnvModel = this.auxCnvModel;
+    var valorCuadra;
     console.log(this.auxCnvModel);
     console.log(self);
     console.log(auxCnvModel);
 
     var blockStatus = datos.blockStatus;
     var semaphoreStatus = datos.semaphoreStatus;
-    if (blockStatus) blockStatus.forEach(actualizarCuadra);
-    if (semaphoreStatus) semaphoreStatus.forEach(actualizarSemaforo);
-
-    self.blockStatus= blockStatus;
-
-    var valorCuadra = blockStatus.find(function(blockStatus) {
+    if (blockStatus) {
+        blockStatus.forEach(actualizarCuadra);
+        self.blockStatus = blockStatus;
+        valorCuadra = blockStatus.find(function(blockStatus) {
         return self.auxCnvModel[blockStatus.id] === self.cuadraFueSeleccionada;
-    });
+        });
+        if(valorCuadra) {
+        self.$scope.stock = valorCuadra.stock;
+        console.log(valorCuadra.id);
+        }
+    }
 
-    self.$scope.stock = valorCuadra.stock;
+    if (semaphoreStatus){
+        semaphoreStatus.forEach(actualizarSemaforo);
+        //Mariano la actualizacion del semaforo va aca dentro idem como hiciste lo de arriba en la cuadraa
+    }
 
-    console.log(valorCuadra.id);
 
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);

@@ -31,6 +31,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 dicDatos["INTRANSITABLE"] = 0;
                 return dicDatos;
         };
+        var logicaReproductor;
         var dicDatosCuadras = inicilizarDicDatos();
         var stageReproductor = new createjs.Stage("reproductor");
         createjs.Ticker.on("tick", stageReproductor);
@@ -46,7 +47,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
             $scope.modelo = modelo;
             $scope.tipoEjecucion = "SIM";
             var cantidadDeCuadras = modelo.callesHorizontales.length + modelo.callesVerticales.length; //A modo de prueba
-            var logicaReproductor = new ReproductorController(modelo, stageReproductor, $scope, $timeout);
+            logicaReproductor = new ReproductorController(modelo, stageReproductor, $scope, $timeout);
             logicaReproductor.dibujar();
             $timeout(function() {
                 $scope.$apply();
