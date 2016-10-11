@@ -1,9 +1,51 @@
 /**
  * Created by bruno on 26/07/16.
  */
-app.controller("loginController", function($scope,$location,MyService,$rootScope){
+app.controller("loginController", function($scope,$location,MyService,$rootScope,$timeout){
 
     var jsa={a:'pppp',b:'fffff',c:{d:'eeeeee',e:'fdsfsdf'}};
+
+    var tipo;
+
+    var tipomodo;
+
+
+    if ($location.absUrl().split('?')[1]!= undefined) {
+        tipo = $location.absUrl().split('?')[1];
+
+        var modo = tipo.split('&')[0];
+
+        tipomodo = modo.split('=')[1]
+    }
+
+    if(tipomodo=="resetPassword")
+    {
+
+        $location.url("/app/passrecovery" + '?' + tipo);
+
+    }
+
+    $scope.enviarMailResetPass=function () {
+
+        const email = $scope.mail;
+
+        const auth = firebase.auth();
+
+        auth.sendPasswordResetEmail(email).then(function(){
+
+            alert("Un mail fue enviado a su casilla de correo");
+
+
+        },function (error) {
+
+                tratarError(error);
+
+            }
+
+        );
+
+
+    }
 
     $scope.entro=function () {
 
@@ -13,9 +55,29 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
             const auth = firebase.auth();
 
-            if(email!=undefined) {
+            if(verificarMail()) {
 
-                const promise = auth.signInWithEmailAndPassword(email, pass).catch(function (error) {
+                const promise = auth.signInWithEmailAndPassword(email, pass).then (function (user) {
+
+                    $location.url("app/galeria");
+
+                    $timeout(function () {
+                        $scope.apply();
+                    });
+
+
+                },function (error) {
+
+                    tratarError(error);
+
+                    console.log(error.code);
+
+                });
+
+
+
+/*
+                catch(function (error) {
 
                     var errorCode = error.code;
 
@@ -33,15 +95,7 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
                     return;
 
-                });
-                $location.url("/app/galeria");
-            }
-
-            else
-            {
-
-                alert("Usuario o contraseña mal ingresados");
-
+                }); */
             }
 
 /*
@@ -67,7 +121,57 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
         ); */
 
+    };
+
+    function verificarMail() {
+
+        if ($scope.mail == undefined ) {
+            alert("email o password mal ingresados");
+
+            return false;
+
+        }
+
+        return true;
     }
+
+    function tratarError(error){
+
+        if (error.code == "auth/user-not-found")
+        {
+
+            alert("email mal ingresado")
+
+        }
+
+        if (error.code == "auth/invalid-email")
+        {
+
+            alert("email mal ingresado")
+
+        }
+
+    }
+
+    function tratarError(error){
+
+        if (error.code == "auth/user-not-found")
+        {
+
+            alert("mail ingresado incorrecto")
+
+        }
+
+        if (error.code == "auth/wrong-password")
+        {
+
+            alert("password mal ingresado")
+
+        }
+
+    }
+
+
 
 
     function writeUserData(userId, name, email,libros) {

@@ -3,29 +3,128 @@
  */
 
 
-app.controller("registroController", function($scope){
+app.controller("registroController", function($scope,$location,$timeout){
 
     $scope.registro = function () {
 
-        try {
+            var fueError=false;
 
 
-            const email = $scope.email;
+            if (verificarPassword() && verificarMails()) {
 
-            const pass = $scope.contra;
+                const email = $scope.email;
 
-            const auth = firebase.auth();
+                const pass = $scope.contra;
 
-            const promise = auth.createUserWithEmailAndPassword(email, pass);
+                const auth = firebase.auth();
+
+                const promise = auth.createUserWithEmailAndPassword(email, pass).then(function(user){
+
+                    user.sendEmailVerification();
+
+                    alert("Email de verificacion enviado a su casilla de correo");
+
+                    $location.url("app/login");
+
+                    $timeout(function () {
+                        $scope.apply();
+                    });
+
+                }, function (error) {
+
+                    tratarError(error);
+
+                });
+
+/*
+
+                    firebase.auth().onAuthStateChanged(function (user) {
+                        if (user) {
+
+                            user.sendEmailVerification();
+
+                            alert("Email de verificacion enviado a su casilla de correo");
+
+                            $location.url("app/login");
+
+                        } else {
+                            // No user is signed in.
+                        }
+                    });
+*/
+            }
+
+
+
+    };
+
+    function verificarMails() {
+
+        if($scope.email == undefined || $scope.remail == undefined)
+        {
+            alert("email o password mal ingresados");
+
+            return false;
 
         }
 
-        catch(err) {
+        if ($scope.email != $scope.remail)
+        {
 
-            console.log(err);
+            alert("email o password mal ingresados");
+
+            return false;
+
+        }
+        return true;
+
+    }
+
+    function verificarPassword() {
+
+        if($scope.contra.length < 10)
+        {
+            alert("El password tiene que tener como minimo 10 carateres");
+
+            return false;
+
+        }
+
+        if ($scope.contra != $scope.rcontra)
+        {
+
+            alert("passwords no coinciden");
+
+            return false;
+
+        }
+        return true;
+
+    }
+
+    function tratarError(error){
+
+        if (error.code == "auth/email-already-in-use")
+        {
+
+            alert("mail en uso, por favor utilice otro mail")
+
+        }
+
+        if (error.code == "auth/invalid-email")
+        {
+
+            alert("email mal ingresado")
+
         }
 
     }
+
+
+
+
+
+
 
 
 });
