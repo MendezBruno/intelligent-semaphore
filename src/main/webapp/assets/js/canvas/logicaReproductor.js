@@ -13,6 +13,7 @@ function ReproductorController(modelo, stage, $scope, $timeout){
     this.$scope = $scope;
     this.cuadraFueSeleccionada;
     this.semaforoSeleccionado;
+    this.semaforoEstadoActual;
     this.blockStatus;
     this.timeout = $timeout;
 }
@@ -214,21 +215,51 @@ ReproductorController.prototype.actualizarValorCalle = function (){
     });
 };
 
-ReproductorController.prototype.actualizarValorSemaforo = function (){
+ReproductorController.prototype.actualizarValorSemaforo = function () {
     var self = this;
 
     var semaforo;
 
-    for(var i=0;i<this.modelo.nodosSemaforo.length;i++)
-    {
-        if(self.auxCnvModel[this.modelo.nodosSemaforo[i].id]== self.semaforoSeleccionado)
-        {
-            semaforo= this.modelo.nodosSemaforo[i].id;
+    for (var i = 0; i < this.modelo.nodosSemaforo.length; i++) {
+        if (self.auxCnvModel[this.modelo.nodosSemaforo[i].id] == self.semaforoSeleccionado) {
+            semaforo = this.modelo.nodosSemaforo[i].id;
 
         }
     }
 
     self.$scope.calleSemaforo = semaforo;
+
+    var nodoSem = self.$scope.modelo.nodosSemaforo.find(function (sta) {
+        return sta.id == semaforo
+    });
+
+    if (self.semaforoEstadoActual == undefined)
+    {
+        self.$scope.valorSema = "semaforoVertical.png"
+
+    }
+
+    else {
+
+        var semsta = self.semaforoEstadoActual.find(function (sta) {
+            return sta.id == semaforo
+        });
+
+        console.log(semsta);
+
+        if (semsta.status == "VERTICAL") {
+
+            self.$scope.valorSema = "semaforoVertical.png"
+
+        }
+        else {
+
+            self.$scope.valorSema = "semaforoHorizontal.png"
+
+        }
+    }
+
+    self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoVertical
     self.$scope.$apply();
 };
 
@@ -257,6 +288,50 @@ ReproductorController.prototype.actualizar = function (datos){
 
     if (semaphoreStatus){
         semaphoreStatus.forEach(actualizarSemaforo);
+
+        if(self.$scope.calleSemaforo == undefined) {
+            self.$scope.valorSema = "imgblanco.png";
+            self.semaforoEstadoActual = semaphoreStatus;
+        }
+
+        else {
+            self.semaforoEstadoActual = semaphoreStatus;
+
+            console.log("modelo");
+
+            console.log(self.$scope.modelo)
+
+            var nodoSem = self.$scope.modelo.nodosSemaforo.find(function (sta) {
+                return sta.id == self.$scope.calleSemaforo
+            });
+
+            var semsta = semaphoreStatus.find(function (sta) {
+                return sta.id == self.$scope.calleSemaforo
+            });
+
+            if (semsta.status== "VERTICAL")
+            {
+
+                self.$scope.valorSema = "semaforoVertical.png"
+                self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoVertical
+
+            }
+            else
+            {
+
+                self.$scope.valorSema = "semaforoHorizontal.png"
+                self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoHorizontal
+
+            }
+
+
+
+
+        }
+
+
+
+        console.log(semaphoreStatus);
         //Mariano la actualizacion del semaforo va aca dentro idem como hiciste lo de arriba en la cuadraa
     }
 
