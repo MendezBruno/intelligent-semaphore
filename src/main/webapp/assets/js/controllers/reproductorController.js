@@ -52,7 +52,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
             $timeout(function() {
                 $scope.$apply();
             });
-            cargarScopeConNodoBorde();
+
 
             var originalWidth = stageReproductor.canvas.width;
             var originalHeight = stageReproductor.canvas.height;
@@ -100,7 +100,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 //Initialize the Timer to run every 1000 milliseconds i.e. one second.
                 $scope.Timer = $interval(function () {
                         //Display the current time.
-                        $scope.contador = $scope.contador + 1
+                        $scope.contador = $scope.contador + 1;
                         if (!($scope.contador % $scope.intervalo)) {
                                 update()
                         }
@@ -113,7 +113,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 }
                 $scope.contador = 0;
 
-                var simulacionUpdate = {}
+                var simulacionUpdate = {};
                 simulacionUpdate["nuevoTiempo"] = 0;
                 simulacionUpdate["operacion"] = "DETENER";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
@@ -124,7 +124,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
 
                 MapaUpdate.query(function (data) {
-                        console.log("blockstatus")
+                        console.log("blockstatus");
                         console.log(data);
                         console.log(dicDatosCuadras);
                         logicaReproductor.actualizar(data);
@@ -147,6 +147,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
 
 
         };
+        cargarScopeConNodoBorde();
 //        cargarScopeConNodoBorde();
 
         $scope.actualizarNodoBorde = function () {
