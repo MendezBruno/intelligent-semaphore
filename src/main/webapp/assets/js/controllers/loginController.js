@@ -62,7 +62,7 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
                     $location.url("app/galeria");
 
                     $timeout(function () {
-                        $scope.apply();
+                        $scope.$apply();
                     });
 
 
@@ -70,7 +70,16 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
                     tratarError(error);
 
-                    console.log(error.code);
+                    $timeout(function () {
+                        $scope.$apply();
+                    });
+
+                });
+
+                firebase.auth().onAuthStateChanged(function (user) {
+
+                    console.log(user.emailVerified);
+
 
                 });
 
@@ -140,40 +149,23 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
         if (error.code == "auth/user-not-found")
         {
 
-            alert("email mal ingresado")
-
-        }
-
-        if (error.code == "auth/invalid-email")
-        {
-
-            alert("email mal ingresado")
-
-        }
-
-    }
-
-    function tratarError(error){
-
-        if (error.code == "auth/user-not-found")
-        {
-
-            alert("mail ingresado incorrecto")
+            alert("mail ingresado incorrecto");
 
         }
 
         if (error.code == "auth/wrong-password")
         {
 
-            alert("password mal ingresado")
+            alert("password mal ingresado");
 
         }
+        if (error.code == "auth/invalid-email")
+        {
 
+            alert("email mal ingresado");
+
+        }
     }
-
-
-
-
     function writeUserData(userId, name, email,libros) {
         firebase.database().ref().child('UserId').set({
             username: name,
