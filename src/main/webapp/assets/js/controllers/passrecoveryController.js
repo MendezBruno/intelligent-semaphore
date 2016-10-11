@@ -3,9 +3,8 @@
  */
 
 
-app.controller("passrecoveryController", function($scope){
-
-    console.log("hola");
+app.controller('passrecoveryController', function($scope){
 
 
 });
+

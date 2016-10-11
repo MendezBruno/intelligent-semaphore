@@ -64,8 +64,6 @@ app.config(function($routeProvider, $locationProvider, $httpProvider ) {
             templateUrl: 'views/preview.html',
             controller: 'previewController'
         })
-
-
         .when('/app/preview/', {
             templateUrl: 'views/preview.html',
             controller: 'previewController'
