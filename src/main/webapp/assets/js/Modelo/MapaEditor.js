@@ -2,6 +2,7 @@
  * Created by bruno on 03/08/16.
  */
 function MapaEditor() {
+    this.id;
     this.callesHorizontales = new Array();
     this.callesVerticales = new Array();
     this.nodosEntrada = new Array();

@@ -110,18 +110,30 @@ app.controller('editorController', function($scope,Mapa,Rna,MyService,$routePara
 
     $scope.generarMapa = function(){
         if ($scope.nombre != "") {
-            var newPostKey = firebase.database().ref().child('mapas').push().key;
-            var updates = {};
-            //Mapa.save(JSON.stringify(logica.modelo));
-            alert(JSON.stringify(logica.modelo));
-            $scope.modelo = logica.modelo;
-            updates['/' + 'pepe' +'/mapas/' + newPostKey] = $scope.modelo;
-            console.log(JSON.stringify(logica.modelo));
-            mapas["moduloNuevo"] = JSON.stringify(logica.modelo);
+
+            if($routeParams.id) {
+                //*todo* actualizar el mapa de firebase
+                Rna.delete({id: $routeParams.id});
+            }else{
+                var newPostKey = firebase.database().ref().child('mapas').push().key;
+                var user = firebase.auth();
+                var updates = {};
+                alert(JSON.stringify(logica.modelo));
+                $scope.modelo = logica.modelo;
+                updates['/' + user.iud +'/mapas/' + newPostKey] = $scope.modelo;
+                console.log(JSON.stringify(logica.modelo));
+                $scope.modelo.id = newPostKey;
+                mapas[newPostKey] = JSON.stringify(logica.modelo);
+                firebase.database().ref().update(updates);
+            }
+
+
+
+
   //          firebase.database().ref().push($scope.modelo);
-            firebase.database().ref().update(updates);
-            $location.url("app/reproductor/moduloNuevo");
-            Rna.delete({id: $routeParams.id})
+
+
+            $location.url("app/reproductor/"+newPostKey);
         }
         else
         {
