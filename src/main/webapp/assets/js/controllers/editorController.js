@@ -5,7 +5,7 @@
 app.directive('ngTouchSpin'['$timeout', '$interval',
     function($timeout, $interval) {}]);
 
-app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$location,$timeout) {
+app.controller('editorController', function($scope,Mapa,Rna,MyService,$routeParams,$location,$timeout) {
     var largo = 30;
     var coordenadascalle;
     var modelo1;
@@ -121,6 +121,7 @@ app.controller('editorController', function($scope,Mapa,MyService,$routeParams,$
   //          firebase.database().ref().push($scope.modelo);
             firebase.database().ref().update(updates);
             $location.url("app/reproductor/moduloNuevo");
+            Rna.delete({id: $routeParams.id})
         }
         else
         {

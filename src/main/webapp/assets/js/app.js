@@ -74,6 +74,7 @@ app.factory("Mapa", ["$resource",function($resource){
     return  $resource("/_ah/api/intelligentsemaphore/v1/map/:id", null,
         {
             'query': { method:'GET', isArray: false }
+
         });
 }]);
 
@@ -110,6 +111,14 @@ app.factory("ModoUpdate", ["$resource",function($resource){
 
 app.factory("Tef", ["$resource",function($resource){
     return  $resource("/_ah/api/intelligentsemaphore/v1/tef", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);
+
+
+app.factory("Rna", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/rna", null,
         {
             'query': { method:'GET', isArray: false }
         });
