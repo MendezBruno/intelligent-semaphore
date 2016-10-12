@@ -153,7 +153,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
 
         $scope.actualizarNodoBorde = function () {
                 if(!$scope.cuadraSeleccionada) return;
-                var uNodoBorde = {}
+                var uNodoBorde = {};
                 uNodoBorde["id"] = $scope.nodoEntrada.id;
                 uNodoBorde["cantMaxima"] = $scope.nodoEntrada.cantMaxima;
                 uNodoBorde["intervalo"] = $scope.nodoEntrada.intervalo;
@@ -164,25 +164,25 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 NodoBorde.save(JSON.stringify(uNodoBorde));
         };
         $scope.avanzarEvento = function () {
-                var simulacionUpdate = {}
+                var simulacionUpdate = {};
                 simulacionUpdate["nuevoTiempo"] = 0;
                 simulacionUpdate["operacion"] = "AVANZAR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
         };
         $scope.reanudar = function () {
-                var simulacionUpdate = {}
+                var simulacionUpdate = {};
                 simulacionUpdate["nuevoTiempo"] = 0;
                 simulacionUpdate["operacion"] = "REANUDAR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
         };
         $scope.masTiempo = function () {
-                var simulacionUpdate = {}
+                var simulacionUpdate = {};
                 simulacionUpdate["nuevoTiempo"] = 1000;
                 simulacionUpdate["operacion"] = "BAJAR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
         };
         $scope.menosTiempo = function () {
-                var simulacionUpdate = {}
+                var simulacionUpdate = {};
                 simulacionUpdate["nuevoTiempo"] = 1000;
                 simulacionUpdate["operacion"] = "SUBIR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
