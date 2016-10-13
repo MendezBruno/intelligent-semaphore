@@ -11,3 +11,17 @@ pathFlechas = [
      'Norte-Sur': '/assets/img/flechaAbajo.jpeg',
      'Oeste-Este': '/assets/img/flechaIzquierda.jpeg'}
 ];
+
+Array.prototype.removeIf = function(callback) {
+    var i = this.length;
+    while (i--) {
+        if (callback(this[i], i)) {
+            this.splice(i, 1);
+        }
+    }
+};
+
+
+Array.prototype.flatMap = function(lambda) {
+    return Array.prototype.concat.apply([], this.map(lambda));
+};

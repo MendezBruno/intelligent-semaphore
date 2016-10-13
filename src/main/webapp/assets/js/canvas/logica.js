@@ -622,19 +622,6 @@ GrillaController.prototype.sacarSemaforoDeCalleSacadaHorizontal =function(fila)
 
 };
 
-Array.prototype.flatMap = function(lambda) {
-    return Array.prototype.concat.apply([], this.map(lambda));
-};
-
-Array.prototype.removeIf = function(callback) {
-    var i = this.length;
-    while (i--) {
-        if (callback(this[i], i)) {
-            this.splice(i, 1);
-        }
-    }
-};
-
 var loggearNodos = function(nodos) {
     console.log("");
     for (i=0;i<nodos.length;i++) {
