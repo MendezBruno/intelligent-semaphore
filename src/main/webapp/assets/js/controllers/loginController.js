@@ -86,6 +86,9 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
                     {
 
                         serveData.uid = user.uid;
+                        var mapas = []
+                        //updates['/' + serveData.uid + '/mapas/' + key] = $scope.modelo;
+                        firebase.database().ref().update(mapas);
 
                         $location.url("app/galeria");
 
