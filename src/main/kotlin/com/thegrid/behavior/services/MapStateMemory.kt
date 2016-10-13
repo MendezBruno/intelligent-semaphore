@@ -53,7 +53,7 @@ class MapStateMemory {
 
         for (semaphore in _nodosCache){
             val status = semaphore.direction.text
-            val dataSemaphoreStatus = dataSemaphoreStatus(semaphore.id, status)
+            val dataSemaphoreStatus = dataSemaphoreStatus(semaphore.id, status, semaphore.hTime, semaphore.vTime)
             _mapState.semaphoreStatus.add(dataSemaphoreStatus)
         }
 

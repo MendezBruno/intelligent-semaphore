@@ -27,12 +27,12 @@ class SemaphoreNode : CornerNode, IDispatcheable {
     }
     private val _hLogQueue = Queue<TimeLog>()
     private val _vLogQueue = Queue<TimeLog>()
-    private var _hTime: Double
-    private var _vTime: Double
+    var hTime: Double
+    var vTime: Double
 
     constructor(id:String, hTime:Double, vTime:Double, direction: Direction = Direction.vertical()) : super(id){
-        _hTime = hTime
-        _vTime = vTime
+        this.hTime = hTime
+        this.vTime = vTime
         this.direction = direction
     }
 
@@ -41,12 +41,12 @@ class SemaphoreNode : CornerNode, IDispatcheable {
         fireListeners()
         return when(direction) {
             Direction.Vertical -> {
-                _vLogQueue.push(TimeLog(time,_vTime))
-                _vTime
+                _vLogQueue.push(TimeLog(time, vTime))
+                vTime
             }
             Direction.Horizontal -> {
-                _hLogQueue.push(TimeLog(time,_hTime))
-                _hTime
+                _hLogQueue.push(TimeLog(time, hTime))
+                hTime
             }
         }
     }
@@ -98,8 +98,8 @@ class SemaphoreNode : CornerNode, IDispatcheable {
     }
 
     fun setTimes(vTime: Double, hTime: Double) {
-        _vTime = vTime
-        _hTime = hTime
+        this.vTime = vTime
+        this.hTime = hTime
     }
 }
 
