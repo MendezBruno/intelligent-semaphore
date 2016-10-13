@@ -53,7 +53,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
             if ($routeParams.id && json_mapas[$routeParams.id]) {
                 modelo = json_mapas[$routeParams.id]
             } else {
-                modelo = json_mapas["modulo1"]
+                modelo = JSON.parse(mapas["modulo1"])
             }
             cargarScopeConNodoBorde();
 

@@ -16,7 +16,7 @@ app.controller('editorController', function($scope,Mapa,Rna,MyService,$routePara
         if ($routeParams.id && json_mapas[$routeParams.id]) {
             modelo1 = json_mapas[$routeParams.id]
         } else {
-            modelo1 = json_mapas["modulo1"]
+            modelo1 = JSON.parse(mapas["modulo1"])
         }
 
         $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
