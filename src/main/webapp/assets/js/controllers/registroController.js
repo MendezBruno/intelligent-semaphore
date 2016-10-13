@@ -25,9 +25,10 @@ app.controller("registroController", function($scope,$location,$timeout){
                     alert("Email de verificacion enviado a su casilla de correo");
 
                     var updates = {};
-                    updates['/' + user.uid + '/mapas/' ] = mapas["modulo1"];  //mapas["modulo1"];
-                    firebase.database().ref().update(updates);
+                    var clave = firebase.database().ref().child('/'+user.uid+'/mapas').push().key
 
+                    updates['/'+user.uid+'/mapas/'+clave] = MapaEditor.desParsear(mapas["modulo1"])  //mapas["modulo1"];
+                    firebase.database().ref().update(updates);
 
                     $location.url("app/login");
 
