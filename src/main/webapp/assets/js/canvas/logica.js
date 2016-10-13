@@ -334,8 +334,11 @@ GrillaController.prototype.redimensionarCanvas = function () {
     var nodosV = this.nodos.length;
     var ancho = nodosH*this.separador + (nodosH+1)*this.largo;
     var alto = nodosV*this.separador + (nodosV-1)*this.largo;
-    this.stage.canvas.width = ancho;
-    this.stage.canvas.height = alto;
+    var factorEscala = 1.2;
+    this.stage.canvas.width = ancho * factorEscala
+    this.stage.canvas.height = alto * factorEscala
+    this.stage.scaleX = factorEscala;
+    this.stage.scaleY = factorEscala;
     this.stage.update();
 }
 GrillaController.prototype.quitarCalleHorizontal = function() {
