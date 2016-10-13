@@ -1,7 +1,7 @@
 /**
  * Created by bruno on 26/07/16.
  */
-app.controller("loginController", function($scope,$location,serveData,$rootScope,$timeout){
+app.controller("loginController", function($scope,$location,serveData,$rootScope,$timeout,$cookies){
 
     var jsa={a:'pppp',b:'fffff',c:{d:'eeeeee',e:'fdsfsdf'}};
 
@@ -86,6 +86,7 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
                     {
 
                         serveData.uid = user.uid;
+                        $cookies.put(claveSesionUsuario, user.uid)
                         //var updates = {};
                         //updates['/posts/' ] = ["1"];
                         //updates['/user-posts/' + serveData.uid  + '/' ] = [];

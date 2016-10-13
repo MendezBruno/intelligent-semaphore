@@ -5,7 +5,13 @@
 app.directive('ngTouchSpin'['$timeout', '$interval',
     function($timeout, $interval) {}]);
 
-app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$location,$timeout,serveData) {
+app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$location,$timeout,serveData,$cookies) {
+    var sesion = $cookies.get(claveSesionUsuario)
+
+    if (!sesion) {
+        $location.url("/app/login");
+    }
+
     var largo = 30;
     var coordenadascalle;
     var modelo1;
@@ -128,14 +134,14 @@ app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$locati
             Rna.delete({id: $routeParams.id});
             key = $routeParams.id
         }else{
-            key = firebase.database().ref().child('mapas').push().key;
+            key = firebase.database().ref().child('/'+sesion+'/mapas').push().key;
         }
         $scope.modelo.id = key;
         var user = firebase.auth();
         var updates = {};
 
         var onLoadFinish = function() {
-            updates['/' + serveData.uid + '/mapas/' + key] = $scope.modelo;
+            updates['/' + sesion + '/mapas/' + key] = $scope.modelo;
             window.json_mapas[key] = $scope.modelo;
             $scope.modelo.date = new Date();
             firebase.database().ref().update(updates);

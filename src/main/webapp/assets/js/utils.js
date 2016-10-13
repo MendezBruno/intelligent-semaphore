@@ -3,6 +3,8 @@ var authTemplates = [
     { name: 'loggedInUser', url: 'views/templates/loggedInUser.html'}
 ];
 
+claveSesionUsuario = "sesionUsuario"
+
 pathFlechas = [
     {'Este-Oeste': '/assets/img/flechaDerecha.jpeg',
      'Sur-Norte': '/assets/img/flechaArriba.jpeg',

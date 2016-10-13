@@ -1,4 +1,10 @@
-app.controller('galeriaController', function($scope,$location,$sce,serveData) {
+app.controller('galeriaController', function($scope,$location,$sce,serveData,$cookies) {
+
+    var sesion = $cookies.get(claveSesionUsuario)
+
+    if (!sesion) {
+        $location.url("/app/login");
+    }
 
     var pictures =$scope.pictures=[];
 
@@ -14,10 +20,11 @@ app.controller('galeriaController', function($scope,$location,$sce,serveData) {
                 "mapa":mapa
             });
         }
+        $scope.cargado = true;
         $scope.$apply();
     };
 
-    updateMapasFirebase(pedirMapas,serveData.uid);
+    updateMapasFirebase(pedirMapas,sesion);
 
     $scope.addPics=function (i) {
         $scope.pictures.push({

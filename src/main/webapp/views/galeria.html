@@ -101,6 +101,10 @@
             border-left: 1px black solid;
             padding-bottom: 15px;
         }
+
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
+        }
     </style>
 
 
@@ -152,6 +156,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div ng-class="mainColWidth()" id="mapasContainer">
+                        <div class="container-fluid ng-cloak" ng-show="!cargado">
+                            <h3>Cargando resultados. Un momento por favor</h3>
+                        </div>
+                        <div class="container-fluid ng-cloak" ng-show="cargado && pictures.length == 0">
+                            <h3>No hay mapas registrados</h3>
+                        </div>
                         <div ng-repeat="pic in pictures" class="container-fluid">
                             <!--  <label class="btn btn-primary"> -->
                             <input type="radio" id="{{ 'radio-' + $index }}" ng-model="$parent.colorValue" name="colorValue" value="{{pic.mapa.nombre}}">

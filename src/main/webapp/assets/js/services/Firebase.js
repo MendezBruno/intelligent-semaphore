@@ -18,13 +18,16 @@ function Firebase () {
 updateMapasFirebase = function (callback,uid) {
 
     firebase.database().ref('/' + uid +'/mapas' ).once('value', function(snapshot) {
-        json_mapas = snapshot.val();
-        for (var claveBD in json_mapas) {
-            json_mapas[claveBD] = MapaEditor.desParsear(JSON.stringify(json_mapas[claveBD]))
-            json_mapas[claveBD].id = claveBD
+        var mapas = snapshot.val();
+        if (mapas) {
+            json_mapas = mapas
+            for (var claveBD in json_mapas) {
+                json_mapas[claveBD] = MapaEditor.desParsear(JSON.stringify(json_mapas[claveBD]))
+                json_mapas[claveBD].id = claveBD
+            }
+        } else {
+            json_mapas = {}
         }
-        // Ya no uso mas los mapas en memoria
-//        for (var nombreMapa in mapas) { json_mapas[nombreMapa] = MapaEditor.desParsear(mapas[nombreMapa]) }
         if (callback) callback();
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
