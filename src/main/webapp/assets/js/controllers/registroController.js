@@ -24,10 +24,15 @@ app.controller("registroController", function($scope,$location,$timeout){
 
                     alert("Email de verificacion enviado a su casilla de correo");
 
+                    var updates = {};
+                    updates['/' + user.uid + '/mapas/' ] = JSON.parser(mapas["modulo1"]);  //mapas["modulo1"];
+                    firebase.database().ref().update(updates);
+
+
                     $location.url("app/login");
 
                     $timeout(function () {
-                        $scope.apply();
+                        $scope.$apply();
                     });
 
                 }, function (error) {
@@ -119,7 +124,6 @@ app.controller("registroController", function($scope,$location,$timeout){
         }
 
     }
-
 
 
 

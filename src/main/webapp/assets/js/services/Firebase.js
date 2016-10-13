@@ -15,8 +15,9 @@ function Firebase () {
         var database = firebase.database();
 };
 
-updateMapasFirebase = function (callback) {
-    firebase.database().ref('/' + 'pepe/mapas' ).once('value', function(snapshot) {
+updateMapasFirebase = function (callback,uid) {
+
+    firebase.database().ref('/' + uid +'/mapas' ).once('value', function(snapshot) {
         json_mapas = snapshot.val();
         for (var claveBD in json_mapas) {
             json_mapas[claveBD] = MapaEditor.desParsear(JSON.stringify(json_mapas[claveBD]))

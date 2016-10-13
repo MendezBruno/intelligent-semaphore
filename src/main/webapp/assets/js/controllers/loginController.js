@@ -1,7 +1,7 @@
 /**
  * Created by bruno on 26/07/16.
  */
-app.controller("loginController", function($scope,$location,MyService,$rootScope,$timeout){
+app.controller("loginController", function($scope,$location,serveData,$rootScope,$timeout){
 
     var jsa={a:'pppp',b:'fffff',c:{d:'eeeeee',e:'fdsfsdf'}};
 
@@ -9,6 +9,7 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
     var tipomodo;
 
+    var oob;
 
     if ($location.absUrl().split('?')[1]!= undefined) {
         tipo = $location.absUrl().split('?')[1];
@@ -22,6 +23,28 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
     {
 
         $location.url("/app/passrecovery" + '?' + tipo);
+
+    }
+
+    if (tipomodo=="verifyEmail")
+    {
+
+        var modo1 = tipo.split('&')[1];
+
+        oob = modo1.split('=')[1];
+
+        const auth = firebase.auth();
+
+        console.log(oob);
+
+        auth.applyActionCode(oob).then(function(){
+
+            alert("Usuario Activado");
+
+        },function(error){
+            console.log(error.code);
+
+        });
 
     }
 
@@ -45,7 +68,7 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
         );
 
 
-    }
+    };
 
     $scope.entro=function () {
 
@@ -59,11 +82,36 @@ app.controller("loginController", function($scope,$location,MyService,$rootScope
 
                 const promise = auth.signInWithEmailAndPassword(email, pass).then (function (user) {
 
-                    $location.url("app/galeria");
+                    if (user.emailVerified)
+                    {
 
-                    $timeout(function () {
-                        $scope.$apply();
-                    });
+                        serveData.uid = user.uid;
+                        //var updates = {};
+                        //updates['/posts/' ] = ["1"];
+                        //updates['/user-posts/' + serveData.uid  + '/' ] = [];
+                        //return firebase.database().ref().update(updates);
+                        //updates['/' + serveData.uid + '/mapas/' ] =  [];  //mapas["modulo1"];
+                        //firebase.database().ref().update(serveData.uid);
+                        //firebase.database().ref().update(updates);
+
+                        $location.url("app/galeria");
+
+                        $timeout(function () {
+                            $scope.$apply();
+                        });
+
+                    }
+
+                    else
+
+                    {
+
+                        alert("No se presiono en el link del mail enviado al usuario, se envia nuevamente un mail de verificación");
+
+                        user.sendEmailVerification();
+
+                    }
+
 
 
                 },function (error) {

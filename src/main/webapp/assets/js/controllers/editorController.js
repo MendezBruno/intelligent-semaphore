@@ -5,7 +5,7 @@
 app.directive('ngTouchSpin'['$timeout', '$interval',
     function($timeout, $interval) {}]);
 
-app.controller('editorController', function($scope,Mapa,Rna,MyService,$routeParams,$location,$timeout) {
+app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$location,$timeout,serveData) {
     var largo = 30;
     var coordenadascalle;
     var modelo1;
@@ -37,7 +37,7 @@ app.controller('editorController', function($scope,Mapa,Rna,MyService,$routePara
     if(window.json_mapas)
         iniciar();
     else
-        updateMapasFirebase(iniciar);
+        updateMapasFirebase(iniciar, serveData.uid);
 
     $scope.setNombre = function() {
         modelo1.nombre = $scope.nombre;
@@ -135,18 +135,18 @@ app.controller('editorController', function($scope,Mapa,Rna,MyService,$routePara
         var updates = {};
 
         var onLoadFinish = function() {
-            updates['/pepe/mapas/' + key] = $scope.modelo;
+            updates['/' + serveData.uid + '/mapas/' + key] = $scope.modelo;
             window.json_mapas[key] = $scope.modelo;
-            $scope.modelo.date = new Date()
+            $scope.modelo.date = new Date();
             firebase.database().ref().update(updates);
-            alert("Mapa guardado")
+            alert("Mapa guardado");
             if (otroCallback) otroCallback()
         }
 
         if(window.json_mapas)
             onLoadFinish();
         else
-            updateMapasFirebase(onLoadFinish);
+            updateMapasFirebase(onLoadFinish, serveData.uid);
     }
 
     $scope.actualizar = function (){
