@@ -86,9 +86,13 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
                     {
 
                         serveData.uid = user.uid;
-                        var mapas = []
-                        //updates['/' + serveData.uid + '/mapas/' + key] = $scope.modelo;
-                        firebase.database().ref().update(mapas);
+                        //var updates = {};
+                        //updates['/posts/' ] = ["1"];
+                        //updates['/user-posts/' + serveData.uid  + '/' ] = [];
+                        //return firebase.database().ref().update(updates);
+                        //updates['/' + serveData.uid + '/mapas/' ] =  [];  //mapas["modulo1"];
+                        //firebase.database().ref().update(serveData.uid);
+                        //firebase.database().ref().update(updates);
 
                         $location.url("app/galeria");
 
