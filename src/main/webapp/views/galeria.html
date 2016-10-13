@@ -154,7 +154,7 @@
                     <div ng-class="mainColWidth()" id="mapasContainer">
                         <div ng-repeat="pic in pictures" class="container-fluid">
                             <!--  <label class="btn btn-primary"> -->
-                            <input type="radio" id="{{ 'radio-' + $index }}" ng-model="$parent.colorValue" name="colorValue" value="{{pic.title}}">
+                            <input type="radio" id="{{ 'radio-' + $index }}" ng-model="$parent.colorValue" name="colorValue" value="{{pic.mapa.nombre}}">
 
                             <label for="{{ 'radio-' + $index }}" style="width:100%; margin: 5px"
                                 ng-click="seleccionarMapa(pic)">
@@ -169,8 +169,8 @@
                                     <!--<input type="checkbox" name="chk1" id="{{ 'object-' + $index }}" value="val1" class="hidden" autocomplete="off"> -->
                                 </a>
                                 <div style="float:left; margin:10px">
-                                    <i><h3>{{pic.title}}</h3>
-                                        <h5>Última modificación: 15-6-2016</h5>
+                                    <i><h3>{{pic.mapa.nombre}}</h3>
+                                        <h5>Última modificación: {{pic.mapa.date | date:'dd-MM-yyyy hh:mm a'}}</h5>
                                     </i>
                                 </div>
                             </label>

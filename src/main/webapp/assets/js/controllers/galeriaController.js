@@ -11,8 +11,7 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce,$ro
 
             $scope.pictures.push({
                 url: "../assets/img/logoImagen.jpg",
-                title: mapa.nombre,
-                id: mapa1
+                "mapa":mapa
             });
         }
         $scope.$apply();
@@ -79,9 +78,9 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce,$ro
     };
 
     $scope.seleccionarMapa = function(picture) {
-        $scope.colorValue = picture.title;
-        $scope.idSeleccionado = picture.id;
-        $scope.previewSrc = $sce.trustAsResourceUrl("/app/preview/" + picture.id);
+        $scope.colorValue = picture.mapa.nombre;
+        $scope.idSeleccionado = picture.mapa.id;
+        $scope.previewSrc = $sce.trustAsResourceUrl("/app/preview/" + picture.mapa.id);
     };
 
     $scope.colorValue = undefined;

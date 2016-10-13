@@ -108,37 +108,45 @@ app.controller('editorController', function($scope,Mapa,Rna,MyService,$routePara
 
     });
 
-    $scope.generarMapa = function(){
-        if ($scope.nombre != "") {
+    $scope.guardarEjecutar = function(){
+        $scope.guardar(function() {
+            $location.url("app/reproductor/"+$scope.modelo.id);
+        })
+    }
 
-            if($routeParams.id) {
-                //*todo* actualizar el mapa de firebase
-                Rna.delete({id: $routeParams.id});
-            }else{
-                var newPostKey = firebase.database().ref().child('mapas').push().key;
-                var user = firebase.auth();
-                var updates = {};
-                alert(JSON.stringify(logica.modelo));
-                $scope.modelo = logica.modelo;
-                updates['/' + user.iud +'/mapas/' + newPostKey] = $scope.modelo;
-                console.log(JSON.stringify(logica.modelo));
-                $scope.modelo.id = newPostKey;
-                mapas[newPostKey] = JSON.stringify(logica.modelo);
-                firebase.database().ref().update(updates);
-            }
-
-
-
-
-  //          firebase.database().ref().push($scope.modelo);
-
-
-            $location.url("app/reproductor/"+newPostKey);
-        }
-        else
-        {
+    $scope.guardar = function(otroCallback){
+        if ($scope.nombre == "") {
             alert("Debe ingresar un nombre al mapa para poder generarlo.");
+            return
         }
+//        alert(JSON.stringify(logica.modelo));
+        $scope.modelo = logica.modelo;
+//        console.log(JSON.stringify(logica.modelo));
+
+        var key
+        if($routeParams.id) {
+            Rna.delete({id: $routeParams.id});
+            key = $routeParams.id
+        }else{
+            key = firebase.database().ref().child('mapas').push().key;
+        }
+        $scope.modelo.id = key;
+        var user = firebase.auth();
+        var updates = {};
+
+        var onLoadFinish = function() {
+            updates['/pepe/mapas/' + key] = $scope.modelo;
+            window.json_mapas[key] = $scope.modelo;
+            $scope.modelo.date = new Date()
+            firebase.database().ref().update(updates);
+            alert("Mapa guardado")
+            if (otroCallback) otroCallback()
+        }
+
+        if(window.json_mapas)
+            onLoadFinish();
+        else
+            updateMapasFirebase(onLoadFinish);
     }
 
     $scope.actualizar = function (){
