@@ -48,11 +48,14 @@
             align-items: center;
             justify-content: center;
         }
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
+        }
     </style>
 </head>
 
 <body ng-controller="mainController">
-    <div class="tg-header " style="text-align:center; background:rgb(202, 201, 201)">
+    <div class="tg-header ng-cloak" style="text-align:center; background:rgb(202, 201, 201)">
        <p style="color:white; font-weight: bold; text-shadow: 2px 2px #a19f9f;"><u>Semaforo Inteligente</u> <b><i>Tu futuro mas cerca</i></b></p>
     </div>
         <!--<div class="container">-->
@@ -60,7 +63,7 @@
     <div ng-view class="tg-ng-view">
     </div>
 
-    <div class="vFlotante" ng-class="{'desplegado':desplegado}">
+    <div class="vFlotante ng-cloak" ng-class="{'desplegado':desplegado}">
         <a ng-click="location.url('app/galeria')" class="moverboton">Galería</a>
         <a ng-click="" class="moverboton">Cerrar sesión</a>
         <a ng-click="desplegado = !desplegado" class="tgmenubutton">
