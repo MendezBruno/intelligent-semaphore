@@ -1,4 +1,4 @@
-app.controller('galeriaController', function($scope,$location,MyService,$sce,$rootScope) {
+app.controller('galeriaController', function($scope,$location,$sce,serveData) {
 
     var pictures =$scope.pictures=[];
 
@@ -17,7 +17,7 @@ app.controller('galeriaController', function($scope,$location,MyService,$sce,$ro
         $scope.$apply();
     };
 
-    updateMapasFirebase(pedirMapas);
+    updateMapasFirebase(pedirMapas,serveData.uid);
 
     $scope.addPics=function (i) {
         $scope.pictures.push({

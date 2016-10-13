@@ -20,7 +20,7 @@ updates = {
 
 
 
-app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,ModoUpdate,$routeParams,$timeout) {
+app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,ModoUpdate,$routeParams,$timeout,serveData) {
 
         inicilizarDicDatos = function () {
                 var dicDatos = {};
@@ -102,7 +102,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         if(window.json_mapas)
             iniciar();
         else
-            updateMapasFirebase(iniciar);
+            updateMapasFirebase(iniciar,serveData.uid);
 
         $scope.contador = 0;
         $scope.Timer = null;

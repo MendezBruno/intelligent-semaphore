@@ -27,7 +27,7 @@ app.controller("registroController", function($scope,$location,$timeout){
                     $location.url("app/login");
 
                     $timeout(function () {
-                        $scope.apply();
+                        $scope.$apply();
                     });
 
                 }, function (error) {
