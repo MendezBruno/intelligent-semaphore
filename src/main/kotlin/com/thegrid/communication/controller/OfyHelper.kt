@@ -22,4 +22,10 @@ class OfyHelper : ServletContextListener {
     override fun contextDestroyed(event: ServletContextEvent) {
         // App Engine does not currently invoke this method.
     }
+
+    companion object {
+        fun deleteRna(id:String) {
+            ObjectifyService.ofy().delete().type(DataSetEntity::class.java).id(id).now()
+        }
+    }
 }

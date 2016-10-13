@@ -9,7 +9,7 @@ class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
     var dataSetEntity = DataSetEntity()
 
     init {
-        dataSetEntity.id = rna.map.name
+        dataSetEntity.id = rna.map.id
     }
 
     override fun persistir() {
@@ -29,7 +29,7 @@ class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
         val dataSetEntity = Simulation.SharedInstance!!.ofy
                 .load()
                 .type(DataSetEntity::class.java)
-                .id(rna.map.name)
+                .id(rna.map.id)
                 .now()
         val dataSet = DataSet(rna.datosEntrada, rna.datosDeSalida)
         if (dataSetEntity != null) {

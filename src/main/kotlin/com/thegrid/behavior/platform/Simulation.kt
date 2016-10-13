@@ -8,6 +8,7 @@ import com.thegrid.behavior.model.EntryNode
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
 import com.thegrid.behavior.model.Resultado
+import com.thegrid.communication.controller.OfyHelper
 import com.thegrid.communication.model.MapState
 import com.thegrid.ia.model.Ag
 import com.thegrid.ia.model.DataSetEntity
@@ -25,6 +26,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         val APTITUD_ACEPTABLE = 400
     }
 
+    val ofy: Objectify
     val lock : java.lang.Object = Object()
     val memory: MapStateMemory = MapStateMemory(map)
     val orquestador: Orchestrator
@@ -35,7 +37,6 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     var estoyInterrumpido : Boolean = false
     var tipoEjecucion = TipoEjecucion.SIM
     var timeSleep = if (debugMode) debugSleepTime else DEFAULT_TIME_SLEEP
-    val ofy: Objectify
 
     init {
         SharedInstance = this
@@ -55,11 +56,13 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
 
         ofy = ObjectifyService.ofy()!!
         ofy.save().entity(dataSetEntity).now()
+        OfyHelper.deleteRna(dataSetEntity.id)
         rna = Rna(map, debugMode)
     }
 
     private fun iniciarSimulacion(): Orchestrator {
         return Orchestrator(Runnable {
+            System.err.println("> Comienzo de la ejecución")
             while (correr) {
                 println("La rna es $rna")
                 try {
@@ -71,11 +74,15 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 } catch (e: InterruptedException){
                 }
             }
+            System.err.println("> Fin de la ejecución")
         }, debugMode)
     }
 
     private fun procesarRNA() {
-        for (i in 0..ITERACIONES_RNA) procesar()
+        for (i in 0..ITERACIONES_RNA) {
+            if (!correr) break
+            procesar()
+        }
         if (calcularAptitudMapa() < 1000) {
             val estadoMapa = calcularEstadoMapa()
             val tiempos = rna.haztumagia(estadoMapa)!!
@@ -143,6 +150,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 semaforo.setTimes(tiempos[index], tiempos[index+1])
             }
             for (i in 0..ITERACIONES_AG) {
+                if (!correr) break
                 procesar()
             }
 

@@ -89,7 +89,7 @@ class MapConversor {
                 }
             }
 
-            return Map(map.nombre, nodes, streets, semaphoreNodes)
+            return Map(map.id, map.nombre, nodes, streets, semaphoreNodes)
         }
     }
 }

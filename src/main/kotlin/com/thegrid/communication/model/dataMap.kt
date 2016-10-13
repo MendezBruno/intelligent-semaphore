@@ -1,6 +1,7 @@
 package com.thegrid.communication.model
 
 class dataMap {
+    var id = ""
     var nombre = ""
     var callesHorizontales = mutableListOf<dataStreet>()
     var callesVerticales = mutableListOf<dataStreet>()

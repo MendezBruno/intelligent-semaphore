@@ -21,7 +21,8 @@ class TestMap: Spek({
                 val frontendMap = Gson().fromJson<dataMap>(jsonMap);
 
                 val map = MapConversor.convert(frontendMap);
-                assert(map.name == "san telmo" && map.streets.count() == 6 && map.blocks.count() == 24);
+                assert(map.name == "san telmo" && map.streets.count() == 6
+                        && map.blocks.count() == 24 && map.id == "")
             }
         }
     }
