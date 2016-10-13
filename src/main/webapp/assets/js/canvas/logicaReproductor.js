@@ -348,6 +348,12 @@ ReproductorController.prototype.actualizar = function (datos){
        var estado =  datosSemaforo.status;
        var semaforo = self.auxCnvModel[datosSemaforo.id].cnvSemaforo;
 
+       var nodoSem = self.$scope.modelo.nodosSemaforo.find(function (sta) {
+           return sta.id == datosSemaforo.id
+       });
+       nodoSem.tiempoHorizontal = datosSemaforo.htime;
+       nodoSem.tiempoVertical = datosSemaforo.vtime;
+
         if(estado=="HORIZONTAL") {
             semaforo.verdeH();
         }else{

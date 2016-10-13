@@ -35,7 +35,7 @@ CnvManzana.prototype.setup = function () {
     //        CnvManzana.largo,CnvManzana.largo);
     var cordon = new createjs.Shape();
     cordon.graphics
-        .beginFill("#979797")
+        .beginFill("#999999")
         .drawRoundRect(this.posX, this.posY,
             CnvManzana.largo,CnvManzana.largo,
             CnvManzana.radioEsquina);
