@@ -26,6 +26,25 @@ app.controller('galeriaController', function($scope,$location,$sce,serveData,$co
 
     updateMapasFirebase(pedirMapas,sesion);
 
+    $scope.eliminar=function (i) {
+        if (!$scope.idSeleccionado) {
+            alert('Debe seleccionar un mapa')
+            return
+        }
+
+        var msg = "¿Esta seguro de querer eliminar el mapa seleccionado y todos los componentes asociados?"
+        if (confirm(msg)) {
+            delete json_mapas[$scope.idSeleccionado]
+            $scope.colorValue = undefined
+            $scope.pictures.removeIf(function(p) {
+                return p.mapa.id == $scope.idSeleccionado
+            })
+            firebase.database().ref()
+                .child('/'+sesion+'/mapas/'+$scope.idSeleccionado)
+                .remove()
+        }
+    };
+
     $scope.addPics=function (i) {
         $scope.pictures.push({
             url:"../assets/img/logoImagen.jpg",
