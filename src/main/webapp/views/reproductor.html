@@ -348,6 +348,38 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="panel panel-default">
+                            <button class="panel-heading tgpanelbutton" data-toggle="collapse"
+                                    data-parent="#accordion" data-target="#collapse7">
+                                Resultados
+                            </button>
+                            <div id="collapse7" class="panel-collapse collapse">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="radio" style="left:20px;">
+                                            <label><input type="radio" ng-model="resultado" value="linear" name="optradio">Linear</label>
+                                        </div>
+                                        <div class="radio" style="left:20px;">
+                                            <label><input type="radio" ng-model="resultado" value="barras" name="optradio" >Barras</label>
+                                        </div>
+                                        <div class="radio" style="left:20px;">
+                                            <label><input type="radio" ng-model="resultado" value="torta" name="optradio" >Torta</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-lg-12">
+                                            <button ng-click="generarResultados()" class="form-control">
+                                                Generar Resultados
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

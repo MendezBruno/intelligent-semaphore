@@ -1,7 +1,7 @@
 /**
  * Created by bruno on 25/08/16.
  */
-google.charts.load('current', {'packages':['corechart', 'gauge']});
+google.charts.load('current', {'packages':['corechart', 'gauge','line']});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart(dicDatos) {
 
@@ -64,18 +64,18 @@ function drawChartVelocimetro(dicVel) {
     chartVel.draw(data, options);
 }
 
-google.charts.setOnLoadCallback(drawChartLinear);
-function drawChartLinear() {
-        dataSet = []
-        dataSet.add(['Tiempo', 'Congestion']);
+google.charts.setOnLoadCallback(drawChartLinearTiempoCongestion);
+function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
 
-        var data = google.visualization.arrayToDataTable([
-          ['Tiempo', 'Congestion'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
-        ]);
+        if(!google.visualization) google.charts.load('current', {'packages':['corechart', 'gauge']})
+
+        var dataSet = new Array();
+        dataSet.push(['Tiempo', 'Congestion']);
+        var arrayResult = datosTiempoCongestion.tiempoCongestion2.map(function (tyc) {
+            return [tyc['t'],tyc['c']]
+        });
+        dataSet = dataSet.concat(arrayResult);
+        var data = google.visualization.arrayToDataTable(dataSet);
 
         var options = {
           title: 'Company Performance',

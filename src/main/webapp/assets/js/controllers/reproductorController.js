@@ -152,12 +152,12 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
                 });
-                //a modo de prueba
-                Resultados.query(function (data) {
-                    console.log("Resultados Trae:");
-                    console.log(data);
-                });
+                
         };
+    
+        $scope.generarResultados = function () {
+            $location.url("/app/resultado");
+        }
 
         $scope.actualizarNodoBorde = function () {
                 if(!$scope.cuadraSeleccionada) return;

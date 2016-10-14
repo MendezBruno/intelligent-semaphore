@@ -3,6 +3,9 @@
  */
 app.controller('resultadoController', function($scope,Resultados,$cookies) {
 
+
+
+
     $scope.resultado = function () {
 
         //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
@@ -12,5 +15,19 @@ app.controller('resultadoController', function($scope,Resultados,$cookies) {
             console.log(data);
             });
     };
+
+
+    var ejecutarCargarResultados = function () {
+        Resultados.query(function (data) {
+            console.log("Resultados Trae:");
+            console.log(data);
+            drawChartLinearTiempoCongestion(data);
+        });
+
+    };
+
+
+
+    ejecutarCargarResultados();
 
 });
