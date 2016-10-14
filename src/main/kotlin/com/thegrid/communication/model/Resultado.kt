@@ -11,11 +11,7 @@ class Resultado {
 
     var tiempoCongestion2 = mutableListOf<TiempoCongestion>()
 
-    class TiempoCongestion(t:Double,c:Double) {
-        var tiempoTef = t
-        var congestion = c
-
-    }
+    class TiempoCongestion(var t:Double,var c:Double)
 
 
     fun guardarTiempoCongestion(t:Double,c:Double){
