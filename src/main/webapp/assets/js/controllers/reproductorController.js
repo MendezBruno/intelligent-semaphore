@@ -20,7 +20,7 @@ updates = {
 
 
 
-app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,ModoUpdate,$routeParams,$timeout,serveData,$cookies) {
+app.controller('reproductorController',function($scope,$interval,$location,$uibModal,Resultados,Mapa,MapaUpdate,NodoBorde,Tef,Simulacion,ModoUpdate,$routeParams,$timeout,serveData,$cookies) {
 
         var sesion = $cookies.get(claveSesionUsuario)
 
@@ -151,6 +151,11 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                         modelo.tamizarDatosCongestion(dicDatosCuadras);
                         drawChart(dicDatosCuadras);
                         actualizarVelocimetro();
+                });
+                //a modo de prueba
+                Resultados.query(function (data) {
+                    console.log("Resultados Trae:");
+                    console.log(data);
                 });
         };
 

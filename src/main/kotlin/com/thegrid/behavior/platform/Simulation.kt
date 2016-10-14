@@ -19,7 +19,6 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
 
     companion object {
         var SharedInstance : Simulation? = null
-        var resultados: Resultado = Resultado()
         val DEFAULT_TIME_SLEEP: Long = 1000
         val ITERACIONES_AG = 20
         val ITERACIONES_RNA = 20
@@ -98,6 +97,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         val estadoCongestion = CongestionLevel.values().map { 0.0 }.toDoubleArray()
         for (cuadra in map.blocks) {
             estadoCongestion[CongestionLevel.values().indexOf(cuadra.congestionLevel)]++
+
         }
         val estadoFlujos = DoubleArray(map.streets.size * 4)
         var i = 0
@@ -173,7 +173,10 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         var aptitud = 0.0
         for (cuadra in map.blocks)
             aptitud += cuadra.congestionLevel.ponderacion
+        resultado.guardarTiempoCongestion(dispatcher.time,aptitud)
         return aptitud
+
+
     }
 
     fun procesar() {

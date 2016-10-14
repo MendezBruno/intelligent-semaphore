@@ -18,7 +18,8 @@
 				com.thegrid.communication.controller.MapController,
 				com.thegrid.communication.controller.MapStateController,
 				com.thegrid.communication.controller.NodoBordeUpdateController,
-				com.thegrid.communication.controller.SimulacionController
+				com.thegrid.communication.controller.SimulacionController,
+				com.thegrid.communication.controller.ResultadoController
 			</param-value>
 		</init-param>
 	</servlet>

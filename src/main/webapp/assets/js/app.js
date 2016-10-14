@@ -123,3 +123,10 @@ app.factory("Rna", ["$resource",function($resource){
             'query': { method:'GET', isArray: false }
         });
 }]);
+
+app.factory("Resultados", ["$resource",function($resource){
+    return  $resource("/_ah/api/intelligentsemaphore/v1/resultados", null,
+        {
+            'query': { method:'GET', isArray: false }
+        });
+}]);

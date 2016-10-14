@@ -15,7 +15,7 @@ import com.thegrid.communication.model.Resultado
 
 class ResultadoController {
 
-    @ApiMethod(name = "getResultado", path = "resultado", httpMethod = ApiMethod.HttpMethod.GET)
+    @ApiMethod(name = "getResultado", path = "resultados", httpMethod = ApiMethod.HttpMethod.GET)
     fun getResultado(): Resultado {
         return Simulation.SharedInstance?.resultado!!
     }
