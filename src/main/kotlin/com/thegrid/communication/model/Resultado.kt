@@ -1,4 +1,4 @@
-package com.thegrid.behavior.model
+package com.thegrid.communication.model
 
 /**
  * Created by bruno on 08/10/16.

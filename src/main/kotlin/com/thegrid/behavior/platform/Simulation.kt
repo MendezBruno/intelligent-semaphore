@@ -7,7 +7,7 @@ import com.thegrid.behavior.model.EgressNode
 import com.thegrid.behavior.model.EntryNode
 import com.thegrid.behavior.services.MapStateMemory
 import com.thegrid.behavior.model.Map
-import com.thegrid.behavior.model.Resultado
+import com.thegrid.communication.model.Resultado
 import com.thegrid.communication.controller.OfyHelper
 import com.thegrid.communication.model.MapState
 import com.thegrid.ia.model.Ag
@@ -37,6 +37,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     var estoyInterrumpido : Boolean = false
     var tipoEjecucion = TipoEjecucion.SIM
     var timeSleep = if (debugMode) debugSleepTime else DEFAULT_TIME_SLEEP
+    val resultado: Resultado
 
     init {
         SharedInstance = this
@@ -58,6 +59,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         ofy.save().entity(dataSetEntity).now()
         OfyHelper.deleteRna(dataSetEntity.id)
         rna = Rna(map, debugMode)
+        resultado = Resultado()
     }
 
     private fun iniciarSimulacion(): Orchestrator {
