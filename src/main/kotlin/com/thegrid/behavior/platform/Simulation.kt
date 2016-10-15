@@ -157,6 +157,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             }
 
             cromosoma.aptitud = calcularAptitudMapa()
+            resultado.guardarTiempoCromosomaAptitud(dispatcher.time,cromosoma,cromosoma.aptitud.toInt())
 
             if (cromosoma.aptitud >= APTITUD_ACEPTABLE) {
                 if (rna == null) println("rna es null")
@@ -171,8 +172,10 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     fun calcularAptitudMapa(): Double {
         //Evaluar el estado del mapa con sus atributos y setearlo en el cromosoma
         var aptitud = 0.0
-        for (cuadra in map.blocks)
+        for (cuadra in map.blocks) {
             aptitud += cuadra.congestionLevel.ponderacion
+            resultado.guardarTiempoCongestionXCuadra(cuadra.id,dispatcher.time,cuadra.congestion)
+        }
         resultado.guardarTiempoCongestion(dispatcher.time,aptitud)
         return aptitud
 
@@ -186,8 +189,14 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 lock.wait()
             }
         }
-
+        if (dispatcher.time % 20 == 0.0 ) resultado.guardarTiempoVelocidad(dispatcher.time, sensarVelocidadMapa())
         dispatcher.processEvent()
         Thread.sleep(timeSleep)
+    }
+
+    private fun  sensarVelocidadMapa(): Double {
+
+
+        return 0.0
     }
 }
