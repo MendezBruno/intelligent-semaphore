@@ -60,11 +60,11 @@ CnvNodoControl.prototype.dibujarSemaforo = function(){
     semaforo.x = this.posx-9;
     semaforo.y = this.posy-9;
     this.semaforoCnv = this.addChild(semaforo);
-
+    this.esSemaforo = true;
 }
 CnvNodoControl.prototype.borrarSemaforo  = function(){
     this.removeChild(this.semaforoCnv);
-
+    this.esSemaforo = false;
 }
 
 CnvNodoControl.prototype.cambiarColor = function(){
@@ -76,9 +76,6 @@ CnvNodoControl.prototype.cambiarColor = function(){
     return this.color;
 };
 
-
-
-
 CnvNodoControl.prototype.cambiarTipoDeNodoCentral = function(modelo){
     if(this.cambiarColor()==AMARILLO) {
         modelo.noSemaforoTOsemaforo(this.id);
@@ -89,6 +86,15 @@ CnvNodoControl.prototype.cambiarTipoDeNodoCentral = function(modelo){
         this.borrarSemaforo();
     }
 
+};
+
+CnvNodoControl.prototype.setNumero = function(numero){
+    if (!this.esSemaforo) return;
+    this.borrarSemaforo();
+    var txt = new createjs.Text(numero, "20px Arial", "#000000")
+    txt.x = this.posx-5;
+    txt.y = this.posy-10;
+    this.addChild(txt);
 };
 
 window.CnvNodoControl = createjs.promote(CnvNodoControl, "Container");
