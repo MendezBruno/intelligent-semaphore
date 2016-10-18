@@ -195,8 +195,12 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     }
 
     private fun  sensarVelocidadMapa(): Double {
+        var velocidad = 0.0
+        for (cuadra in map.blocks) {
+            velocidad += cuadra.velocity
+            resultado.guardarTiempoVelocidadXCuadra(cuadra.id,dispatcher.time,cuadra.congestion)
+        }
 
-
-        return 0.0
+        return velocidad/map.blocks.size
     }
 }
