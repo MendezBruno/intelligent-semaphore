@@ -11,11 +11,18 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
             });
     };
 
+    var cargarScopeConMejorTiempoSemaforo = function (datalini) {
+
+    };
+
+
     var ejecutarCargarResultados = function () {
         Resultados.query(function (data) {
             console.log("Resultados Trae:");
             console.log(data);
+            cargarScopeConMejorTiempoSemaforo(data);
             drawChartLinearTiempoCongestion(data);
+
         });
 
     };

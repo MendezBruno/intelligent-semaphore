@@ -13,3 +13,31 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal-body" id="modal-body">
+    <h1>Mejores Tiempos de los Semáforos</h1>
+    <div style="overflow-x: hidden; padding: 15px;" id="tg-modal-container"
+         ng-style="estilo">
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>1er Tiempo</th>
+                <th>2do Tiempo</th>
+                <th>3er Tiempo</th>
+            </tr>
+            <tr ng-repeat="item in tiempoSemaforo">
+                <td> {{item.id}} </td>
+                <td> {{item.tiempoUno}} </td>
+                <td> {{item.tiempoDos}} </td>
+                <td> {{item.tiempoTres}} </td>
+            </tr>
+        </table>
+    </div>
+    <!--<button class="btn btn-default" type="button" ng-click="actualizar()"-->
+            <!--style="width:100%" >-->
+        <!--<span aria-hidden="true"></span>Actualizar-->
+    <!--</button>-->
+</div>
+
+<!--| orderBy:'tiempo':false-->

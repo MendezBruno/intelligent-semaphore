@@ -71,7 +71,7 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
 
         var dataSet = new Array();
         dataSet.push(['Tiempo', 'Congestion']);
-        var arrayResult = datosTiempoCongestion.tiempoCongestion2.map(function (tyc) {
+        var arrayResult = datosTiempoCongestion.tiempoCongestion.map(function (tyc) {
             return [tyc['t'],tyc['c']]
         });
         dataSet = dataSet.concat(arrayResult);
