@@ -43,7 +43,7 @@ app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$locati
     if(window.json_mapas)
         iniciar();
     else
-        updateMapasFirebase(iniciar, serveData.uid);
+        updateMapasFirebase(iniciar, sesion);
 
     $scope.setNombre = function() {
         modelo1.nombre = $scope.nombre;
