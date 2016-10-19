@@ -17,8 +17,7 @@
 
 <div class="modal-body" id="modal-body">
     <h1>Mejores Tiempos de los Semáforos</h1>
-    <div style="overflow-x: hidden; padding: 15px;" id="tg-modal-container"
-         ng-style="estilo">
+    <div style="overflow-x: hidden; padding: 15px;" id="tg-modal-container" ng-style="estilo" ng-show="tiempoCromosoma">
         <table class="table">
             <tr>
                 <th>Id</th>
@@ -34,6 +33,7 @@
             </tr>
         </table>
     </div>
+    <h2 ng-show="!tiempoCromosoma">No hay información relacionada</h2>
     <!--<button class="btn btn-default" type="button" ng-click="actualizar()"-->
             <!--style="width:100%" >-->
         <!--<span aria-hidden="true"></span>Actualizar-->

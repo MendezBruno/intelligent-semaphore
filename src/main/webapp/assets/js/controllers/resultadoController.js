@@ -64,17 +64,15 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
         Resultados.query(function (data) {
             console.log("Resultados Trae:");
             console.log(data);
-            cargarScopeConMejorTiempoSemaforo(data.tiempoCromosomaAptitud);
-            drawChartLinearTiempoCongestion(data);
+            if (data.tiempoCromosomaAptitud) {
+                cargarScopeConMejorTiempoSemaforo(data.tiempoCromosomaAptitud);
+                $scope.tiempoCromosoma = true;
+            }
 
+            drawChartLinearTiempoCongestion(data);
         });
 
     };
-
-    if(window.json_mapas)
-        iniciar();
-    else
-        updateMapasFirebase(iniciar,sesion);
 
     var iniciar = function() {
         var mapa = json_mapas[$routeParams.id];
@@ -106,6 +104,11 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
 
         ejecutarCargarResultados();
     }
+
+    if(window.json_mapas)
+        iniciar();
+    else
+        updateMapasFirebase(iniciar,sesion);
 
     if(window.json_mapas)
         iniciar();
