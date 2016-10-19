@@ -1,7 +1,13 @@
 /**
  * Created by bruno on 14/10/2016.
  */
-app.controller('resultadoController', function($scope,Resultados,$cookies,$timeout) {
+app.controller('resultadoController', function($scope,Resultados,$cookies,$timeout,$routeParams) {
+
+    var sesion = $cookies.get(claveSesionUsuario)
+
+    if (!sesion) {
+        $location.url("/app/login");
+    }
 
     $scope.resultado = function () {
         //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
@@ -65,8 +71,15 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
 
     };
 
+    if(window.json_mapas)
+        iniciar();
+    else
+        updateMapasFirebase(iniciar,sesion);
+
     var iniciar = function() {
-        var modelo1 = MapaEditor.desParsear(mapas["modulo6"])
+        var mapa = json_mapas[$routeParams.id];
+        var modelo1 = MapaEditor.desParsear(JSON.stringify(mapa));
+        //var modelo1 = MapaEditor.desParsear(mapas["modulo6"])
         $scope.callesV= modelo1.callesHorizontales[0].cuadras.length - 1;
         $scope.callesH= modelo1.callesVerticales[0].cuadras.length - 1;
         $scope.nombre=modelo1.nombre;
@@ -94,5 +107,9 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
         ejecutarCargarResultados();
     }
 
-    iniciar();
+    if(window.json_mapas)
+        iniciar();
+    else
+        updateMapasFirebase(iniciar,sesion);
+
 });
