@@ -86,7 +86,7 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
                     {
 
                         serveData.uid = user.uid;
-                        $cookies.put(claveSesionUsuario, user.uid)
+                        $cookies.put(claveSesionUsuario, user.uid);
                         //var updates = {};
                         //updates['/posts/' ] = ["1"];
                         //updates['/user-posts/' + serveData.uid  + '/' ] = [];
