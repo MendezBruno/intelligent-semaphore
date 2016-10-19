@@ -11,16 +11,48 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
             });
     };
 
-    var cargarScopeConMejorTiempoSemaforo = function (datalini) {
+    var inicializarTiempoSemaforo = function (cantGenes) {
+        var array = new Array();
+        for (var i=1; i<cantGenes; i++){
+            var item = {};
+            item.id = 1;
+            array.add(item);
+        }
+        return array;
+    }
 
-    };
+    // var cargarScopeConMejorTiempoSemaforo = function (datalini) {
+    //     //sort de datalini por aptitud
+    //     datalini.sort(function (tcaA, tcaB) {
+    //         return tcaA - tcaB;});
+    //     $scope.tiempoSemaforo = inicializarTiempoSemaforo(datalini.cromosoma.genes.size);
+    //     var tresMejores = datalini.slice(0,3);
+    //     tresMejores.forEach(function (cromosoma) {
+    //         $scope.tiempoSemaforo.forEach(function (item) {
+    //             item.tiempoUnoH = cromosoma
+    //             item.tiempoUnoV =
+    //             item.tiempoDosH =
+    //             item.tiempoDosV =
+    //             item.tiempoTresH =
+    //             item.tiempoTresV =
+    //         } )
+    //
+    //     });
+    //
+    //     $scope.tiempoSemaforo
+    //     //armar una lista de objetos para mostrar
+    //         //tiempo id es lo que esta adentro del gen
+    //         //el tiempo de esa posicion
+    //         //el tiempo de segundo objeto, osea la posicion 1
+    //         //el tiempo del tercer objeto, o sea la posicion 2
+    // };
 
 
     var ejecutarCargarResultados = function () {
         Resultados.query(function (data) {
             console.log("Resultados Trae:");
             console.log(data);
-            cargarScopeConMejorTiempoSemaforo(data);
+            cargarScopeConMejorTiempoSemaforo(data.tiempoCromosomaAptitud);
             drawChartLinearTiempoCongestion(data);
 
         });
