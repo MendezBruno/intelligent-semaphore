@@ -1,5 +1,7 @@
 package com.thegrid.communication.model
 
+import com.google.appengine.repackaged.org.codehaus.jackson.annotate.JsonIgnore
+import com.google.appengine.repackaged.org.codehaus.jackson.annotate.JsonIgnoreProperties
 import com.thegrid.ia.model.Cromosoma
 
 
@@ -13,6 +15,7 @@ class Resultado {
     var tiempoVelocidad = mutableListOf<TiempoVelocidad>()
     var tiempoVelocidadXCuadra = mutableListOf<TiempoVelocidadXcuadra>()
     var tiempoCromosomaAptitud = mutableListOf<TiempoCromosomaAptitud>()
+    val cota_max = 6600
 //    var resultadoDeAg = ResultadoAg
 
 
@@ -53,6 +56,42 @@ class Resultado {
         tiempoVelocidadXCuadra.add(tyvXc)
     }
 
+    @JsonIgnore
+    fun getResultadoCompactado(): Resultado {
+        val r = Resultado()
+        var sobrante : Int
+        var frec : Long
+
+        sobrante = tiempoCongestion.size - cota_max
+        frec = Math.round(tiempoCongestion.size / sobrante.toDouble())
+        for (i in 0..tiempoCongestion.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestion.add(tiempoCongestion[i])
+        }
+
+        sobrante = tiempoCongestionXcuadra.size - cota_max
+        frec = Math.round(tiempoCongestionXcuadra.size / sobrante.toDouble())
+        for (i in 0..tiempoCongestionXcuadra.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+        }
+
+        sobrante = tiempoVelocidad.size - cota_max
+        frec = Math.round(tiempoVelocidad.size / sobrante.toDouble())
+        for (i in 0..tiempoVelocidad.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
+        }
+
+        sobrante = tiempoVelocidadXCuadra.size - cota_max
+        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
+        for (i in 0..tiempoVelocidadXCuadra.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+        }
+
+        sobrante = tiempoCromosomaAptitud.size - cota_max
+        frec = Math.round(tiempoCromosomaAptitud.size / sobrante.toDouble())
+        for (i in 0..tiempoCromosomaAptitud.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
+        }
+
+        return r
+    }
 }
-
-
