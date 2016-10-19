@@ -189,7 +189,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 lock.wait()
             }
         }
-        if (dispatcher.time % 20 == 0.0 ) resultado.guardarTiempoVelocidad(dispatcher.time, sensarVelocidadMapa())
+        if (dispatcher.time % 20 == 0.0 && dispatcher.time != 0.0 ) resultado.guardarTiempoVelocidad(dispatcher.time, sensarVelocidadMapa())
         dispatcher.processEvent()
         Thread.sleep(timeSleep)
     }

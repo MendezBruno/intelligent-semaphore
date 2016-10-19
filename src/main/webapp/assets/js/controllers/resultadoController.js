@@ -13,39 +13,45 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
 
     var inicializarTiempoSemaforo = function (cantGenes) {
         var array = new Array();
-        for (var i=1; i<cantGenes; i++){
+        for (var i=1; i<cantGenes+1; i++){
             var item = {};
-            item.id = 1;
-            array.add(item);
+            item.id = i;
+            array.push(item);
         }
         return array;
     }
 
-    // var cargarScopeConMejorTiempoSemaforo = function (datalini) {
-    //     //sort de datalini por aptitud
-    //     datalini.sort(function (tcaA, tcaB) {
-    //         return tcaA - tcaB;});
-    //     $scope.tiempoSemaforo = inicializarTiempoSemaforo(datalini.cromosoma.genes.size);
-    //     var tresMejores = datalini.slice(0,3);
-    //     tresMejores.forEach(function (cromosoma) {
-    //         $scope.tiempoSemaforo.forEach(function (item) {
-    //             item.tiempoUnoH = cromosoma
-    //             item.tiempoUnoV =
-    //             item.tiempoDosH =
-    //             item.tiempoDosV =
-    //             item.tiempoTresH =
-    //             item.tiempoTresV =
-    //         } )
-    //
-    //     });
-    //
-    //     $scope.tiempoSemaforo
-    //     //armar una lista de objetos para mostrar
-    //         //tiempo id es lo que esta adentro del gen
-    //         //el tiempo de esa posicion
-    //         //el tiempo de segundo objeto, osea la posicion 1
-    //         //el tiempo del tercer objeto, o sea la posicion 2
-    // };
+     var cargarScopeConMejorTiempoSemaforo = function (datalini) {
+         //sort de datalini por aptitud
+         datalini.sort(function (tcaA, tcaB) {
+             return tcaA - tcaB;});
+         $scope.tiempoSemaforo = inicializarTiempoSemaforo(datalini[0].cromosoma.genes.length /2);
+         var elMejor = datalini[0].cromosoma;
+         var elSegundo = datalini[1].cromosoma;
+         var elTercero = datalini[2].cromosoma;
+
+         var tiempoH = 0;
+         var tiempoV = 1;
+         $scope.tiempoSemaforo.forEach(function (item) {
+                 item.tiempoUnoH = elMejor.genes[tiempoH];
+                 item.tiempoUnoV = elMejor.genes[tiempoV];
+                 item.tiempoDosH = elSegundo.genes[tiempoH];
+                 item.tiempoDosV = elSegundo.genes[tiempoV];
+                 item.tiempoTresH = elTercero.genes[tiempoH];
+                 item.tiempoTresV = elTercero.genes[tiempoV];
+             tiempoH++;
+             tiempoV++;
+             } );
+
+
+
+         //$scope.tiempoSemaforo
+         //armar una lista de objetos para mostrar
+             //tiempo id es lo que esta adentro del gen
+             //el tiempo de esa posicion
+             //el tiempo de segundo objeto, osea la posicion 1
+             //el tiempo del tercer objeto, o sea la posicion 2
+     };
 
 
     var ejecutarCargarResultados = function () {
