@@ -115,4 +115,15 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
     else
         updateMapasFirebase(iniciar,sesion);
 
+
+
+
+    //imprimirEnPdf();
+
+    $scope.printPDF = function() {
+    window.print();
+    }
+
+
+
 });
