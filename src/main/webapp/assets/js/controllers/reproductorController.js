@@ -156,7 +156,8 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         };
     
         $scope.generarResultados = function () {
-            $location.url("/app/resultado/" + modelo.id);
+//            $location.url("/app/resultado/" + modelo.id);
+            window.open('/app/resultado/' + modelo.id, '_blank');
         }
 
         $scope.actualizarNodoBorde = function () {
