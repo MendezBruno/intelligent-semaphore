@@ -1,9 +1,26 @@
+<style>
+    .grafico-centrado{
+        width: 900px;
+        height: 500px;
+        display: inline-block;
+    }
+    .item-cromosoma {
+        width: 80px;
+        height: 50px;
+        text-align: center;
+        background-color: #e3e3e3;
+    }
+</style>
 <div class="container-fluid">
-    <button type="button" class="btn btn-default btn-lg" ng-click="printPDF()">
-        <span class="glyphicon glyphicon-print"></span>  Imprimir
-    </button>
+    <div style="text-align:center; width:100%">
+        <div style="display:inline-block; width:792px; text-align:left">
+            <button type="button" class="btn btn-default btn-lg" ng-click="printPDF()">
+                <span class="glyphicon glyphicon-print"></span>  Imprimir
+            </button>
 
-    <img src="/assets/img/header_reporte.png">
+            <img src="/assets/img/header_reporte.png">
+        </div>
+    </div>
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -27,25 +44,37 @@
              ng-style="estilo" ng-show="tiempoCromosoma">
             <table class="table">
                 <tr>
-                    <th>Id</th>
-                    <th>1er Tiempo</th>
-                    <th>2do Tiempo</th>
-                    <th>3er Tiempo</th>
+                    <th>Sem. nroº</th>
+                    <th>Primera combinación</th>
+                    <th>Segunda combinación</th>
+                    <th>Tercera combinación</th>
                 </tr>
                 <tr ng-repeat="item in tiempoSemaforo">
                     <td> {{item.id}} </td>
-                    <td> verde horizontal {{item.tiempoUnoH}} verde vertical {{item.tiempoUnoV}}  </td>
-                    <td> verde horizontal {{item.tiempoDosH}} verde vertical {{item.tiempoDosV}}  </td>
-                    <td> verde horizontal {{item.tiempoTresH}} verde vertical {{item.tiempoTresV}} </td>
+                    <td>
+                        <div class="item-cromosoma">
+                            H {{item.tiempoUnoH}} <br> V {{item.tiempoUnoV}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cromosoma">
+                            H {{item.tiempoDosH}} <br> V {{item.tiempoDosV}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="item-cromosoma">
+                            H {{item.tiempoTresH}} <br> V {{item.tiempoTresV}}
+                        </div>
+                    </td>
                 </tr>
             </table>
         </div>
         <h2 ng-show="!tiempoCromosoma">No hay información relacionada</h2>
-        <!--<button class="btn btn-default" type="button" ng-click="actualizar()"-->
-        <!--style="width:100%" >-->
-        <!--<span aria-hidden="true"></span>Actualizar-->
-        <!--</button>-->
     </div>
 
-    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    <div class="container" style="text-align:center;">
+        <div id="curve_chart" class="grafico-centrado"></div>
+        <div id="curve_chart_tvel" class="grafico-centrado"></div>
+        <div id="histogramaxcuadra" class="grafico-centrado"></div>
+    </div>
 </div>

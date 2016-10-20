@@ -26,8 +26,8 @@ function drawChart(dicDatos) {
         colors: ['#b3b3b3', '#ffff80', '#ffb366', '#ff4d4d', '#cc0000'],
         legend: 'none',
         pieSliceTextStyle: {
-            color: 'black',
-            fontName: 'Segoe UI Black'
+            color: 'black'
+
         }
     };
 
@@ -78,7 +78,7 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
         var data = google.visualization.arrayToDataTable(dataSet);
 
         var options = {
-          title: 'Company Performance',
+          title: 'Evolución de la congetion a travez del tiempo',
           curveType: 'function',
           legend: { position: 'bottom' }
         };
@@ -87,5 +87,115 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
 
         chart.draw(data, options);
       }
+
+
+google.charts.setOnLoadCallback(drawChartLinearTiempoVelocidad);
+function drawChartLinearTiempoVelocidad(datosTiempoVelocidad) {
+
+    if(!google.visualization) google.charts.load('current', {'packages':['corechart', 'gauge']})
+
+    var dataSet = new Array();
+    dataSet.push(['Tiempo', 'Velocidad']);
+    var arrayResult = datosTiempoVelocidad.tiempoVelocidad.map(function (tyv) {
+        return [tyv['t'],tyv['vel']]
+    });
+    dataSet = dataSet.concat(arrayResult);
+    var data = google.visualization.arrayToDataTable(dataSet);
+
+    var options = {
+        title: 'Velocidad a lo largo de la simulación',
+        curveType: 'function',
+        legend: { position: 'bottom' }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart_tvel'));
+
+    chart.draw(data, options);
+}
+
+
+google.charts.setOnLoadCallback(drawChartLineasCongestionXCuadra);
+function drawChartLineasCongestionXCuadra(datosTiempoCongestionXcuadra){
+
+    //*todo* armar dataTable
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'cuardra-1');
+    data.addColumn('number', 'cuardra-2');
+    data.addColumn('number', 'cuardra-3');
+    data.addColumn('number', 'cuardra-n');
+
+    data.addRows([
+        [1,  37.8, 80.8, 41.8],
+        [2,  30.9, 69.5, 32.4],
+        [3,  25.4,   57, 25.7],
+        [4,  11.7, 18.8, 10.5],
+        [5,  11.9, 17.6, 10.4],
+        [6,   8.8, 13.6,  7.7],
+        [7,   7.6, 12.3,  9.6],
+        [8,  12.3, 29.2, 10.6],
+        [9,  16.9, 42.9, 14.8],
+        [10, 12.8, 30.9, 11.6],
+        [11,  5.3,  7.9,  4.7],
+        [12,  6.6,  8.4,  5.2],
+        [13,  4.8,  6.3,  3.6],
+        [14,  4.2,  6.2,  3.4]
+    ]);
+
+    var options = {
+        chart: {
+            title: 'Congestion de cada cuadra',
+            subtitle: 'intervalo de tiempo: '
+        },
+        width: 900,
+        height: 500,
+        axes: {
+            x: {
+                0: {side: 'top'}
+            }
+        }
+    };
+
+    var chart = new google.charts.Line(document.getElementById('line_top_cuadra'));
+
+    chart.draw(data, options);
+}
+
+
+google.charts.setOnLoadCallback(drawHistogramaCuadras);
+function drawHistogramaCuadras(datosCongestionXCuadra) {
+
+    var dataSet = new Array();
+    dataSet.push(['Cuadra', 'Congestion']);
+    var arrayResult = datosCongestionXCuadra.map(function (tycXc) {
+        return [tycXc['cuadraId'],tycXc.tiempoCongestionCuadra['c']]
+    });
+    dataSet = dataSet.concat(arrayResult);
+
+
+    var data = google.visualization.arrayToDataTable(dataSet);
+
+
+    var options = {
+        title: 'Approximating Normal Distribution',
+        legend: { position: 'none' },
+        colors: ['#4285F4'],
+
+        chartArea: { width: 600 },
+        hAxis: {
+            ticks: [-1000, -500, 0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000]
+        },
+        bar: { gap: 1 },
+
+        histogram: {
+            bucketSize: 0.02,
+            maxNumBuckets: 50,
+            minValue: -1000,
+            maxValue: 4800
+        }
+    };
+
+    var chart = new google.visualization.Histogram(document.getElementById('histogramaxcuadra'));
+    chart.draw(data, options);
+}
 
 
