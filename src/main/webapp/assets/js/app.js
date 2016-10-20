@@ -11,12 +11,12 @@ app.config(function($routeProvider, $locationProvider, $httpProvider ) {
     $locationProvider.html5Mode(true);
     $routeProvider
 
-        .when('/', {
-            templateUrl: 'views/home.html',
-            controller: 'mainController'
-        })
+//        .when('/', {
+//            templateUrl: 'views/home.html',
+//            controller: 'mainController'
+//        })
 
-        .when('/app/bienvenida', {
+        .when('/', {
             templateUrl: 'views/bienvenida.html',
             controller: 'bienvenidaController'
         })

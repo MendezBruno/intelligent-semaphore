@@ -6,7 +6,7 @@ app.controller('bienvenidaController', function($scope,$timeout,$location) {
 
 
     $timeout( function() {
-        $location.url("/app/login");
+        $location.url("/app/galeria");
     }, 4000 );
 
 })
