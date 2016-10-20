@@ -69,7 +69,9 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
                 $scope.tiempoCromosoma = true;
             }
 
-            drawChartLinearTiempoCongestion(data);
+            if (data.tiempoCongestion) {
+                drawChartLinearTiempoCongestion(data);
+            }
         });
 
     };

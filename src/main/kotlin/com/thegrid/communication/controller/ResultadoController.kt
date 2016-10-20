@@ -18,8 +18,8 @@ import com.thegrid.ia.model.Cromosoma
 class ResultadoController {
 
     @ApiMethod(name = "getResultado", path = "resultados", httpMethod = ApiMethod.HttpMethod.GET)
-    fun getResultado(): Resultado {
-        return Simulation.SharedInstance?.resultado!!
+    fun getResultado(): Resultado? {
+        return Simulation.SharedInstance?.resultado
     }
 
     @ApiMethod(name = "getResultadoEstresante", path = "resultadoEstresante", httpMethod = ApiMethod.HttpMethod.GET)
