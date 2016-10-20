@@ -48,15 +48,6 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
              tiempoH++;
              tiempoV++;
              } );
-
-
-
-         //$scope.tiempoSemaforo
-         //armar una lista de objetos para mostrar
-             //tiempo id es lo que esta adentro del gen
-             //el tiempo de esa posicion
-             //el tiempo de segundo objeto, osea la posicion 1
-             //el tiempo del tercer objeto, o sea la posicion 2
      };
 
 
@@ -72,6 +63,17 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
             if (data.tiempoCongestion) {
                 drawChartLinearTiempoCongestion(data);
             }
+            if (data.tiempoCongestionXcuadra){
+                //drawChartLineasCongestionXCuadra(data.tiempoCongestionXcuadra);
+                drawHistogramaCuadras(data.tiempoCongestionXcuadra)
+            }
+            if (data.tiempoVelocidad){
+                drawChartLinearTiempoVelocidad(data);
+            }
+            if (data.tiempoVelocidadXCuadra){
+
+            }
+
         });
 
     };
@@ -112,15 +114,7 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
     else
         updateMapasFirebase(iniciar,sesion);
 
-    if(window.json_mapas)
-        iniciar();
-    else
-        updateMapasFirebase(iniciar,sesion);
-
-
-
-
-    //imprimirEnPdf();
+   //imprimirEnPdf();
 
     $scope.printPDF = function() {
     window.print();
