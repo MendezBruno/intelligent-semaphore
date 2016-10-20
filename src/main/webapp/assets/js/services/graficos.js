@@ -78,7 +78,7 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
         var data = google.visualization.arrayToDataTable(dataSet);
 
         var options = {
-          title: 'Evolución de la congetion a travez del tiempo',
+          title: 'Evolución de la congestión a través del tiempo',
           curveType: 'function',
           legend: { position: 'bottom' }
         };
