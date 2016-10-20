@@ -1,59 +1,51 @@
+<div class="container-fluid">
+    <button type="button" class="btn btn-default btn-lg" ng-click="printPDF()">
+        <span class="glyphicon glyphicon-print"></span>  Imprimir
+    </button>
 
-<div class="vFlotante ng-cloak" ng-class="{'desplegado':desplegado}">
-    <a ng-click="location.url('app/galeria')" class="moverboton">Galería</a>
-    <a ng-click="desloguear()" class="moverboton">Cerrar sesión</a>
-    <a ng-click="desplegado = !desplegado" class="tgmenubutton">
-        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-    </a>
-</div>
+    <img src="/assets/img/header_reporte.png">
 
-
-
-<button type="button" class="btn btn-default btn-lg" ng-click="printPDF()">
-    <span class="glyphicon glyphicon-print"></span>  Imprimir
-</button>
-
-<img src="/assets/img/header_reporte.png">
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Estructura del modelo
-    </div>
-    <div class="panel-body container-fluid">
-        <div class="row">
-            <div class="canvas-container col-sm-11">
-                <canvas id="mapa" width="500px" height="250px">
-                </canvas>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Estructura del modelo
+        </div>
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="canvas-container col-sm-11" id="canvas-container"
+                     style="text-align:center; overflow:hidden">
+                    <canvas id="mapa" width="500px" height="250px">
+                    </canvas>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="modal-body" id="modal-body">
-    <h1>Mejores Tiempos de los Semáforos</h1>
-    <div style="overflow-x: hidden; padding: 15px;" id="tg-modal-container"
-         ng-style="estilo" ng-show="tiempoCromosoma">
-        <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>1er Tiempo</th>
-                <th>2do Tiempo</th>
-                <th>3er Tiempo</th>
-            </tr>
-            <tr ng-repeat="item in tiempoSemaforo">
-                <td> {{item.id}} </td>
-                <td> verde horizontal {{item.tiempoUnoH}} verde vertical {{item.tiempoUnoV}}  </td>
-                <td> verde horizontal {{item.tiempoDosH}} verde vertical {{item.tiempoDosV}}  </td>
-                <td> verde horizontal {{item.tiempoTresH}} verde vertical {{item.tiempoTresV}} </td>
-            </tr>
-        </table>
-    </div>
-    <h2 ng-show="!tiempoCromosoma">No hay información relacionada</h2>
-    <!--<button class="btn btn-default" type="button" ng-click="actualizar()"-->
-            <!--style="width:100%" >-->
+    <div class="modal-body" id="modal-body">
+        <h1>Mejores Tiempos de los Semáforos</h1>
+        <div style="overflow-x: hidden; padding: 15px;" id="tg-modal-container"
+             ng-style="estilo" ng-show="tiempoCromosoma">
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>1er Tiempo</th>
+                    <th>2do Tiempo</th>
+                    <th>3er Tiempo</th>
+                </tr>
+                <tr ng-repeat="item in tiempoSemaforo">
+                    <td> {{item.id}} </td>
+                    <td> verde horizontal {{item.tiempoUnoH}} verde vertical {{item.tiempoUnoV}}  </td>
+                    <td> verde horizontal {{item.tiempoDosH}} verde vertical {{item.tiempoDosV}}  </td>
+                    <td> verde horizontal {{item.tiempoTresH}} verde vertical {{item.tiempoTresV}} </td>
+                </tr>
+            </table>
+        </div>
+        <h2 ng-show="!tiempoCromosoma">No hay información relacionada</h2>
+        <!--<button class="btn btn-default" type="button" ng-click="actualizar()"-->
+        <!--style="width:100%" >-->
         <!--<span aria-hidden="true"></span>Actualizar-->
-    <!--</button>-->
-  </div>
+        <!--</button>-->
+    </div>
 
-<div id="curve_chart" style="width: 900px; height: 500px"></div>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+</div>

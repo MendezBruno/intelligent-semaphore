@@ -91,6 +91,8 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
         logica.redibujar();
         var i = 1
 
+        $("#canvas-container").height($("#mapa").height())
+
         logica.centrales.forEach(function(c) {
             c.forEach(function(d){
                 if (d instanceof CnvNodoControl && d.esSemaforo) {
