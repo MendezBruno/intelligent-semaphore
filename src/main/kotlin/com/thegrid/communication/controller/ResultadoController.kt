@@ -19,7 +19,7 @@ class ResultadoController {
 
     @ApiMethod(name = "getResultado", path = "resultados", httpMethod = ApiMethod.HttpMethod.GET)
     fun getResultado(): Resultado? {
-        return Simulation.SharedInstance?.resultado
+        return Simulation.SharedInstance?.resultado?.getResultadoCompactado()
     }
 
     @ApiMethod(name = "getResultadoEstresante", path = "resultadoEstresante", httpMethod = ApiMethod.HttpMethod.GET)
