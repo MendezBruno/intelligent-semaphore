@@ -51,8 +51,8 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         dataSetRowEntity.entradas.addAll(listOf(2.0,20.1))
         dataSetRowEntity.salidas.addAll(listOf(2.0,20.1))
         val dataSetEntity = DataSetEntity()
-        dataSetEntity.filas.add(dataSetRowEntity)
         dataSetEntity.id = "soy_uno_de_esos_hashes_complicados"
+        dataSetEntity.add(dataSetRowEntity)
 
         ofy = ObjectifyService.ofy()!!
         ofy.save().entity(dataSetEntity).now()
@@ -66,6 +66,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             System.err.println("> Comienzo de la ejecución")
             while (correr) {
                 println("La rna es $rna")
+                ObjectifyService.begin()
                 try {
                     when(tipoEjecucion) {
                         TipoEjecucion.SIM -> procesar()

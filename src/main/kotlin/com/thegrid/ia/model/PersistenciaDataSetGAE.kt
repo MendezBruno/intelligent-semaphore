@@ -1,6 +1,7 @@
 package com.thegrid.ia.model
 
 import ar.org.neuroph.core.data.DataSet
+import com.googlecode.objectify.Key
 import com.googlecode.objectify.ObjectifyService
 import com.thegrid.behavior.platform.Simulation
 
@@ -13,16 +14,13 @@ class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
     }
 
     override fun persistir() {
-        dataSetEntity.filas.clear()
-        dataSetEntity.filas.addAll(
-            rna.setDeEntrenamiento.rows.map {
-                val fila = DataSetRowEntity()
-                fila.entradas.addAll(it.input.toList())
-                fila.salidas.addAll(it.desiredOutput.toList())
-                fila
-            }
-        )
-        Simulation.SharedInstance!!.ofy.save().entity(dataSetEntity).now()
+        rna.setDeEntrenamiento.rows.forEach {
+            val fila = DataSetRowEntity()
+            fila.entradas.addAll(it.input.toList())
+            fila.salidas.addAll(it.desiredOutput.toList())
+            dataSetEntity.add(fila)
+        }
+        ObjectifyService.ofy().save().entity(dataSetEntity).now()
     }
 
     override fun cargarRecuperar(): DataSet? {
@@ -36,12 +34,11 @@ class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
             dataSetEntity.filas.forEach {
                 dataSet.addRow(it.entradas.toDoubleArray(), it.salidas.toDoubleArray())
             }
-            this.dataSetEntity.filas = dataSetEntity.filas
         }
         return dataSet
     }
 
     override fun eliminar() {
-        Simulation.SharedInstance!!.ofy.delete().entity(dataSetEntity).now()
+        ObjectifyService.ofy().delete().entity(dataSetEntity).now()
     }
 }
