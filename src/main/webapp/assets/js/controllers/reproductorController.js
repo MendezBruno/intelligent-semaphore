@@ -108,7 +108,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         if(window.json_mapas)
             iniciar();
         else
-            updateMapasFirebase(iniciar,sesion);
+            dao.obtenerMapas(sesion, iniciar)
 
         $scope.contador = 0;
         $scope.Timer = null;
