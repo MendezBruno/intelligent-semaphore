@@ -133,17 +133,7 @@
         }
         window.addEventListener("resize", ajustarAlto);
 
-        ajustarAlto();
-
-        var txtFile = "/tmp/test.txt";
-        var file = new File(txtFile,"write");
-        var str = JSON.stringify(mapas);
-
-        log("opening file...");
-        file.open();
-        log("writing file..");
-        file.writeline(str);
-        file.close();
+        ajustarAlto()
 
         new FirebaseDao()
 
