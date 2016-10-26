@@ -125,34 +125,13 @@ app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$locati
             alert("Debe ingresar un nombre al mapa para poder generarlo.");
             return
         }
-//        alert(JSON.stringify(logica.modelo));
+
         $scope.modelo = logica.modelo;
-//        console.log(JSON.stringify(logica.modelo));
 
-        var key
-        if($routeParams.id) {
-            Rna.delete({id: $routeParams.id});
-            key = $routeParams.id
-        }else{
-            key = firebase.database().ref().child('/'+sesion+'/mapas').push().key;
-        }
-        $scope.modelo.id = key;
-        var user = firebase.auth();
-        var updates = {};
-
-        var onLoadFinish = function() {
-            updates['/' + sesion + '/mapas/' + key] = $scope.modelo;
-            window.json_mapas[key] = $scope.modelo;
-            $scope.modelo.date = new Date();
-            firebase.database().ref().update(updates);
+        dao.agregarMapa(sesion, logica.modelo, function() {
             alert("Mapa guardado");
             if (otroCallback) otroCallback()
-        }
-
-        if(window.json_mapas)
-            onLoadFinish();
-        else
-            updateMapasFirebase(onLoadFinish, serveData.uid);
+        })
     }
 
     $scope.actualizar = function (){

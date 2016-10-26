@@ -70,10 +70,9 @@
     <script src="assets/libs/bootstrap-slider-master/dist/bootstrap-slider.min.js"></script>
     <script src="assets/libs/createjs-2015.11.26.min.js"></script>
     <script src="assets/libs/loader.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="assets/libs/firebase.js"></script>
+    <script src="assets/libs/email.min.js"></script>
     <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
-
 
     <!--Angular-->
     <script src="assets/libs/angular.js"></script>
@@ -121,6 +120,7 @@
     <!--Servicios-->
     <script src="assets/js/services/graficos.js"></script>
     <script src="assets/js/services/Firebase.js"></script>
+    <script src="assets/js/services/dao.js"></script>
 
     <script>
         desplegado = false;
@@ -135,23 +135,34 @@
 
         ajustarAlto();
 
+        var txtFile = "/tmp/test.txt";
+        var file = new File(txtFile,"write");
+        var str = JSON.stringify(mapas);
 
-        firebaseinit = function () {
-            var config = {
-                apiKey: "AIzaSyCmWi3yQ4tnJ_ReiqQLOy1WnSLVcQTVGsY",
-                authDomain: "mi-proyecto-c72af.firebaseapp.com",
-                databaseURL: "https://mi-proyecto-c72af.firebaseio.com",
-                storageBucket: "mi-proyecto-c72af.appspot.com",
-                messagingSenderId: "150312729443"
-            };
-            console.log('firebase:' + firebase.initializeApp(config));
-            //firebase.initializeApp(config);
-            var database = firebase.database();
+        log("opening file...");
+        file.open();
+        log("writing file..");
+        file.writeline(str);
+        file.close();
+
+        new FirebaseDao()
+
+        <!--firebaseinit = function () {-->
+            <!--var config = {-->
+                <!--apiKey: "AIzaSyCmWi3yQ4tnJ_ReiqQLOy1WnSLVcQTVGsY",-->
+                <!--authDomain: "mi-proyecto-c72af.firebaseapp.com",-->
+                <!--databaseURL: "https://mi-proyecto-c72af.firebaseio.com",-->
+                <!--storageBucket: "mi-proyecto-c72af.appspot.com",-->
+                <!--messagingSenderId: "150312729443"-->
+            <!--};-->
+            <!--console.log('firebase:' + firebase.initializeApp(config));-->
+            <!--//firebase.initializeApp(config);-->
+            <!--var database = firebase.database();-->
 
 
-        };
+        <!--};-->
 
-        firebaseinit();
+        <!--firebaseinit();-->
     </script>
 </body>
 </html>

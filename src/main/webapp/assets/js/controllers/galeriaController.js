@@ -24,7 +24,8 @@ app.controller('galeriaController', function($scope,$location,$sce,serveData,$co
         $scope.$apply();
     };
 
-    updateMapasFirebase(pedirMapas,sesion);
+//    updateMapasFirebase(pedirMapas,sesion);
+    dao.obtenerMapas(sesion, pedirMapas)
 
     $scope.eliminar=function (i) {
         if (!$scope.idSeleccionado) {
@@ -39,9 +40,10 @@ app.controller('galeriaController', function($scope,$location,$sce,serveData,$co
             $scope.pictures.removeIf(function(p) {
                 return p.mapa.id == $scope.idSeleccionado
             })
-            firebase.database().ref()
-                .child('/'+sesion+'/mapas/'+$scope.idSeleccionado)
-                .remove()
+//            firebase.database().ref()
+//                .child('/'+sesion+'/mapas/'+$scope.idSeleccionado)
+//                .remove()
+            dao.eliminarMapa(sesion,$scope.idSeleccionado)
         }
     };
 
