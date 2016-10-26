@@ -110,6 +110,25 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         else
             dao.obtenerMapas(sesion, iniciar)
 
+        var iniciarUpdateHiloFront = function (){
+
+                $scope.Timer = $interval(function () {
+                    //Display the current time.
+                    $scope.contador = $scope.contador + 1;
+                    if (!($scope.contador % $scope.intervalo)) {
+                        update()
+                    }
+                }, 1000);
+
+        };
+
+        var detenerHiloFront = function () {
+            if (angular.isDefined($scope.Timer)) {
+                $interval.cancel($scope.Timer);
+                $scope.Timer = null;
+            }
+        }
+
         $scope.contador = 0;
         $scope.Timer = null;
         $scope.intervalo = 5; //se puede sertear en el reproductor antes de arrancar
@@ -117,21 +136,16 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         $scope.iniciar = function () {
                 Mapa.save(JSON.stringify(modelo));
                 //Initialize the Timer to run every 1000 milliseconds i.e. one second.
-                $scope.Timer = $interval(function () {
-                        //Display the current time.
-                        $scope.contador = $scope.contador + 1;
-                        if (!($scope.contador % $scope.intervalo)) {
-                                update()
-                        }
-                }, 1000);
-
+                if ($scope.Timer) {
+                    detenerHiloFront();
+                    iniciarUpdateHiloFront();
+                } else {
+                    iniciarUpdateHiloFront();
+                }
+            $scope.contador = 0;
         };
         $scope.detener = function () {
-                if (angular.isDefined($scope.Timer)) {
-                        $interval.cancel($scope.Timer);
-                }
-                $scope.contador = 0;
-
+                detenerHiloFront();
                 var simulacionUpdate = {};
                 simulacionUpdate["nuevoTiempo"] = 0;
                 simulacionUpdate["operacion"] = "DETENER";
@@ -183,6 +197,9 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 simulacionUpdate["nuevoTiempo"] = 0;
                 simulacionUpdate["operacion"] = "REANUDAR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
+                if (!$scope.Timer) {
+                iniciarUpdateHiloFront();
+                }
         };
         $scope.masTiempo = function () {
                 var simulacionUpdate = {};
