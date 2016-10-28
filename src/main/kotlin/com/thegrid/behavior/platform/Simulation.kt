@@ -173,11 +173,13 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     fun calcularAptitudMapa(): Double {
         //Evaluar el estado del mapa con sus atributos y setearlo en el cromosoma
         var aptitud = 0.0
+        var congetionTotal = 0.0
         for (cuadra in map.blocks) {
             aptitud += cuadra.congestionLevel.ponderacion
+            congetionTotal += cuadra.congestion
             resultado.guardarTiempoCongestionXCuadra(cuadra.id,dispatcher.time,cuadra.congestion)
         }
-        resultado.guardarTiempoCongestion(dispatcher.time,aptitud)
+        resultado.guardarTiempoCongestion(dispatcher.time,congetionTotal)
         return aptitud
 
 
