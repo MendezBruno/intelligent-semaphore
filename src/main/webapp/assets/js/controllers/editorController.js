@@ -130,7 +130,10 @@ app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$locati
 
         dao.agregarMapa(sesion, logica.modelo, function() {
             alert("Mapa guardado");
-            if (otroCallback) otroCallback()
+            if (otroCallback) {
+                otroCallback();
+                $scope.$apply();
+            }
         })
     }
 
