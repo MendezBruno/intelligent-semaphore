@@ -3,7 +3,7 @@
  */
 app.controller('resultadoController', function($scope,Resultados,$cookies,$timeout,$routeParams) {
 
-    var sesion = $cookies.get(claveSesionUsuario)
+    var sesion = $cookies.get(claveSesionUsuario);
 
     if (!sesion) {
         $location.url("/app/login");
@@ -72,6 +72,7 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
             }
             if (data.tiempoVelocidadXCuadra){
 
+                drawChartVelocidadXCuadra(data);
             }
 
             if(data.tiempoAptitud){

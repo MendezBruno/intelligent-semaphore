@@ -36,7 +36,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     var estoyInterrumpido : Boolean = false
     var tipoEjecucion = TipoEjecucion.SIM
     var timeSleep = if (debugMode) debugSleepTime else DEFAULT_TIME_SLEEP
-    val resultado: Resultado
+    var resultado: Resultado
 
     init {
         SharedInstance = this
@@ -59,6 +59,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         OfyHelper.deleteRna(dataSetEntity.id)
         rna = Rna(map, debugMode)
         resultado = Resultado()
+        resultado.cant_Cuadras = map.blocks.size
     }
 
     private fun iniciarSimulacion(): Orchestrator {
@@ -202,7 +203,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         var velocidad = 0.0
         for (cuadra in map.blocks) {
             velocidad += cuadra.velocity
-            resultado.guardarTiempoVelocidadXCuadra(cuadra.id,dispatcher.time,cuadra.congestion)
+            resultado.guardarTiempoVelocidadXCuadra(cuadra.id,dispatcher.time,cuadra.velocity)
         }
 
         return velocidad/map.blocks.size

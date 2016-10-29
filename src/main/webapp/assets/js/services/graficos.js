@@ -198,4 +198,38 @@ function drawHistogramaCuadras(datosCongestionXCuadra) {
     chart.draw(data, options);
 }
 
+google.charts.setOnLoadCallback(drawChartVelocidadXCuadra);
+
+function drawChartVelocidadXCuadra(datos) {
+
+    var dataSet = new Array();
+
+    dataSet.push(['Cuadra', 'Velocidad Total','Velocidad Resto',{ role: 'annotation' }]);
+
+    var datosDeMayoraMenor = datos.tiempoVelocidadXCuadra.reverse();
+
+    var nuevoArray = datosDeMayoraMenor.slice(0,datos.cant_Cuadras);
+
+    var arrayResult = nuevoArray.map(function (tycXc) {
+        return [tycXc['cuadraId'],tycXc.tiempoVelocidadCuadra['vel'],16.666666-tycXc.tiempoVelocidadCuadra['vel'],'']
+    });
+    dataSet = dataSet.concat(arrayResult);
+
+    console.log(arrayResult);
+
+    var data = google.visualization.arrayToDataTable(dataSet);
+
+    var options = {
+        width: 900,
+        height: 500,
+        legend: { position: 'top', maxLines: 3 },
+        bar: { groupWidth: '75%' },
+        isStacked: true
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById('columnasVelocidad'));
+    chart.draw(data, options);
+
+}
+
 

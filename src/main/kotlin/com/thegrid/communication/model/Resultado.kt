@@ -16,6 +16,7 @@ class Resultado {
     var tiempoVelocidadXCuadra = mutableListOf<TiempoVelocidadXcuadra>()
     var tiempoCromosomaAptitud = mutableListOf<TiempoCromosomaAptitud>()
     var tiempoAptitud = mutableListOf<TiempoAptidud>()
+    var cant_Cuadras = 0;
     val cota_max = 6600
 //    var resultadoDeAg = ResultadoAg
 
@@ -86,18 +87,18 @@ class Resultado {
             if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
         }
 
-//        sobrante = tiempoVelocidadXCuadra.size - cota_max
-//        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
-//        for (i in 0..tiempoVelocidadXCuadra.size-1) {
-//            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
-//        }
+        sobrante = tiempoVelocidadXCuadra.size - cota_max
+        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
+        for (i in 0..tiempoVelocidadXCuadra.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+        }
 
         sobrante = tiempoCromosomaAptitud.size - cota_max
         frec = Math.round(tiempoCromosomaAptitud.size / sobrante.toDouble())
         for (i in 0..tiempoCromosomaAptitud.size-1) {
             if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
         }
-
+        r.cant_Cuadras = cant_Cuadras
         return r
     }
 
