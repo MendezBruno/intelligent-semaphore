@@ -165,9 +165,9 @@ google.charts.setOnLoadCallback(drawHistogramaCuadras);
 function drawHistogramaCuadras(datosCongestionXCuadra) {
 
     var dataSet = new Array();
-    dataSet.push(['Cuadra', 'Congestion']);
+    dataSet.push(['Congestion']);
     var arrayResult = datosCongestionXCuadra.map(function (tycXc) {
-        return [tycXc['cuadraId'],tycXc.tiempoCongestionCuadra['c']]
+        return [tycXc.tiempoCongestionCuadra['c']]
     });
     dataSet = dataSet.concat(arrayResult);
 
@@ -182,15 +182,15 @@ function drawHistogramaCuadras(datosCongestionXCuadra) {
 
         chartArea: { width: 600 },
         hAxis: {
-            ticks: [-1000, -500, 0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000]
+            ticks: [0, 10, 20, 30, 40,50,60,70,80,90,100]
         },
         bar: { gap: 1 },
 
         histogram: {
-            bucketSize: 0.02,
-            maxNumBuckets: 50,
-            minValue: -1000,
-            maxValue: 4800
+            bucketSize: 5,
+            maxNumBuckets: 4000,
+            minValue: 0,
+            maxValue: 100
         }
     };
 
