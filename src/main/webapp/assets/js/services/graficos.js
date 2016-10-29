@@ -215,8 +215,6 @@ function drawChartVelocidadXCuadra(datos) {
     });
     dataSet = dataSet.concat(arrayResult);
 
-    console.log(arrayResult);
-
     var data = google.visualization.arrayToDataTable(dataSet);
 
     var options = {

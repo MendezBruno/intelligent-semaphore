@@ -157,9 +157,6 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
 
                 MapaUpdate.query(function (data) {
-                        console.log("blockstatus");
-                        console.log(data);
-                        console.log(dicDatosCuadras);
                         logicaReproductor.actualizar(data);
                         modelo.actualizarCongestion(data, dicDatosCuadras);
                         modelo.tamizarDatosCongestion(dicDatosCuadras);
@@ -255,16 +252,6 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 return r
         };
 
-        //cargarMapa = function (unMapa){
-        //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
-        //}
-     //   $scope.abrir = function () {
-       //         open('views/tef.html', '', 'top=300,left=300,width=300,height=300');
-              // Tef.query(function(data){
-                //        $scope.laTef = data;
-                   //     alert(JSON.stringify(data));
-               // });
-    //    };
         $scope.abrir = function () {
                 console.log('opening pop up');
                  Tef.query(function(data){

@@ -29,12 +29,8 @@ function CnvCalle() {
         self.nodo2().cambiarColor();
     }
     this.afectarModelo = function(){
-        // console.log(self.nodo1().id);
-        // console.log(self.nodo2().id);
         self.modelo.cambiarSentido(self.nodo1().nodo,self.nodo2().nodo);
-        console.log(self.calle.sentido);
         self.calle.cambiaTuSentido();
-        console.log(self.calle.sentido);
         // var aux = self.nodo1().id;
         // self.nodo1().id = self.nodo2().id;
         // self.nodo2().id = aux;
@@ -65,8 +61,6 @@ CnvCalle.prototype.inicializar = function() {
 };
 
 CnvCalle.prototype.marcarCalle= function(stage){
-    //console.log("entre a marcar");
-
     var tamano = 0;
     this.back=new createjs.Shape();
     if (this.horizontal){

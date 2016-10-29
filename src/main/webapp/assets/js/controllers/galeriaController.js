@@ -52,12 +52,9 @@ app.controller('galeriaController', function($scope,$location,$sce,serveData,$co
             url:"../assets/img/logoImagen.jpg",
             title:mis_map[i].nombre
         });
-        console.log(mis_map[i].nombre);
-        console.log(pictures);
     };
 
     $scope.mostrarDB = function() {
-        console.log(mapas);
         $scope.algo = mapas;
     };
 
@@ -66,15 +63,9 @@ app.controller('galeriaController', function($scope,$location,$sce,serveData,$co
     };
 
     $scope.mostrar=function (id) {
-
         var mapaElegido;
-
-        console.log(id);
-
         mapaElegido = mis_map.find(function(mapa) {return mapa.nombre === id;});
-
         MyService.data = mapaElegido;
-
         $location.url("/app/editor");
 
     };

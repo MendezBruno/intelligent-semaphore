@@ -55,7 +55,7 @@ ReproductorController.prototype.dibujar = function (){
         self.actualizarValorSemaforo();
     };
 
-    console.log(this.modelo);
+
     var horizontales = this.modelo.callesHorizontales;
     var verticales = this.modelo.callesVerticales;
     for (var i=0; i < horizontales.length; i++) {
@@ -245,7 +245,6 @@ ReproductorController.prototype.actualizarValorSemaforo = function () {
             return sta.id == semaforo
         });
 
-        console.log(semsta);
 
         if (semsta.status == "VERTICAL") {
 
@@ -268,10 +267,6 @@ ReproductorController.prototype.actualizar = function (datos){
     var self = this;
     var auxCnvModel = this.auxCnvModel;
     var valorCuadra;
-    console.log(this.auxCnvModel);
-    console.log(self);
-    console.log(auxCnvModel);
-
     var blockStatus = datos.blockStatus;
     var semaphoreStatus = datos.semaphoreStatus;
     if (blockStatus) {
@@ -282,7 +277,6 @@ ReproductorController.prototype.actualizar = function (datos){
         });
         if(valorCuadra) {
         self.$scope.stock = valorCuadra.stock;
-        console.log(valorCuadra.id);
         }
     }
 
@@ -297,10 +291,6 @@ ReproductorController.prototype.actualizar = function (datos){
         else {
             self.semaforoEstadoActual = semaphoreStatus;
 
-            console.log("modelo");
-
-            console.log(self.$scope.modelo)
-
             var nodoSem = self.$scope.modelo.nodosSemaforo.find(function (sta) {
                 return sta.id == self.$scope.calleSemaforo
             });
@@ -311,28 +301,16 @@ ReproductorController.prototype.actualizar = function (datos){
 
             if (semsta.status== "VERTICAL")
             {
-
                 self.$scope.valorSema = "semaforoVertical.png"
                 self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoVertical
-
             }
             else
             {
-
                 self.$scope.valorSema = "semaforoHorizontal.png"
                 self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoHorizontal
-
             }
-
-
-
-
         }
 
-
-
-        console.log(semaphoreStatus);
-        //Mariano la actualizacion del semaforo va aca dentro idem como hiciste lo de arriba en la cuadraa
     }
 
 

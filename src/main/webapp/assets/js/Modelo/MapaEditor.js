@@ -13,13 +13,11 @@ function MapaEditor() {
     var self = this;
 
     self.nodoEntradaSegunId = function(idNodo){
-        console.log(self.nodosEntrada);
         return self.nodosEntrada
             .filter(function(e){return e.id == idNodo});
     }
 
     self.nodoSalidaSegunId = function(idNodo){
-        console.log(self.nodosSalida);
         return self.nodosSalida
             .filter(function(e){return e.id == idNodo});
     }
@@ -30,18 +28,11 @@ function MapaEditor() {
 }
 
 MapaEditor.prototype.insertarCalle = function(id,cuadras,sentido,orientacion){
-    console.log(id);
-    console.log(cuadras);
-    console.log(sentido);
-    console.log(orientacion);
     this.calles.push(new Calle());
-    console.log(this.calles.pop());
-}
+};
 
 
 MapaEditor.prototype.cambiarSentido = function (nodo1,nodo2){
-    // var nodoEntrada = this.nodoEntradaSegunId(idNodoEntradaCanvas);
-    // var nodoSalida = this.nodoSalidaSegunId(idNodoSalidaCanvas);
     var nodoEntrada;
     var nodoSalida;
     var indice;
@@ -59,13 +50,8 @@ MapaEditor.prototype.cambiarSentido = function (nodo1,nodo2){
             break
         }
     }
-    // var indice = this.nodosEntrada.indexOf(nodoEntrada[0]);  //se supone es el mismo indice para los dos nodos siempre
-    //console.log(this.nodosEntrada);
-    //console.log(this.nodosSalida);
     this.nodosEntrada.splice(indice,1,nodoSalida);
     this.nodosSalida.splice(indice,1,nodoEntrada);
-    //console.log(this.nodosEntrada);
-    //console.log(this.nodosSalida);
     var cme = nodoEntrada.cantMaxima;
     var ie = nodoEntrada.intervalo;
     nodoEntrada.cantMaxima = nodoSalida.cantMaxima;

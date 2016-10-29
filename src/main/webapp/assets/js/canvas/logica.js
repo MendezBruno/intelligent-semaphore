@@ -73,7 +73,7 @@ function GrillaController(filas, columnas, largo, stage, $scope,$timeout){
         }
         this.modelo.callesVerticales.push(calle);
     }
-    // console.log(this.modelo);
+
 }
 GrillaController.prototype.redibujar = function() {
     this.stage.removeAllChildren();
@@ -280,12 +280,6 @@ GrillaController.prototype.redibujar = function() {
         self.timeout(function () {
             self.$scope.$apply();
         });
-        // console.log(cuadra.id);
-        // console.log(nodo1);
-        // console.log(nodo2);
-        // calle.cuadras.forEach(function (c) {
-        //     console.log(c.id);
-        // });
     }
 }
 GrillaController.prototype.agregarCalleHorizontal = function() {
@@ -390,7 +384,7 @@ GrillaController.prototype.agregarCalleVertical = function() {
         nuevaCuadra.nodoDestino = borde.id;
         cuadras.push(nuevaCuadra);
         modelo.nodosNoSemaforo.push(nuevo);
-        // console.log(nuevo.id);
+
     }
     var calle = new CalleVertical();
     calle.sentido = Sentido.NORTE_SUR;
@@ -410,7 +404,7 @@ GrillaController.prototype.agregarCalleVertical = function() {
         calle.cuadras.push(cuadra);
     }
     this.redimensionarCanvas();
-    // console.log(nodos);
+
 }
 GrillaController.prototype.quitarCalleVertical = function() {
     var nodos = this.nodos;
@@ -428,7 +422,6 @@ GrillaController.prototype.quitarCalleVertical = function() {
             return e.id == aEliminar.id; });
         modelo.nodosSemaforo.removeIf(function(e,idx){
             return e.id == aEliminar.id; });
-        // console.log(aEliminar.id);
     }
     modelo.nodosEntrada.removeIf(function (e,idx) {
         return e.id == nodos[0][ultima-1].id ||
@@ -626,7 +619,6 @@ GrillaController.prototype.sacarSemaforoDeCalleSacadaHorizontal =function(fila)
 };
 
 var loggearNodos = function(nodos) {
-    console.log("");
     for (i=0;i<nodos.length;i++) {
         var str = "";
         if (i==0 || i==nodos.length-1) str+="         ";
@@ -634,7 +626,6 @@ var loggearNodos = function(nodos) {
             if (!nodos[i][j]) continue;
             str+=" "+nodos[i][j].id;
         }
-        console.log(str);
     }
 }
 

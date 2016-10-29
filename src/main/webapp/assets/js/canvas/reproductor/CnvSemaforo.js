@@ -28,7 +28,6 @@ function CnvSemaforo(cvnInterseccion) {
     this.v = true;
     var self = this;
     this.handleClick = function (e) {
-        console.log(self.v);
         if (self.v) self.verdeH(); else self.verdeV();
         self.v = !self.v;
     }

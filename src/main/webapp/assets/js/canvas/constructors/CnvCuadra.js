@@ -53,7 +53,6 @@ CnvCuadra.prototype.handleRollOver = function(event) {
 };
 
 CnvCuadra.prototype.marcar= function(){
-    //console.log("entre a marcar");
     if (this.horizontal){
         this.background.graphics.clear()
             .beginFill(this.color)
@@ -72,7 +71,6 @@ CnvCuadra.prototype.marcar= function(){
 };
 
 CnvCuadra.prototype.desmarcar= function(){
-    //console.log("entre a desmarcar");
     if (this.horizontal){
         this.background.graphics.clear()
             .beginFill(this.color)

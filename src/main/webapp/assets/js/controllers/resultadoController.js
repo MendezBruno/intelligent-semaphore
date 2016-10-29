@@ -9,14 +9,6 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
         $location.url("/app/login");
     }
 
-    $scope.resultado = function () {
-        //ACA ESTOY PIDIENDO ACTUALIZACIONES AL ENDPOINT DEL BACKEND
-        Resultados.query(function (data) {
-            console.log("Resultados Trae:");
-            console.log(data);
-            });
-    };
-
     var inicializarTiempoSemaforo = function (cantGenes) {
         var array = new Array();
         for (var i=1; i<cantGenes+1; i++){
@@ -50,11 +42,8 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
              } );
      };
 
-
     var ejecutarCargarResultados = function () {
         Resultados.query(function (data) {
-            console.log("Resultados Trae:");
-            console.log(data);
             if (data.tiempoCromosomaAptitud) {
                 cargarScopeConMejorTiempoSemaforo(data.tiempoCromosomaAptitud);
                 $scope.tiempoCromosoma = true;

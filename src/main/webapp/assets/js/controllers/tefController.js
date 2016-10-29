@@ -14,8 +14,7 @@ app.controller('tefController',function($scope,$location,$routeParams,Tef) {
             Tef.query(function(data){
                 $scope.laTef = data.items
             });
-            console.log("me actualice");
-        }
+        };
 
         var resize = function() {
                 //$("#tg-modal-container").height($(window).height()-120);
@@ -23,7 +22,7 @@ app.controller('tefController',function($scope,$location,$routeParams,Tef) {
                 $scope.estilo = {
                     "height" : $scope.altura + 'px'
                 }
-        }
+        };
         window.addEventListener("resize", resize);
         resize();
     }

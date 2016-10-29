@@ -1,81 +1,51 @@
 /**
- * Created by bruno on 26/07/16.
+ * Created by Bruno on 26/07/16.
  */
 app.controller("loginController", function($scope,$location,serveData,$rootScope,$timeout,$cookies){
 
     var jsa={a:'pppp',b:'fffff',c:{d:'eeeeee',e:'fdsfsdf'}};
-
     var tipo;
-
     var tipomodo;
-
     var oob;
 
     if ($location.absUrl().split('?')[1]!= undefined) {
         tipo = $location.absUrl().split('?')[1];
-
         var modo = tipo.split('&')[0];
-
         tipomodo = modo.split('=')[1]
     }
 
-    if(tipomodo=="resetPassword")
-    {
-
+    if(tipomodo=="resetPassword"){
         $location.url("/app/passrecovery" + '?' + tipo);
-
     }
 
-    if (tipomodo=="verifyEmail")
-    {
-
+    if (tipomodo=="verifyEmail"){
         var modo1 = tipo.split('&')[1];
-
         oob = modo1.split('=')[1];
-
         const auth = firebase.auth();
-
-        console.log(oob);
-
         auth.applyActionCode(oob).then(function(){
 
             alert("Usuario Activado");
 
         },function(error){
             console.log(error.code);
-
         });
 
     }
 
     $scope.enviarMailResetPass=function () {
-
         const email = $scope.mail;
-
         const auth = firebase.auth();
-
         auth.sendPasswordResetEmail(email).then(function(){
-
             alert("Un mail fue enviado a su casilla de correo");
-
-
         },function (error) {
-
                 tratarError(error);
-
             }
-
         );
-
-
     };
 
     $scope.entro=function () {
-
             const email = $scope.mail;
-
             const pass = $scope.pass;
-
             const auth = firebase.auth();
 
             if(verificarMail()) {
@@ -87,49 +57,25 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
 
                         serveData.uid = user.uid;
                         $cookies.put(claveSesionUsuario, user.uid);
-                        //var updates = {};
-                        //updates['/posts/' ] = ["1"];
-                        //updates['/user-posts/' + serveData.uid  + '/' ] = [];
-                        //return firebase.database().ref().update(updates);
-                        //updates['/' + serveData.uid + '/mapas/' ] =  [];  //mapas["modulo1"];
-                        //firebase.database().ref().update(serveData.uid);
-                        //firebase.database().ref().update(updates);
-
                         $location.url("app/galeria");
 
                         $timeout(function () {
                             $scope.$apply();
                         });
 
-                    }
-
-                    else
-
-                    {
-
+                    }else{
                         alert("No se presiono en el link del mail enviado al usuario, se envia nuevamente un mail de verificación");
-
                         user.sendEmailVerification();
-
                     }
-
-
-
                 },function (error) {
-
                     tratarError(error);
-
                     $timeout(function () {
                         $scope.$apply();
                     });
-
                 });
 
                 firebase.auth().onAuthStateChanged(function (user) {
-
                     console.log(user.emailVerified);
-
-
                 });
 
 
