@@ -40,7 +40,8 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         var logicaReproductor;
         var dicDatosCuadras = inicilizarDicDatos();
         var stageReproductor = new createjs.Stage("reproductor");
-        $scope.valorSema="imgblanco.png"
+        $scope.valorSema_Vertical="imgblanco.png";
+        $scope.valorSema_Horizontal="imgblanco.png";
         createjs.Ticker.on("tick", stageReproductor);
         var modelo;
 

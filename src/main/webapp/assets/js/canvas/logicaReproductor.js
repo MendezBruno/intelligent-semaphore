@@ -233,32 +233,14 @@ ReproductorController.prototype.actualizarValorSemaforo = function () {
         return sta.id == semaforo
     });
 
-    if (self.semaforoEstadoActual == undefined)
-    {
-        self.$scope.valorSema = "semaforoVertical.png"
+    self.$scope.valorSema_Vertical = "semaforoVertical.png";
 
-    }
+    self.$scope.valorSema_Horizontal = "semaforoHorizontal.png";
 
-    else {
+    self.$scope.tiempoSemaforo_Vertical = "El tiempo de verde vertical del semaforo es:" + nodoSem.tiempoVertical;
 
-        var semsta = self.semaforoEstadoActual.find(function (sta) {
-            return sta.id == semaforo
-        });
+    self.$scope.tiempoSemaforo_Horizontal = "El tiempo de verde horizontal del semaforo es:" + nodoSem.tiempoHorizontal;
 
-
-        if (semsta.status == "VERTICAL") {
-
-            self.$scope.valorSema = "semaforoVertical.png"
-
-        }
-        else {
-
-            self.$scope.valorSema = "semaforoHorizontal.png"
-
-        }
-    }
-
-    self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoVertical
     self.$scope.$apply();
 };
 
@@ -295,25 +277,16 @@ ReproductorController.prototype.actualizar = function (datos){
                 return sta.id == self.$scope.calleSemaforo
             });
 
-            var semsta = semaphoreStatus.find(function (sta) {
-                return sta.id == self.$scope.calleSemaforo
-            });
+   //         var semsta = semaphoreStatus.find(function (sta) {
+   //             return sta.id == self.$scope.calleSemaforo
+   //         });
 
-            if (semsta.status== "VERTICAL")
-            {
-                self.$scope.valorSema = "semaforoVertical.png"
-                self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoVertical
-            }
-            else
-            {
-                self.$scope.valorSema = "semaforoHorizontal.png"
-                self.$scope.tiempoSemaforo = "El tiempo de verde del semaforo es:" + nodoSem.tiempoHorizontal
-            }
+                self.$scope.tiempoSemaforo_Vertical = "El tiempo de verde vertical del semaforo es:" + nodoSem.tiempoVertical
+                self.$scope.tiempoSemaforo_Horizontal = "El tiempo de verde horizontal del semaforo es:" + nodoSem.tiempoHorizontal
+
         }
 
     }
-
-
     function actualizarCuadra(datosCuadra){
         self.auxCnvModel[datosCuadra.id].cambiarColor(datosCuadra.color);
         self.auxCnvModel[datosCuadra.id].actualizarStock(datosCuadra.id,datosCuadra);
