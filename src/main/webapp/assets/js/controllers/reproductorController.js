@@ -76,7 +76,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
             var originalWidth = stageReproductor.canvas.width;
             var originalHeight = stageReproductor.canvas.height;
             var canvaspanel = $("#canvaspanel");
-            canvaspanel.css("background-color", ColoresRGB.getGRAY().toHexa());
+            canvaspanel.css("background-color", "#dce5f4");
             var initZoom = canvaspanel[0].clientWidth / originalWidth;
             var pendiente = (1 - initZoom) / (200 - 100)
             var ordenadaAlOrigen = (200 * initZoom - 100 * 1) / (200 - 100)
