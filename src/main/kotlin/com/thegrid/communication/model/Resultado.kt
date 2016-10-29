@@ -15,6 +15,7 @@ class Resultado {
     var tiempoVelocidad = mutableListOf<TiempoVelocidad>()
     var tiempoVelocidadXCuadra = mutableListOf<TiempoVelocidadXcuadra>()
     var tiempoCromosomaAptitud = mutableListOf<TiempoCromosomaAptitud>()
+    var tiempoAptitud = mutableListOf<TiempoAptidud>()
     val cota_max = 6600
 //    var resultadoDeAg = ResultadoAg
 
@@ -24,6 +25,7 @@ class Resultado {
     class TiempoCromosomaAptitud (var t: Double, var cromosoma: Cromosoma,var aptitud: Int)
     class TiempoVelocidad (var t:Double, var vel:Double)
     class TiempoVelocidadXcuadra (var cuadraId: String, var tiempoVelocidadCuadra: TiempoVelocidad )
+    class TiempoAptidud(time: Double, aptitud: Double)
 //    class ResultadoAg (var   )
 
 
@@ -56,6 +58,10 @@ class Resultado {
         tiempoVelocidadXCuadra.add(tyvXc)
     }
 
+    fun guardarTiempoAptitud(time: Double, aptitud: Double) {
+
+    }
+
     @JsonIgnore
     fun getResultadoCompactado(): Resultado {
         val r = Resultado()
@@ -80,11 +86,11 @@ class Resultado {
             if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
         }
 
-        sobrante = tiempoVelocidadXCuadra.size - cota_max
-        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
-        for (i in 0..tiempoVelocidadXCuadra.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
-        }
+//        sobrante = tiempoVelocidadXCuadra.size - cota_max
+//        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
+//        for (i in 0..tiempoVelocidadXCuadra.size-1) {
+//            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+//        }
 
         sobrante = tiempoCromosomaAptitud.size - cota_max
         frec = Math.round(tiempoCromosomaAptitud.size / sobrante.toDouble())
@@ -94,4 +100,6 @@ class Resultado {
 
         return r
     }
+
+
 }

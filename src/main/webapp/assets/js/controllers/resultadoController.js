@@ -74,6 +74,10 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
 
             }
 
+            if(data.tiempoAptitud){
+
+            }
+
         });
 
     };

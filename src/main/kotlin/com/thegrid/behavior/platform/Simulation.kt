@@ -180,6 +180,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             resultado.guardarTiempoCongestionXCuadra(cuadra.id,dispatcher.time,cuadra.congestion)
         }
         resultado.guardarTiempoCongestion(dispatcher.time,congetionTotal)
+        resultado.guardarTiempoAptitud(dispatcher.time,aptitud)
         return aptitud
 
 

@@ -78,15 +78,15 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
             var canvaspanel = $("#canvaspanel");
             canvaspanel.css("background-color", "#dce5f4");
             var initZoom = canvaspanel[0].clientWidth / originalWidth;
-            var pendiente = (1 - initZoom) / (200 - 100)
-            var ordenadaAlOrigen = (200 * initZoom - 100 * 1) / (200 - 100)
+            var pendiente = (1 - initZoom) / (200 - 100);
+            var ordenadaAlOrigen = (200 * initZoom - 100 * 1) / (200 - 100);
 
             var aFactorEscala = function (zoom) {
                 return zoom * pendiente + ordenadaAlOrigen;
             }
 
             var aplicarZoom = function (value) {
-                var factor = aFactorEscala(value)
+                var factor = aFactorEscala(value);
                 stageReproductor.canvas.width = originalWidth * factor;
                 stageReproductor.canvas.height = originalHeight * factor;
                 stageReproductor.update();
@@ -164,7 +164,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                         modelo.actualizarCongestion(data, dicDatosCuadras);
                         modelo.tamizarDatosCongestion(dicDatosCuadras);
                         drawChart(dicDatosCuadras);
-                        actualizarVelocimetro();
+                        //actualizarVelocimetro();
                 });
                 
         };
@@ -212,11 +212,11 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 simulacionUpdate["nuevoTiempo"] = 1000;
                 simulacionUpdate["operacion"] = "SUBIR";
                 Simulacion.save(JSON.stringify(simulacionUpdate));
-        }
+        };
 
         $scope.cambiarModo = function (){
             ModoUpdate.put({modo: $scope.tipoEjecucion})
-        }
+        };
 
 
         // Retorna un número aleatorio entre min (incluido) y max (excluido)
@@ -253,7 +253,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                 if (s.indexOf('.') == -1) r = r + ".00"
                 if (r.indexOf('.') == (r.length - 2)) r = r + "0";
                 return r
-        }
+        };
 
         //cargarMapa = function (unMapa){
         //HABRÀ AQUI UNA CARGA DEL MAPA DESDE LA PERSISTENCIA CON ID DE LA URL ACTUAL
