@@ -91,8 +91,9 @@ CnvNodoControl.prototype.cambiarTipoDeNodoCentral = function(modelo){
 CnvNodoControl.prototype.setNumero = function(numero){
     if (!this.esSemaforo) return;
     this.borrarSemaforo();
-    var txt = new createjs.Text(numero, "20px Arial", "#000000")
-    txt.x = this.posx-5;
+    var txt = new createjs.Text(numero, "15px Arial", "#000000")
+    txt.x = this.posx - 4;
+    if (numero / 10 >= 1) txt.x -= 5
     txt.y = this.posy-10;
     this.addChild(txt);
 };
