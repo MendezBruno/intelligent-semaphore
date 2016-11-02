@@ -5,6 +5,8 @@
 
 app.controller('passrecoveryController', function($scope,$location,$timeout){
 
+    document.title = "Recuperar contraseña"
+
     var tipo;
 
     var tipomodo;

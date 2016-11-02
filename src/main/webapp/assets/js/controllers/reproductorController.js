@@ -28,6 +28,8 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
             $location.url("/app/login");
         }
 
+        document.title = "Reproductor"
+
         inicilizarDicDatos = function () {
                 var dicDatos = {};
                 dicDatos["SIN_CONGESTION"] = 0;

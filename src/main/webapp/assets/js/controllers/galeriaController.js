@@ -6,6 +6,8 @@ app.controller('galeriaController', function($scope,$location,$sce,serveData,$co
         $location.url("/app/login");
     }
 
+    document.title = "Galeria"
+
     var pictures =$scope.pictures=[];
 
     var mis_map_keys=[];

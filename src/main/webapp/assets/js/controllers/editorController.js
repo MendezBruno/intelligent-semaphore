@@ -12,6 +12,8 @@ app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$locati
         $location.url("/app/login");
     }
 
+    document.title = "Editor"
+
     var largo = 30;
     var coordenadascalle;
     var modelo1;

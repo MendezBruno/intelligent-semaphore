@@ -9,6 +9,8 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
         $location.url("/app/login");
     }
 
+    document.title = "Resultados de ejecucion"
+
     var inicializarTiempoSemaforo = function (cantGenes) {
         var array = new Array();
         for (var i=1; i<cantGenes+1; i++){

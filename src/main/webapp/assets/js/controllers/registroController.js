@@ -5,6 +5,8 @@
 
 app.controller("registroController", function($scope,$location,$timeout){
 
+    document.title = "Registro"
+
     $scope.registro = function () {
 
             var fueError=false;

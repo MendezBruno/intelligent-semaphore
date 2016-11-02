@@ -3,6 +3,8 @@
  */
 app.controller("loginController", function($scope,$location,serveData,$rootScope,$timeout,$cookies){
 
+    document.title = "Login"
+
     var jsa={a:'pppp',b:'fffff',c:{d:'eeeeee',e:'fdsfsdf'}};
     var tipo;
     var tipomodo;
