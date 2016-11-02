@@ -237,9 +237,9 @@ ReproductorController.prototype.actualizarValorSemaforo = function () {
 
     self.$scope.valorSema_Horizontal = "semaforoHorizontal.png";
 
-    self.$scope.tiempoSemaforo_Vertical = "El tiempo de verde vertical del semaforo es:" + nodoSem.tiempoVertical;
+    self.$scope.tiempoSemaforo_Vertical = "Tiempo verde vertical: " + nodoSem.tiempoVertical;
 
-    self.$scope.tiempoSemaforo_Horizontal = "El tiempo de verde horizontal del semaforo es:" + nodoSem.tiempoHorizontal;
+    self.$scope.tiempoSemaforo_Horizontal = "Tiempo verde horizontal: " + nodoSem.tiempoHorizontal;
 
     self.$scope.$apply();
 };
