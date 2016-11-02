@@ -1,4 +1,10 @@
 app.controller('previewController', function($scope,Mapa,$routeParams,$location,$timeout) {
+    var queue = new createjs.LoadQueue(true);
+    queue.loadFile("/assets/img/semaforo3.png")
+    queue.on("complete", function(e){
+        logica.redibujar();
+    })
+
     // var mapa = $routeParams.id ? mapasPreview[$routeParams.id]:mapas["modulo1"];
     var mapa = parent.json_mapas[$routeParams.id];
     var modelo1 = MapaEditor.desParsear(JSON.stringify(mapa));
