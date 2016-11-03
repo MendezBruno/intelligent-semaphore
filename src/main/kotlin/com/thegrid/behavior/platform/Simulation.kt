@@ -48,8 +48,6 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         orquestador = iniciarSimulacion()
 
         ofy = ObjectifyService.ofy()!!
-        ofy.save().entity(dataSetEntity).now()
-        OfyHelper.deleteRna(dataSetEntity.id)
         rna = Rna(map, debugMode)
         resultado = Resultado()
         resultado.cant_Cuadras = map.blocks.size
