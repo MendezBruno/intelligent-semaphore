@@ -29,7 +29,7 @@ class SimulationTest1 : Spek({
                 val frontendMap = Gson().fromJson<dataMap>(jsonMap);
                 var map = MapConversor.convert(frontendMap)
                 Simulation(map, true)
-                Thread.sleep(Long.MAX_VALUE)
+                Thread.sleep(1000)
             }
         }
     }

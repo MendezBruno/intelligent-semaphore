@@ -75,10 +75,11 @@ class Resultado {
             if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestion.add(tiempoCongestion[i])
         }
 
-        sobrante = tiempoCongestionXcuadra.size - cota_max
-        frec = Math.round(tiempoCongestionXcuadra.size / sobrante.toDouble())
+//        sobrante = tiempoCongestionXcuadra.size - cota_max
+        frec = Math.round(tiempoCongestionXcuadra.size / cota_max.toDouble())
         for (i in 0..tiempoCongestionXcuadra.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+//            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+            if (i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
         }
 
         sobrante = tiempoVelocidad.size - cota_max
@@ -87,10 +88,11 @@ class Resultado {
             if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
         }
 
-        sobrante = tiempoVelocidadXCuadra.size - cota_max
-        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
+//        sobrante = tiempoVelocidadXCuadra.size - cota_max
+        frec = Math.round(tiempoVelocidadXCuadra.size / cota_max.toDouble())
         for (i in 0..tiempoVelocidadXCuadra.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+//            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+            if (i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
         }
 
         sobrante = tiempoCromosomaAptitud.size - cota_max
