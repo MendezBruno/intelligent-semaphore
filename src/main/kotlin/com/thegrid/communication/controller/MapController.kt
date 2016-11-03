@@ -29,6 +29,6 @@ class MapController {
 
     @ApiMethod(name = "deleteRna", path="rna", httpMethod = ApiMethod.HttpMethod.DELETE)
     fun deleteRna(@Named("id") id: String) {
-        OfyHelper.deleteRna(id)
+        Simulation.SharedInstance?.rna?.pers?.eliminar(id);
     }
 }

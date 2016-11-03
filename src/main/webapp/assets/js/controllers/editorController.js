@@ -131,6 +131,7 @@ app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$locati
         $scope.modelo = logica.modelo;
 
         dao.agregarMapa(sesion, logica.modelo, function() {
+            Rna.delete()
             alert("Mapa guardado");
             if (otroCallback) {
                 otroCallback();

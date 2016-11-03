@@ -46,6 +46,17 @@ class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
     }
 
     override fun eliminar() {
+        dataSetEntity.filas.forEach { ObjectifyService.ofy().delete().entity(it).now() }
         ObjectifyService.ofy().delete().entity(dataSetEntity).now()
+    }
+
+    override fun eliminar(id: String) {
+        val entity = ObjectifyService.ofy()
+                .load()
+                .type(DataSetEntity::class.java)
+                .id(id)
+                .now()
+        entity.filas.forEach { ObjectifyService.ofy().delete().entity(it).now() }
+        ObjectifyService.ofy().delete().entity(entity).now()
     }
 }

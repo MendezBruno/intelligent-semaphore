@@ -10,5 +10,7 @@ interface PersDataSet {
     fun cargarRecuperar() : DataSet?
 
     fun eliminar()
+
+    fun eliminar(id: String)
 }
 

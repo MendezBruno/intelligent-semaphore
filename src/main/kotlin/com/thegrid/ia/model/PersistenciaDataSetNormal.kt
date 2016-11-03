@@ -35,4 +35,8 @@ class PersistenciaDataSetNormal(val rna: Rna) : PersDataSet {
         File(rutaXml).delete()
         File(rutaTxt).delete()
     }
+
+    override fun eliminar(id: String) {
+
+    }
 }
