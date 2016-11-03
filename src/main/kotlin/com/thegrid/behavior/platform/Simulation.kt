@@ -25,7 +25,6 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         val APTITUD_ACEPTABLE = 400
     }
 
-    val ofy: Objectify
     val lock : java.lang.Object = Object()
     val memory: MapStateMemory = MapStateMemory(map)
     val orquestador: Orchestrator
@@ -47,7 +46,6 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
         orquestador = iniciarSimulacion()
 
-        ofy = ObjectifyService.ofy()!!
         rna = Rna(map, debugMode)
         resultado = Resultado()
         resultado.cant_Cuadras = map.blocks.size

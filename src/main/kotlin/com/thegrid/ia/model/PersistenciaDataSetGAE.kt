@@ -24,7 +24,7 @@ class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
     }
 
     override fun cargarRecuperar(): DataSet? {
-        val dataSetEntity = Simulation.SharedInstance!!.ofy
+        val dataSetEntity = ObjectifyService.ofy()
                 .load()
                 .type(DataSetEntity::class.java)
                 .id(rna.map.id)
