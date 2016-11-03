@@ -47,13 +47,6 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
         orquestador = iniciarSimulacion()
 
-        val dataSetRowEntity = DataSetRowEntity()
-        dataSetRowEntity.entradas.addAll(listOf(2.0,20.1))
-        dataSetRowEntity.salidas.addAll(listOf(2.0,20.1))
-        val dataSetEntity = DataSetEntity()
-        dataSetEntity.id = "soy_uno_de_esos_hashes_complicados"
-        dataSetEntity.add(dataSetRowEntity)
-
         ofy = ObjectifyService.ofy()!!
         ofy.save().entity(dataSetEntity).now()
         OfyHelper.deleteRna(dataSetEntity.id)
