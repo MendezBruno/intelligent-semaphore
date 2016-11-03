@@ -23,6 +23,10 @@ class PersistenciaDataSetNormal(val rna: Rna) : PersDataSet {
         rna.setDeEntrenamiento.saveAsTxt(rutaTxt, ",  ,")
     }
 
+    override fun persistirUnaRow(datosEntrada: DoubleArray, datosSalida: DoubleArray) {
+        persistir()
+    }
+
     override fun cargarRecuperar(): DataSet? {
         return DataSet.load(rutaXml)
     }

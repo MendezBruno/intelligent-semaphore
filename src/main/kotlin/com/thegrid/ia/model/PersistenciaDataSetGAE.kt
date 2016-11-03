@@ -23,6 +23,13 @@ class PersistenciaDataSetGAE(val rna:Rna) : PersDataSet {
         ObjectifyService.ofy().save().entity(dataSetEntity).now()
     }
 
+    override fun persistirUnaRow(datosEntrada: DoubleArray, datosSalida: DoubleArray) {
+        val fila = DataSetRowEntity()
+        fila.entradas.addAll(datosEntrada.toList())
+        fila.salidas.addAll(datosSalida.toList())
+        dataSetEntity.add(fila);
+    }
+
     override fun cargarRecuperar(): DataSet? {
         val dataSetEntity = ObjectifyService.ofy()
                 .load()

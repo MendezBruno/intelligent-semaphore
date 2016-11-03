@@ -58,7 +58,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
 
     fun agregarValorDeEntrenamiento(datosEntrada: DoubleArray, datosSalida: DoubleArray){
         setDeEntrenamiento.addRow(datosEntrada, datosSalida)
-        exportarDataSet()
+        pers.persistirUnaRow(datosEntrada, datosSalida)
     }
 
     fun entrenarRed(){
