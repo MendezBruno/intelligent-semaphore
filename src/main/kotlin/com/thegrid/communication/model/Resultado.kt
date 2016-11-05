@@ -16,9 +16,14 @@ class Resultado {
     var tiempoVelocidadXCuadra = mutableListOf<TiempoVelocidadXcuadra>()
     var tiempoCromosomaAptitud = mutableListOf<TiempoCromosomaAptitud>()
     var tiempoAptitud = mutableListOf<TiempoAptidud>()
+    var tiempoResultadoRna = mutableListOf<TiempoResultadoRna>()
+    var tiempoPoblacion = mutableListOf<TiempoPoblacion>()
+    var tiempoQueMuta = mutableListOf<TiempoQueMuta>()
+
     var cant_Cuadras = 0;
+    var tiempo_simulado =0;
     val cota_max = 6600
-//    var resultadoDeAg = ResultadoAg
+
 
 
     class TiempoCongestion(var t:Double,var c:Double)
@@ -27,7 +32,10 @@ class Resultado {
     class TiempoVelocidad (var t:Double, var vel:Double)
     class TiempoVelocidadXcuadra (var cuadraId: String, var tiempoVelocidadCuadra: TiempoVelocidad )
     class TiempoAptidud(time: Double, aptitud: Double)
-//    class ResultadoAg (var   )
+    class TiempoResultadoRna (time: Double, cambio: Boolean , tiempoSemafors: DoubleArray, estadoMapa: DoubleArray )
+    class TiempoPoblacion (time: Double, poblacion: MutableList<Cromosoma>)
+    class TiempoQueMuta (time: Double, itero :String )
+
 
 
     fun guardarTiempoCongestion(t:Double,c:Double){
@@ -60,7 +68,24 @@ class Resultado {
     }
 
     fun guardarTiempoAptitud(time: Double, aptitud: Double) {
+        val tya = TiempoAptidud(time,aptitud)
+        tiempoAptitud.add(tya)
+    }
 
+
+    fun guardarTiempoRna(time: Double, hayCambio: Boolean, estadoMapa: DoubleArray, tiempos: DoubleArray) {
+        val tRna = TiempoResultadoRna(time,hayCambio,estadoMapa,tiempos)
+        tiempoResultadoRna.add(tRna)
+    }
+
+    fun guardarPoblacionPorIteracion(time: Double, poblacion: MutableList<Cromosoma>) {
+        val tyPoblacion = TiempoPoblacion(time, poblacion)
+        tiempoPoblacion.add(tyPoblacion)
+    }
+
+    fun agregarTiempoMutar(time: Double, muto: String) {
+        val tyMutar = TiempoQueMuta(time, muto)
+        tiempoQueMuta.add(tyMutar)
     }
 
     @JsonIgnore
@@ -75,11 +100,17 @@ class Resultado {
             if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestion.add(tiempoCongestion[i])
         }
 
-//        sobrante = tiempoCongestionXcuadra.size - cota_max
-        frec = Math.round(tiempoCongestionXcuadra.size / cota_max.toDouble())
+        sobrante = tiempoCongestionXcuadra.size - cota_max
+        frec = Math.round(tiempoCongestionXcuadra.size / sobrante.toDouble())
         for (i in 0..tiempoCongestionXcuadra.size-1) {
-//            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
-            if (i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+//            if (i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+        }
+
+        sobrante = tiempoCromosomaAptitud.size - cota_max
+        frec = Math.round(tiempoCromosomaAptitud.size / sobrante.toDouble())
+        for (i in 0..tiempoCromosomaAptitud.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
         }
 
         sobrante = tiempoVelocidad.size - cota_max
@@ -88,21 +119,37 @@ class Resultado {
             if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
         }
 
-//        sobrante = tiempoVelocidadXCuadra.size - cota_max
-        frec = Math.round(tiempoVelocidadXCuadra.size / cota_max.toDouble())
+        sobrante = tiempoVelocidadXCuadra.size - cota_max
+        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
         for (i in 0..tiempoVelocidadXCuadra.size-1) {
-//            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
-            if (i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+//            if (i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
         }
 
-        sobrante = tiempoCromosomaAptitud.size - cota_max
-        frec = Math.round(tiempoCromosomaAptitud.size / sobrante.toDouble())
-        for (i in 0..tiempoCromosomaAptitud.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
+        sobrante = tiempoAptitud.size - cota_max
+        frec = Math.round(tiempoAptitud.size / sobrante.toDouble())
+        for (i in 0..tiempoAptitud.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoAptitud.add(tiempoAptitud[i])
         }
+
+        sobrante = tiempoResultadoRna.size - cota_max
+        frec = Math.round(tiempoResultadoRna.size / sobrante.toDouble())
+        for (i in 0..tiempoResultadoRna.size-1) {
+            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoResultadoRna.add(tiempoResultadoRna[i])
+        }
+
+        if(tiempoPoblacion.size < cota_max) r.tiempoPoblacion = tiempoPoblacion
+                else r.tiempoPoblacion = tiempoPoblacion.subList (tiempoPoblacion.size - cota_max,tiempoPoblacion.size)
+
+        if(tiempoQueMuta.size < cota_max) r.tiempoQueMuta = tiempoQueMuta
+                else r.tiempoQueMuta = tiempoQueMuta.subList (tiempoQueMuta.size - cota_max,tiempoQueMuta.size)
+
         r.cant_Cuadras = cant_Cuadras
+        r.tiempo_simulado = tiempo_simulado
         return r
     }
+
+
 
 
 }

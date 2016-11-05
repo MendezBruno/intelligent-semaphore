@@ -55,20 +55,51 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
                 drawChartLinearTiempoCongestion(data);
             }
             if (data.tiempoCongestionXcuadra){
-                //drawChartLineasCongestionXCuadra(data.tiempoCongestionXcuadra);
                 drawHistogramaCuadras(data.tiempoCongestionXcuadra)
             }
             if (data.tiempoVelocidad){
                 drawChartLinearTiempoVelocidad(data);
             }
             if (data.tiempoVelocidadXCuadra){
-
                 drawChartVelocidadXCuadra(data);
             }
 
             if(data.tiempoAptitud){
+                drawChartLinearTiempoAptitud(data)
+            }
+
+            if(data.tiempoResultadoRna){
+
+                var fso  = new ActiveXObject("Scripting.FileSystemObject");  //Esto queda asi
+                var fh = fso.CreateTextFile("c:\\Test.csv", true);  //Tu Ruta
+                var dataString;
+
+                //armar tu data aca con data.tiempoResultadoRna
+                var data = [["name1", "city1", "some other info"], ["name2", "city2", "more info"]];
+
+
+                var csvContent = "data:text/csv;charset=utf-8,";
+                data.forEach(function(infoArray, index){
+
+                    dataString = infoArray.join(",");
+                    csvContent += index < data.length ? dataString+ "\n" : dataString;
+
+                });
+
+                fh.WriteLine(csvContent);
+                fh.Close();
 
             }
+
+            if(data.tiempoPoblacion){
+
+            }
+
+            if(data.tiempoQueMuta){
+
+            }
+
+
 
         });
 

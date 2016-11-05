@@ -81,6 +81,9 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             for((index,semaforo) in map.semaphoreNodes.withIndex()) {
                 semaforo.setTimes(tiempos[index], tiempos[index+1])
             }
+            resultado.guardarTiempoRna(dispatcher.time, true , estadoMapa, tiempos)
+        }else {
+            resultado.guardarTiempoRna(dispatcher.time, false , DoubleArray(1), DoubleArray(1))
         }
     }
 
@@ -136,6 +139,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     }
 
     fun procesarAG() {
+        resultado.guardarPoblacionPorIteracion(dispatcher.time, AG.poblacion)
         for (cromosoma in AG.poblacion) {
             if (cromosoma.aptitud != 0.0) continue
             val tiempos = cromosoma.genes
@@ -157,7 +161,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 rna.agregarValorDeEntrenamiento(calcularEstadoMapa(),cromosoma.genes.toDoubleArray())
             }
         }
-        AG.iterar()
+        AG.iterar(resultado, dispatcher.time)
     }
 
     fun calcularAptitudMapa(): Double {
@@ -177,6 +181,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     }
 
     fun procesar() {
+        resultado.tiempo_simulado = dispatcher.time.toInt()
         synchronized(lock) {
             while (estoyInterrumpido) {
                 println("Me interrumpieron ")

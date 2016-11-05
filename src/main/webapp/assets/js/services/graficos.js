@@ -89,6 +89,31 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
       }
 
 
+google.charts.setOnLoadCallback(drawChartLinearTiempoAptitud);
+function drawChartLinearTiempoAptitud(datosTiempoAptitud) {
+
+    if(!google.visualization) google.charts.load('current', {'packages':['corechart', 'gauge']})
+
+    var dataSet = new Array();
+    dataSet.push(['Tiempo', 'Aptitud']);
+    var arrayResult = datosTiempoAptitud.tiempoAptitud.map(function (tyc) {
+        return [tyc['time'],tyc['aptitud']]
+    });
+    dataSet = dataSet.concat(arrayResult);
+    var data = google.visualization.arrayToDataTable(dataSet);
+
+    var options = {
+        title: 'Evolución de la Aptitud a través del tiempo',
+        curveType: 'function',
+        legend: { position: 'bottom' }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_aptitud'));
+
+    chart.draw(data, options);
+}
+
+
 google.charts.setOnLoadCallback(drawChartLinearTiempoVelocidad);
 function drawChartLinearTiempoVelocidad(datosTiempoVelocidad) {
 
@@ -114,51 +139,6 @@ function drawChartLinearTiempoVelocidad(datosTiempoVelocidad) {
 }
 
 
-google.charts.setOnLoadCallback(drawChartLineasCongestionXCuadra);
-function drawChartLineasCongestionXCuadra(datosTiempoCongestionXcuadra){
-
-    //*todo* armar dataTable
-    var data = new google.visualization.DataTable();
-    data.addColumn('number', 'cuardra-1');
-    data.addColumn('number', 'cuardra-2');
-    data.addColumn('number', 'cuardra-3');
-    data.addColumn('number', 'cuardra-n');
-
-    data.addRows([
-        [1,  37.8, 80.8, 41.8],
-        [2,  30.9, 69.5, 32.4],
-        [3,  25.4,   57, 25.7],
-        [4,  11.7, 18.8, 10.5],
-        [5,  11.9, 17.6, 10.4],
-        [6,   8.8, 13.6,  7.7],
-        [7,   7.6, 12.3,  9.6],
-        [8,  12.3, 29.2, 10.6],
-        [9,  16.9, 42.9, 14.8],
-        [10, 12.8, 30.9, 11.6],
-        [11,  5.3,  7.9,  4.7],
-        [12,  6.6,  8.4,  5.2],
-        [13,  4.8,  6.3,  3.6],
-        [14,  4.2,  6.2,  3.4]
-    ]);
-
-    var options = {
-        chart: {
-            title: 'Congestion de cada cuadra',
-            subtitle: 'intervalo de tiempo: '
-        },
-        width: 900,
-        height: 500,
-        axes: {
-            x: {
-                0: {side: 'top'}
-            }
-        }
-    };
-
-    var chart = new google.charts.Line(document.getElementById('line_top_cuadra'));
-
-    chart.draw(data, options);
-}
 
 
 google.charts.setOnLoadCallback(drawHistogramaCuadras);

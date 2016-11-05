@@ -1,6 +1,7 @@
 package com.thegrid.ia.model
 
 import com.thegrid.behavior.model.Map
+import com.thegrid.communication.model.Resultado
 import com.thegrid.ia.cruzaStrategy.CruzaSimpleStrategy
 import com.thegrid.ia.seleccionStrategy.SeleccionRankingStrategy
 import com.thegrid.ia.seleccionStrategy.SeleccionStrategy
@@ -64,10 +65,14 @@ class Ag(val map : Map) {
     /*
     Suponemos que las aptitudes fueron calculadas y actualizadas en la simulacion antes de iterar.
     */
-    fun iterar (){
+    fun iterar(resultado: Resultado, time: Double) {
         cruzaStrategy.cruzarSeleccion(seleccionarIndividuosDePoblacionInicial())
-        if (coeficienteMutacion > Random().nextInt(100))
+        if (coeficienteMutacion > Random().nextInt(100)) {
             mutarPoblacion()
+            resultado.agregarTiempoMutar(time,"muto")
+        }else{
+            resultado.agregarTiempoMutar(time,"no muto")
+        }
     }
 
     fun mutarPoblacion() {
