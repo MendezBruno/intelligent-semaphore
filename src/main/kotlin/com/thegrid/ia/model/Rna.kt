@@ -49,6 +49,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         val data = pers.cargarRecuperar()
         if (data != null) {
             setDeEntrenamiento = data
+            entrenarRed()
         }
     }
 
@@ -58,6 +59,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
 
     fun agregarValorDeEntrenamiento(datosEntrada: DoubleArray, datosSalida: DoubleArray){
         setDeEntrenamiento.addRow(datosEntrada, datosSalida)
+        entrenarRed()
         pers.persistirUnaRow(datosEntrada, datosSalida)
     }
 

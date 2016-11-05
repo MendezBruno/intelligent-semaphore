@@ -44,11 +44,11 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 dispatcher.dispatchOn(0.0, it)
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
-        orquestador = iniciarSimulacion()
-
-        rna = Rna(map, debugMode)
         resultado = Resultado()
         resultado.cant_Cuadras = map.blocks.size
+        orquestador = iniciarSimulacion()
+        rna = Rna(map, debugMode)
+
     }
 
     private fun iniciarSimulacion(): Orchestrator {
@@ -181,14 +181,16 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     }
 
     fun procesar() {
-        resultado.tiempo_simulado = dispatcher.time.toInt()
         synchronized(lock) {
             while (estoyInterrumpido) {
                 println("Me interrumpieron ")
                 lock.wait()
             }
         }
-        if (dispatcher.time % 20 == 0.0 && dispatcher.time != 0.0 ) resultado.guardarTiempoVelocidad(dispatcher.time, sensarVelocidadMapa())
+
+        resultado.tiempo_simulado = dispatcher.time.toInt()
+        if (dispatcher.time % 20 == 0.0 && dispatcher.time != 0.0) resultado.guardarTiempoVelocidad(dispatcher.time, sensarVelocidadMapa())
+
         dispatcher.processEvent()
         Thread.sleep(timeSleep)
     }
