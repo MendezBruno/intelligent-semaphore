@@ -44,11 +44,10 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 dispatcher.dispatchOn(0.0, it)
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
-        orquestador = iniciarSimulacion()
-
         rna = Rna(map, debugMode)
         resultado = Resultado()
         resultado.cant_Cuadras = map.blocks.size
+        orquestador = iniciarSimulacion()
     }
 
     private fun iniciarSimulacion(): Orchestrator {
