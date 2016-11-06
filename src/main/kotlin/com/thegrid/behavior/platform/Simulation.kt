@@ -74,6 +74,10 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     }
 
     private fun procesarRNA() {
+        if (!rna.entrenada){
+            rna.entrenarRed()
+            resultado.guardarDatosRna(rna.getMaxError(),rna.getLearninRate(),rna.getMinErrorChange(),rna.getCurrentIteracion(),rna.getErrorFunction())
+        }
         for (i in 0..ITERACIONES_RNA) {
             if (!correr) break
             procesar()

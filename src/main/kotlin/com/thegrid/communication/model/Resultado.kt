@@ -23,8 +23,7 @@ class Resultado {
     var cant_Cuadras = 0;
     var tiempo_simulado =0;
     val cota_max = 6600
-
-
+    var datosRna: DatosRna = DatosRna(0.0,0.0,0.0,0,0.0)
 
     class TiempoCongestion(var t:Double,var c:Double)
     class TiempoCongestionXcuadra (var cuadraId: String, var tiempoCongestionCuadra: TiempoCongestion )
@@ -35,6 +34,8 @@ class Resultado {
     class TiempoResultadoRna (var time: Double,var cambio: Boolean, var aptitud: Double ,var tiempoSemafors: DoubleArray )
     class TiempoPoblacion (var time: Double, var poblacion: MutableList<Cromosoma>)
     class TiempoQueMuta (var time: Double,var itero :String )
+    class DatosRna (var getMaxError: Double,var getLearninRate: Double, var getMinErrorChange: Double, var getCurrentIteracion: Int, var getErrorFunction: Double  )
+
 
 
 
@@ -86,6 +87,14 @@ class Resultado {
     fun agregarTiempoMutar(time: Double, muto: String) {
         val tyMutar = TiempoQueMuta(time, muto)
         tiempoQueMuta.add(tyMutar)
+    }
+
+    fun guardarDatosRna (getMaxError: Double, getLearninRate: Double, getMinErrorChange: Double, getCurrentIteracion: Int, getErrorFunction: Double){
+        datosRna.getMaxError = getMaxError
+        datosRna.getLearninRate = getLearninRate
+        datosRna.getMinErrorChange = getMinErrorChange
+        datosRna.getCurrentIteracion = getCurrentIteracion
+        datosRna.getErrorFunction = getErrorFunction
     }
 
     @JsonIgnore
@@ -146,6 +155,7 @@ class Resultado {
 
         r.cant_Cuadras = cant_Cuadras
         r.tiempo_simulado = tiempo_simulado
+        r.datosRna = datosRna
         return r
     }
 

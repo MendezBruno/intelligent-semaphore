@@ -5,6 +5,7 @@ import com.thegrid.behavior.model.Map
 import ar.org.neuroph.nnet.learning.BackPropagation
 import ar.org.neuroph.core.NeuralNetwork
 import ar.org.neuroph.core.data.DataSet
+import ar.org.neuroph.core.learning.error.ErrorFunction
 import ar.org.neuroph.nnet.MultiLayerPerceptron
 import ar.org.neuroph.util.TransferFunctionType
 
@@ -21,6 +22,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
     var neuralNetwork: NeuralNetwork<BackPropagation>
     val backPropagation = BackPropagation()
     val pers: PersDataSet
+    var entrenada: Boolean = false
 
     init{
         datosEntrada = CongestionLevel.values().size + map.streets.size * 4   //cuatro por son dos nodos (Entrada , salida) y dos valores interval y max amount
@@ -61,7 +63,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
     fun agregarValorDeEntrenamiento(datosEntrada: DoubleArray, datosSalida: DoubleArray){
         setDeEntrenamiento.addRow(datosEntrada, datosSalida)
         pers.persistirUnaRow(datosEntrada, datosSalida)
-        if (setDeEntrenamiento.rows.size % 10 == 0) entrenarRed()
+//        if (setDeEntrenamiento.rows.size % 10 == 0) entrenarRed()
     }
 
     fun entrenarRed(){
@@ -72,9 +74,11 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         }
         else{
             println("Me estan entrenando,  tengo datos")
-            backPropagation.setMaxIterations(iteracionesDeAprendizaje * setDeEntrenamiento.rows.size);
-            neuralNetwork.learn(setDeEntrenamiento, backPropagation);
+            backPropagation.setMaxIterations(iteracionesDeAprendizaje * setDeEntrenamiento.rows.size)
+            neuralNetwork.learn(setDeEntrenamiento, backPropagation)
+            entrenada = true
         }
+
     }
 
     fun haztumagia(datosEntrada: DoubleArray): DoubleArray? {
@@ -119,7 +123,11 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         return arrayDesnormalizado
     }
     //Seteo la cantidad de parametro de entrada y de salida que va a tener la red para este mapa
-
+    fun getMaxError(): Double {return backPropagation.maxError}
+    fun getLearninRate(): Double {return backPropagation.learningRate}
+    fun getMinErrorChange(): Double {return backPropagation.minErrorChange}
+    fun getCurrentIteracion(): Int {return backPropagation.currentIteration}
+    fun getErrorFunction(): Double {return (backPropagation.errorFunction).getTotalError()}
 
 }
 
