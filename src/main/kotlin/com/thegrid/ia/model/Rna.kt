@@ -13,7 +13,7 @@ import ar.org.neuroph.util.TransferFunctionType
  */
 class Rna(val map: Map, debugMode: Boolean = false) {
     var setDeEntrenamiento: DataSet
-    var iteracionesDeAprendizaje = 50
+    var iteracionesDeAprendizaje = 5
     var porcetajeDeCapasIntermedias = 0.70
     val datosDeSalida: Int
     val datosEntrada: Int
@@ -23,34 +23,23 @@ class Rna(val map: Map, debugMode: Boolean = false) {
     val pers: PersDataSet
 
     init{
-        println("111111111111*****************************************************************************")
         datosEntrada = CongestionLevel.values().size + map.streets.size * 4   //cuatro por son dos nodos (Entrada , salida) y dos valores interval y max amount
-        println("2222222222222222221*****************************************************************************")
         datosDeSalida = map.semaphoreNodes.size * 2
-        println("3333333333333333333333*****************************************************************************")
         setDeEntrenamiento = DataSet(datosEntrada, datosDeSalida)
-        println("444444444444444444*****************************************************************************")
         capaOculta = ((datosEntrada+datosDeSalida)*porcetajeDeCapasIntermedias).toInt()
-        println("5555555555555555555511*****************************************************************************")
         neuralNetwork = MultiLayerPerceptron(TransferFunctionType.SIGMOID, datosEntrada, capaOculta, datosDeSalida)
-        println("6666666666666666666666*****************************************************************************")
 
         if(debugMode) {
             pers = PersistenciaDataSetNormal(this)
-            println("777777777777777*****************************************************************************")
         }
         else
             pers = PersistenciaDataSetGAE(this)
-        println("88888888888888888888888888**************************************************************************")
         try{
-            println("999999999999999999999****************************************************************************")
             importarDatoDeEntrenamiento()
         }catch(fnfE: Exception){
-            println("101001010101010101010101010101010101010*****************************************************************************")
             fnfE.printStackTrace()
             exportarDataSet()
         }
-        println("11-11-11-11-11-11-*****************************************************************************")
     }
 
     fun exportarDataSet(){
@@ -71,16 +60,21 @@ class Rna(val map: Map, debugMode: Boolean = false) {
 
     fun agregarValorDeEntrenamiento(datosEntrada: DoubleArray, datosSalida: DoubleArray){
         setDeEntrenamiento.addRow(datosEntrada, datosSalida)
-
         pers.persistirUnaRow(datosEntrada, datosSalida)
-        entrenarRed()
+        if (setDeEntrenamiento.rows.size % 10 == 0) entrenarRed()
     }
 
     fun entrenarRed(){
-        if (setDeEntrenamiento.isEmpty){ println("No me pudieron entrenar, no tengo datos")}
+        println("CAntidad de fias para entreenar la red: " + setDeEntrenamiento.rows.size)
+        println("CAntidad de datos del set de entrenamiento de la red: " + setDeEntrenamiento.size())
+        if (setDeEntrenamiento.isEmpty){
+            println("No me pudieron entrenar, no tengo datos")
+        }
         else{
-        backPropagation.setMaxIterations(iteracionesDeAprendizaje * setDeEntrenamiento.size());
-        neuralNetwork.learn(setDeEntrenamiento, backPropagation);}
+            println("Me estan entrenando,  tengo datos")
+            backPropagation.setMaxIterations(iteracionesDeAprendizaje * setDeEntrenamiento.rows.size);
+            neuralNetwork.learn(setDeEntrenamiento, backPropagation);
+        }
     }
 
     fun haztumagia(datosEntrada: DoubleArray): DoubleArray? {
