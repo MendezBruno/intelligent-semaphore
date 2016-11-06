@@ -44,8 +44,11 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 dispatcher.dispatchOn(0.0, it)
         }
         map.blocks.forEach { dispatcher.dispatchOn(0.0, it) }
+
+        if(!debugMode) ObjectifyService.begin()
         resultado = Resultado()
         resultado.cant_Cuadras = map.blocks.size
+
         orquestador = iniciarSimulacion()
         rna = Rna(map, debugMode)
 
@@ -56,7 +59,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             System.err.println("> Comienzo de la ejecución")
             while (correr) {
                 println("La rna es $rna")
-                ObjectifyService.begin()
+
                 try {
                     when(tipoEjecucion) {
                         TipoEjecucion.SIM -> procesar()

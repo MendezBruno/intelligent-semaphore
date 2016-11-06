@@ -23,22 +23,34 @@ class Rna(val map: Map, debugMode: Boolean = false) {
     val pers: PersDataSet
 
     init{
+        println("111111111111*****************************************************************************")
         datosEntrada = CongestionLevel.values().size + map.streets.size * 4   //cuatro por son dos nodos (Entrada , salida) y dos valores interval y max amount
+        println("2222222222222222221*****************************************************************************")
         datosDeSalida = map.semaphoreNodes.size * 2
+        println("3333333333333333333333*****************************************************************************")
         setDeEntrenamiento = DataSet(datosEntrada, datosDeSalida)
+        println("444444444444444444*****************************************************************************")
         capaOculta = ((datosEntrada+datosDeSalida)*porcetajeDeCapasIntermedias).toInt()
+        println("5555555555555555555511*****************************************************************************")
         neuralNetwork = MultiLayerPerceptron(TransferFunctionType.SIGMOID, datosEntrada, capaOculta, datosDeSalida)
+        println("6666666666666666666666*****************************************************************************")
 
-        if(debugMode)
+        if(debugMode) {
             pers = PersistenciaDataSetNormal(this)
+            println("777777777777777*****************************************************************************")
+        }
         else
             pers = PersistenciaDataSetGAE(this)
-
+        println("88888888888888888888888888**************************************************************************")
         try{
+            println("999999999999999999999****************************************************************************")
             importarDatoDeEntrenamiento()
         }catch(fnfE: Exception){
+            println("101001010101010101010101010101010101010*****************************************************************************")
+            fnfE.printStackTrace()
             exportarDataSet()
         }
+        println("11-11-11-11-11-11-*****************************************************************************")
     }
 
     fun exportarDataSet(){
@@ -49,7 +61,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         val data = pers.cargarRecuperar()
         if (data != null) {
             setDeEntrenamiento = data
-            entrenarRed()
+//           entrenarRed()
         }
     }
 
@@ -59,8 +71,9 @@ class Rna(val map: Map, debugMode: Boolean = false) {
 
     fun agregarValorDeEntrenamiento(datosEntrada: DoubleArray, datosSalida: DoubleArray){
         setDeEntrenamiento.addRow(datosEntrada, datosSalida)
-        entrenarRed()
+
         pers.persistirUnaRow(datosEntrada, datosSalida)
+        //entrenarRed()
     }
 
     fun entrenarRed(){
