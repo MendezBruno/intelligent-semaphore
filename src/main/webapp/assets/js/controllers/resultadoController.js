@@ -70,25 +70,75 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
 
             if(data.tiempoResultadoRna){
 
-                var fso  = new ActiveXObject("Scripting.FileSystemObject");  //Esto queda asi
-                var fh = fso.CreateTextFile("c:\\Test.csv", true);  //Tu Ruta
-                var dataString;
+                function descargarArchivo(contenidoEnBlob, nombreArchivo) {
+                    //creamos un FileReader para leer el Blob
+                    var reader = new FileReader();
+                    //Definimos la función que manejará el archivo
+                    //una vez haya terminado de leerlo
+                    reader.onload = function (event) {
+                        //Usaremos un link para iniciar la descarga
+                        var save = document.createElement('a');
+                        save.href = event.target.result;
+                        save.target = '_blank';
+                        //Truco: así le damos el nombre al archivo
+                        save.download = nombreArchivo || 'archivo.dat';
+                        var clicEvent = new MouseEvent('click', {
+                            'view': window,
+                            'bubbles': true,
+                            'cancelable': true
+                        });
+                        //Simulamos un clic del usuario
+                        //no es necesario agregar el link al DOM.
+                        save.dispatchEvent(clicEvent);
+                        //Y liberamos recursos...
+                        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                    };
+                    //Leemos el blob y esperamos a que dispare el evento "load"
+                    reader.readAsDataURL(contenidoEnBlob);
+                };
 
-                //armar tu data aca con data.tiempoResultadoRna
-                var data = [["name1", "city1", "some other info"], ["name2", "city2", "more info"]];
+                function generarTexto(valores) {
+                    var data = valores;
+                    var texto = new Array();
+                    var csvContent = "Aptitud;Cambio;Semaforo1;Semaforo2;Semaforo3;Semaforo4;Semaforo5;Semaforo6;Semaforo7;Semaforo8;Semaforo9;Semaforo10\n";
+                    data.forEach(function(infoArray, index){
+
+                            dataString = infoArray.aptitud + ";";
+
+                            dataString = dataString + infoArray.cambio + ";";
+
+                            aux = dataString + infoArray.tiempoSemafors.join(";");
+
+                            aux = replaceAll(aux,".",",");
+
+                            csvContent = csvContent +aux + "\n";
+
+                        //   dataString = infoArray.join(";");
+                        //   csvContent = csvContent + dataString + "\n";
+                        //csvContent += index < data.length ? dataString+ "\n" : dataString;
+
+                    });
+
+                    texto.push(csvContent);
+
+                    //El constructor de Blob requiere un Array en el primer
+                    //parámetro así que no es necesario usar toString. El
+                    //segundo parámetro es el tipo MIME del archivo
+                    return new Blob(texto, {
+                        type: 'text/plain'
+                    });
+                };
+
+                descargarArchivo(generarTexto(data.tiempoResultadoRna), 'archivoRNA.csv');
 
 
-                var csvContent = "data:text/csv;charset=utf-8,";
-                data.forEach(function(infoArray, index){
 
-                    dataString = infoArray.join(",");
-                    csvContent += index < data.length ? dataString+ "\n" : dataString;
+            }
 
-                });
-
-                fh.WriteLine(csvContent);
-                fh.Close();
-
+            function replaceAll( text, busca, reemplaza ){
+                while (text.toString().indexOf(busca) != -1)
+                text = text.toString().replace(busca,reemplaza);
+                return text;
             }
 
             if(data.tiempoPoblacion){
@@ -159,9 +209,6 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
                 };
 
                 descargarArchivo(generarTexto(data.tiempoPoblacion), 'archivoPoblacion.csv');
-
-
-
 
             }
 
