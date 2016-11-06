@@ -61,7 +61,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         val data = pers.cargarRecuperar()
         if (data != null) {
             setDeEntrenamiento = data
-//           entrenarRed()
+           entrenarRed()
         }
     }
 
@@ -73,12 +73,14 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         setDeEntrenamiento.addRow(datosEntrada, datosSalida)
 
         pers.persistirUnaRow(datosEntrada, datosSalida)
-        //entrenarRed()
+        entrenarRed()
     }
 
     fun entrenarRed(){
+        if (setDeEntrenamiento.isEmpty){ println("No me pudieron entrenar, no tengo datos")}
+        else{
         backPropagation.setMaxIterations(iteracionesDeAprendizaje * setDeEntrenamiento.size());
-        neuralNetwork.learn(setDeEntrenamiento, backPropagation);
+        neuralNetwork.learn(setDeEntrenamiento, backPropagation);}
     }
 
     fun haztumagia(datosEntrada: DoubleArray): DoubleArray? {

@@ -31,10 +31,10 @@ class Resultado {
     class TiempoCromosomaAptitud (var t: Double, var cromosoma: Cromosoma,var aptitud: Int)
     class TiempoVelocidad (var t:Double, var vel:Double)
     class TiempoVelocidadXcuadra (var cuadraId: String, var tiempoVelocidadCuadra: TiempoVelocidad )
-    class TiempoAptidud(time: Double, aptitud: Double)
-    class TiempoResultadoRna (time: Double, cambio: Boolean , tiempoSemafors: DoubleArray, estadoMapa: DoubleArray )
-    class TiempoPoblacion (time: Double, poblacion: MutableList<Cromosoma>)
-    class TiempoQueMuta (time: Double, itero :String )
+    class TiempoAptidud(var time: Double,var aptitud: Double)
+    class TiempoResultadoRna (var time: Double,var cambio: Boolean ,var tiempoSemafors: DoubleArray,var estadoMapa: DoubleArray )
+    class TiempoPoblacion (var time: Double, var poblacion: MutableList<Cromosoma>)
+    class TiempoQueMuta (var time: Double,var itero :String )
 
 
 
