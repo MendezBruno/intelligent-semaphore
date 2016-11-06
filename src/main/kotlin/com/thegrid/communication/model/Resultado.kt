@@ -32,7 +32,7 @@ class Resultado {
     class TiempoVelocidad (var t:Double, var vel:Double)
     class TiempoVelocidadXcuadra (var cuadraId: String, var tiempoVelocidadCuadra: TiempoVelocidad )
     class TiempoAptidud(var time: Double,var aptitud: Double)
-    class TiempoResultadoRna (var time: Double,var cambio: Boolean ,var tiempoSemafors: DoubleArray,var estadoMapa: DoubleArray )
+    class TiempoResultadoRna (var time: Double,var cambio: Boolean, var aptitud: Double ,var tiempoSemafors: DoubleArray )
     class TiempoPoblacion (var time: Double, var poblacion: MutableList<Cromosoma>)
     class TiempoQueMuta (var time: Double,var itero :String )
 
@@ -73,8 +73,8 @@ class Resultado {
     }
 
 
-    fun guardarTiempoRna(time: Double, hayCambio: Boolean, estadoMapa: DoubleArray, tiempos: DoubleArray) {
-        val tRna = TiempoResultadoRna(time,hayCambio,estadoMapa,tiempos)
+    fun guardarTiempoRna(time: Double, hayCambio: Boolean, aptitud: Double, tiempos: DoubleArray) {
+        val tRna = TiempoResultadoRna(time,hayCambio,aptitud,tiempos)
         tiempoResultadoRna.add(tRna)
     }
 

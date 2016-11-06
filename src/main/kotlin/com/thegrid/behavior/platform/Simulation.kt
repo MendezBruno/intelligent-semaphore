@@ -78,15 +78,16 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             if (!correr) break
             procesar()
         }
-        if (calcularAptitudMapa() < 1000) {
+        val aptitudActual = calcularAptitudMapa()
+        if (aptitudActual < 1000) {
             val estadoMapa = calcularEstadoMapa()
             val tiempos = rna.haztumagia(estadoMapa)!!
             for((index,semaforo) in map.semaphoreNodes.withIndex()) {
                 semaforo.setTimes(tiempos[index], tiempos[index+1])
             }
-            resultado.guardarTiempoRna(dispatcher.time, true , estadoMapa, tiempos)
+            resultado.guardarTiempoRna(dispatcher.time, true , aptitudActual, tiempos)
         }else {
-            resultado.guardarTiempoRna(dispatcher.time, false , DoubleArray(1), DoubleArray(1))
+            resultado.guardarTiempoRna(dispatcher.time, false , aptitudActual, DoubleArray(1))
         }
     }
 
@@ -96,7 +97,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             estadoCongestion[CongestionLevel.values().indexOf(cuadra.congestionLevel)]++
 
         }
-        val estadoFlujos = DoubleArray(map.streets.size * 4)
+        var estadoFlujos = DoubleArray(map.streets.size * 4)
         var i = 0
         for (nodo in map.nodes) {
             if (nodo is EntryNode) {
@@ -110,7 +111,8 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 i += 2
             }
         }
-        val estadoMapa = estadoCongestion + estadoFlujos
+
+        val estadoMapa = rna.normalizar(estadoCongestion,0.0,map.blocks.size.toDouble()) + rna.normalizar(estadoFlujos,1.0,10.0)
         return estadoMapa
     }
 
@@ -161,7 +163,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
                 if (rna == null) println("rna es null")
                 if (cromosoma == null) println("cromosoma es null")
                 if (cromosoma.genes == null) println("genes es null")
-                rna.agregarValorDeEntrenamiento(calcularEstadoMapa(),cromosoma.genes.toDoubleArray())
+                rna.agregarValorDeEntrenamiento(calcularEstadoMapa(), rna.normalizar(cromosoma.genes.toDoubleArray(),Ag.cotaInferior,Ag.cotaSuperior ))
             }
         }
         AG.iterar(resultado, dispatcher.time)

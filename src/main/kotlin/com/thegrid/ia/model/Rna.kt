@@ -80,7 +80,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
     fun haztumagia(datosEntrada: DoubleArray): DoubleArray? {
         neuralNetwork.setInput(*datosEntrada);
         neuralNetwork.calculate();
-        return neuralNetwork.getOutput();
+        return desnormalizar(neuralNetwork.getOutput(),22.0,60.0)  //es la cota de los tiempos de los semaforos
     }
 
     fun setaerFuncionDeTransferencia(funcion:String) {
@@ -99,6 +99,25 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         }
     }
 
+    fun normalizar (datos: DoubleArray, cotaMinima: Double, cotaMaxima: Double): DoubleArray {
+    val arrayNormal = DoubleArray(datos.size)
+    var i = 0
+        for (dato in datos){
+            arrayNormal[i] = (dato - cotaMinima)/ (cotaMaxima - cotaMinima)
+            i++
+        }
+        return arrayNormal
+    }
+
+    fun desnormalizar (datos: DoubleArray, cotaMinima: Double, cotaMaxima: Double): DoubleArray {
+        val arrayDesnormalizado = DoubleArray(datos.size)
+        var i = 0
+        for (dato in datos){
+            arrayDesnormalizado[i] = dato * (cotaMaxima - cotaMinima) + cotaMinima
+            i++
+        }
+        return arrayDesnormalizado
+    }
     //Seteo la cantidad de parametro de entrada y de salida que va a tener la red para este mapa
 
 

@@ -12,10 +12,11 @@ import java.util.*
 class Ag(val map : Map) {
     companion object {
         val CANT_MAX_CROMOSOMAS = 500
+        val cotaInferior = 22.0
+        val cotaSuperior = 60.0
+
     }
 
-    val cotaInferior = 22.0
-    val cotaSuperior = 60.0
     val cromosomasPordefault = 6
     var poblacionGlobal = mutableListOf<Cromosoma>()
     var poblacion = mutableListOf<Cromosoma>()
