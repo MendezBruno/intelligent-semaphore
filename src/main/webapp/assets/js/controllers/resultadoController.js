@@ -68,6 +68,56 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
                 drawChartLinearTiempoAptitud(data)
             }
 
+            if(data.datosRna){
+
+                function descargarArchivo(contenidoEnBlob, nombreArchivo) {
+                    //creamos un FileReader para leer el Blob
+                    var reader = new FileReader();
+                    //Definimos la función que manejará el archivo
+                    //una vez haya terminado de leerlo
+                    reader.onload = function (event) {
+                        //Usaremos un link para iniciar la descarga
+                        var save = document.createElement('a');
+                        save.href = event.target.result;
+                        save.target = '_blank';
+                        //Truco: así le damos el nombre al archivo
+                        save.download = nombreArchivo || 'archivo.dat';
+                        var clicEvent = new MouseEvent('click', {
+                            'view': window,
+                            'bubbles': true,
+                            'cancelable': true
+                        });
+                        //Simulamos un clic del usuario
+                        //no es necesario agregar el link al DOM.
+                        save.dispatchEvent(clicEvent);
+                        //Y liberamos recursos...
+                        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                    };
+                    //Leemos el blob y esperamos a que dispare el evento "load"
+                    reader.readAsDataURL(contenidoEnBlob);
+                };
+
+                function generarTexto(valores) {
+                    var data = valores;
+                    var texto = new Array();
+                    var csvContent = "IteracionActual;FuncionError;TazaDeAprendizaje;ErrorMaximo;ErrorMinimo\n";
+
+                    csvContent = data.getCurrentIteracion + ";" + data.getErrorFunction + ";" + data.getLearninRate + ";" + data.getMaxError + ";" + data.getMinErrorChange + "\n";
+
+                    texto.push(csvContent);
+
+                    //El constructor de Blob requiere un Array en el primer
+                    //parámetro así que no es necesario usar toString. El
+                    //segundo parámetro es el tipo MIME del archivo
+                    return new Blob(texto, {
+                        type: 'text/plain'
+                    });
+                };
+
+                descargarArchivo(generarTexto(data.datosRna), 'datosRNA.csv');
+
+            };
+
             if(data.tiempoResultadoRna){
 
                 function descargarArchivo(contenidoEnBlob, nombreArchivo) {
@@ -130,8 +180,6 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
                 };
 
                 descargarArchivo(generarTexto(data.tiempoResultadoRna), 'archivoRNA.csv');
-
-
 
             }
 
