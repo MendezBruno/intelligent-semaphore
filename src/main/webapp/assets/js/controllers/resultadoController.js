@@ -93,9 +93,136 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
 
             if(data.tiempoPoblacion){
 
+                function descargarArchivo(contenidoEnBlob, nombreArchivo) {
+                    //creamos un FileReader para leer el Blob
+                    var reader = new FileReader();
+                    //Definimos la función que manejará el archivo
+                    //una vez haya terminado de leerlo
+                    reader.onload = function (event) {
+                        //Usaremos un link para iniciar la descarga
+                        var save = document.createElement('a');
+                        save.href = event.target.result;
+                        save.target = '_blank';
+                        //Truco: así le damos el nombre al archivo
+                        save.download = nombreArchivo || 'archivo.dat';
+                        var clicEvent = new MouseEvent('click', {
+                            'view': window,
+                            'bubbles': true,
+                            'cancelable': true
+                        });
+                        //Simulamos un clic del usuario
+                        //no es necesario agregar el link al DOM.
+                        save.dispatchEvent(clicEvent);
+                        //Y liberamos recursos...
+                        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                    };
+                    //Leemos el blob y esperamos a que dispare el evento "load"
+                    reader.readAsDataURL(contenidoEnBlob);
+                };
+
+                function generarTexto(valores) {
+                    var data = valores;
+                    var texto = new Array();
+                    var csvContent = "Aptitud;Tiempo;Gen1;Gen2;Gen3;Gen4;Gen5;Gen6;Gen7;Gen8;Gen9;Gen10\n";
+                    data.forEach(function(infoArray, index){
+
+                        var tiempo;
+
+                        tiempo = infoArray.time;
+
+                        infoArray.poblacion.forEach(function(infoArray1, index){
+
+                            dataString = infoArray1.aptitud + ";";
+
+                            dataString = dataString + tiempo + ";";
+
+                            aux = dataString + infoArray1.genes.join(";");
+
+                            csvContent = csvContent +aux + "\n";
+
+                        });
+
+                     //   dataString = infoArray.join(";");
+                     //   csvContent = csvContent + dataString + "\n";
+                        //csvContent += index < data.length ? dataString+ "\n" : dataString;
+
+                    });
+
+                    texto.push(csvContent);
+
+                    //El constructor de Blob requiere un Array en el primer
+                    //parámetro así que no es necesario usar toString. El
+                    //segundo parámetro es el tipo MIME del archivo
+                    return new Blob(texto, {
+                        type: 'text/plain'
+                    });
+                };
+
+                descargarArchivo(generarTexto(data.tiempoPoblacion), 'archivoPoblacion.csv');
+
+
+
+
             }
 
             if(data.tiempoQueMuta){
+
+                function descargarArchivo(contenidoEnBlob, nombreArchivo) {
+                    //creamos un FileReader para leer el Blob
+                    var reader = new FileReader();
+                    //Definimos la función que manejará el archivo
+                    //una vez haya terminado de leerlo
+                    reader.onload = function (event) {
+                        //Usaremos un link para iniciar la descarga
+                        var save = document.createElement('a');
+                        save.href = event.target.result;
+                        save.target = '_blank';
+                        //Truco: así le damos el nombre al archivo
+                        save.download = nombreArchivo || 'archivo.dat';
+                        var clicEvent = new MouseEvent('click', {
+                            'view': window,
+                            'bubbles': true,
+                            'cancelable': true
+                        });
+                        //Simulamos un clic del usuario
+                        //no es necesario agregar el link al DOM.
+                        save.dispatchEvent(clicEvent);
+                        //Y liberamos recursos...
+                        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+                    };
+                    //Leemos el blob y esperamos a que dispare el evento "load"
+                    reader.readAsDataURL(contenidoEnBlob);
+                };
+
+                function generarTexto(valores) {
+                    var data = valores;
+                    var texto = new Array();
+                    var csvContent = "Muto?;Tiempo\n";
+                    data.forEach(function(infoArray, index){
+
+                            dataString = infoArray.itero + ";";
+
+                            aux = dataString + infoArray.time + "\n";
+
+                            csvContent = csvContent + aux;
+
+                        //   dataString = infoArray.join(";");
+                        //   csvContent = csvContent + dataString + "\n";
+                        //csvContent += index < data.length ? dataString+ "\n" : dataString;
+
+                    });
+
+                    texto.push(csvContent);
+
+                    //El constructor de Blob requiere un Array en el primer
+                    //parámetro así que no es necesario usar toString. El
+                    //segundo parámetro es el tipo MIME del archivo
+                    return new Blob(texto, {
+                        type: 'text/plain'
+                    });
+                };
+
+                descargarArchivo(generarTexto(data.tiempoQueMuta), 'archivoMutacion.csv');
 
             }
 
