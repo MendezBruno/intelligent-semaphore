@@ -52,7 +52,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         val data = pers.cargarRecuperar()
         if (data != null) {
             setDeEntrenamiento = data
-           entrenarRed()
+
         }
     }
 
@@ -75,6 +75,8 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         else{
             println("Me estan entrenando,  tengo datos")
             backPropagation.setMaxIterations(iteracionesDeAprendizaje * setDeEntrenamiento.rows.size)
+            backPropagation.maxError = 0.1
+            backPropagation.learningRate = 0.5
             neuralNetwork.learn(setDeEntrenamiento, backPropagation)
             entrenada = true
         }
@@ -128,6 +130,9 @@ class Rna(val map: Map, debugMode: Boolean = false) {
     fun getMinErrorChange(): Double {return backPropagation.minErrorChange}
     fun getCurrentIteracion(): Int {return backPropagation.currentIteration}
     fun getErrorFunction(): Double {return (backPropagation.errorFunction).getTotalError()}
+    fun detenerEntrenamiento() {
+        neuralNetwork.stopLearning()
+    }
 
 }
 

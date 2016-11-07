@@ -24,6 +24,7 @@ class SimulacionController {
             "DETENER" -> Simulation.SharedInstance?.pausar()
             "AVANZAR" -> Simulation.SharedInstance?.dispatcher?.processEvent()
             "BAJAR" -> Simulation.SharedInstance?.restarTiempo(simulacionUpdate.nuevoTiempo)
+            "DETENERRED" -> Simulation.SharedInstance?.rna?.detenerEntrenamiento()
             else -> Simulation.SharedInstance?.sumarTiempo (simulacionUpdate.nuevoTiempo)
         }
     }

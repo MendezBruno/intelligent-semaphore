@@ -103,55 +103,73 @@ class Resultado {
         var sobrante : Int
         var frec : Long
 
-        sobrante = tiempoCongestion.size - cota_max
-        frec = Math.round(tiempoCongestion.size / sobrante.toDouble())
+
+        frec = Math.round((tiempoCongestion.size /  cota_max).toDouble())
+        frec++
         for (i in 0..tiempoCongestion.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestion.add(tiempoCongestion[i])
+            if (i % frec != 0.toLong()) r.tiempoCongestion.add(tiempoCongestion[i])
         }
 
-        sobrante = tiempoCongestionXcuadra.size - cota_max
-        frec = Math.round(tiempoCongestionXcuadra.size / sobrante.toDouble())
+
+        frec = Math.round((tiempoCongestionXcuadra.size / cota_max).toDouble())
+        frec++
         for (i in 0..tiempoCongestionXcuadra.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
-//            if (i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+            if (i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
         }
 
-        sobrante = tiempoCromosomaAptitud.size - cota_max
-        frec = Math.round(tiempoCromosomaAptitud.size / sobrante.toDouble())
+
+        frec = Math.round((tiempoCromosomaAptitud.size / cota_max).toDouble())
+        frec++
         for (i in 0..tiempoCromosomaAptitud.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
+            if ( i % frec != 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
         }
 
-        sobrante = tiempoVelocidad.size - cota_max
-        frec = Math.round(tiempoVelocidad.size / sobrante.toDouble())
+
+        frec = Math.round((tiempoVelocidad.size / cota_max).toDouble())
+        frec++
         for (i in 0..tiempoVelocidad.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
+            if (i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
         }
 
-        sobrante = tiempoVelocidadXCuadra.size - cota_max
-        frec = Math.round(tiempoVelocidadXCuadra.size / sobrante.toDouble())
+        /*********************PRUEBA******************************************/
+
+//
+        frec = Math.round(((tiempoVelocidadXCuadra.size / cota_max).toDouble()))
+        frec++ //Para que no se exeda de 6600 si el tiene resto la division
         for (i in 0..tiempoVelocidadXCuadra.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
-//            if (i % frec != 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
+            if (i % frec == 0.toLong()) r.tiempoVelocidadXCuadra.add(tiempoVelocidadXCuadra[i])
         }
+        println("La cantidad sin compactar de datos son: " + tiempoVelocidadXCuadra.size)
+        println("La frecuencia es: " + frec)
+        println("La cantidad de datos son: " + r.tiempoVelocidadXCuadra.size)
 
-        sobrante = tiempoAptitud.size - cota_max
-        frec = Math.round(tiempoAptitud.size / sobrante.toDouble())
+        /*********************PRUEBA******************************************/
+
+
+        frec = Math.round((tiempoAptitud.size /  cota_max).toDouble())
+        frec++
         for (i in 0..tiempoAptitud.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoAptitud.add(tiempoAptitud[i])
+            if ( i % frec != 0.toLong()) r.tiempoAptitud.add(tiempoAptitud[i])
         }
 
-        sobrante = tiempoResultadoRna.size - cota_max
-        frec = Math.round(tiempoResultadoRna.size / sobrante.toDouble())
+
+        frec = Math.round((tiempoResultadoRna.size / cota_max).toDouble())
+        frec++
         for (i in 0..tiempoResultadoRna.size-1) {
-            if (sobrante < 0 || i % frec != 0.toLong()) r.tiempoResultadoRna.add(tiempoResultadoRna[i])
+            if (i % frec != 0.toLong()) r.tiempoResultadoRna.add(tiempoResultadoRna[i])
         }
 
-        if(tiempoPoblacion.size < cota_max) r.tiempoPoblacion = tiempoPoblacion
-                else r.tiempoPoblacion = tiempoPoblacion.subList (tiempoPoblacion.size - cota_max,tiempoPoblacion.size)
+        frec = Math.round((tiempoPoblacion.size / cota_max).toDouble())
+        frec++
+        for (i in 0..tiempoPoblacion.size-1) {
+            if (i % frec != 0.toLong()) r.tiempoPoblacion.add(tiempoPoblacion[i])
+        }
 
-        if(tiempoQueMuta.size < cota_max) r.tiempoQueMuta = tiempoQueMuta
-                else r.tiempoQueMuta = tiempoQueMuta.subList (tiempoQueMuta.size - cota_max,tiempoQueMuta.size)
+        frec = Math.round((tiempoQueMuta.size / cota_max).toDouble())
+        frec++
+        for (i in 0..tiempoQueMuta.size-1) {
+            if (i % frec != 0.toLong()) r.tiempoQueMuta.add(tiempoQueMuta[i])
+        }
 
         r.cant_Cuadras = cant_Cuadras
         r.tiempo_simulado = tiempo_simulado

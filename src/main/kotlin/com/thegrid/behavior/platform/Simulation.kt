@@ -75,6 +75,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
 
     private fun procesarRNA() {
         if (!rna.entrenada){
+            println("Entreno y guardo los datos de la RNA")
             rna.entrenarRed()
             resultado.guardarDatosRna(rna.getMaxError(),rna.getLearninRate(),rna.getMinErrorChange(),rna.getCurrentIteracion(),rna.getErrorFunction())
         }

@@ -215,7 +215,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         };
 
         $scope.cambiarModo = function (){
-            ModoUpdate.put({modo: $scope.tipoEjecucion})
+           ModoUpdate.put({modo: $scope.tipoEjecucion})
         };
 
 
@@ -269,4 +269,17 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
                         ariaDescribedBy: 'modal-body',
                 });
         }
+
+
+        $scope.detenerEntrenamiento = function () {
+         if($scope.tipoEjecucion == 'RNA' ) {
+        var simulacionUpdate = {};
+        simulacionUpdate["nuevoTiempo"] = 1000;
+        simulacionUpdate["operacion"] = "DETENERRED";
+        Simulacion.save(JSON.stringify(simulacionUpdate));
+        }else {
+        alert("No se esta entrenando la red")
+        }
+        }
+
 });
