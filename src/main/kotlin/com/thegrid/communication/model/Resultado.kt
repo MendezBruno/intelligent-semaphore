@@ -107,28 +107,28 @@ class Resultado {
         frec = Math.round((tiempoCongestion.size /  cota_max).toDouble())
         frec++
         for (i in 0..tiempoCongestion.size-1) {
-            if (i % frec != 0.toLong()) r.tiempoCongestion.add(tiempoCongestion[i])
+            if (i % frec == 0.toLong()) r.tiempoCongestion.add(tiempoCongestion[i])
         }
 
 
         frec = Math.round((tiempoCongestionXcuadra.size / cota_max).toDouble())
         frec++
         for (i in 0..tiempoCongestionXcuadra.size-1) {
-            if (i % frec != 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
+            if (i % frec == 0.toLong()) r.tiempoCongestionXcuadra.add(tiempoCongestionXcuadra[i])
         }
 
 
         frec = Math.round((tiempoCromosomaAptitud.size / cota_max).toDouble())
         frec++
         for (i in 0..tiempoCromosomaAptitud.size-1) {
-            if ( i % frec != 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
+            if ( i % frec == 0.toLong()) r.tiempoCromosomaAptitud.add(tiempoCromosomaAptitud[i])
         }
 
 
         frec = Math.round((tiempoVelocidad.size / cota_max).toDouble())
         frec++
         for (i in 0..tiempoVelocidad.size-1) {
-            if (i % frec != 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
+            if (i % frec == 0.toLong()) r.tiempoVelocidad.add(tiempoVelocidad[i])
         }
 
         /*********************PRUEBA******************************************/
@@ -149,26 +149,26 @@ class Resultado {
         frec = Math.round((tiempoAptitud.size /  cota_max).toDouble())
         frec++
         for (i in 0..tiempoAptitud.size-1) {
-            if ( i % frec != 0.toLong()) r.tiempoAptitud.add(tiempoAptitud[i])
+            if ( i % frec == 0.toLong()) r.tiempoAptitud.add(tiempoAptitud[i])
         }
 
 
         frec = Math.round((tiempoResultadoRna.size / cota_max).toDouble())
         frec++
         for (i in 0..tiempoResultadoRna.size-1) {
-            if (i % frec != 0.toLong()) r.tiempoResultadoRna.add(tiempoResultadoRna[i])
+            if (i % frec == 0.toLong()) r.tiempoResultadoRna.add(tiempoResultadoRna[i])
         }
 
         frec = Math.round((tiempoPoblacion.size / cota_max).toDouble())
         frec++
         for (i in 0..tiempoPoblacion.size-1) {
-            if (i % frec != 0.toLong()) r.tiempoPoblacion.add(tiempoPoblacion[i])
+            if (i % frec == 0.toLong()) r.tiempoPoblacion.add(tiempoPoblacion[i])
         }
 
         frec = Math.round((tiempoQueMuta.size / cota_max).toDouble())
         frec++
         for (i in 0..tiempoQueMuta.size-1) {
-            if (i % frec != 0.toLong()) r.tiempoQueMuta.add(tiempoQueMuta[i])
+            if (i % frec == 0.toLong()) r.tiempoQueMuta.add(tiempoQueMuta[i])
         }
 
         r.cant_Cuadras = cant_Cuadras
