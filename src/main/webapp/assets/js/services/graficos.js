@@ -70,7 +70,7 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
         if(!google.visualization) google.charts.load('current', {'packages':['corechart', 'gauge']})
 
         var dataSet = new Array();
-        dataSet.push(['Tiempo', 'Congestion']);
+        dataSet.push(['Tiempo', 'Congestión']);
         var arrayResult = datosTiempoCongestion.tiempoCongestion.map(function (tyc) {
             return [tyc['t'],tyc['c']]
         });
@@ -86,13 +86,11 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
                 title: 'Tiempo(Segundos)'
             },
             vAxis: {
-                title: 'Congestion'
+                title: 'Congestión Promedio de todas las cuadras(Segundos)'
             }
 
         };
-
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
         chart.draw(data, options);
       }
 
@@ -176,17 +174,17 @@ function drawHistogramaCuadras(datosCongestionXCuadra) {
 
 
     var options = {
-        title: 'Approximating Normal Distribution',
+        title: 'Cantidad de ocurrencias de las congestiones de las cuadras',
         legend: { position: 'none' },
         colors: ['#4285F4'],
 
         chartArea: { width: 600 },
         hAxis: {
             ticks: [0, 10, 20, 30, 40,50,60,70,80,90,100],
-            title: 'Cuadra'
+            title: 'Porcentajes de congestión'
         },
         vAxis: {
-            title: 'TiempoEnRecorrerUnaCalle'
+            title: 'Ocurrencias de la congestión'
         },
         bar: { gap: 1 },
 
@@ -208,7 +206,7 @@ function drawChartVelocidadXCuadra(datos) {
 
     var dataSet = new Array();
 
-    dataSet.push(['Cuadra', 'Velocidad Total','Velocidad Resto',{ role: 'annotation' }]);
+    dataSet.push(['Cuadra', 'Velocidad Total en cada cuadra(m/s)','Velocidad Restante(m/s)',{ role: 'annotation' }]);
 
     var datosDeMayoraMenor = datos.tiempoVelocidadXCuadra.reverse();
 
