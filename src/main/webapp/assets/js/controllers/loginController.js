@@ -35,14 +35,30 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
     }
 
     $scope.enviarMailResetPass=function () {
-        const email = $scope.mail;
-        const auth = firebase.auth();
-        auth.sendPasswordResetEmail(email).then(function(){
-            alert("Un mail fue enviado a su casilla de correo");
-        },function (error) {
-                tratarError(error);
+
+        if (verificarMail()) {
+
+            var r = confirm("Esta seguro que desea restablecer la contraseña?");
+            if (r == true) {
+
+                const email = $scope.mail;
+                const auth = firebase.auth();
+                auth.sendPasswordResetEmail(email).then(function () {
+                        alert("Un mail fue enviado a su casilla de correo");
+                    }, function (error) {
+                        tratarError(error);
+                    }
+                );
+
+
             }
-        );
+
+            else {
+
+
+            }
+        }
+
     };
 
     $scope.entro=function () {
@@ -132,7 +148,7 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
     function verificarMail() {
 
         if ($scope.mail == undefined ) {
-            alert("email o password mal ingresados");
+            alert("Email Invalido");
 
             return false;
 
@@ -146,20 +162,20 @@ app.controller("loginController", function($scope,$location,serveData,$rootScope
         if (error.code == "auth/user-not-found")
         {
 
-            alert("mail ingresado incorrecto");
+            alert("Error: usuario inexistente o contraseña invalida");
 
         }
 
         if (error.code == "auth/wrong-password")
         {
 
-            alert("password mal ingresado");
+            alert("Error: usuario inexistente o contraseña invalida");
 
         }
         if (error.code == "auth/invalid-email")
         {
 
-            alert("email mal ingresado");
+            alert("Email Invalido");
 
         }
     }

@@ -24,7 +24,7 @@ app.controller("registroController", function($scope,$location,$timeout){
 
                     user.sendEmailVerification();
 
-                    alert("Email de verificacion enviado a su casilla de correo");
+                    alert("Un mensaje con un link fue enviado a su casilla de correo, es necesario que presione en el link para poder loguearse");
 
                     var updates = {};
                     var clave = firebase.database().ref().child('/'+user.uid+'/mapas').push().key
@@ -41,6 +41,13 @@ app.controller("registroController", function($scope,$location,$timeout){
                 }, function (error) {
 
                     tratarError(error);
+
+                    $scope.estilo2={
+                        backgroundColor:'red'
+                    };
+                    $timeout(function () {
+                        $scope.$apply();
+                    });
 
                 });
 
@@ -63,14 +70,21 @@ app.controller("registroController", function($scope,$location,$timeout){
             }
 
 
-
     };
 
     function verificarMails() {
 
         if($scope.email == undefined || $scope.remail == undefined)
         {
-            alert("email o password mal ingresados");
+            alert("Email Invalido");
+
+            $scope.estilo2={
+                backgroundColor:'red'
+            };
+
+            $timeout(function () {
+                $scope.$apply();
+            });
 
             return false;
 
@@ -79,7 +93,14 @@ app.controller("registroController", function($scope,$location,$timeout){
         if ($scope.email != $scope.remail)
         {
 
-            alert("email o password mal ingresados");
+            alert("Los E-Mails no coinciden");
+
+            $scope.estilo2={
+                backgroundColor:'red'
+            };
+            $timeout(function () {
+                $scope.$apply();
+            });
 
             return false;
 
@@ -90,9 +111,16 @@ app.controller("registroController", function($scope,$location,$timeout){
 
     function verificarPassword() {
 
-        if($scope.contra.length < 10)
+        if($scope.contra.length < 6 || $scope.contra.length > 20)
         {
-            alert("El password tiene que tener como minimo 10 carateres");
+            alert("La contraseña debe tener entre 6 y 20 caracteres");
+
+            $scope.estilo1={
+                backgroundColor:'red'
+            };
+            $timeout(function () {
+                $scope.$apply();
+            });
 
             return false;
 
@@ -101,7 +129,14 @@ app.controller("registroController", function($scope,$location,$timeout){
         if ($scope.contra != $scope.rcontra)
         {
 
-            alert("passwords no coinciden");
+            alert("Las contraseñas no coinciden");
+
+            $scope.estilo1={
+                backgroundColor:'red'
+            };
+            $timeout(function () {
+                $scope.$apply();
+            });
 
             return false;
 
@@ -115,23 +150,18 @@ app.controller("registroController", function($scope,$location,$timeout){
         if (error.code == "auth/email-already-in-use")
         {
 
-            alert("mail en uso, por favor utilice otro mail")
+            alert("El e-mail ya está siendo utilizado por otro usuario, ingresa uno distinto por favor");
+
 
         }
 
         if (error.code == "auth/invalid-email")
         {
 
-            alert("email mal ingresado")
+            alert("Email Invalido");
+
 
         }
 
     }
-
-
-
-
-
-
-
 });

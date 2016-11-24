@@ -50,9 +50,9 @@ app.controller('passrecoveryController', function($scope,$location,$timeout){
 
     function verificarPassword() {
 
-        if($scope.contra.length < 10)
+        if($scope.contra.length < 6 || $scope.contra.length >20)
         {
-            alert("El password tiene que tener como minimo 10 carateres");
+            alert("La contraseña debe tener entre 6 y 20 caracteres");
 
             return false;
 
@@ -61,7 +61,7 @@ app.controller('passrecoveryController', function($scope,$location,$timeout){
         if ($scope.contra != $scope.rcontra)
         {
 
-            alert("passwords no coinciden");
+            alert("Las contraseñas no coinciden");
 
             return false;
 
