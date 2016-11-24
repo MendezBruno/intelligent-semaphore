@@ -22,7 +22,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
         val DEFAULT_TIME_SLEEP: Long = 1000
         val ITERACIONES_AG = 20
         val ITERACIONES_RNA = 20
-        val APTITUD_ACEPTABLE = 400
+        val APTITUD_ACEPTABLE = 3000
     }
 
     val lock : java.lang.Object = Object()
@@ -84,7 +84,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             procesar()
         }
         val aptitudActual = calcularAptitudMapa()
-        if (aptitudActual < 1000) {
+        if (aptitudActual < 2500) {
             val estadoMapa = calcularEstadoMapa()
             val tiempos = rna.haztumagia(estadoMapa)!!
             for((index,semaforo) in map.semaphoreNodes.withIndex()) {

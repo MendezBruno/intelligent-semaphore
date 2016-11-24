@@ -7,7 +7,7 @@ function CnvManzana(posX, posY) {
     this.posX=posX;
     this.posY=posY;
     this.textInferior = new createjs.Text("", "20px Arial", "#000000");
-    this.textInferior.x = this.posX + CnvManzana.largo/2 - this.textInferior.getMeasuredWidth();
+    this.textInferior.x = this.posX + CnvManzana.largo/2 - this.textInferior.getMeasuredWidth() - 30;
     this.textInferior.y = this.posY + CnvManzana.largo - CnvManzana.margenInferior;
     this.textInferior.textBaseline = "alphabetic";
     this.textDerecho = new createjs.Text("", "20px Arial", "#000000");
@@ -25,7 +25,7 @@ createjs.extend(CnvManzana, createjs.Container);
 CnvManzana.largo = 300;
 CnvManzana.radioEsquina = 40;
 CnvManzana.margenInferior = 10;
-CnvManzana.margenDerecho = 20;
+CnvManzana.margenDerecho = 110;
 
 CnvManzana.prototype.setup = function () {
     //this.background = new createjs.Shape();
@@ -49,7 +49,7 @@ CnvManzana.prototype.escribirInformacionAbajo = function (id,datos){
 }
 
 CnvManzana.prototype.escribirInformacionDerecha = function (id,datos){
-   this.textDerecho.text=datos.stock +" " +id;
+   this.textDerecho.text= id +"  "+ datos.stock ;
 
 }
 

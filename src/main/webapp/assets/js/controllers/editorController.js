@@ -137,6 +137,7 @@ app.controller('editorController', function($scope,Mapa,Rna,$routeParams,$locati
                 otroCallback();
                 $scope.$apply();
             }
+            $location.url("app/galeria");
         })
     }
 
