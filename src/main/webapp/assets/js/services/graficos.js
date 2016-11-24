@@ -78,9 +78,17 @@ function drawChartLinearTiempoCongestion(datosTiempoCongestion) {
         var data = google.visualization.arrayToDataTable(dataSet);
 
         var options = {
+
           title: 'Evolución de la congestión a través del tiempo',
           curveType: 'function',
-          legend: { position: 'bottom' }
+          legend: { position: 'bottom' },
+            hAxis: {
+                title: 'Tiempo(Segundos)'
+            },
+            vAxis: {
+                title: 'Congestion'
+            }
+
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
@@ -105,7 +113,13 @@ function drawChartLinearTiempoAptitud(datosTiempoAptitud) {
     var options = {
         title: 'Evolución de la Aptitud a través del tiempo',
         curveType: 'function',
-        legend: { position: 'bottom' }
+        legend: { position: 'bottom' },
+        hAxis: {
+            title: 'Tiempo(Segundos)'
+        },
+        vAxis: {
+            title: 'Aptitud'
+        }
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('curve_aptitud'));
@@ -130,7 +144,13 @@ function drawChartLinearTiempoVelocidad(datosTiempoVelocidad) {
     var options = {
         title: 'Velocidad a lo largo de la simulación',
         curveType: 'function',
-        legend: { position: 'bottom' }
+        legend: { position: 'bottom' },
+        hAxis: {
+            title: 'Tiempo(Segundos)'
+        },
+        vAxis: {
+            title: 'Velocidad(m/s)'
+        }
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('curve_chart_tvel'));
@@ -162,7 +182,11 @@ function drawHistogramaCuadras(datosCongestionXCuadra) {
 
         chartArea: { width: 600 },
         hAxis: {
-            ticks: [0, 10, 20, 30, 40,50,60,70,80,90,100]
+            ticks: [0, 10, 20, 30, 40,50,60,70,80,90,100],
+            title: 'Cuadra'
+        },
+        vAxis: {
+            title: 'TiempoEnRecorrerUnaCalle'
         },
         bar: { gap: 1 },
 
@@ -202,7 +226,13 @@ function drawChartVelocidadXCuadra(datos) {
         height: 500,
         legend: { position: 'top', maxLines: 3 },
         bar: { groupWidth: '75%' },
-        isStacked: true
+        isStacked: true,
+        hAxis: {
+            title: 'Tiempo(Segundos)'
+        },
+        vAxis: {
+            title: 'Tiempo que tardan los autos en recorrer una cuadra'
+        }
     };
 
     var chart = new google.visualization.ColumnChart(document.getElementById('columnasVelocidad'));
