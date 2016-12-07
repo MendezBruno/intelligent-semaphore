@@ -1,5 +1,6 @@
 package com.thegrid.ia.model
 
+import ar.org.neuroph.core.Layer
 import com.thegrid.behavior.model.CongestionLevel
 import com.thegrid.behavior.model.Map
 import ar.org.neuroph.nnet.learning.BackPropagation
@@ -14,7 +15,7 @@ import ar.org.neuroph.util.TransferFunctionType
  */
 class Rna(val map: Map, debugMode: Boolean = false) {
     var setDeEntrenamiento: DataSet
-    var iteracionesDeAprendizaje = 5
+    var iteracionesDeAprendizaje = 50
     var porcetajeDeCapasIntermedias = 0.70
     val datosDeSalida: Int
     val datosEntrada: Int
@@ -30,6 +31,13 @@ class Rna(val map: Map, debugMode: Boolean = false) {
         setDeEntrenamiento = DataSet(datosEntrada, datosDeSalida)
         capaOculta = ((datosEntrada+datosDeSalida)*porcetajeDeCapasIntermedias).toInt()
         neuralNetwork = MultiLayerPerceptron(TransferFunctionType.SIGMOID, datosEntrada, capaOculta, datosDeSalida)
+
+        val capa2: Layer = Layer(10)
+        val capa3: Layer = Layer(10)
+        val capa4: Layer = Layer(20)
+        neuralNetwork.addLayer(2,capa2)
+        neuralNetwork.addLayer(3,capa3)
+        neuralNetwork.addLayer(4,capa4)
 
         if(debugMode) {
             pers = PersistenciaDataSetNormal(this)
@@ -76,7 +84,7 @@ class Rna(val map: Map, debugMode: Boolean = false) {
             println("Me estan entrenando,  tengo datos")
             backPropagation.setMaxIterations(iteracionesDeAprendizaje * setDeEntrenamiento.rows.size)
             backPropagation.maxError = 0.1
-            backPropagation.learningRate = 0.5
+            backPropagation.learningRate = 0.3
             neuralNetwork.learn(setDeEntrenamiento, backPropagation)
             entrenada = true
         }

@@ -138,6 +138,7 @@ app.controller('reproductorController',function($scope,$interval,$location,$uibM
         //Timer start function.
         $scope.iniciar = function () {
                 Mapa.save(JSON.stringify(modelo));
+                alert(JSON.stringify(modelo));
                 //Initialize the Timer to run every 1000 milliseconds i.e. one second.
                 if ($scope.Timer) {
                     detenerHiloFront();

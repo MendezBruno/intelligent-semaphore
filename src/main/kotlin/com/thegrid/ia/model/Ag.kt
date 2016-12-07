@@ -2,6 +2,7 @@ package com.thegrid.ia.model
 
 import com.thegrid.behavior.model.Map
 import com.thegrid.communication.model.Resultado
+import com.thegrid.ia.cruzaStrategy.CruzaMascaraStrategy
 import com.thegrid.ia.cruzaStrategy.CruzaSimpleStrategy
 import com.thegrid.ia.seleccionStrategy.SeleccionRankingStrategy
 import com.thegrid.ia.seleccionStrategy.SeleccionStrategy
@@ -13,16 +14,16 @@ class Ag(val map : Map) {
     companion object {
         val CANT_MAX_CROMOSOMAS = 500
         val cotaInferior = 22.0
-        val cotaSuperior = 60.0
+        val cotaSuperior = 80.0
 
     }
 
-    val cromosomasPordefault = 6
+    val cromosomasPordefault = 12
     var poblacionGlobal = mutableListOf<Cromosoma>()
     var poblacion = mutableListOf<Cromosoma>()
     var cruzaStrategy: CruzaSimpleStrategy = CruzaSimpleStrategy()
     var seleccionStrategy: SeleccionStrategy = SeleccionRankingStrategy()
-    var coeficienteMutacion = 30
+    var coeficienteMutacion = 80
 
     private val i1 = 200
 

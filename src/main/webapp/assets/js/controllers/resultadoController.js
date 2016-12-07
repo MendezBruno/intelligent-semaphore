@@ -102,7 +102,7 @@ app.controller('resultadoController', function($scope,Resultados,$cookies,$timeo
                     var texto = new Array();
                     var csvContent = "IteracionActual;FuncionError;TazaDeAprendizaje;ErrorMaximo;ErrorMinimo\n";
 
-                    csvContent = data.getCurrentIteracion + ";" + data.getErrorFunction + ";" + data.getLearninRate + ";" + data.getMaxError + ";" + data.getMinErrorChange + "\n";
+                    csvContent =csvContent + data.getCurrentIteracion + ";" + data.getErrorFunction + ";" + data.getLearninRate + ";" + data.getMaxError + ";" + data.getMinErrorChange + "\n";
 
                     texto.push(csvContent);
 

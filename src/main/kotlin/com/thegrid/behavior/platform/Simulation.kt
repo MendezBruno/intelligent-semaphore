@@ -20,9 +20,9 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
     companion object {
         var SharedInstance : Simulation? = null
         val DEFAULT_TIME_SLEEP: Long = 1000
-        val ITERACIONES_AG = 20
-        val ITERACIONES_RNA = 20
-        val APTITUD_ACEPTABLE = 3000
+        val ITERACIONES_AG = 20000    //cuantos Procesar hago en realidad
+        val ITERACIONES_RNA = 4000
+        val APTITUD_ACEPTABLE = 500
     }
 
     val lock : java.lang.Object = Object()
@@ -54,6 +54,8 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
 
     }
 
+
+
     private fun iniciarSimulacion(): Orchestrator {
         return Orchestrator(Runnable {
             System.err.println("> Comienzo de la ejecución")
@@ -84,7 +86,7 @@ class Simulation(val map : Map, val debugMode : Boolean = false, debugSleepTime 
             procesar()
         }
         val aptitudActual = calcularAptitudMapa()
-        if (aptitudActual < 2500) {
+        if (aptitudActual < 2000) {
             val estadoMapa = calcularEstadoMapa()
             val tiempos = rna.haztumagia(estadoMapa)!!
             for((index,semaforo) in map.semaphoreNodes.withIndex()) {

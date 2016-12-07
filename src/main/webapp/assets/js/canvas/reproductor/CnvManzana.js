@@ -25,7 +25,7 @@ createjs.extend(CnvManzana, createjs.Container);
 CnvManzana.largo = 300;
 CnvManzana.radioEsquina = 40;
 CnvManzana.margenInferior = 10;
-CnvManzana.margenDerecho = 110;
+CnvManzana.margenDerecho = 130;
 
 CnvManzana.prototype.setup = function () {
     //this.background = new createjs.Shape();

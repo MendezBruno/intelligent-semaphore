@@ -3,7 +3,7 @@ package com.thegrid.communication.model
 import com.google.appengine.repackaged.org.codehaus.jackson.annotate.JsonIgnore
 import com.google.appengine.repackaged.org.codehaus.jackson.annotate.JsonIgnoreProperties
 import com.thegrid.ia.model.Cromosoma
-
+import com.thegrid.behavior.model.Map
 
 /**
  * Created by bruno on 08/10/16.
@@ -19,6 +19,7 @@ class Resultado {
     var tiempoResultadoRna = mutableListOf<TiempoResultadoRna>()
     var tiempoPoblacion = mutableListOf<TiempoPoblacion>()
     var tiempoQueMuta = mutableListOf<TiempoQueMuta>()
+  //  var tiempoEstadoMapa = mutableListOf<TiempoEstadoMapa>()
 
     var cant_Cuadras = 0;
     var tiempo_simulado =0;
@@ -35,6 +36,7 @@ class Resultado {
     class TiempoPoblacion (var time: Double, var poblacion: MutableList<Cromosoma>)
     class TiempoQueMuta (var time: Double,var itero :String )
     class DatosRna (var getMaxError: Double,var getLearninRate: Double, var getMinErrorChange: Double, var getCurrentIteracion: Int, var getErrorFunction: Double  )
+   // class TiempoEstadoMapa(var t: Double, var mapa: Map )
 
 
 
@@ -96,6 +98,12 @@ class Resultado {
         datosRna.getCurrentIteracion = getCurrentIteracion
         datosRna.getErrorFunction = getErrorFunction
     }
+
+//    fun guardarTiempoEstadoMapa (t: Double, mapa: Map){
+//        val tiempoEstado = TiempoEstadoMapa(t, mapa)
+//        tiempoEstadoMapa.add(tiempoEstado)
+//
+//    }
 
     @JsonIgnore
     fun getResultadoCompactado(): Resultado {
@@ -170,6 +178,8 @@ class Resultado {
         for (i in 0..tiempoQueMuta.size-1) {
             if (i % frec == 0.toLong()) r.tiempoQueMuta.add(tiempoQueMuta[i])
         }
+
+      // r.tiempoEstadoMapa.addAll(tiempoEstadoMapa)
 
         r.cant_Cuadras = cant_Cuadras
         r.tiempo_simulado = tiempo_simulado
